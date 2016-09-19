@@ -6,11 +6,9 @@ library(xlsx)
 library(compare)
 
 
-setwd(dir = "/Users/mszucs/Dropbox/To_Pass_Over/")
 
-peptide = read.csv(file = "NgKD_Protein_Peptide_Comparison_091416.csv")
-peptide = peptide[which(peptide$species == "MOUSE"),]
-prot = read.csv(file = "Neurogranin_KD_it2_Proteome_ModTOutput_030816.csv")
+pep = read.csv(file = "data/NgKD_Protein_Peptide_Comparison_091416.csv")
+#prot = read.csv(file = "Neurogranin_KD_it2_Proteome_ModTOutput_030816.csv")
 
 
 ############
@@ -124,11 +122,11 @@ return(pep.summary.filter)
 #
 #############################################################################################################
 
-setwd("/Users/mszucs/Desktop/To_Pass_Over/")
-c.Out = read.delim(file = "NgKD_Cyber_T_test_Results_061316.txt")
+
+c.Out = read.delim(file = "data/NgKD_Cyber_T_test_Results_061316.txt")
 colnames(c.Out)[1] = "id"
-c.Key = read.delim(file = "NgKD_CyberT_Peptide_Input_Key_061316.txt")
-c.input = read.delim(file = "NgKD_CyberT_Peptide_Input_061316.txt")
+c.Key = read.delim(file = "data/NgKD_CyberT_Peptide_Input_Key_061316.txt")
+c.input = read.delim(file = "data/NgKD_CyberT_Peptide_Input_061316.txt")
 
 
 
@@ -149,7 +147,7 @@ cyberTMerge = function(cyT.output,cyT.key){
 
 
 
-cyberTSignif = function(cyT.merge,FDR = 0.01){
+cyberTSignif = function(cyT.merge, FDR = 0.01){
   
   # Takes the merged cyberT output dataframe and adds a boolian variable column of significance based on the FDR defined in the input.
   # Input:
@@ -191,8 +189,6 @@ cyberTReport = function(cyT.merge,cyT.key){
 ###########################################################################################
 
 
-ci = read.delim(file = "NgKD_CyberT_Peptide_Input_061316.txt")
-ck = read.delim(file = "NgKD_CyberT_Peptide_Input_Key_061316.txt")
 
 cyberTPepSummaryStats = function(cyT.input){
   

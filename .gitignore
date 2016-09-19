@@ -1,4 +1,4 @@
 data
-RData
-Rhistory
+.RData
+.Rhistory
 .Rproj.user
