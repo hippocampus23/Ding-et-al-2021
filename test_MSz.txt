@@ -3,4 +3,4 @@
 exec vim "$@"
 
 
-please disregard this is just a test.
+please disregard this is just a test. I am adding things to the end that is not what you put. 
