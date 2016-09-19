@@ -1,0 +1,6 @@
+#!/bin/sh
+
+exec vim "$@"
+
+
+please disregard this is just a test.
