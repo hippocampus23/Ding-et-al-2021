@@ -1,0 +1,208 @@
+bayesT
+======
+- T-test using Bayes regularization of standard deviation
+- This function applies the bayes estimate of the variance to analyse high density control+experiment array data
+- usage: bayesT(aData, numC, numE, ppde=TRUE, betaFit=1, bayes=TRUE, winSize=101, conf=10)
+	+ aData: A data frame containing microarray data in the form of control and experiment replicates
+	+ numC: The number of control data columns
+	+ numE: The number of experiment data columns
+	+ ppde: A logical indicating whether the PPDE test should be performed
+	+ betaFit: The number of beta's in the mixture model fit, can be 1,2 or 3
+	+ bayes: A logical indicating whether the bayes t-test should be performed if FALSE, then the standard t-test 
+is applied
+	+ winSize: The window size specifying now many neighbouring genes' mean expression values will be pooled to 
+obtain the background variance. See 'details'.
+	+ conf:	The number of 'pseudocounts' giving weight to the prior variance. See 'details'.
+
+- Details
+	+ Input data will NOT be transformed (log etc.) so please perform all transformations prior to calling bayesT. 
+Zeros in the data
+will be considered as valid inputs. "NA" in the data are considered missing values and will be ignored accordingly. 
+
+	+ winSize: It indicates how wide you want the window surrrounding the point 
+under consideration to be. This sample of the data provides an estimate of the average variability of 
+gene expression for those genes that show a similar expression level. It is important to 
+estimate this average from a wide enough level that it is accurate, but not so wide of a window 
+so as to average in genes with too different an average expression level. A sliding window of 101 genes 
+has been shown to be quite accurate when analyzing 2000 or more genes, with only 1000 genes a 
+window of 51 genes may work better.
+
+	+ conf: This number is >=0 and indicates the weight give to the Bayesian prior estimate of within-treatment 
+variance. 
+Larger weights indicate greater confidence in the Bayesian prior; smaller weights indicate more confidence in the 
+experimentally observed variance. We have observed 
+reasonable performance with this parameter set equal to approximately 3 times the number of 
+experimental observations, when the number of experimental observations is small (approximately 4 or less). 
+If the number of replicate experimental observations is large then the confidence value can be lowered 
+to be equal to the number of replicates (or even less).
+
+- Value
+  Returns a numeric matrix giving the summary statistics, bayes t-test and ppde results, if wanted
+
+- References
+P. Baldi and A.D. Long, "A Bayesian Framework for the Analysis 
+of Microarray Expression Data: Regularized t-Test and Statistical Inferences 
+of Gene Changes", Bioinformatics, 17, 6, 509-519, (2001)
+
+
+- Author
+  Suman Sundaresh 
+
+- See also bayesT.pair
+
+- Examples
+	aData<-read.table("filename.txt")
+	bayesT(aData,3,3)
+
+
+bayesT.pair
+===========
+- T-test using Bayes regularization of variance
+- This function applies the bayes estimate of the variance to analyse high density paired (e.g. Cy3/Cy5) array data
+- Usage: bayesT.pair(aData, doLog=TRUE, numR, ppde=TRUE, betaFit=1, bayes=TRUE, winSize=101, conf=10)
+	+ aData: A data frame containing microarray data in the form of replicated ratio columns 
+and an "estimated total expression" column. See 'details'.
+	+ doLog: A logical indicating whether the data should be ln-transformed. This function requires ln-transformed 
+data. 
+Hence if it is not ln-transformed, then doLog should be set to TRUE.
+	+ numR: The number of ratio (e.g. Cy3/Cy5) data columns
+	+ ppde: A logical indicating whether the PPDE test should be performed
+	+ betaFit: The number of beta's in the mixture model fit, can be 1,2 or 3
+	+ bayes: A logical indicating whether the bayes t-test should be performed, 
+if FALSE, then the standard t-test is applied
+	+ winSize: The window size specifying now many neighbouring genes' mean expression values will be pooled
+to obtain the background variance. See 'details'.
+	+ conf:	The number of 'pseudocounts' giving weight to the prior variance. See 'details'.
+
+-Details
+	+ Estimated total expression: The "estimated total expression" column should 
+be the last column in the dataset. 
+Since paired (ratio) data lack the absolute expression data needed 
+to calculate the Bayesian estimate of variance, the user needs to provide 
+an estimate if you want to use the Bayesian calculation. 
+Assume the following experiment in which the data below are 
+the background-corrected scan values:
+
+     Column that you have to calculate-----------------+
+                                                       |
+                                                       v
+Gene      Con1   Con2   Con3 |  Exp1   Exp2   Exp3   estExpr 
+-------  -----  -----  ----- | -----  -----  -----   -------
+YAL001C     61     26     31 |    45     47     50   -32.73
+YAL002C    156    166    122 |   108    181    250   -24.73
+YAL002W     94     63    108 |   145    113     86   -27.57
+YAL003W    809   1358   1234 |  1108   1110   1098   -13.05
+YAL003W   5325   3142   4720 |  4271   4198   4127   -4.98
+YAL004W     61      1     47 |    34     45     75   -35.49
+YAL005C   5234      1   3099 |  6291   3874   8443   -12.45
+-------  -----   ----  ----- | -----  -----  ----- 
+Sum      11740   4757   9361 | 12002   9568  14129 
+
+The extra column of values that would have to be calculated FOR EACH GENE would be as follows:
+(sum( ln(61/11740) +  ln(26/4757) + ... +  ln(45/12002) + ln(50/14129) )) / 6
+
+The column marked 'estExpr' needs to be computed by the user and 
+must be the last column in the dataset after the ratio columns.
+
+	+ winSize: It indicates how wide you want the window surrrounding the point 
+under consideration to be. This sample of the data provides an estimate of the average variability of 
+gene expression for those genes that show a similar expression level. It is important to 
+estimate this average from a wide enough level that it is accurate, but not so wide of a window 
+so as to average in genes with too different an average expression level. A sliding window of 101 genes 
+has been shown to be quite accurate when analyzing 2000 or more genes, with only 1000 genes a 
+window of 51 genes may work better.
+
+	+ conf: This number is >=0 and indicates 
+the weight give to the Bayesian prior estimate of within-treatment variance. 
+Larger weights indicate greater confidence in the Bayesian prior; 
+smaller weights indicate more confidence in the experimentally observed variance. We have observed 
+reasonable performance with this parameter set equal to approximately 3 times the number of 
+experimental observations, when the number of experimental observations is small (approximately 4 or less). 
+If the number of replicate experimental observations is large then the confidence value can be lowered 
+to be equal to the number of replicates (or even less).
+
+- Value
+  Returns a numeric matrix giving the summary statistics, bayes t-test and ppde results, if wanted
+
+- References
+P. Baldi and A.D. Long, "A Bayesian Framework for the Analysis 
+of Microarray Expression Data: Regularized t-Test and Statistical Inferences 
+of Gene Changes", Bioinformatics, 17, 6, 509-519, (2001)
+
+- Author
+  Suman Sundaresh 
+
+- See also bayesT
+
+- Examples
+	aData<-read.table("filename.txt")
+	bayesT.pair(aData,3)
+
+
+ppdeMix
+=======
+- Performs the PPDE computation on the p-value column
+- Arguments
+	+ pVal: This has to be an array or a matrix with 2 columns. If it is an array, it needs to contain p-values. If 
+it is a matrix, the first column has to be the gene label and the second column has to contain the p-values.
+	+ n: This is the beta value. Implemented values of n are 1,2,3.
+- Value
+	+ Returns a matrix with 4 columns PPDE(<p), PPDE(p), ROC.X, ROC.Y (x,y-coordinates for the ROC plot)
+	+ Mixture model parameters are printed to the screen.
+- Author
+  Suman Sundaresh, Tony Long
+
+- Examples
+	ppdeMix(pValArr,1)
+
+
+runAllBayesAnova
+================
+- A wrapper for calling bayesAnova, postHoc, ppdeMix, and runMulttest
+- See the respective functions for their details
+
+
+bayesAnova
+==========
+- Runs a Bayes-regularized F-test (a one-way ANOVA) on multiple condition data
+- aData - actual data frame organized as cond1-1, cond1-2, ..., condN-1, condN-2, ..., condN-M
+- numVec - is a vector describing how many columns per condition.  If there are 3 samples of condition 1, 
+  4 samples of condition 2, and 5 samples of condition 3 (12 columns total), then numVec should be:
+  c(3, 4, 5)
+- Rest of the parameters are analogous to the bayesT parameters.
+
+postHoc
+=======
+- Runs TukeyHSD or Scheffe's pairwise posthoc tests.
+- aovData - is the base data returned from bayesAnova
+- numVec - like bayesAnova call
+- postTest
+  - T for TukeyHSD
+  - S for Scheffe's
+
+cyberTPlots
+===========
+- Constructs plots for the data after running a paired or CE t-test.
+- Constructs an ROC plot from ppde analysis
+- Writes all plots to a file 'temp.ps' in current directory.
+
+runMulttest 
+===========
+- Performs multiple hypothesis testing correction
+- Takes a vector of p-values as input
+- Returns a data.frame of Bonferroni and Benjamini & Hochberg adj p-values.
+- NOTE: Requires the 'multtest' Bioconductor package.  If you do NOT have this, you must 
+  do the following (in an R session)
+
+source("http://bioconductor.org/biocLite.R")
+biocLite("multtest")
+
+runVsn
+======
+- Performs vsn normalization on data
+- NOTE: Requires the 'vsn' Bioconductor package.  If you do NOT have this, you must
+  do the following (in an R session)
+
+source("http://bioconductor.org/biocLite.R")
+biocLite("vsn")
+

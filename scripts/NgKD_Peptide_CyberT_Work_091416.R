@@ -2,7 +2,7 @@
 library(ggplot2)
 library(plyr)
 library(dplyr)
-library(xlsx)
+# library(xlsx)
 library(compare)
 
 
@@ -368,18 +368,18 @@ list80.prot = cynew[which(cynew$accession_number %in% list80$accession_number),]
 list90 = signif_prot[which(signif_prot$accession_number %nin% greater.90$accession_number ),]
 list90.prot = cynew[which(cynew$accession_number %in% list90$accession_number),]
 
-wb = createWorkbook(type ="xlsx")
-g.50 = createSheet(wb=wb , sheetName ="Not_in_>_50%_Signif_Pep")
-g.60 = createSheet(wb=wb , sheetName ="Not_in_>_60%_Signif_Pep")
-g.70 = createSheet(wb=wb , sheetName ="Not_in_>_70%_Signif_Pep")
-g.80 = createSheet(wb=wb , sheetName ="Not_in_>_80%_Signif_Pep")
-g.90 = createSheet(wb=wb , sheetName ="Not_in_>_90%_Signif_Pep")
-
-addDataFrame(x = list50.prot, sheet=g.50, row.names = FALSE)
-addDataFrame(x = list60.prot, sheet=g.60, row.names = FALSE)
-addDataFrame(x = list70.prot, sheet=g.70, row.names = FALSE)
-addDataFrame(x = list80.prot, sheet=g.80, row.names = FALSE)
-addDataFrame(x = list90.prot, sheet=g.90, row.names = FALSE)
+# wb = createWorkbook(type ="xlsx")
+# g.50 = createSheet(wb=wb , sheetName ="Not_in_>_50%_Signif_Pep")
+# g.60 = createSheet(wb=wb , sheetName ="Not_in_>_60%_Signif_Pep")
+# g.70 = createSheet(wb=wb , sheetName ="Not_in_>_70%_Signif_Pep")
+# g.80 = createSheet(wb=wb , sheetName ="Not_in_>_80%_Signif_Pep")
+# g.90 = createSheet(wb=wb , sheetName ="Not_in_>_90%_Signif_Pep")
+# 
+# addDataFrame(x = list50.prot, sheet=g.50, row.names = FALSE)
+# addDataFrame(x = list60.prot, sheet=g.60, row.names = FALSE)
+# addDataFrame(x = list70.prot, sheet=g.70, row.names = FALSE)
+# addDataFrame(x = list80.prot, sheet=g.80, row.names = FALSE)
+# addDataFrame(x = list90.prot, sheet=g.90, row.names = FALSE)
 
 
 
