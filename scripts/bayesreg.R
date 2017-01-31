@@ -180,8 +180,8 @@ bayesT <- function (aData, numC, numE, ppde=TRUE, betaFit=1, bayes=TRUE, winSize
 ## Simple wrapper to load and then run vsn
 ################################################################################
 runVsn <- function(data, ...){
-  .libPaths("/home/baldig/shared_libraries/centos64/pkgs/R/2.15.1_fix/lib64/R/library")
-  require(vsn)
+  # .libPaths("/home/baldig/shared_libraries/centos64/pkgs/R/2.15.1_fix/lib64/R/library")
+  library(vsn)
   #cat('data in VSN: \n', colnames(data), '\n', as.vector(unlist(data[1,])), '\n',
   #    as.vector(unlist(data[2,])), '\n', as.vector(unlist(data[3, ])), '\n');
   tryCatch(data.frame(justvsn(as.matrix(data), verbose=TRUE, minDataPointsPerStratum=10, ...)),
