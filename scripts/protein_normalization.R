@@ -1,5 +1,7 @@
 source('scripts/bayesreg.R')
+source('scripts/multiplot.R')
 library(ggplot2)
+library(plyr)
 
 # Note on isoforms
 #   Isoforms are preserved in all peptide-level manipulations (ex, normalization)
@@ -19,9 +21,35 @@ strip_accession_isoform <- function(accession_numbers) {
     return(unlist(lapply(accession_numbers, function(x) strsplit(x,"-")[[1]][1])))
 }
 
+map_to_psd <- function(df, by='accession_number_noiso') {
+    # Generates a boolean column in the df that indicates if protein is part of psd
+    psd <- read.csv('data/psd.tsv', sep="\t")$Accession
+    df$is_psd <- (df[[by]] %in% psd)
+    return(df)
+}
+
 #################
 # PREPROCESSING #
 #################
+
+parse_psm_report <- function(peptidesdf) {
+    # Maps the raw psm report to the appropriate proteins
+    psm = read.table("data/Neurogranin_KD_PSM_021517.ssv", sep=';', quote='', header=TRUE)
+
+    reduced_psm <- psm[, c('sequence', 'TMT_126', 'TMT_127', 'TMT_128', 'TMT_129', 'TMT_130', 'TMT_131')]
+    colnames(reduced_psm) <- c('sequence', 'E1', 'E2', 'E3', 'C1', 'C2', 'C3')
+    # Drop any rows with NAs in intensities
+    reduced_psm <- reduced_psm[complete.cases(reduced_psm),]
+
+    reduced_peptides <- peptidesdf[c('id', 'accession_number','entry_name', 'species', 'is_psd')]
+    reduced_peptides$sequence <- extract_accession(as.character(reduced_peptides$id))
+    
+    out <-merge(reduced_psm, reduced_peptides, by=c('sequence'))
+    out$id <- make.names(out$id, unique=TRUE)
+    out$accession_number_noiso <- strip_accession_isoform(out$accession_number)
+    return(out)
+}
+
 
 map_peptides_to_proteins <- function() {
     pep = read.csv(file = "data/NgKD_Protein_Peptide_Comparison_091416.csv")
@@ -50,7 +78,7 @@ map_peptides_to_proteins <- function() {
         warning(paste(str(sum(dupes)), ' duplicate ids were found\nThey will be discarded'))
         peptides <- peptides[!dupes,]
     }
-    return(peptides)
+    return(map_to_psd(peptides))
 }
 
 map_phosphosites_to_proteins <- function() {
@@ -58,7 +86,7 @@ map_phosphosites_to_proteins <- function() {
     
     phosphosites$accession_number <- extract_accession(phosphosites$id)
     phosphosites$accession_number_noiso <- strip_accession_isoform(phosphosites$accession_number)
-    return(phosphosites)
+    return(map_to_psd(phosphosites))
 }
 
 
@@ -70,16 +98,38 @@ find_protein_medians <- function(pepdf, use_isoform=TRUE) {
 
     # acc_nums <- if (use_isoform) 'accession_number' else 'accession_number_noiso'
 
+    # Obtain medians of each channel
     channel_medians <- aggregate(pepdf[,c('C1', 'C2', 'C3', 'E1', 'E2', 'E3')], by=pepdf['accession_number'], FUN=median)
+    # Obtain summary statistics considering each channel + obs separately
     overall_medians <- as.data.frame(as.list(aggregate(
         . ~ accession_number,
         data=data.frame(
             'accession_number' = rep(pepdf$accession_number, 3),
             'C' = c(pepdf$C1, pepdf$C2, pepdf$C3),
             'E' = c(pepdf$E1, pepdf$E2, pepdf$E3)),
-        FUN=function(x) c(med=median(x), mn=mean(x), n=length(x), sd=sd(x)))))
+        FUN=function(x) c(med=median(x), mn=mean(x), n=length(x), sd=sd(x), cv=sd(x)/mean(x)))))
+    # Obtain fold changes from each peptide
+    fold_change = data.frame(
+        accession_number = pepdf$accession_number,
+        fold_change = pepdf$meanE / pepdf$meanC)
+    fold_change_cv <- as.data.frame(as.list(aggregate(
+        . ~ accession_number,
+        data = fold_change,
+        FUN=function(x) c(mn=mean(x), cv=sd(x)/mean(x))
+    )))
+    # Use bayesian variance estimates
+    bayes_var <- as.data.frame(as.list(aggregate(
+        . ~ accession_number,
+        data = pepdf[,c('accession_number', 'bayesSDC', 'bayesSDE')],
+        # Calculates variance assuming that peptides are cond. independent
+        FUN=function(x) c(bayesVar=sqrt(sum(x^2) / length(x)))
+    )))
 
-    return(merge(channel_medians, overall_medians, by='accession_number'))
+    out <- merge(channel_medians, overall_medians, by='accession_number')
+    out <- merge(out, fold_change_cv, by='accession_number')
+    out <- merge(out, bayes_var, by='accession_number')
+    out$accession_number_noiso <- strip_accession_isoform(out$accession_number)
+    return(map_to_psd(out))
 }
 
 
@@ -91,24 +141,26 @@ normalize_peptide_to_protein <- function(pepdf, protdf) {
     #   or normalize to each channel
 
     peptide_merged <- merge(
-        pepdf[,c('C1', 'C2', 'C3', 'E1', 'E2', 'E3', 'accession_number', 'id')],
-        protdf[,c('C.med', 'E.med', 'accession_number')],
+        pepdf[,c('C1', 'C2', 'C3', 'E1', 'E2', 'E3', 'accession_number', 'accession_number_noiso', 'id')],
+        protdf[,c('C.med', 'E.med', 'accession_number', 'is_psd')],
         by='accession_number')
 
     return(data.frame(
         accession_number=peptide_merged$accession_number,
+        accession_number_noiso=peptide_merged$accession_number_noiso, 
         id=peptide_merged$id,
-        'C1.norm'=peptide_merged$C1/peptide_merged$C.med,
-        'C2.norm'=peptide_merged$C2/peptide_merged$C.med,
-        'C3.norm'=peptide_merged$C3/peptide_merged$C.med,
-        'E1.norm'=peptide_merged$E1/peptide_merged$E.med,
-        'E2.norm'=peptide_merged$E2/peptide_merged$E.med,
-        'E3.norm'=peptide_merged$E3/peptide_merged$E.med
+        'C1'=peptide_merged$C1/peptide_merged$C.med,
+        'C2'=peptide_merged$C2/peptide_merged$C.med,
+        'C3'=peptide_merged$C3/peptide_merged$C.med,
+        'E1'=peptide_merged$E1/peptide_merged$E.med,
+        'E2'=peptide_merged$E2/peptide_merged$E.med,
+        'E3'=peptide_merged$E3/peptide_merged$E.med,
+        is_psd=peptide_merged$is_psd
     )) 
 }
 
 
-do_cyberT <- function(pepdf, doVsn=TRUE) {
+do_cyberT <- function(pepdf, doVsn=TRUE, bayesInt=FALSE) {
     # Runs the cyberT t-test (with optional VSN normalization)
     # Uses default settings for cyberT
     # NOTE will throw error if duplicate names are detected
@@ -122,10 +174,12 @@ do_cyberT <- function(pepdf, doVsn=TRUE) {
     input <- pepdf[,c('C1', 'C2', 'C3', 'E1', 'E2', 'E3')]
     if (doVsn) {
         input <- runVsn(input)
+        input <- input - min(input, na.rm = TRUE) + 1.0
     }
 
-    out <- bayesT(input, 3, 3, doMulttest=TRUE)
-    out <- merge(out, pepdf[, c('accession_number', 'accession_number_noiso')], by=0)
+    out <- bayesT(input, 3, 3, doMulttest=TRUE, bayesIntC=)
+    out$fold_change <- out$meanE / out$meanC
+    out <- merge(out, pepdf[, c('accession_number', 'accession_number_noiso', 'is_psd')], by=0)
     out$id <- out$Row.names
     out$Row.names <- NULL
     return(out)
@@ -143,12 +197,15 @@ peptide_to_prot_signif <- function(pepdf, protdf, sig=0.05) {
     return(protein.final)
 }
 
+
+
 protein_cutoffs <- function(protdf) {
     modt_total <- read.table("data/NgKD_proteome.tsv", sep="\t", header=TRUE, stringsAsFactors=FALSE,quote = "")
 
     alpha = 0.05
     signif <- modt_total$Accession.Number[modt_total$adj.P.Val <= alpha]
-    cutoffs <- seq(0.1, 1.0, 0.1)
+    step = 0.1
+    cutoffs <- seq(0.0, 1.0, step)
 
     find_overlap <- function(acc_nums) {length(intersect(acc_nums, signif))} 
     avg_pvals <- function(acc_nums) {
@@ -157,36 +214,120 @@ protein_cutoffs <- function(protdf) {
 
     # Make into a data frame
     df = do.call(
-        rbind.data.frame,
+        rbind,
         lapply(cutoffs, function(cutoff) {
-                subset = protdf$accession_number[protdf$signif_freq >= cutoff]
-                c(number=length(subset),
-                  overlap=find_overlap(subset),
-                  avg_pval=avg_pvals(subset))
+                cum = protdf[protdf$signif_freq >= cutoff,]
+                sub = cum[cum$signif_freq <= cutoff + step,]
+                c(cutoff=cutoff,
+                  cum_number=length(cum$accession_number),
+                  cum_overlap=find_overlap(cum$accession_number),
+                  cum_avg_pval=avg_pvals(cum$accession_number),
+                  cum_avg_fold_change=mean(cum$fold_change),
+                  sub_number=length(sub$accession_number),
+                  sub_overlap=find_overlap(sub$accession_number),
+                  sub_avg_pval=avg_pvals(sub$accession_number),
+                  sub_avg_fold_change=mean(sub$fold_change)
+                  )
             }
         )
     )
-    return(df)
+    return(as.data.frame(df, stringsAsFactors=FALSE))
 }
 
 
-############################
-# ACTUAL STUFF STARTS HERE #
-############################
+#############################
+# ACTUAL SCRIPT STARTS HERE #
+#############################
 
 # peptides <- map_peptides_to_proteins()
-# proteins <- find_protein_medians(peptides)
+# psm <- parse_psm_report(peptides)
 # peptides_cyberT <- do_cyberT(peptides)
-# proteins_final <- peptide_to_prot_signif(peptides_cyberT, proteins)
+# psm_cyberT <- do_cyberT(psm)
+ proteins <- find_protein_medians(peptides_cyberT)
+ proteins_final <- peptide_to_prot_signif(peptides_cyberT, proteins)
+ proteins_psm <- find_protein_medians(psm_cyberT)
+ proteins_psm_final <- peptide_to_prot_signif(psm_cyberT, proteins_psm)
 # phosphos <- map_phosphosites_to_proteins()
-# phosphos_norm <- normalize_peptide_to_protein(phosphos, proteins)
 # phosphos_cyberT <- do_cyberT(phosphos)
+# phosphos_norm <- normalize_peptide_to_protein(phosphos, proteins)
+# phosphos_norm_cyberT <- do_cyberT(phosphos_norm)
 
+
+extract_modT_fp <- function(pepdf, proteins_final) {
+    bad_proteins <- proteins_final[proteins_final$adj.P.Val <= 0.05 & proteins_final$signif_frac <= 0.01,]
+}
 
 ##############################
 # FIGURES AND VISUALIZATIONS #
 ##############################
 
+
+compare_psm_peptide <- function(protdf, psm_protdf, cutoff=20, geom='box') {
+    # Plots boxplot, scatterplot, or contour plot of how counts changed for psm vs peptide report
+    combined <- merge(protdf, psm_protdf, by='accession_number')
+    combined <- combined[combined$count.x <= cutoff,]
+
+    if (geom == 'box') {
+        p = qplot(factor(count.x), count.y, data=combined, geom='boxplot')
+        p = p + labs(title='Closeup of low-count peptides (original vs PSM)')   
+    } else if (geom == 'scatter') {
+        p = qplot(count.x, count.y, data=combined, alpha=0.01, stroke=0.5, color='blue')
+        p = p + labs(title='Scatterplot of peptide counts (original vs PSM')
+    }
+
+    p = p + geom_abline() + labs(x='Peptide count (original)', y='Peptide count (PSM)')
+    return(p)
+}
+
+threshold_cvs <- function(protdf, cutoffs = c(0.005, 0.01, 0.015, 0.02, 0.025), band=FALSE) {
+    # If banded, then we have to actually create cutoff bands
+    # TODO
+    if (band) {
+        cutoffs_df = cbind(c(0, cutoffs)[1:length(cutoffs)], cutoffs)
+    } else {
+        cutoffs_df = cbind(0, cutoffs)
+    }
+
+    # Create one volcano plot for each cutoff
+    # Set consistent xlims and ylims beforehand!
+    x_min = min(log2(protdf$fold_change.mn))
+    x_max = max(log2(protdf$fold_change.mn)) 
+    volcanoplots <- as.list(apply(cutoffs_df, 1, function(cutoff) {
+        p = qplot(log2(fold_change.mn), 
+                  signif_freq,
+                  data=proteins_final[proteins_final$fold_change.cv > cutoff[1] & 
+                                      proteins_final$fold_change.cv <= cutoff[2],],
+                  alpha=count, 
+                  stroke=0)
+        p = p + labs(x='Log2 fold change', y='Proportion of peptides significant', title=paste('CV at or below', cutoff[2]))
+        if (band) {
+            p = p + labs(title=paste("CV between", cutoff[1], "and", cutoff[2]))
+        }
+        p = p + xlim(x_min, x_max)
+        p = p + theme(legend.position = 'none')
+        return(p)
+    }))
+
+    # Create p-value comparison for each cutoff
+    # TODO this is a pretty sketchy dependence on the plots function.
+    merged_df <- plots$merge_proteins(protdf[,
+                     c('accession_number', 'signif_freq', 'fold_change.cv', 'count')])
+    pvals <- as.list(apply(cutoffs_df, 1, function(cutoff) {
+        p = qplot(
+            -log10(adj.P.Val),
+            signif_freq,
+            data = merged_df[merged_df$fold_change.cv > cutoff[1] & 
+                             merged_df$fold_change.cv <= cutoff[2], ],
+            alpha = count,
+            stroke=0
+        )
+        p = p + labs(x='ModT adjusted p value', y='Proportion of peptides significant')
+        p = p + theme(legend.position = 'none')
+        return (p)
+    }))
+
+    multiplot(plotlist=append(volcanoplots, pvals), cols=2)
+}
 
 setup_plots <- function(protdf, phosphodf) {
     # Read in modT comparison files
@@ -195,63 +336,84 @@ setup_plots <- function(protdf, phosphodf) {
 
     plots <- list()
 
+    plots$merge_proteins <- function(proteins) {
+        return(merge(
+            modt_total[,c('Accession.Number', 'P.Value', 'adj.P.Val', 'Average.Log2.Expression', 'geneSymbol')], 
+            # proteins[,c('accession_number', 'fold_change', 'signif_freq', 'count', 'is_psd')],
+            proteins,
+            by.x='Accession.Number',
+            by.y='accession_number'
+        ))
+    }
+    plots$merge_phospho <- function(phospho) {
+        return(merge(
+            modt_phospho[,c('accessionNumber_VMsites_numVMsitesPresent_numVMsitesLocalizedBest_earliestVMsiteAA_latestVMsiteAA', 'P.Value', 'adj.P.Val', 'Average.Log2.Expression', 'Norm.P.Value', 'Norm.adj.P.Val', 'Norm.logFC','Gene.Symbol')],
+            phospho[,c('id', 'pVal', 'BH', 'fold_change', 'is_psd')],
+            by.x='accessionNumber_VMsites_numVMsitesPresent_numVMsitesLocalizedBest_earliestVMsiteAA_latestVMsiteAA',
+            by.y='id'
+        ))
+    }
+
     # Merge on accession_number
-    plots$proteins_merged <- merge(
-        modt_total[,c('Accession.Number', 'P.Value', 'adj.P.Val', 'Average.Log2.Expression')], 
-        protdf[,c('accession_number', 'fold_change', 'signif_freq', 'count')],
-        by.x='Accession.Number',
-        by.y='accession_number'
-    )
+    plots$proteins_merged <- plots$merge_proteins(protdf)
 
     # Phosphopeptides
-    plots$phospho_merged <- merge(
-        modt_phospho[,c('accessionNumber_VMsites_numVMsitesPresent_numVMsitesLocalizedBest_earliestVMsiteAA_latestVMsiteAA', 'P.Value', 'adj.P.Val', 'Average.Log2.Expression', 'Norm.P.Value', 'Norm.adj.P.Val', 'Norm.logFC')],
-        phosphodf[,c('id', 'pVal', 'BH', 'fold')],
-        by.x='accessionNumber_VMsites_numVMsitesPresent_numVMsitesLocalizedBest_earliestVMsiteAA_latestVMsiteAA',
-        by.y='id'
-    )
+    plots$phospho_merged <- plots$merge_phospho(phosphodf)
 
-    plots$plot_protein_pvals <- function() {
+    plots$plot_protein_pvals <- function(protdf=NULL) {
+        if (protdf == NULL) {
+            protdf = plots$proteins_merged
+        } else {
+            prodf = plots$merge_proteins(protdf)
+        }
         # Compare the calculated p-values for the modT vs the cyberT proteins
         # Keeps all isoform information
         qplot(
-            -log2(adj.P.Val),
+            -log10(adj.P.Val),
             signif_freq,
-            data = plots$proteins_merged,
-            alpha = count
+            data = protdf,
+            alpha = count,
+            color= is_psd
         )
     }
 
-    plots$plot_protein_foldchange <- function() {
+    plots$plot_protein_foldchange <- function(protdf=plots$proteins_merged) {
         # Compare the calculated fold changes for the modT vs the cyberT proteins
         # Keeps all isoform information 
         qplot(
             log2(fold_change),
             Average.Log2.Expression,
-            data = plots$proteins_merged,
-            alpha = proteins_merged$count
+            data = protdf,
+            alpha = count,
+            color = is_psd
         )
     }
 
-    plots$plot_phospho_pvals <- function() {
+    plots$plot_phospho_pvals <- function(phosphodf=plots$phospho_merged) {
         qplot(
-            -log2(adj.P.Val),
+            -log2(Norm.adj.P.Val),
             -log2(BH),
-            data=plots$phospho_merged,
-            alpha=0.1
+            data=phosphodf,
+            alpha=0.0001,
+            color=is_psd
         )
     }
 
-    plots$plot_phospho_foldchange <- function() {
+    plots$plot_phospho_foldchange <- function(phosphodf=plots$phospho_merged) {
         qplot(
-              Average.Log2.Expression,
-              fold,
-              data=plots$phospho_merged,
-              alpha=0.1
+              log2(fold_change),
+              Norm.logFC,
+              data=phosphodf,
+              alpha=0.1,
+              color=is_psd
         )
     }
     
     return(plots)
 }
 
-plots <- setup_plots(proteins_final, phosphos_cyberT)
+# Example of how to compare the protein_final dataframes
+# p = qplot(C.mn, count, data=proteins_psm_final, alpha=count, stroke=0)+ geom_density2d(aes(alpha=256))
+# p = p + labs(x='count', y='Standard deviation of control intensities', title='Variance vs mean and peptide count (Controls, PSM)')
+
+# plots <- setup_plots(proteins_final, phosphos_norm_cyberT)
