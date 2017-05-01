@@ -111,6 +111,9 @@ find_protein_medians <- function(pepdf, use_isoform=TRUE) {
     # Obtain fold changes from each peptide
     fold_change = data.frame(
         accession_number = pepdf$accession_number,
+        # TODO change this
+        # Use MEAN OF RATIOS instead of RATIO OF MEANS
+        # Don't use VSN (!)
         fold_change = pepdf$meanE / pepdf$meanC)
     fold_change_cv <- as.data.frame(as.list(aggregate(
         . ~ accession_number,
@@ -160,7 +163,7 @@ normalize_peptide_to_protein <- function(pepdf, protdf) {
 }
 
 
-do_cyberT <- function(pepdf, doVsn=TRUE, bayesInt=FALSE) {
+do_cyberT <- function(pepdf, doVsn=FALSE, bayesInt=FALSE) {
     # Runs the cyberT t-test (with optional VSN normalization)
     # Uses default settings for cyberT
     # NOTE will throw error if duplicate names are detected
@@ -240,17 +243,17 @@ protein_cutoffs <- function(protdf) {
 #############################
 
 # peptides <- map_peptides_to_proteins()
-# psm <- parse_psm_report(peptides)
-# peptides_cyberT <- do_cyberT(peptides)
-# psm_cyberT <- do_cyberT(psm)
- proteins <- find_protein_medians(peptides_cyberT)
- proteins_final <- peptide_to_prot_signif(peptides_cyberT, proteins)
- proteins_psm <- find_protein_medians(psm_cyberT)
- proteins_psm_final <- peptide_to_prot_signif(psm_cyberT, proteins_psm)
-# phosphos <- map_phosphosites_to_proteins()
-# phosphos_cyberT <- do_cyberT(phosphos)
-# phosphos_norm <- normalize_peptide_to_protein(phosphos, proteins)
-# phosphos_norm_cyberT <- do_cyberT(phosphos_norm)
+psm <- parse_psm_report(peptides)
+peptides_cyberT <- do_cyberT(peptides)
+psm_cyberT <- do_cyberT(psm)
+proteins <- find_protein_medians(peptides_cyberT)
+proteins_final <- peptide_to_prot_signif(peptides_cyberT, proteins)
+proteins_psm <- find_protein_medians(psm_cyberT)
+proteins_psm_final <- peptide_to_prot_signif(psm_cyberT, proteins_psm)
+phosphos <- map_phosphosites_to_proteins()
+phosphos_cyberT <- do_cyberT(phosphos)
+phosphos_norm <- normalize_peptide_to_protein(phosphos, proteins)
+phosphos_norm_cyberT <- do_cyberT(phosphos_norm)
 
 
 extract_modT_fp <- function(pepdf, proteins_final) {
