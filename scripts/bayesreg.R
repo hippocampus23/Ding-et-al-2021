@@ -33,8 +33,7 @@ ALMOST_ZERO = 10E-14;
 ##       bayesIntE - use similar means (instead of similar variances) to calculate bayesian variance
 ##                   for the Experimentals
 ################################################################################
-bayesT <- function (aData, numC, numE, ppde=TRUE, betaFit=1, bayes=TRUE, winSize=101, conf=10, 
-                    doMulttest=FALSE, bayesIntC=FALSE, bayesIntE=FALSE){
+bayesT <- function (aData, numC, numE, ppde=TRUE, betaFit=1, bayes=TRUE, winSize=101, conf=10, doMulttest=FALSE, bayesIntC=FALSE, bayesIntE=FALSE){
   if ((ceiling((winSize-1)/2))!=((winSize-1)/2))
     stop("ERROR: winSize must be an odd number.")
   
@@ -77,7 +76,7 @@ bayesT <- function (aData, numC, numE, ppde=TRUE, betaFit=1, bayes=TRUE, winSize
       rasdC[!is.na(stdC)]<- temp
     } else {
       ## use the actual intensities ranked by the means
-      cat('About to calc the bayes Variance for control using intensities.\n')
+      # cat('About to calc the bayes Variance for control using intensities.\n')
       intMat <- as.matrix(aData[!is.na(meanC), 1:numC]);
       intMat <- intMat[order(meanC[!is.na(meanC)]), ];
       temp <- runavgPool(intMat, winSize)
@@ -92,7 +91,7 @@ bayesT <- function (aData, numC, numE, ppde=TRUE, betaFit=1, bayes=TRUE, winSize
       temp <- temp[rank(meanE[!is.na(stdE)])]	
       rasdE[!is.na(stdE)]<- temp
     } else {
-      cat('About to calc the bayes Variance for experimental using intensities\n')
+      # cat('About to calc the bayes Variance for experimental using intensities\n')
       intMat<- as.matrix(aData[!is.na(meanE), (numC+1):(numC+numE)]);
       intMat <- intMat[order(meanE[!is.na(meanE)]), ];
       temp <- runavgPool(intMat, winSize)	
