@@ -11,6 +11,8 @@ Bin peptide intensity: randomly choose 10-20 percent, spike upreg, downreg. Abs 
     Need to define variance, variance models using common variance vs inverse gamma variance
 """
 import math
+import numbers
+
 import numpy as np
 import pandas as pd
 import rpy2
@@ -19,7 +21,23 @@ import scipy as sp
 from rpy2.robjects import r
 from rpy2.robjects import pandas2ri
 
-from roc import *
+
+#################
+#     SETUP     #
+#################
+
+# Constants and globals
+MEAN_INTENSITY = 16.0
+VAR_INTENSITY = 4.0
+DEFAULT_LABELS = [
+    'ModT',
+    'CyberT P-value',
+    'CyberT PPDE',
+    'Two sample t-test',
+    'One sample t-test',
+    'Absolute fold change'
+]
+                 
 
 
 # Setup R environment
@@ -30,6 +48,10 @@ r['source']('bayesreg.R')
 # modT_test(data, "placeholder", dframe=TRUE, data.col=[DATA COLS])
 # bayesT(data, numC, numE)
 
+
+#################
+#  READ  DATA   #
+#################
 
 def read_data(filename='../data/Neurogranin_KD_PSM_021517.ssv'):
     # Reads in the PSM report and returns raw intensities
@@ -47,22 +69,29 @@ def read_data(filename='../data/Neurogranin_KD_PSM_021517.ssv'):
     return data
 
 
+#################
+#  SIMULATION   #
+#################
+
 def generate_samples(ctrl_data, num_to_change, fold_change, num_samples='same', use_var=None, is_log=True):
-    """
+    """Simulate data based on real ctrl_data
+
     Creates a new dataframe of simulated intensities using empirical intensities
     Some subset of peptides have their mean fold change adjusted accordingly by MULTIPLYING the control mean
         TODO check if variance in controls is correlated with variance in treatment groups
 
-    - ctrl_data: dataframe of raw intensities
-        is_log flags whether the data is already log transformed or not
-    - num_to_change: number of peptides which should be perturbed (integer > 0)
-    - fold_change: fold change of peptides which are perturbed
-    - num_samples: 'same' (same number as ctrl_data) or integer > 0
-    - use_var: None (default: use average variance for all peptides)
+    Args:
+    ctrl_data: dataframe of raw intensities
+      is_log flags whether the data is already log transformed or not
+    num_to_change: number of peptides which should be perturbed (integer > 0)
+    fold_change: fold change of peptides which are perturbed
+    num_samples: 'same' (same number as ctrl_data) or integer > 0
+    use_var: None (default: use average variance for all peptides)
                integer > 0 (rolling window variance for peptides w/ similar intensity)
                'gamma' (sample variances from gamma distribution)
 
-    Returns: len(ctrl_data) x num_samples df containing simulated exp log2 intensities
+    Returns: 
+        len(ctrl_data) x num_samples df containing simulated exp log2 intensities
 
     Compare modT (one ctrl, many exp) vs cyberT (half and half ctrl vs exp)
     """
@@ -129,20 +158,120 @@ def generate_samples(ctrl_data, num_to_change, fold_change, num_samples='same', 
     return out, is_changed
 
 
-def generate_samples_no_ctrl_uniform(n, num_to_change, fold_change, var):
-    noise = None
-    ctrl_data = None
-    sample_idxs = set(np.random.choice(n, num_to_change, replace=False))
-    offset = math.log(fold_change, 2)
-    avg_ctrl = np.mean(ctrl_data, axis=1)
-    tmp = avg_ctrl + np.array([offset if i in sample_idxs else 0 for i in xrange(n)])
-    out = pd.DataFrame(noise + tmp[:,np.newaxis])
+def _perturb_exp(exp_noise, num_to_change, fold_changes):
+    """ Applies artificial perturbation to experimental intensities
+    """
+    if isinstance(fold_changes, numbers.Number):
+        fold_changes = [fold_changes]
+    if num_to_change * len(fold_changes) >= n:
+        raise ValueError('Too many fold changes for number of peptides!')
 
+    n = exp_noise.shape[0]
+    # For convenience, always perturb the first num_to_change peptides
+    # This should not affect the analysis: can always randomize order
+    perturbs = np.zeros(n, dtype=float)
+    perturbs[:len(fold_changes)*num_to_change] = np.repeat(
+            np.log2(fold_changes), num_to_change)
+    is_changed = np.zeros(n, dtype=int)
+    is_changed[:len(fold_changes)*num_to_change] = 1
+
+    exp = exp_noise + perturbs[:,np.newaxis]
+
+    return exp, is_changed
+
+
+def sample_no_ctrl_uniform(n, num_to_change, fold_changes, var, nctrl=3, nexp=3):
+    """ Simulate data from uniform variance background
+
+    Samples log intensity data from normal distribution with uniform variance
+    The mean intensity for each peptide sampled from N(16, 4)
+    The individual channel intensities are sampled around the mean from N(0, var)
+
+    Args:
+        n: integer number of rows to sample
+        num_to_change: integer number of rows to which each fold change
+                        perturbation should be applied
+                        NOTE: num_to_change * len(fold_changes) must be less than n
+        fold_changes: 1D array of positive fold changes
+                        Each fold_change will be applied num_to_change times
+        var: number, fixed variance of noise
+        nctrl: optional, number of control channels
+        nexp: optional number of experimental channels
+
+    Returns:
+        ctrl, exp, is_changed
+        ctrl: ctrl intensities (n x nctrl Pandas df)
+        exp: experimental intensities (n x nexp Pandas df)
+        is_changed: 0-1 Numpy vector, 1 if peptide was perturbed
+    """
+    # 'Spike-in' data for controls? Other paper did, not sure if useful here
+    # Why not do both?
+
+    # Draw noise and means seperately
+    noise = np.random.normal(0, var**0.5, (n, nctrl+nexp))
+    # Note: always draw means from the same distribution
+    avg_ctrl = np.random.normal(16, 2, n)
+
+    background = noise + avg_ctrl[:,np.newaxis]
+    ctrl, exp = background[:,:nctrl], background[:,nctrl:]
+    exp = _perturb_exp(exp, num_to_change, fold_changes)
+
+    return pd.DataFrame(ctrl), pd.DataFrame(exp), is_changed
+
+
+def sample_no_ctrl_gamma(n, num_to_change, fold_change, alpha=3, beta=0.1, nctrl=3, nexp=3):
+    """ Simulate data with inverse gamma distribution background
+
+    Samples log intensity data from normal distribution with variance
+    sampled from inverse gamma distribution
+    The mean intensity for each peptide sampled from N(16, 4)
+    The individual channel intensities are sampled around the mean from N(0, var)
+
+    Args:
+        n: integer number of rows to sample
+        num_to_change: integer number of rows to which each fold change
+                        perturbation should be applied
+                        NOTE: num_to_change * len(fold_changes) must be less than n
+        fold_changes: 1D array of positive fold changes
+                        Each fold_change will be applied num_to_change times
+        var: number, [[beta parameter of inverse gamme]]
+        nctrl: optional, number of control channels
+        nexp: optional number of experimental channels
+
+    Returns:
+        ctrl, exp, is_changed
+        ctrl: ctrl intensities (n x nctrl Pandas df)
+        exp: experimental intensities (n x nexp Pandas df)
+        is_changed: 0-1 Numpy vector, 1 if peptide was perturbed
+    """
+
+    # Sample len(n) variance vector according to inv gamma
+    # InvGamma(alpha, beta) ~ 1 / Gamma(alpha, 1/beta)
+    variances = 1 / np.random.gamma(alpha, 1./beta, n)
+    noise = np.array([
+        np.random.normal(0, v**0.5, nctrl + nexp)
+        for v in variances
+    ])
+
+    avg_ctrl = np.random.normal(16, 2, n)
+
+    background = noise + avg_ctrl[:,np.newaxis]
+    ctrl, exp = background[:,:nctrl], background[:,nctrl:]
+    exp = _perturb_exp(exp, num_to_change, fold_changes)
+
+    return pd.DataFrame(ctrl), pd.DataFrame(exp), is_changed
+
+
+########################
+#  STATISTICAL TESTS   #
+########################
 
 def modT(ctrl, exp):
-    # NOTE: only defined if ncol(ctrl) == 1 or ncol(ctrl) = ncol(exp)
-    # Be sure ctrl and exp are presented in the same order
-    # both ctrl and exp should be log2 ratios
+    """
+    NOTE: only defined if ncol(ctrl) == 1 or ncol(ctrl) = ncol(exp)
+    Be sure ctrl and exp are presented in the same order
+    both ctrl and exp should be log2 ratios
+    """
     if ctrl.shape[0] != exp.shape[0]:
         print ctrl.shape
         print exp.shape
@@ -177,6 +306,30 @@ def cyberT(ctrl, exp):
     # TODO filter this data by the relevant columns
     return res
 
+
+def t_test(ctrl, exp, ratio_test = False):
+    """
+    Ratio test flag indicates if t test should be performed as 1-sample t test
+    """
+
+    if ctrl.shape[0] != exp.shape[0]:
+        raise ValueError('Length of exp and ctrl data frames not identical')
+
+    if ratio_test:
+        if ctrl.shape[1] == 1 or ctrl.shape[1] == exp.shape[1]:
+            data = np.array(exp.values - ctrl.values)
+            _, pvals = sp.stats.ttest_1samp(data, 0, axis=1)
+        else:
+            raise ValueError('Not valid number of ctrl columns, see documentation')
+    else:
+        _, pvals = sp.stats.ttest_ind(ctrl, exp, axis=1)
+
+    return pvals
+
+
+###############
+#    MISC     #
+###############
 
 def setup():
     # Convenience functions which encapsulate the ctrl data for quicker access
@@ -224,8 +377,55 @@ def setup():
     print "Finished setting up with default data"
     return quick_modT, quick_cyberT
 
-quick_modT, quick_cyberT = setup()
+
+def do_stat_tests(ctrl, exp):
+    """
+    Runs modT, cyberT, t-test, fold_change analysis
+
+    Returns modT_pvals (*),
+            cyberT_pvals, 
+            cyberT_ppde (+), 
+            ttest_pvals,
+            ttest_ratio_pvals (*),
+            fold_change (+)
+    (*) = may be None of num ctrl cols != num exp cols
+    (+) = Proper measure is inverted: i.e. x* = max(x) - x
+    """
+
+    do_ratio = (ctrl.shape[1] == 1 or ctrl.shape[1] == exp.shape[1])
+   
+    if do_ratio:
+        modT_res = modT(ctrl, exp)
+        modT_pvals = modT_res['P.Value']
+        print "Ran moderated T test"
+    else:
+        modT_pvals = None
+        print "Skipped moderated T test, dimensions not suitable"
+
+    cyberT_res = cyberT(ctrl, exp)
+    cyberT_pvals = cyberT_res['pVal']
+    cyberT_ppde = cyberT_res['ppde.p']
+    print "Ran cyberT test"
+
+    ttest_pvals = t_test(ctrl, exp)
+    print "Ran two sample t test"
+    if do_ratio:
+        ttest_ratio_pvals = t_test(ctrl, exp, ratio_test=True)
+        print "Ran one sample t test"
+    else:
+        ttest_ratio_pvals = None
+        print "Skipped one sample t test, dimensions not suitable"
+
+    fold_change = np.abs(np.mean(ctrl.values - exp.values, axis=1))
+   
+    return (modT_pvals,
+            cyberT_pvals,
+            1.01 - cyberT_ppde,
+            ttest_pvals,
+            ttest_ratio_pvals,
+            np.max(fold_change) + 0.01 - fold_change)
+
 
 if __name__ == "__main__":
-    # main()
+    # quick_modT, quick_cyberT = setup()
     pass
