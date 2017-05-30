@@ -87,6 +87,7 @@ def plot_partial_auc(y_act, pred, fdr=0.05, ax=None, is_pval=True, label='Area '
     # Truncate FPR and TPR
     idx = next(i for i,v in enumerate(fpr) if v > fdr)
     t_fpr, t_tpr = fpr[:idx+1], tpr[:idx+1]
+    t_fpr[-1] = fdr
 
     AUC = auc(t_fpr, t_tpr) / fdr
 
@@ -104,7 +105,7 @@ def plot_partial_auc(y_act, pred, fdr=0.05, ax=None, is_pval=True, label='Area '
     return AUC, ax, f
 
 
-def plot_both(y_act, p_vals, labels, **kwargs):
+def plot_both(y_act, p_vals, labels, title='', **kwargs):
     """
     Plots comparison of multiple methods
     
@@ -113,6 +114,7 @@ def plot_both(y_act, p_vals, labels, **kwargs):
         p_vals: predicted labels (list of vectors of nonnegative pvalues, smaller more significant, k x n)
             If any p_vals are None, the entry is skipped. TODO handle this better
         labels: list of strings for legend, k x 1)
+        title: optional, string for figur title
         kwargs: passed through to plotting functions. Currently supports is_pval
 
     Returns:
@@ -121,6 +123,7 @@ def plot_both(y_act, p_vals, labels, **kwargs):
         axarr: (1 x 2) array of matplotlib axis objects. axarr[0] plots ROC, axarr[1] plots PRC
     """
     f, axarr = plt.subplots(1,2)
+    f.suptitle(title, fontsize=16)
     kwargs.pop('ax', None)
 
     for i, p_val in enumerate(p_vals):
@@ -148,9 +151,12 @@ def extract_y_act_protein(protein_df, protein_ids, is_changed):
     df = pd.DataFrame({
         'protein_id': protein_ids,
         'is_changed': is_changed
-        })
+        }).drop_duplicates(inplace=False)
 
-    joint = protein_df.join(df.set_index('protein_id'), on='accession_number', how='left')
+    joint = protein_df.join(
+            df.set_index('protein_id'), 
+            on='accession_number', 
+            how='inner')
     return joint['is_changed']
 
 

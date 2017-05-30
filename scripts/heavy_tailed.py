@@ -39,6 +39,7 @@ def theoretical_cdf_normal(quantiles):
     """
 
     var = np.sum(quantiles**2) / len(quantiles)
+    print "Variance: %f" % var
 
     return 2 * (stats.norm.cdf(quantiles, scale=var**0.5) - 0.5)
 
@@ -49,6 +50,7 @@ def theoretical_cdf_laplace(quantiles):
         from mean of laplace distribution with var=1
     """
     dev = np.sum(quantiles) / len(quantiles)
+    print "Sum of absolute deviations: %f" % dev
 
     return 2 * (stats.laplace.cdf(quantiles, scale=dev) - 0.5)
 
@@ -122,7 +124,9 @@ def visualize_fits(data, mean_recenter=False, ax=None):
         f = None
 
     if mean_recenter:
-        data = mean_recenter(data)
+        data = _mean_recenter(data)
+
+    data = data.flatten()
 
     _, bins, _ = ax.hist(data, bins=100, normed=True)
 
@@ -130,6 +134,8 @@ def visualize_fits(data, mean_recenter=False, ax=None):
     var = np.var(data)
     med = np.median(data)
     dev = (1./len(data)) * np.sum(np.abs(data - med))
+    print "Variance: %f" % var
+    print "Sum of absolute deviations: %f" % dev
 
     fit_norm = stats.norm.pdf(bins, loc=mean, scale=var**0.5)
     fit_laplace = stats.laplace.pdf(bins, loc=med, scale=dev)
@@ -143,3 +149,12 @@ def visualize_fits(data, mean_recenter=False, ax=None):
     ax.set_title('Empirical and fitted distributions of data')
 
     return ax, f
+
+
+def visualize_dist_and_tails(data, mean_recenter=False, title=''):
+
+    f, (ax1, ax2) = plt.subplots(2,1)
+    f.suptitle(title, fontsize=16)
+
+    visualize_fits(data, mean_recenter=mean_recenter, ax=ax1)
+    compare_theoretical_actual_quantiles(data, mean_recenter=mean_recenter, ax=ax2)

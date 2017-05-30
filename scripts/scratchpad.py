@@ -57,3 +57,13 @@ def simulate_fold_change_vars(
             )
 
     return res
+
+
+def simulate_with_gamma(n, alpha=3, beta=0.1, nctrl=3, use_var=np.random.normal):
+    variances = 1 / np.random.gamma(alpha, 1./beta, n)
+    noise = np.array([
+        use_var(loc=0, scale=v**0.5, size=nctrl)
+        for v in variances
+    ])
+
+    return noise

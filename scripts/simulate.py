@@ -32,12 +32,15 @@ VAR_INTENSITY = 4.0
 DEFAULT_LABELS = [
     'ModT',
     'CyberT P-value',
-    'CyberT PPDE',
     'Two sample t-test',
     'One sample t-test',
     'Absolute fold change'
 ]
-                 
+PROTEIN_LABELS = [
+    'ModT median p-value',
+    'CyberT median p-value',
+    'Median fold change'
+]
 
 
 # Setup R environment
@@ -289,8 +292,12 @@ def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nct
         var: number, square of scale parameter of variance distribution
                 FOR INDIVIDUAL PEPTIDE INTENSITIES
         nctrl: optional, number of control channels
-        nexp: optional number of experimental channels
-        use_var: sampling function to use. Should take arguments loc, scale, size
+        nexp: optional, number of experimental channels
+        use_var: optional, sampling function to use. 
+            Should take arguments loc, scale, size
+            Default is normal distribution
+        prot_var
+        pep_var
 
     Returns:
         ctrl, exp, is_changed
@@ -299,10 +306,13 @@ def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nct
         is_changed: 0-1 Numpy vector, 1 if peptide comes from perturbed protein
         protein_id: 0...(m-1) Numpy vector of ints
     """
+    # TODO have inverse gamma noise background for each peptide
+
     # Set up protein sampling by determining number of peptides for each protein
     if isinstance(peps_per_prot, int):
         peps_per_prot = [peps_per_prot] * m
-   
+
+    # n is total number of peptides to generate
     n = sum(peps_per_prot)
     # Create array of protein indices
     protein = np.repeat(np.arange(m), peps_per_prot)
@@ -417,31 +427,21 @@ def t_test(ctrl, exp, ratio_test = False):
     return pvals
 
 
-def protein_rollup(ctrl, exp, protein):
+def protein_rollup(protein_df):
     """
-    Runs cyberT and protein rollup using R script
+    Runs cyberT on peptides and rolls up to protein rollup using R script
+
+    Args:
+        ctrl, exp should be dataframes of PEPTIDE level measurements
+        protein is vector which designates the protein for each row of ctrl, exp
+
+    Returns (WIP): 
+        
     """
-    if ctrl.shape[0] != exp.shape[0]:
-        raise ValueError('Length of exp and ctrl data frames not identical')
-    ctrl.reset_index(drop=True, inplace=True)
-    exp.reset_index(drop=True, inplace=True)
+    protein_df = r['find_protein_medians'](protein_df, use_isoform=True)
+    out = pandas2ri.ri2py(protein_df)
 
-    meanC = np.mean(ctrl.values, axis=1)
-    meanE = np.mean(exp.values, axis=1)
-
-    df = pd.concat([ctrl,exp], axis=1, ignore_index=True)
-    df.columns = (['C%d' % (i+1) for i in xrange(ctrl.shape[1])] +
-                  ['E%d' % (i+1) for i in xrange(exp.shape[1])])
-
-    res = r['bayesT'](df, numC = ctrl.shape[1], numE = exp.shape[1], doMulttest=True)
-    res = pandas2ri.ri2py(res)
-    res['meanC'] = meanC
-    res['meanE'] = meanE
-    res['accession_number'] = protein
-    print res.columns
-
-    protein_df = r['find_protein_medians'](res, use_isoform=True)
-    return pandas2ri.ri2py(protein_df)
+    return out
 
 
 ###############
@@ -529,7 +529,6 @@ def do_stat_tests(ctrl, exp):
     if do_t:
         cyberT_res = cyberT(ctrl, exp)
         cyberT_pvals = cyberT_res['pVal']
-        cyberT_ppde = cyberT_res['ppde.p']
         print "Ran cyberT test"
 
         ttest_pvals = t_test(ctrl, exp)
@@ -546,10 +545,65 @@ def do_stat_tests(ctrl, exp):
    
     return (modT_pvals,
             cyberT_pvals,
-            1.01 - cyberT_ppde,
             ttest_pvals,
             ttest_ratio_pvals,
             np.max(fold_change) + 0.01 - fold_change)
+
+
+def do_stat_tests_protein(ctrl, exp, protein):
+    """
+    Runs modT, cyberT, t-test, fold_change on protein level
+
+    Returns:
+        (modT_pvals (median)
+         cyberT_pvals (median)
+         fold_change (median)
+         
+    (+) = Proper measure is inverted: i.e. x* = max(x) - x
+    """
+    if ctrl.shape[0] != exp.shape[0]:
+        raise ValueError('Length of exp and ctrl data frames not identical')
+    
+    ctrl.columns = ['C%d' % (i+1) for i in xrange(ctrl.shape[1])]
+    exp.columns = ['E%d' % (i+1) for i in xrange(exp.shape[1])]
+
+    (modT_pvals,
+     cyberT_pvals,
+     ttest_pvals,
+     ttest_ratio_pvals,
+     fold_change) = do_stat_tests(ctrl, exp)
+
+    # Revert fold change inversion
+    fold_change = np.max(fold_change) + 0.01 - fold_change
+
+    pval_df = pd.DataFrame({
+        'accession_number': protein,
+        'fold_change': fold_change,
+        'modT_PVal': modT_pvals,
+        'cyberT_PVal': cyberT_pvals,
+        'ttest_PVal': ttest_pvals
+    })
+
+    ctrl.reset_index(drop=True, inplace=True)
+    exp.reset_index(drop=True, inplace=True)
+    pval_df.reset_index(drop=True, inplace=True)
+
+    meanC = np.mean(ctrl.values, axis=1)
+    meanE = np.mean(exp.values, axis=1)
+
+    df = pd.concat([ctrl,exp, pval_df], axis=1)
+    df['meanC'] = meanC
+    df['meanE'] = meanE
+
+    out = protein_rollup(df)
+    fc = out['fold_change.med']
+    fc = np.max(fc) + 0.01 - fc
+
+    return (
+        out['modT_PVal.med'],
+        out['cyberT_PVal.med'],
+        fc
+    ), out
 
 
 if __name__ == "__main__":
