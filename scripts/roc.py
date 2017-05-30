@@ -2,6 +2,7 @@ from sklearn.metrics import roc_curve, roc_auc_score, precision_recall_curve, au
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 
 def plot_roc(y_act, pred, ax = None, is_pval=True, label='Area '):
@@ -65,7 +66,43 @@ def plot_prc(y_act, pred, ax = None, is_pval=True, label='Area '):
     ax.set_title('PRC curve')
     ax.legend(loc='lower left', fontsize= 'medium', title='AUC')
     return AUC, ax, f
-   
+
+
+def plot_partial_auc(y_act, pred, fdr=0.05, ax=None, is_pval=True, label='Area '):
+    """Calculates partial AUC up to FDR specified
+
+    TODO determine how to regularize the AUC measurement (!)
+    """
+    if ax is None:
+        f, ax = plt.subplots(1,1)
+    else:
+        f = None
+
+    if is_pval:
+        y_pred = - np.log(pred)
+    else:
+        y_pred = pred
+
+    fpr, tpr, _ = roc_curve(y_act, y_pred)
+    # Truncate FPR and TPR
+    idx = next(i for i,v in enumerate(fpr) if v > fdr)
+    t_fpr, t_tpr = fpr[:idx+1], tpr[:idx+1]
+
+    AUC = auc(t_fpr, t_tpr) / fdr
+
+    lw = 3
+    frac_ones = np.mean(y_act)
+    roc_ln, = ax.plot(t_fpr, t_tpr, lw=lw, label=label + ' - %.3f' % AUC)
+    base_ln, = ax.plot([0,fdr+0.01], [0,fdr+0.01], color='grey', lw=2, linestyle='--')
+
+    ax.set_xlim(0, fdr+0.01)
+    ax.set_ylim(0, 1.01)
+    ax.set_xlabel('FPR')
+    ax.set_ylabel('TPR')
+    ax.set_title('Partial ROC Curve')
+    ax.legend(loc='middle right', fontsize= 'medium', title='AUC')
+    return AUC, ax, f
+
 
 def plot_both(y_act, p_vals, labels, **kwargs):
     """
@@ -90,6 +127,68 @@ def plot_both(y_act, p_vals, labels, **kwargs):
         if p_val is None:
             continue  # TODO handle this better
         plot_roc(y_act, p_val, ax=axarr[0], label=labels[i], **kwargs)
-        plot_prc(y_act, p_val, ax=axarr[1], label=labels[i], **kwargs)
+        plot_partial_auc(y_act, p_val, ax=axarr[1], label=labels[i], fdr=0.05, **kwargs)
+        # plot_prc(y_act, p_val, ax=axarr[1], label=labels[i], **kwargs)
 
     return f, axarr
+
+
+def extract_y_act_protein(protein_df, protein_ids, is_changed):
+    """Converts peptide level labels to protein labels
+
+    Args:
+        protein_df: Pandas df which has a column labeled 'accession_number'
+        protein_ids: length-n vector of protein ids
+        is_changed: length-n vector of labels: same length as protein_ids
+
+    Returns:
+        length-m vector of 0-1 labels, corresponds to order of acc_nums in protein_df
+    """
+
+    df = pd.DataFrame({
+        'protein_id': protein_ids,
+        'is_changed': is_changed
+        })
+
+    joint = protein_df.join(df.set_index('protein_id'), on='accession_number', how='left')
+    return joint['is_changed']
+
+
+def roc_prc_scores(y_act, p_val, is_pval=True):
+    """ Calculates AUROC and AUPRC statistics
+
+    Args:
+        y_act: actual labels (vector of ones and zeros, n x 1)
+        p_vals: predicted labels (list of vectors of nonnegative pvalues, smaller more significant, k x n)
+
+    Returns:
+        roc_auc, prc_auc
+        If p_val is a 1D array, roc_auc and prc_auc are floats
+        If p_val is a list of lists, roc_auc and prc_auc are lists of floats
+    """
+    pval_is_list = hasattr(p_val[0], '__iter__')
+    if not pval_is_list:
+        p_val = [p_val]
+
+    roc_auc = []
+    prc_auc = []
+    for p in p_val:
+        if p is None:
+            continue
+
+        if is_pval:
+            y_pred = - np.log(p)
+        else:
+            y_pred = p
+
+        roc_auc.append(roc_auc_score(y_act, y_pred))
+        prec, rec, _ = precision_recall_curve(y_act, y_pred)
+        prc_auc.append(auc(rec, prec))
+
+    if not pval_is_list:
+        roc_auc = roc_auc[0]
+        prc_auc = prc_auc[0]
+
+    return roc_auc, prc_auc
+
+

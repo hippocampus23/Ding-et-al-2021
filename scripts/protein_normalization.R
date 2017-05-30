@@ -238,22 +238,28 @@ protein_cutoffs <- function(protdf) {
 }
 
 
+### Calculate variance for each protein ###
+### Playing around with pipes ###
+protein_variance <- function(psm_data) {
+    
+}
+
 #############################
 # ACTUAL SCRIPT STARTS HERE #
 #############################
 
 # peptides <- map_peptides_to_proteins()
-psm <- parse_psm_report(peptides)
-peptides_cyberT <- do_cyberT(peptides)
-psm_cyberT <- do_cyberT(psm)
-proteins <- find_protein_medians(peptides_cyberT)
-proteins_final <- peptide_to_prot_signif(peptides_cyberT, proteins)
-proteins_psm <- find_protein_medians(psm_cyberT)
-proteins_psm_final <- peptide_to_prot_signif(psm_cyberT, proteins_psm)
-phosphos <- map_phosphosites_to_proteins()
-phosphos_cyberT <- do_cyberT(phosphos)
-phosphos_norm <- normalize_peptide_to_protein(phosphos, proteins)
-phosphos_norm_cyberT <- do_cyberT(phosphos_norm)
+# psm <- parse_psm_report(peptides)
+# peptides_cyberT <- do_cyberT(peptides)
+# psm_cyberT <- do_cyberT(psm)
+# proteins <- find_protein_medians(peptides_cyberT)
+# proteins_final <- peptide_to_prot_signif(peptides_cyberT, proteins)
+# proteins_psm <- find_protein_medians(psm_cyberT)
+# proteins_psm_final <- peptide_to_prot_signif(psm_cyberT, proteins_psm)
+# phosphos <- map_phosphosites_to_proteins()
+# phosphos_cyberT <- do_cyberT(phosphos)
+# phosphos_norm <- normalize_peptide_to_protein(phosphos, proteins)
+# phosphos_norm_cyberT <- do_cyberT(phosphos_norm)
 
 
 extract_modT_fp <- function(pepdf, proteins_final) {

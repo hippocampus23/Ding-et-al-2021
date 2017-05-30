@@ -44,9 +44,12 @@ DEFAULT_LABELS = [
 pandas2ri.activate()
 r['source']('modT.r')
 r['source']('bayesreg.R')
-# Call functions r['modT_test'] and r['bayesT']
-# modT_test(data, "placeholder", dframe=TRUE, data.col=[DATA COLS])
-# bayesT(data, numC, numE)
+r['source']('protein.R')
+# INSTRUCTIONS FOR USE
+# Call functions r['modT_test'], r['bayesT'], r['find_protein_medians']
+# r['modT_test'](data, "placeholder", dframe=TRUE, data.col=[DATA COLS])
+# r['bayesT'](data, numC, numE)
+# r['find_protein_medians'](pepdf)
 
 
 #################
@@ -159,14 +162,14 @@ def generate_samples(ctrl_data, num_to_change, fold_change, num_samples='same', 
 
 
 def _perturb_exp(exp_noise, num_to_change, fold_changes):
-    """ Applies artificial perturbation to experimental intensities
+    """ Applies artificial perturbation to simulated experimental intensities
     """
+    n = exp_noise.shape[0]
     if isinstance(fold_changes, numbers.Number):
         fold_changes = [fold_changes]
     if num_to_change * len(fold_changes) >= n:
         raise ValueError('Too many fold changes for number of peptides!')
 
-    n = exp_noise.shape[0]
     # For convenience, always perturb the first num_to_change peptides
     # This should not affect the analysis: can always randomize order
     perturbs = np.zeros(n, dtype=float)
@@ -180,7 +183,8 @@ def _perturb_exp(exp_noise, num_to_change, fold_changes):
     return exp, is_changed
 
 
-def sample_no_ctrl_uniform(n, num_to_change, fold_changes, var, nctrl=3, nexp=3):
+
+def sample_no_ctrl_uniform(n, num_to_change, fold_changes, var=0.06, nctrl=3, nexp=3, use_var=np.random.normal):
     """ Simulate data from uniform variance background
 
     Samples log intensity data from normal distribution with uniform variance
@@ -197,6 +201,7 @@ def sample_no_ctrl_uniform(n, num_to_change, fold_changes, var, nctrl=3, nexp=3)
         var: number, fixed variance of noise
         nctrl: optional, number of control channels
         nexp: optional number of experimental channels
+        use_var: sampling function to use. Should take arguments loc, scale, size
 
     Returns:
         ctrl, exp, is_changed
@@ -208,19 +213,19 @@ def sample_no_ctrl_uniform(n, num_to_change, fold_changes, var, nctrl=3, nexp=3)
     # Why not do both?
 
     # Draw noise and means seperately
-    noise = np.random.normal(0, var**0.5, (n, nctrl+nexp))
+    noise = use_var(0, var**0.5, (n, nctrl+nexp))
     # Note: always draw means from the same distribution
     avg_ctrl = np.random.normal(16, 2, n)
 
     background = noise + avg_ctrl[:,np.newaxis]
     ctrl, exp = background[:,:nctrl], background[:,nctrl:]
-    exp = _perturb_exp(exp, num_to_change, fold_changes)
+    exp, is_changed = _perturb_exp(exp, num_to_change, fold_changes)
 
     return pd.DataFrame(ctrl), pd.DataFrame(exp), is_changed
 
 
-def sample_no_ctrl_gamma(n, num_to_change, fold_change, alpha=3, beta=0.1, nctrl=3, nexp=3):
-    """ Simulate data with inverse gamma distribution background
+def sample_no_ctrl_gamma(n, num_to_change, fold_changes, alpha=3, beta=0.1, nctrl=3, nexp=3, use_var=np.random.normal):
+    """ Simulate data with variances drawn from inverse gamma distribution
 
     Samples log intensity data from normal distribution with variance
     sampled from inverse gamma distribution
@@ -237,6 +242,7 @@ def sample_no_ctrl_gamma(n, num_to_change, fold_change, alpha=3, beta=0.1, nctrl
         var: number, [[beta parameter of inverse gamme]]
         nctrl: optional, number of control channels
         nexp: optional number of experimental channels
+        use_var: sampling function to use. Should take arguments loc, scale, size
 
     Returns:
         ctrl, exp, is_changed
@@ -249,7 +255,7 @@ def sample_no_ctrl_gamma(n, num_to_change, fold_change, alpha=3, beta=0.1, nctrl
     # InvGamma(alpha, beta) ~ 1 / Gamma(alpha, 1/beta)
     variances = 1 / np.random.gamma(alpha, 1./beta, n)
     noise = np.array([
-        np.random.normal(0, v**0.5, nctrl + nexp)
+        use_var(loc=0, scale=v**0.5, size=nctrl + nexp)
         for v in variances
     ])
 
@@ -257,9 +263,93 @@ def sample_no_ctrl_gamma(n, num_to_change, fold_change, alpha=3, beta=0.1, nctrl
 
     background = noise + avg_ctrl[:,np.newaxis]
     ctrl, exp = background[:,:nctrl], background[:,nctrl:]
-    exp = _perturb_exp(exp, num_to_change, fold_changes)
+    exp, is_changed = _perturb_exp(exp, num_to_change, fold_changes)
 
     return pd.DataFrame(ctrl), pd.DataFrame(exp), is_changed
+
+
+def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nctrl=3, nexp=3, use_var = np.random.normal, prot_var=0.5, pep_var=3.5):
+    """Simulate data from protein-level generation
+
+    Samples log intensity data from protein-level generation
+    Protein mean variance fixed at 0.5 - N(16, 0.5)
+    Peptide mean variance fixed at 3.5 within protein - N(0, 3.5)
+    Peptide variance sampled from NORMAL distribution - N(0, var)
+    with fixed variance
+
+    Args:
+        M: integer number of proteins to sample
+        num_to_change: integer number of proteins for which each fold change
+                        perturbation should be applied
+                        NOTE: num_to_change * len(fold_changes) must be less than n
+        fold_changes: 1D array of positive fold changes
+                        Each fold_change will be applied num_to_change times
+        peps_per_prot: int Each protein will have peps_per_prot
+                OR len-n vector of ints
+        var: number, square of scale parameter of variance distribution
+                FOR INDIVIDUAL PEPTIDE INTENSITIES
+        nctrl: optional, number of control channels
+        nexp: optional number of experimental channels
+        use_var: sampling function to use. Should take arguments loc, scale, size
+
+    Returns:
+        ctrl, exp, is_changed
+        ctrl: ctrl intensities (n x nctrl Pandas df)
+        exp: experimental intensities (n x nexp Pandas df)
+        is_changed: 0-1 Numpy vector, 1 if peptide comes from perturbed protein
+        protein_id: 0...(m-1) Numpy vector of ints
+    """
+    # Set up protein sampling by determining number of peptides for each protein
+    if isinstance(peps_per_prot, int):
+        peps_per_prot = [peps_per_prot] * m
+   
+    n = sum(peps_per_prot)
+    # Create array of protein indices
+    protein = np.repeat(np.arange(m), peps_per_prot)
+    # indices[prot] is first index of protein
+    # indices[prot+1] is last index of protein
+    indices = np.cumsum(peps_per_prot)
+    indices = np.insert(indices, 0, 0)
+    assert len(protein) == n
+
+    # Constant variance noise from specified background
+    noise = use_var(loc=0, scale=var**0.5, size=(n, nctrl + nexp))
+    
+    # Draw protein and peptide averages (length-n vectors)
+    # Protein means are N(16, 0.5)
+    protein_means = np.repeat(np.random.normal(16, 0.5**0.5, size=m), peps_per_prot)
+    # Peptide means are N(prot_mean, 3.5)
+    peptide_means = np.random.normal(0, 3.5**0.5, size=n) + protein_means
+    avg_ctrl = peptide_means
+
+    background = noise + avg_ctrl[:,np.newaxis]
+    ctrl, exp = background[:,:nctrl], background[:,nctrl:]
+
+    # Validate fold changes
+    if isinstance(fold_changes, numbers.Number):
+        fold_changes = [fold_changes]
+    if num_to_change * len(fold_changes) >= m:
+        raise ValueError('Too many fold changes for number of proteins!')
+
+    # Randomly sample set of proteins which to perturb
+    prot_to_change = set(np.random.permutation(m)[:len(fold_changes)*num_to_change])
+    offsets = np.repeat(np.log2(fold_changes), num_to_change)
+    assert len(prot_to_change) == len(offsets)
+
+    is_changed = np.zeros(n)
+    perturb = np.zeros(n)
+    # Iterate through proteins to change
+    # For each protein, set the corresponding section of is_changed to 1
+    # and the offset to the fold_change
+    for i, prot in enumerate(prot_to_change):
+        start, stop = indices[prot], indices[prot+1]
+        is_changed[start:stop] = 1
+        perturb[start:stop] = offsets[i]
+
+    exp = exp + perturb[:,None]
+
+    return pd.DataFrame(ctrl), pd.DataFrame(exp), is_changed, protein
+     
 
 
 ########################
@@ -289,21 +379,21 @@ def modT(ctrl, exp):
     res = r['modT_test'](data, "placeholder", id_col='id', data_col=data_cols, dframe=True)
     res = pandas2ri.ri2py(res)
 
-    # TODO filter this data by the relevant columns
     return res
 
 
 def cyberT(ctrl, exp):
     if ctrl.shape[0] != exp.shape[0]:
         raise ValueError('Length of exp and ctrl data frames not identical')
-    
-    df = pd.concat([ctrl, exp], axis=1)
-    df.columns = (['C%d' % i for i in xrange(ctrl.shape[1])] +
-                  ['E%d' % i for i in xrange(exp.shape[1])])
+    ctrl.reset_index(drop=True, inplace=True)
+    exp.reset_index(drop=True, inplace=True)
+
+    df = pd.concat([ctrl, exp], axis=1, ignore_index=True)
+    df.columns = (['C%d' % (i+1) for i in xrange(ctrl.shape[1])] +
+                  ['E%d' % (i+1) for i in xrange(exp.shape[1])])
     res = r['bayesT'](df, numC = ctrl.shape[1], numE = exp.shape[1], doMulttest=True)
     res = pandas2ri.ri2py(res)
 
-    # TODO filter this data by the relevant columns
     return res
 
 
@@ -325,6 +415,33 @@ def t_test(ctrl, exp, ratio_test = False):
         _, pvals = sp.stats.ttest_ind(ctrl, exp, axis=1)
 
     return pvals
+
+
+def protein_rollup(ctrl, exp, protein):
+    """
+    Runs cyberT and protein rollup using R script
+    """
+    if ctrl.shape[0] != exp.shape[0]:
+        raise ValueError('Length of exp and ctrl data frames not identical')
+    ctrl.reset_index(drop=True, inplace=True)
+    exp.reset_index(drop=True, inplace=True)
+
+    meanC = np.mean(ctrl.values, axis=1)
+    meanE = np.mean(exp.values, axis=1)
+
+    df = pd.concat([ctrl,exp], axis=1, ignore_index=True)
+    df.columns = (['C%d' % (i+1) for i in xrange(ctrl.shape[1])] +
+                  ['E%d' % (i+1) for i in xrange(exp.shape[1])])
+
+    res = r['bayesT'](df, numC = ctrl.shape[1], numE = exp.shape[1], doMulttest=True)
+    res = pandas2ri.ri2py(res)
+    res['meanC'] = meanC
+    res['meanE'] = meanE
+    res['accession_number'] = protein
+    print res.columns
+
+    protein_df = r['find_protein_medians'](res, use_isoform=True)
+    return pandas2ri.ri2py(protein_df)
 
 
 ###############
@@ -382,39 +499,48 @@ def do_stat_tests(ctrl, exp):
     """
     Runs modT, cyberT, t-test, fold_change analysis
 
-    Returns modT_pvals (*),
+    Returns modT_pvals,
             cyberT_pvals, 
             cyberT_ppde (+), 
             ttest_pvals,
-            ttest_ratio_pvals (*),
+            ttest_ratio_pvals,
             fold_change (+)
-    (*) = may be None of num ctrl cols != num exp cols
+    Any of these may be None if number of channels is not suitable
     (+) = Proper measure is inverted: i.e. x* = max(x) - x
     """
 
     do_ratio = (ctrl.shape[1] == 1 or ctrl.shape[1] == exp.shape[1])
+    do_t = (ctrl.shape[1] > 1)
    
     if do_ratio:
         modT_res = modT(ctrl, exp)
         modT_pvals = modT_res['P.Value']
         print "Ran moderated T test"
+
+        ttest_ratio_pvals = t_test(ctrl, exp, ratio_test=True)
+        print "Ran one sample t test"
     else:
         modT_pvals = None
         print "Skipped moderated T test, dimensions not suitable"
 
-    cyberT_res = cyberT(ctrl, exp)
-    cyberT_pvals = cyberT_res['pVal']
-    cyberT_ppde = cyberT_res['ppde.p']
-    print "Ran cyberT test"
-
-    ttest_pvals = t_test(ctrl, exp)
-    print "Ran two sample t test"
-    if do_ratio:
-        ttest_ratio_pvals = t_test(ctrl, exp, ratio_test=True)
-        print "Ran one sample t test"
-    else:
         ttest_ratio_pvals = None
         print "Skipped one sample t test, dimensions not suitable"
+
+    if do_t:
+        cyberT_res = cyberT(ctrl, exp)
+        cyberT_pvals = cyberT_res['pVal']
+        cyberT_ppde = cyberT_res['ppde.p']
+        print "Ran cyberT test"
+
+        ttest_pvals = t_test(ctrl, exp)
+        print "Ran two sample t test"
+    else:
+        cyberT_pvals = None
+        cyberT_ppde = None
+        print "Skipped cyberT, too few channels"
+
+        ttest_pvals = None
+        print "Skipped two sample t test, too few channels"
 
     fold_change = np.abs(np.mean(ctrl.values - exp.values, axis=1))
    
