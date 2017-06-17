@@ -160,15 +160,15 @@ def extract_y_act_protein(protein_df, protein_ids, is_changed):
     return joint['is_changed']
 
 
-def roc_prc_scores(y_act, p_val, is_pval=True):
-    """ Calculates AUROC and AUPRC statistics
+def roc_prc_scores(y_act, p_val, is_pval=True, fdr=0.05):
+    """ Calculates AUROC, AUPRC, and pAUROC statistics
 
     Args:
         y_act: actual labels (vector of ones and zeros, n x 1)
         p_vals: predicted labels (list of vectors of nonnegative pvalues, smaller more significant, k x n)
 
     Returns:
-        roc_auc, prc_auc
+        roc_auc, prc_aucs, pauc
         If p_val is a 1D array, roc_auc and prc_auc are floats
         If p_val is a list of lists, roc_auc and prc_auc are lists of floats
     """
@@ -178,6 +178,7 @@ def roc_prc_scores(y_act, p_val, is_pval=True):
 
     roc_auc = []
     prc_auc = []
+    pauc = []
     for p in p_val:
         if p is None:
             continue
@@ -187,14 +188,22 @@ def roc_prc_scores(y_act, p_val, is_pval=True):
         else:
             y_pred = p
 
-        roc_auc.append(roc_auc_score(y_act, y_pred))
+        fpr, tpr, _ = roc_curve(y_act, y_pred)
+        # Truncate FPR and TPR for partial auc
+        idx = next(i for i,v in enumerate(fpr) if v > fdr)
+        t_fpr, t_tpr = fpr[:idx+1], tpr[:idx+1]
+        t_fpr[-1] = fdr
+
+        pauc.append(auc(t_fpr, t_tpr) / fdr)
+        roc_auc.append(auc(fpr, tpr))
         prec, rec, _ = precision_recall_curve(y_act, y_pred)
         prc_auc.append(auc(rec, prec))
 
     if not pval_is_list:
         roc_auc = roc_auc[0]
-        prc_auc = prc_auc[0]
+        prc_auc = prc_auc[0] 
+        pauc = pauc[0]
 
-    return roc_auc, prc_auc
+    return roc_auc, prc_auc, pauc
 
 

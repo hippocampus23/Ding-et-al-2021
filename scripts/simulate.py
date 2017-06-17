@@ -275,13 +275,13 @@ def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nct
     """Simulate data from protein-level generation
 
     Samples log intensity data from protein-level generation
-    Protein mean variance fixed at 0.5 - N(16, 0.5)
-    Peptide mean variance fixed at 3.5 within protein - N(0, 3.5)
+    Protein mean variance defaults to 0.5 - N(16, 0.5)
+    Peptide mean variance defaults to 3.5 within protein - N(0, 3.5)
     Peptide variance sampled from NORMAL distribution - N(0, var)
     with fixed variance
 
     Args:
-        M: integer number of proteins to sample
+        m: integer number of proteins to sample
         num_to_change: integer number of proteins for which each fold change
                         perturbation should be applied
                         NOTE: num_to_change * len(fold_changes) must be less than n
@@ -296,7 +296,7 @@ def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nct
         use_var: optional, sampling function to use. 
             Should take arguments loc, scale, size
             Default is normal distribution
-        prot_var
+        prot_var: optional, 
         pep_var
 
     Returns:
@@ -558,6 +558,8 @@ def do_stat_tests_protein(ctrl, exp, protein):
         (modT_pvals (median)
          cyberT_pvals (median)
          fold_change (median)
+    
+    TODO implement protein level rollup
          
     (+) = Proper measure is inverted: i.e. x* = max(x) - x
     """
