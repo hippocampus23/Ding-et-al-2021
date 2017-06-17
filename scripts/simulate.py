@@ -401,7 +401,7 @@ def cyberT(ctrl, exp):
     df = pd.concat([ctrl, exp], axis=1, ignore_index=True)
     df.columns = (['C%d' % (i+1) for i in xrange(ctrl.shape[1])] +
                   ['E%d' % (i+1) for i in xrange(exp.shape[1])])
-    res = r['bayesT'](df, numC = ctrl.shape[1], numE = exp.shape[1], doMulttest=True)
+    res = r['bayesT'](df, numC = ctrl.shape[1], numE = exp.shape[1], ppde=False, doMulttest=True)
     res = pandas2ri.ri2py(res)
 
     return res
@@ -501,7 +501,6 @@ def do_stat_tests(ctrl, exp):
 
     Returns modT_pvals,
             cyberT_pvals, 
-            cyberT_ppde (+), 
             ttest_pvals,
             ttest_ratio_pvals,
             fold_change (+)

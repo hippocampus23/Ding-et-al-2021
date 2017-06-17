@@ -112,6 +112,27 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", **kwargs):
     return res
 
 
+def simulate_fold_change_range(fold_changes = DEF_FOLD_CHANGES):
+    """Creates simulated datasets with error bars
+    """
+    res = {}
+    
+    for f in fold_changes:
+        res[f] = err_bars_peptide(f, 1000, "G")
+    return res
+
+
+def simulate_number_experiments():
+    """Runs simulated dataset with different number of samples
+    """
+    res = {}
+    f = 2**0.5
+    
+    for n in xrange(2, 11):
+        res[n] = err_bars_peptide(f, 1000, "G", nexp=n, nctrl=n)
+    return res
+
+
 def simulate_with_gamma(n, alpha=3, beta=0.1, nctrl=3, use_var=np.random.normal):
     variances = 1 / np.random.gamma(alpha, 1./beta, n)
     noise = np.array([
