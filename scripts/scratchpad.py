@@ -85,6 +85,17 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500,*
 
 TIME_FORMAT = "%Y-%m-%d_%H:%M"
 
+def simulate_random_fc():
+    """ Creates simulated datasets with random fc
+    """
+    start = time.strftime(TIME_FORMAT)
+    fc = np.random.normal(1.5, 0.05, 1000)
+    
+    res = err_bars_peptide(fc, 1, "G")
+    np.save("tmp_%s.npy" % start, res)
+    return res
+
+
 def simulate_fold_change_range(fold_changes = DEF_FOLD_CHANGES):
     """Creates simulated datasets with error bars
     """
