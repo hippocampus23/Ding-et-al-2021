@@ -44,8 +44,7 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500,*
     start = time.time()
    
     # Hardcoded params
-    n_runs = 2
-    N_PEPS = 2000
+    N_PEPS = 10000
 
     if background == "U":
         sampler = sample_no_ctrl_uniform
@@ -69,7 +68,7 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500,*
                 p_vals = do_stat_tests(ctrl, exp)
                 res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
                     is_changed, p_vals, fdr=0.05)
-        except RRuntimeError:
+        except rpy2.rinterface.RRuntimeError:
             print "R error!"
             res[i,:,:] = np.nan
 
@@ -96,11 +95,12 @@ def simulate_random_fc():
     return res
 
 
-def simulate_fold_change_range(fold_changes = DEF_FOLD_CHANGES):
+def simulate_fold_change_range(fold_changes = DEF_FOLD_CHANGES, **kwargs):
     """Creates simulated datasets with error bars
     """
     start = time.strftime(TIME_FORMAT)
     res = {}
+    kwargs.setdefault("background", "U")
     
     for f in fold_changes:
         res[f] = err_bars_peptide(f, 1000, "G")
@@ -151,8 +151,8 @@ def simulate_with_gamma(n, alpha=3, beta=0.1, nctrl=3, use_var=np.random.normal)
 
     return noise
 
-### DEPRECATED ###
-def simulate_fold_change_range(
+
+def DEP_simulate_fold_change_range(
         fold_changes = DEF_FOLD_CHANGES,
         var = 0.06,
         nctrl=3,
@@ -178,7 +178,7 @@ def simulate_fold_change_range(
     return res
 
 
-def simulate_fold_change_vars(
+def DEP_simulate_fold_change_vars(
         fold_changes = DEF_FOLD_CHANGES,
         variances = [0.01, 0.05, 0.1, 0.2],
         nctrl=3,
@@ -202,5 +202,3 @@ def simulate_fold_change_vars(
             )
 
     return res
-
-
