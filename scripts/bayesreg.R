@@ -196,8 +196,8 @@ runVsn <- function(data, ...){
 ## Simple function to do Bonferroni and BH multiple testing correction.
 ################################################################################
 runMulttest <- function(pvals){
-  .libPaths("/home/baldig/shared_libraries/centos64/pkgs/R/2.15.1_fix/lib64/R/library")
-  require(multtest);
+  # .libPaths("/home/baldig/shared_libraries/centos64/pkgs/R/2.15.1_fix/lib64/R/library")
+  library(multtest);
   pvals <- as.matrix(pvals)
   firstCol <- rep(NA, nrow(pvals))
   firstCol[(!is.na(pvals))&(pvals==1)] <- 1

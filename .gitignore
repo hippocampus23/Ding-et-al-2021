@@ -1,5 +1,6 @@
 data
 datasets
+environment
 .RData
 .Rhistory
 .Rproj.user

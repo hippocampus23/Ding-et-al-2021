@@ -3,8 +3,23 @@ Scratchpad for random functions and fragments which are useful
 in the IPython notebook
 
 IMPORTANT
-No imports because these functions are ONLY for interactive shell
+Some imports are omitted because functions are ONLY for interactive shell
+Run from IPython with -i flag
 """
+from contextlib import contextmanager
+import sys, os
+
+@contextmanager
+def suppress_stdout():
+    with open(os.devnull, "w") as devnull:
+        old_stdout = sys.stdout
+        sys.stdout = devnull
+        try:  
+            yield
+        finally:
+            sys.stdout = old_stdout
+
+
 DEF_FOLD_CHANGES = [2**i for i in np.arange(0.1, 1.1, 0.1)]
 
 def simulate_fold_change_range(
@@ -93,14 +108,17 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", **kwargs):
     res = np.zeros((N_RUNS, len(DEFAULT_LABELS), 3), dtype=np.float32)
 
     for i in xrange(N_RUNS):
-        ctrl, exp, is_changed = sampler(
-            N_PEPS,
-            num_to_change,
-            fold_changes,
-            **kwargs)
-        p_vals = do_stat_tests(ctrl, exp)
-        res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
-            is_changed, p_vals, fdr=0.05)
+        if i % 50 == 0:
+            print "At iteration %d" % i
+        with suppress_stdout():
+            ctrl, exp, is_changed = sampler(
+                N_PEPS,
+                num_to_change,
+                fold_changes,
+                **kwargs)
+            p_vals = do_stat_tests(ctrl, exp)
+            res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
+                is_changed, p_vals, fdr=0.05)
 
     # TODO filename
     # Runs 500 rounds of simulations and finds error bars on pAUC results
