@@ -22,57 +22,6 @@ def suppress_stdout():
 
 DEF_FOLD_CHANGES = [2**i for i in np.arange(0.1, 1.1, 0.1)]
 
-def simulate_fold_change_range(
-        fold_changes = DEF_FOLD_CHANGES,
-        var = 0.06,
-        nctrl=3,
-        nexp=3):
-    """Creates simulated datasets for multiple fold changes
-
-    Uses a SINGLE fold change per iteration
-    """
-    res = {}
-    
-    for f in fold_changes:
-        ctrl, exp, is_changed = sample_no_ctrl_uniform(
-                10000,
-                1000,
-                f,
-                var,
-                nctrl=nctrl,
-                nexp=nexp)
-        res[f] = (
-            do_stat_tests(ctrl, exp),
-            is_changed
-        )
-    return res
-
-
-def simulate_fold_change_vars(
-        fold_changes = DEF_FOLD_CHANGES,
-        variances = [0.01, 0.05, 0.1, 0.2],
-        nctrl=3,
-        nexp=3):
-    """Create simulated datasets for fold changes AND variances"""
-
-    res = {}
-    
-    for f in fold_changes:
-        for v in variances:
-            ctrl, exp, is_changed = sample_no_ctrl_uniform(
-                    10000,
-                    1000,
-                    f,
-                    v,
-                    nctrl=nctrl,
-                    nexp=nexp)
-            res[(f,v)] = (
-                do_stat_tests(ctrl, exp),
-                is_changed
-            )
-
-    return res
-
 
 def err_bars_peptide(fold_changes, num_to_change, background = "U", **kwargs):
     """ Runs multiple rounds of simulations using given sampler 
@@ -120,7 +69,7 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", **kwargs):
                 p_vals = do_stat_tests(ctrl, exp)
                 res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
                     is_changed, p_vals, fdr=0.05)
-        except RRuntimeError:
+        except rpy2.rinterface.RRuntimeError:
             print "R error!"
             res[i,:,:] = np.nan
 
@@ -163,9 +112,13 @@ def simulate_variance_range():
     res = {}                                                                    
                                                                                 
     for v in u_std:                                                             
-        res["uniform_%.2f" % v] = err_bars_peptide(fc, 100, "U", var=v)         
+        res["uniform_%.2f" % v] = err_bars_peptide(fc, 1000, "U", var=v)        
+        res["uniform_lap_%.2f" % v] = err_bars_peptide(                         
+                fc, 1000, "U", var=v*(0.5**0.5), use_var=np.random.laplace)     
     for b in g_beta:                                                            
-        res["inv_gamma_%.2f" % b] = err_bars_peptide(fc, 100, "G", beta=b)      
+        res["inv_gamma_%.2f" % b] = err_bars_peptide(fc, 1000, "G", beta=b)     
+        res["inv_gamma_lap_%.2f" % v] = err_bars_peptide(                       
+                fc, 1000, "G", beta=b, use_var=np.random.laplace) 
                                                                                 
     return res  
 
@@ -177,3 +130,56 @@ def simulate_with_gamma(n, alpha=3, beta=0.1, nctrl=3, use_var=np.random.normal)
     ])
 
     return noise
+
+
+### DEPRECATED ###
+def DEP_simulate_fold_change_range(
+        fold_changes = DEF_FOLD_CHANGES,
+        var = 0.06,
+        nctrl=3,
+        nexp=3):
+    """Creates simulated datasets for multiple fold changes
+
+    Uses a SINGLE fold change per iteration
+    """
+    res = {}
+    
+    for f in fold_changes:
+        ctrl, exp, is_changed = sample_no_ctrl_uniform(
+                10000,
+                1000,
+                f,
+                var,
+                nctrl=nctrl,
+                nexp=nexp)
+        res[f] = (
+            do_stat_tests(ctrl, exp),
+            is_changed
+        )
+    return res
+
+
+def DEP_simulate_fold_change_vars(
+        fold_changes = DEF_FOLD_CHANGES,
+        variances = [0.01, 0.05, 0.1, 0.2],
+        nctrl=3,
+        nexp=3):
+    """Create simulated datasets for fold changes AND variances"""
+
+    res = {}
+    
+    for f in fold_changes:
+        for v in variances:
+            ctrl, exp, is_changed = sample_no_ctrl_uniform(
+                    10000,
+                    1000,
+                    f,
+                    v,
+                    nctrl=nctrl,
+                    nexp=nexp)
+            res[(f,v)] = (
+                do_stat_tests(ctrl, exp),
+                is_changed
+            )
+
+    return res
