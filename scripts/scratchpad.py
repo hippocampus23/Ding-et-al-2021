@@ -44,7 +44,7 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", **kwargs):
     start = time.time()
    
     # Hardcoded params
-    N_RUNS = 500
+    N_RUNS = 2
     N_PEPS = 10000
 
     if background == "U":
@@ -83,13 +83,14 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", **kwargs):
     return res
 
 
-def simulate_fold_change_range(fold_changes = DEF_FOLD_CHANGES):
+def simulate_fold_change_range(fold_changes = DEF_FOLD_CHANGES, **kwargs):
     """Creates simulated datasets with error bars
     """
     res = {}
+    kwargs.setdefault("background", "U")
     
     for f in fold_changes:
-        res[f] = err_bars_peptide(f, 1000, "G")
+        res[f] = err_bars_peptide(f, 1000, **kwargs)
     return res
 
 
