@@ -26902,3 +26902,7611 @@ Lambda0 = 0.81058
 Lambda1 = 0.18942 
 r       = 0.14613 
 s       = 0.61049 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80778 
+Lambda1 = 0.19222 
+r       = 0.14497 
+s       = 0.56748 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80407 
+Lambda1 = 0.19593 
+r       = 0.14533 
+s       = 0.52363 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80451 
+Lambda1 = 0.19549 
+r       = 0.14652 
+s       = 0.5721 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8037 
+Lambda1 = 0.1963 
+r       = 0.14806 
+s       = 0.59017 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80253 
+Lambda1 = 0.19747 
+r       = 0.14948 
+s       = 0.55505 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80806 
+Lambda1 = 0.19194 
+r       = 0.14906 
+s       = 0.59463 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80816 
+Lambda1 = 0.19184 
+r       = 0.14415 
+s       = 0.5583 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8086 
+Lambda1 = 0.1914 
+r       = 0.14802 
+s       = 0.58021 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80026 
+Lambda1 = 0.19974 
+r       = 0.14834 
+s       = 0.57123 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8135 
+Lambda1 = 0.1865 
+r       = 0.14536 
+s       = 0.64125 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81014 
+Lambda1 = 0.18986 
+r       = 0.14993 
+s       = 0.61653 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8109 
+Lambda1 = 0.1891 
+r       = 0.14431 
+s       = 0.55248 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80824 
+Lambda1 = 0.19176 
+r       = 0.1462 
+s       = 0.56749 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80938 
+Lambda1 = 0.19062 
+r       = 0.14592 
+s       = 0.572 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81212 
+Lambda1 = 0.18788 
+r       = 0.14388 
+s       = 0.58168 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80764 
+Lambda1 = 0.19236 
+r       = 0.14531 
+s       = 0.57564 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80432 
+Lambda1 = 0.19568 
+r       = 0.14867 
+s       = 0.57804 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81331 
+Lambda1 = 0.18669 
+r       = 0.1437 
+s       = 0.60777 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80198 
+Lambda1 = 0.19802 
+r       = 0.14606 
+s       = 0.55395 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80536 
+Lambda1 = 0.19464 
+r       = 0.14644 
+s       = 0.53221 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8096 
+Lambda1 = 0.1904 
+r       = 0.14301 
+s       = 0.56214 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81009 
+Lambda1 = 0.18991 
+r       = 0.14677 
+s       = 0.59758 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80782 
+Lambda1 = 0.19218 
+r       = 0.14385 
+s       = 0.57445 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8109 
+Lambda1 = 0.1891 
+r       = 0.14582 
+s       = 0.59766 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80436 
+Lambda1 = 0.19564 
+r       = 0.14395 
+s       = 0.53424 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81038 
+Lambda1 = 0.18962 
+r       = 0.14507 
+s       = 0.59307 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81194 
+Lambda1 = 0.18806 
+r       = 0.14414 
+s       = 0.57973 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81435 
+Lambda1 = 0.18565 
+r       = 0.14256 
+s       = 0.58974 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80714 
+Lambda1 = 0.19286 
+r       = 0.14876 
+s       = 0.55274 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81044 
+Lambda1 = 0.18956 
+r       = 0.14789 
+s       = 0.56328 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80851 
+Lambda1 = 0.19149 
+r       = 0.14195 
+s       = 0.57879 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81529 
+Lambda1 = 0.18471 
+r       = 0.14307 
+s       = 0.64497 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80275 
+Lambda1 = 0.19725 
+r       = 0.14809 
+s       = 0.54315 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81157 
+Lambda1 = 0.18843 
+r       = 0.14533 
+s       = 0.58843 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80916 
+Lambda1 = 0.19084 
+r       = 0.14288 
+s       = 0.57274 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81607 
+Lambda1 = 0.18393 
+r       = 0.14111 
+s       = 0.61658 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81002 
+Lambda1 = 0.18998 
+r       = 0.14287 
+s       = 0.57513 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80996 
+Lambda1 = 0.19004 
+r       = 0.14137 
+s       = 0.5508 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8053 
+Lambda1 = 0.1947 
+r       = 0.1474 
+s       = 0.57362 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81584 
+Lambda1 = 0.18416 
+r       = 0.14272 
+s       = 0.64559 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80712 
+Lambda1 = 0.19288 
+r       = 0.14776 
+s       = 0.61241 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80679 
+Lambda1 = 0.19321 
+r       = 0.14449 
+s       = 0.5914 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80694 
+Lambda1 = 0.19306 
+r       = 0.14366 
+s       = 0.54818 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81726 
+Lambda1 = 0.18274 
+r       = 0.1457 
+s       = 0.68293 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81054 
+Lambda1 = 0.18946 
+r       = 0.14522 
+s       = 0.58012 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81179 
+Lambda1 = 0.18821 
+r       = 0.14311 
+s       = 0.59913 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80865 
+Lambda1 = 0.19135 
+r       = 0.14559 
+s       = 0.57981 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80934 
+Lambda1 = 0.19066 
+r       = 0.14438 
+s       = 0.56633 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80682 
+Lambda1 = 0.19318 
+r       = 0.14583 
+s       = 0.58333 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80467 
+Lambda1 = 0.19533 
+r       = 0.1458 
+s       = 0.55368 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81371 
+Lambda1 = 0.18629 
+r       = 0.14376 
+s       = 0.62783 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81071 
+Lambda1 = 0.18929 
+r       = 0.14321 
+s       = 0.5753 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.7996 
+Lambda1 = 0.2004 
+r       = 0.15073 
+s       = 0.59457 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80156 
+Lambda1 = 0.19844 
+r       = 0.14854 
+s       = 0.57228 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8115 
+Lambda1 = 0.1885 
+r       = 0.1453 
+s       = 0.6009 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80121 
+Lambda1 = 0.19879 
+r       = 0.14327 
+s       = 0.49686 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80797 
+Lambda1 = 0.19203 
+r       = 0.14323 
+s       = 0.55853 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80876 
+Lambda1 = 0.19124 
+r       = 0.14694 
+s       = 0.58329 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80773 
+Lambda1 = 0.19227 
+r       = 0.14551 
+s       = 0.56289 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81016 
+Lambda1 = 0.18984 
+r       = 0.14285 
+s       = 0.55767 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81532 
+Lambda1 = 0.18468 
+r       = 0.14358 
+s       = 0.61317 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80412 
+Lambda1 = 0.19588 
+r       = 0.14373 
+s       = 0.55443 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80764 
+Lambda1 = 0.19236 
+r       = 0.14383 
+s       = 0.54834 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81107 
+Lambda1 = 0.18893 
+r       = 0.14229 
+s       = 0.58697 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.79643 
+Lambda1 = 0.20357 
+r       = 0.14813 
+s       = 0.53072 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81408 
+Lambda1 = 0.18592 
+r       = 0.14404 
+s       = 0.60223 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81039 
+Lambda1 = 0.18961 
+r       = 0.14234 
+s       = 0.58686 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80963 
+Lambda1 = 0.19037 
+r       = 0.14457 
+s       = 0.53595 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80757 
+Lambda1 = 0.19243 
+r       = 0.14602 
+s       = 0.54877 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80867 
+Lambda1 = 0.19133 
+r       = 0.14612 
+s       = 0.58304 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80796 
+Lambda1 = 0.19204 
+r       = 0.143 
+s       = 0.52907 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80905 
+Lambda1 = 0.19095 
+r       = 0.14487 
+s       = 0.58613 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8164 
+Lambda1 = 0.1836 
+r       = 0.1441 
+s       = 0.57565 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80787 
+Lambda1 = 0.19213 
+r       = 0.14172 
+s       = 0.55885 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81486 
+Lambda1 = 0.18514 
+r       = 0.1438 
+s       = 0.60761 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80378 
+Lambda1 = 0.19622 
+r       = 0.14443 
+s       = 0.53633 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80999 
+Lambda1 = 0.19001 
+r       = 0.14626 
+s       = 0.59785 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81459 
+Lambda1 = 0.18541 
+r       = 0.14468 
+s       = 0.60183 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81221 
+Lambda1 = 0.18779 
+r       = 0.1451 
+s       = 0.58661 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8148 
+Lambda1 = 0.1852 
+r       = 0.14383 
+s       = 0.59573 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80581 
+Lambda1 = 0.19419 
+r       = 0.14621 
+s       = 0.54406 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80106 
+Lambda1 = 0.19894 
+r       = 0.14844 
+s       = 0.54494 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80631 
+Lambda1 = 0.19369 
+r       = 0.14474 
+s       = 0.57883 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80884 
+Lambda1 = 0.19116 
+r       = 0.14468 
+s       = 0.58922 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80998 
+Lambda1 = 0.19002 
+r       = 0.14612 
+s       = 0.57253 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80468 
+Lambda1 = 0.19532 
+r       = 0.14819 
+s       = 0.55323 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81498 
+Lambda1 = 0.18502 
+r       = 0.14331 
+s       = 0.5897 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81421 
+Lambda1 = 0.18579 
+r       = 0.14462 
+s       = 0.61792 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80311 
+Lambda1 = 0.19689 
+r       = 0.14706 
+s       = 0.52761 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80387 
+Lambda1 = 0.19613 
+r       = 0.14651 
+s       = 0.57397 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81371 
+Lambda1 = 0.18629 
+r       = 0.14318 
+s       = 0.57955 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8066 
+Lambda1 = 0.1934 
+r       = 0.1474 
+s       = 0.5885 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80693 
+Lambda1 = 0.19307 
+r       = 0.14736 
+s       = 0.60473 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81673 
+Lambda1 = 0.18327 
+r       = 0.14144 
+s       = 0.58541 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.79928 
+Lambda1 = 0.20072 
+r       = 0.14722 
+s       = 0.49559 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81102 
+Lambda1 = 0.18898 
+r       = 0.14561 
+s       = 0.56893 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81385 
+Lambda1 = 0.18615 
+r       = 0.14597 
+s       = 0.61486 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80209 
+Lambda1 = 0.19791 
+r       = 0.14644 
+s       = 0.56094 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80672 
+Lambda1 = 0.19328 
+r       = 0.14143 
+s       = 0.54824 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81025 
+Lambda1 = 0.18975 
+r       = 0.14309 
+s       = 0.57522 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80367 
+Lambda1 = 0.19633 
+r       = 0.14242 
+s       = 0.53327 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80786 
+Lambda1 = 0.19214 
+r       = 0.14625 
+s       = 0.59027 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81343 
+Lambda1 = 0.18657 
+r       = 0.14538 
+s       = 0.62793 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8093 
+Lambda1 = 0.1907 
+r       = 0.1437 
+s       = 0.58183 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80883 
+Lambda1 = 0.19117 
+r       = 0.14404 
+s       = 0.60016 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80309 
+Lambda1 = 0.19691 
+r       = 0.14488 
+s       = 0.54378 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80809 
+Lambda1 = 0.19191 
+r       = 0.14688 
+s       = 0.58226 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80683 
+Lambda1 = 0.19317 
+r       = 0.14571 
+s       = 0.54674 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80378 
+Lambda1 = 0.19622 
+r       = 0.14854 
+s       = 0.58891 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80468 
+Lambda1 = 0.19532 
+r       = 0.14224 
+s       = 0.52186 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81304 
+Lambda1 = 0.18696 
+r       = 0.14258 
+s       = 0.58974 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81996 
+Lambda1 = 0.18004 
+r       = 0.14053 
+s       = 0.61509 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81114 
+Lambda1 = 0.18886 
+r       = 0.14286 
+s       = 0.5605 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80564 
+Lambda1 = 0.19436 
+r       = 0.14735 
+s       = 0.56329 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80722 
+Lambda1 = 0.19278 
+r       = 0.14573 
+s       = 0.576 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80922 
+Lambda1 = 0.19078 
+r       = 0.14319 
+s       = 0.55454 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80751 
+Lambda1 = 0.19249 
+r       = 0.1469 
+s       = 0.56166 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81242 
+Lambda1 = 0.18758 
+r       = 0.14389 
+s       = 0.5451 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81333 
+Lambda1 = 0.18667 
+r       = 0.14401 
+s       = 0.60435 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80875 
+Lambda1 = 0.19125 
+r       = 0.14911 
+s       = 0.60535 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80658 
+Lambda1 = 0.19342 
+r       = 0.14564 
+s       = 0.58205 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8034 
+Lambda1 = 0.1966 
+r       = 0.1476 
+s       = 0.57625 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80884 
+Lambda1 = 0.19116 
+r       = 0.14587 
+s       = 0.56539 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80873 
+Lambda1 = 0.19127 
+r       = 0.14459 
+s       = 0.57519 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81397 
+Lambda1 = 0.18603 
+r       = 0.14505 
+s       = 0.59716 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81201 
+Lambda1 = 0.18799 
+r       = 0.14445 
+s       = 0.5702 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81014 
+Lambda1 = 0.18986 
+r       = 0.14103 
+s       = 0.57148 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8042 
+Lambda1 = 0.1958 
+r       = 0.14691 
+s       = 0.56192 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80777 
+Lambda1 = 0.19223 
+r       = 0.14823 
+s       = 0.57918 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81123 
+Lambda1 = 0.18877 
+r       = 0.1428 
+s       = 0.59406 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80872 
+Lambda1 = 0.19128 
+r       = 0.14716 
+s       = 0.58598 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80188 
+Lambda1 = 0.19812 
+r       = 0.1473 
+s       = 0.53611 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80294 
+Lambda1 = 0.19706 
+r       = 0.14825 
+s       = 0.53781 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8069 
+Lambda1 = 0.1931 
+r       = 0.145 
+s       = 0.55245 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80483 
+Lambda1 = 0.19517 
+r       = 0.14721 
+s       = 0.5879 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80781 
+Lambda1 = 0.19219 
+r       = 0.14137 
+s       = 0.5418 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80984 
+Lambda1 = 0.19016 
+r       = 0.14274 
+s       = 0.55036 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80876 
+Lambda1 = 0.19124 
+r       = 0.14522 
+s       = 0.54778 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81115 
+Lambda1 = 0.18885 
+r       = 0.14507 
+s       = 0.5801 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81345 
+Lambda1 = 0.18655 
+r       = 0.14305 
+s       = 0.60695 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80867 
+Lambda1 = 0.19133 
+r       = 0.14578 
+s       = 0.58899 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80753 
+Lambda1 = 0.19247 
+r       = 0.14469 
+s       = 0.57674 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81062 
+Lambda1 = 0.18938 
+r       = 0.14305 
+s       = 0.57744 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80417 
+Lambda1 = 0.19583 
+r       = 0.14554 
+s       = 0.53986 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81043 
+Lambda1 = 0.18957 
+r       = 0.14494 
+s       = 0.62618 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81184 
+Lambda1 = 0.18816 
+r       = 0.14162 
+s       = 0.55311 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80085 
+Lambda1 = 0.19915 
+r       = 0.14819 
+s       = 0.5615 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80815 
+Lambda1 = 0.19185 
+r       = 0.14748 
+s       = 0.58561 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80797 
+Lambda1 = 0.19203 
+r       = 0.14222 
+s       = 0.53817 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80969 
+Lambda1 = 0.19031 
+r       = 0.14366 
+s       = 0.60476 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80565 
+Lambda1 = 0.19435 
+r       = 0.14478 
+s       = 0.5667 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80253 
+Lambda1 = 0.19747 
+r       = 0.15062 
+s       = 0.58223 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8083 
+Lambda1 = 0.1917 
+r       = 0.14301 
+s       = 0.53378 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81196 
+Lambda1 = 0.18804 
+r       = 0.14138 
+s       = 0.57941 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81174 
+Lambda1 = 0.18826 
+r       = 0.14366 
+s       = 0.58684 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81018 
+Lambda1 = 0.18982 
+r       = 0.14704 
+s       = 0.55669 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81118 
+Lambda1 = 0.18882 
+r       = 0.1449 
+s       = 0.58348 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81292 
+Lambda1 = 0.18708 
+r       = 0.14495 
+s       = 0.5878 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80643 
+Lambda1 = 0.19357 
+r       = 0.14337 
+s       = 0.50034 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81515 
+Lambda1 = 0.18485 
+r       = 0.14513 
+s       = 0.63642 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80995 
+Lambda1 = 0.19005 
+r       = 0.14331 
+s       = 0.5652 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81526 
+Lambda1 = 0.18474 
+r       = 0.14227 
+s       = 0.62008 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80672 
+Lambda1 = 0.19328 
+r       = 0.14516 
+s       = 0.57845 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.79994 
+Lambda1 = 0.20006 
+r       = 0.1442 
+s       = 0.5099 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.808 
+Lambda1 = 0.192 
+r       = 0.14449 
+s       = 0.5595 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81295 
+Lambda1 = 0.18705 
+r       = 0.14336 
+s       = 0.57993 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80779 
+Lambda1 = 0.19221 
+r       = 0.14442 
+s       = 0.55318 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80972 
+Lambda1 = 0.19028 
+r       = 0.14483 
+s       = 0.57066 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80649 
+Lambda1 = 0.19351 
+r       = 0.14673 
+s       = 0.56184 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81155 
+Lambda1 = 0.18845 
+r       = 0.14297 
+s       = 0.57289 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80491 
+Lambda1 = 0.19509 
+r       = 0.14731 
+s       = 0.54775 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80889 
+Lambda1 = 0.19111 
+r       = 0.14418 
+s       = 0.57978 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81677 
+Lambda1 = 0.18323 
+r       = 0.14422 
+s       = 0.6054 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80619 
+Lambda1 = 0.19381 
+r       = 0.14288 
+s       = 0.553 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80392 
+Lambda1 = 0.19608 
+r       = 0.14486 
+s       = 0.54599 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80554 
+Lambda1 = 0.19446 
+r       = 0.14671 
+s       = 0.55931 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.79922 
+Lambda1 = 0.20078 
+r       = 0.14955 
+s       = 0.55207 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80586 
+Lambda1 = 0.19414 
+r       = 0.14698 
+s       = 0.53107 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80384 
+Lambda1 = 0.19616 
+r       = 0.14483 
+s       = 0.54115 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80705 
+Lambda1 = 0.19295 
+r       = 0.14652 
+s       = 0.53629 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81026 
+Lambda1 = 0.18974 
+r       = 0.14307 
+s       = 0.53635 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.79754 
+Lambda1 = 0.20246 
+r       = 0.15123 
+s       = 0.51533 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81159 
+Lambda1 = 0.18841 
+r       = 0.14479 
+s       = 0.64921 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81026 
+Lambda1 = 0.18974 
+r       = 0.14345 
+s       = 0.5588 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80613 
+Lambda1 = 0.19387 
+r       = 0.14614 
+s       = 0.56369 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80316 
+Lambda1 = 0.19684 
+r       = 0.15187 
+s       = 0.56382 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81185 
+Lambda1 = 0.18815 
+r       = 0.14347 
+s       = 0.58991 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80286 
+Lambda1 = 0.19714 
+r       = 0.14488 
+s       = 0.51591 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8052 
+Lambda1 = 0.1948 
+r       = 0.14901 
+s       = 0.59187 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80977 
+Lambda1 = 0.19023 
+r       = 0.14861 
+s       = 0.60829 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.809 
+Lambda1 = 0.191 
+r       = 0.14857 
+s       = 0.58948 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81347 
+Lambda1 = 0.18653 
+r       = 0.14205 
+s       = 0.59534 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81084 
+Lambda1 = 0.18916 
+r       = 0.14274 
+s       = 0.57613 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80003 
+Lambda1 = 0.19997 
+r       = 0.147 
+s       = 0.5522 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81213 
+Lambda1 = 0.18787 
+r       = 0.14585 
+s       = 0.57831 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81147 
+Lambda1 = 0.18853 
+r       = 0.14384 
+s       = 0.56662 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81818 
+Lambda1 = 0.18182 
+r       = 0.13954 
+s       = 0.58385 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80697 
+Lambda1 = 0.19303 
+r       = 0.14626 
+s       = 0.56204 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80857 
+Lambda1 = 0.19143 
+r       = 0.14406 
+s       = 0.54979 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80269 
+Lambda1 = 0.19731 
+r       = 0.14806 
+s       = 0.52863 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81033 
+Lambda1 = 0.18967 
+r       = 0.14851 
+s       = 0.58803 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80649 
+Lambda1 = 0.19351 
+r       = 0.14446 
+s       = 0.5348 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80416 
+Lambda1 = 0.19584 
+r       = 0.14438 
+s       = 0.51368 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80994 
+Lambda1 = 0.19006 
+r       = 0.14793 
+s       = 0.63301 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80587 
+Lambda1 = 0.19413 
+r       = 0.14688 
+s       = 0.55118 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80763 
+Lambda1 = 0.19237 
+r       = 0.14264 
+s       = 0.55501 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81607 
+Lambda1 = 0.18393 
+r       = 0.14196 
+s       = 0.61774 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80459 
+Lambda1 = 0.19541 
+r       = 0.14635 
+s       = 0.54593 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81191 
+Lambda1 = 0.18809 
+r       = 0.14407 
+s       = 0.59966 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81533 
+Lambda1 = 0.18467 
+r       = 0.14217 
+s       = 0.57807 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81461 
+Lambda1 = 0.18539 
+r       = 0.1461 
+s       = 0.64002 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80548 
+Lambda1 = 0.19452 
+r       = 0.14394 
+s       = 0.55463 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81086 
+Lambda1 = 0.18914 
+r       = 0.14069 
+s       = 0.55803 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80797 
+Lambda1 = 0.19203 
+r       = 0.14706 
+s       = 0.59799 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80169 
+Lambda1 = 0.19831 
+r       = 0.15011 
+s       = 0.55286 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80942 
+Lambda1 = 0.19058 
+r       = 0.14546 
+s       = 0.56851 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80996 
+Lambda1 = 0.19004 
+r       = 0.14492 
+s       = 0.57218 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80802 
+Lambda1 = 0.19198 
+r       = 0.14613 
+s       = 0.57855 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80508 
+Lambda1 = 0.19492 
+r       = 0.14659 
+s       = 0.55652 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81329 
+Lambda1 = 0.18671 
+r       = 0.12745 
+s       = 0.53408 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82193 
+Lambda1 = 0.17807 
+r       = 0.12907 
+s       = 0.61899 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81491 
+Lambda1 = 0.18509 
+r       = 0.12942 
+s       = 0.52403 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82152 
+Lambda1 = 0.17848 
+r       = 0.13119 
+s       = 0.61323 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81563 
+Lambda1 = 0.18437 
+r       = 0.12759 
+s       = 0.52822 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81414 
+Lambda1 = 0.18586 
+r       = 0.1294 
+s       = 0.54664 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82136 
+Lambda1 = 0.17864 
+r       = 0.13003 
+s       = 0.60802 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81154 
+Lambda1 = 0.18846 
+r       = 0.13198 
+s       = 0.54642 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81969 
+Lambda1 = 0.18031 
+r       = 0.12646 
+s       = 0.58146 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81762 
+Lambda1 = 0.18238 
+r       = 0.12606 
+s       = 0.56215 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81735 
+Lambda1 = 0.18265 
+r       = 0.13132 
+s       = 0.55417 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81099 
+Lambda1 = 0.18901 
+r       = 0.12976 
+s       = 0.51632 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82172 
+Lambda1 = 0.17828 
+r       = 0.12523 
+s       = 0.55086 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82596 
+Lambda1 = 0.17404 
+r       = 0.12484 
+s       = 0.60312 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81686 
+Lambda1 = 0.18314 
+r       = 0.12954 
+s       = 0.5592 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82105 
+Lambda1 = 0.17895 
+r       = 0.12719 
+s       = 0.5604 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81661 
+Lambda1 = 0.18339 
+r       = 0.12925 
+s       = 0.53733 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82006 
+Lambda1 = 0.17994 
+r       = 0.12851 
+s       = 0.5575 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81953 
+Lambda1 = 0.18047 
+r       = 0.12667 
+s       = 0.58549 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81036 
+Lambda1 = 0.18964 
+r       = 0.13019 
+s       = 0.50372 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8141 
+Lambda1 = 0.1859 
+r       = 0.1289 
+s       = 0.53374 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82133 
+Lambda1 = 0.17867 
+r       = 0.12822 
+s       = 0.56952 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82303 
+Lambda1 = 0.17697 
+r       = 0.12918 
+s       = 0.62754 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81584 
+Lambda1 = 0.18416 
+r       = 0.12852 
+s       = 0.56123 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82135 
+Lambda1 = 0.17865 
+r       = 0.12878 
+s       = 0.61164 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81585 
+Lambda1 = 0.18415 
+r       = 0.12591 
+s       = 0.48481 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81737 
+Lambda1 = 0.18263 
+r       = 0.12701 
+s       = 0.55205 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82158 
+Lambda1 = 0.17842 
+r       = 0.12794 
+s       = 0.58806 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8248 
+Lambda1 = 0.1752 
+r       = 0.12543 
+s       = 0.62378 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82132 
+Lambda1 = 0.17868 
+r       = 0.12732 
+s       = 0.56909 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81556 
+Lambda1 = 0.18444 
+r       = 0.1311 
+s       = 0.59174 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82323 
+Lambda1 = 0.17677 
+r       = 0.12807 
+s       = 0.61897 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.828 
+Lambda1 = 0.172 
+r       = 0.13002 
+s       = 0.67616 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82084 
+Lambda1 = 0.17916 
+r       = 0.13229 
+s       = 0.62015 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80928 
+Lambda1 = 0.19072 
+r       = 0.13144 
+s       = 0.53773 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81904 
+Lambda1 = 0.18096 
+r       = 0.12757 
+s       = 0.54912 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81409 
+Lambda1 = 0.18591 
+r       = 0.12946 
+s       = 0.54984 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82725 
+Lambda1 = 0.17275 
+r       = 0.12786 
+s       = 0.62673 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8168 
+Lambda1 = 0.1832 
+r       = 0.12545 
+s       = 0.54765 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82029 
+Lambda1 = 0.17971 
+r       = 0.12982 
+s       = 0.5594 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82172 
+Lambda1 = 0.17828 
+r       = 0.1281 
+s       = 0.56888 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82642 
+Lambda1 = 0.17358 
+r       = 0.12686 
+s       = 0.60739 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82575 
+Lambda1 = 0.17425 
+r       = 0.12476 
+s       = 0.58251 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82463 
+Lambda1 = 0.17537 
+r       = 0.12827 
+s       = 0.62567 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81632 
+Lambda1 = 0.18368 
+r       = 0.12748 
+s       = 0.5598 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82367 
+Lambda1 = 0.17633 
+r       = 0.12827 
+s       = 0.57724 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82028 
+Lambda1 = 0.17972 
+r       = 0.13269 
+s       = 0.5896 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.813 
+Lambda1 = 0.187 
+r       = 0.13248 
+s       = 0.54522 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82329 
+Lambda1 = 0.17671 
+r       = 0.1263 
+s       = 0.58322 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82727 
+Lambda1 = 0.17273 
+r       = 0.12519 
+s       = 0.6071 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81791 
+Lambda1 = 0.18209 
+r       = 0.13142 
+s       = 0.5762 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8192 
+Lambda1 = 0.1808 
+r       = 0.13154 
+s       = 0.6253 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82288 
+Lambda1 = 0.17712 
+r       = 0.12629 
+s       = 0.57933 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80797 
+Lambda1 = 0.19203 
+r       = 0.13215 
+s       = 0.52874 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81667 
+Lambda1 = 0.18333 
+r       = 0.12936 
+s       = 0.60797 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81718 
+Lambda1 = 0.18282 
+r       = 0.12914 
+s       = 0.53311 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81285 
+Lambda1 = 0.18715 
+r       = 0.12885 
+s       = 0.52687 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82226 
+Lambda1 = 0.17774 
+r       = 0.12509 
+s       = 0.59668 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81853 
+Lambda1 = 0.18147 
+r       = 0.1267 
+s       = 0.56304 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81682 
+Lambda1 = 0.18318 
+r       = 0.12914 
+s       = 0.55819 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80969 
+Lambda1 = 0.19031 
+r       = 0.12833 
+s       = 0.49691 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81568 
+Lambda1 = 0.18432 
+r       = 0.13095 
+s       = 0.57752 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82009 
+Lambda1 = 0.17991 
+r       = 0.12918 
+s       = 0.55513 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81778 
+Lambda1 = 0.18222 
+r       = 0.13204 
+s       = 0.60547 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81988 
+Lambda1 = 0.18012 
+r       = 0.12629 
+s       = 0.5587 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81962 
+Lambda1 = 0.18038 
+r       = 0.12882 
+s       = 0.56603 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82207 
+Lambda1 = 0.17793 
+r       = 0.12641 
+s       = 0.62731 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82048 
+Lambda1 = 0.17952 
+r       = 0.12543 
+s       = 0.5347 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81105 
+Lambda1 = 0.18895 
+r       = 0.12982 
+s       = 0.51117 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81781 
+Lambda1 = 0.18219 
+r       = 0.1263 
+s       = 0.51503 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82235 
+Lambda1 = 0.17765 
+r       = 0.12834 
+s       = 0.61661 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82057 
+Lambda1 = 0.17943 
+r       = 0.12878 
+s       = 0.58701 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81769 
+Lambda1 = 0.18231 
+r       = 0.13059 
+s       = 0.59997 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81949 
+Lambda1 = 0.18051 
+r       = 0.12759 
+s       = 0.58612 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81426 
+Lambda1 = 0.18574 
+r       = 0.13167 
+s       = 0.55554 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81928 
+Lambda1 = 0.18072 
+r       = 0.12668 
+s       = 0.54559 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82542 
+Lambda1 = 0.17458 
+r       = 0.12805 
+s       = 0.63646 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81381 
+Lambda1 = 0.18619 
+r       = 0.13213 
+s       = 0.55373 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82115 
+Lambda1 = 0.17885 
+r       = 0.12844 
+s       = 0.60422 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8178 
+Lambda1 = 0.1822 
+r       = 0.12932 
+s       = 0.5579 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82377 
+Lambda1 = 0.17623 
+r       = 0.1263 
+s       = 0.59898 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82178 
+Lambda1 = 0.17822 
+r       = 0.1283 
+s       = 0.57292 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81277 
+Lambda1 = 0.18723 
+r       = 0.13227 
+s       = 0.56853 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81925 
+Lambda1 = 0.18075 
+r       = 0.12724 
+s       = 0.56377 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81723 
+Lambda1 = 0.18277 
+r       = 0.12996 
+s       = 0.52703 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81786 
+Lambda1 = 0.18214 
+r       = 0.12741 
+s       = 0.56621 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81851 
+Lambda1 = 0.18149 
+r       = 0.12941 
+s       = 0.55219 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81718 
+Lambda1 = 0.18282 
+r       = 0.12727 
+s       = 0.55498 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82017 
+Lambda1 = 0.17983 
+r       = 0.13011 
+s       = 0.57044 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81716 
+Lambda1 = 0.18284 
+r       = 0.12976 
+s       = 0.56858 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81698 
+Lambda1 = 0.18302 
+r       = 0.12642 
+s       = 0.5485 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81702 
+Lambda1 = 0.18298 
+r       = 0.12777 
+s       = 0.52898 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81926 
+Lambda1 = 0.18074 
+r       = 0.12629 
+s       = 0.5576 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81637 
+Lambda1 = 0.18363 
+r       = 0.13162 
+s       = 0.54751 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81762 
+Lambda1 = 0.18238 
+r       = 0.12879 
+s       = 0.56359 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82247 
+Lambda1 = 0.17753 
+r       = 0.12584 
+s       = 0.57168 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80973 
+Lambda1 = 0.19027 
+r       = 0.13081 
+s       = 0.52439 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81659 
+Lambda1 = 0.18341 
+r       = 0.13108 
+s       = 0.55982 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81596 
+Lambda1 = 0.18404 
+r       = 0.12966 
+s       = 0.55858 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8206 
+Lambda1 = 0.1794 
+r       = 0.12777 
+s       = 0.57289 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81524 
+Lambda1 = 0.18476 
+r       = 0.12874 
+s       = 0.561 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81575 
+Lambda1 = 0.18425 
+r       = 0.12716 
+s       = 0.55289 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8203 
+Lambda1 = 0.1797 
+r       = 0.12837 
+s       = 0.56635 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8203 
+Lambda1 = 0.1797 
+r       = 0.12711 
+s       = 0.5901 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81393 
+Lambda1 = 0.18607 
+r       = 0.12721 
+s       = 0.53942 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81979 
+Lambda1 = 0.18021 
+r       = 0.12571 
+s       = 0.56325 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82109 
+Lambda1 = 0.17891 
+r       = 0.13076 
+s       = 0.60664 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81694 
+Lambda1 = 0.18306 
+r       = 0.12863 
+s       = 0.57264 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81879 
+Lambda1 = 0.18121 
+r       = 0.12693 
+s       = 0.55414 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81622 
+Lambda1 = 0.18378 
+r       = 0.13088 
+s       = 0.57651 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81617 
+Lambda1 = 0.18383 
+r       = 0.12853 
+s       = 0.55979 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82146 
+Lambda1 = 0.17854 
+r       = 0.12965 
+s       = 0.56986 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81356 
+Lambda1 = 0.18644 
+r       = 0.13297 
+s       = 0.59495 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82394 
+Lambda1 = 0.17606 
+r       = 0.12888 
+s       = 0.62462 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81945 
+Lambda1 = 0.18055 
+r       = 0.13005 
+s       = 0.57301 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81959 
+Lambda1 = 0.18041 
+r       = 0.13268 
+s       = 0.61848 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82597 
+Lambda1 = 0.17403 
+r       = 0.12736 
+s       = 0.60663 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81382 
+Lambda1 = 0.18618 
+r       = 0.13182 
+s       = 0.53465 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82699 
+Lambda1 = 0.17301 
+r       = 0.1281 
+s       = 0.64676 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82208 
+Lambda1 = 0.17792 
+r       = 0.12824 
+s       = 0.57701 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81521 
+Lambda1 = 0.18479 
+r       = 0.12904 
+s       = 0.54456 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81433 
+Lambda1 = 0.18567 
+r       = 0.1294 
+s       = 0.50481 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82135 
+Lambda1 = 0.17865 
+r       = 0.12901 
+s       = 0.57985 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81936 
+Lambda1 = 0.18064 
+r       = 0.12946 
+s       = 0.55311 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82506 
+Lambda1 = 0.17494 
+r       = 0.12706 
+s       = 0.60148 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81884 
+Lambda1 = 0.18116 
+r       = 0.12955 
+s       = 0.59612 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80933 
+Lambda1 = 0.19067 
+r       = 0.13376 
+s       = 0.52883 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82187 
+Lambda1 = 0.17813 
+r       = 0.13034 
+s       = 0.63403 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81843 
+Lambda1 = 0.18157 
+r       = 0.1278 
+s       = 0.55483 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81753 
+Lambda1 = 0.18247 
+r       = 0.13096 
+s       = 0.55929 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81774 
+Lambda1 = 0.18226 
+r       = 0.13053 
+s       = 0.55374 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81959 
+Lambda1 = 0.18041 
+r       = 0.13009 
+s       = 0.56963 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81505 
+Lambda1 = 0.18495 
+r       = 0.12917 
+s       = 0.50949 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82011 
+Lambda1 = 0.17989 
+r       = 0.12808 
+s       = 0.60312 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81908 
+Lambda1 = 0.18092 
+r       = 0.12721 
+s       = 0.54078 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81483 
+Lambda1 = 0.18517 
+r       = 0.13292 
+s       = 0.56531 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82131 
+Lambda1 = 0.17869 
+r       = 0.12913 
+s       = 0.568 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8229 
+Lambda1 = 0.1771 
+r       = 0.12746 
+s       = 0.62296 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81337 
+Lambda1 = 0.18663 
+r       = 0.13396 
+s       = 0.55277 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81423 
+Lambda1 = 0.18577 
+r       = 0.12895 
+s       = 0.51167 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81488 
+Lambda1 = 0.18512 
+r       = 0.13063 
+s       = 0.52326 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81875 
+Lambda1 = 0.18125 
+r       = 0.1278 
+s       = 0.57799 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81342 
+Lambda1 = 0.18658 
+r       = 0.13097 
+s       = 0.54486 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82255 
+Lambda1 = 0.17745 
+r       = 0.12793 
+s       = 0.60918 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81724 
+Lambda1 = 0.18276 
+r       = 0.13008 
+s       = 0.57188 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81691 
+Lambda1 = 0.18309 
+r       = 0.13061 
+s       = 0.58344 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82188 
+Lambda1 = 0.17812 
+r       = 0.12416 
+s       = 0.54019 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.812 
+Lambda1 = 0.188 
+r       = 0.1305 
+s       = 0.53111 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82136 
+Lambda1 = 0.17864 
+r       = 0.12541 
+s       = 0.57887 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82602 
+Lambda1 = 0.17398 
+r       = 0.12604 
+s       = 0.59424 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81794 
+Lambda1 = 0.18206 
+r       = 0.12808 
+s       = 0.53695 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82139 
+Lambda1 = 0.17861 
+r       = 0.129 
+s       = 0.58402 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8166 
+Lambda1 = 0.1834 
+r       = 0.13267 
+s       = 0.56641 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82667 
+Lambda1 = 0.17333 
+r       = 0.12372 
+s       = 0.62636 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81718 
+Lambda1 = 0.18282 
+r       = 0.12798 
+s       = 0.55591 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81615 
+Lambda1 = 0.18385 
+r       = 0.13011 
+s       = 0.57958 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8186 
+Lambda1 = 0.1814 
+r       = 0.12646 
+s       = 0.57786 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81573 
+Lambda1 = 0.18427 
+r       = 0.12877 
+s       = 0.549 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.819 
+Lambda1 = 0.181 
+r       = 0.1257 
+s       = 0.57626 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8213 
+Lambda1 = 0.1787 
+r       = 0.12943 
+s       = 0.5953 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81469 
+Lambda1 = 0.18531 
+r       = 0.1298 
+s       = 0.54184 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8164 
+Lambda1 = 0.1836 
+r       = 0.12705 
+s       = 0.54105 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82156 
+Lambda1 = 0.17844 
+r       = 0.12867 
+s       = 0.57629 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81523 
+Lambda1 = 0.18477 
+r       = 0.12896 
+s       = 0.51838 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8169 
+Lambda1 = 0.1831 
+r       = 0.12866 
+s       = 0.56601 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82491 
+Lambda1 = 0.17509 
+r       = 0.12605 
+s       = 0.58925 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82331 
+Lambda1 = 0.17669 
+r       = 0.12812 
+s       = 0.61989 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82156 
+Lambda1 = 0.17844 
+r       = 0.12961 
+s       = 0.60894 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81722 
+Lambda1 = 0.18278 
+r       = 0.12946 
+s       = 0.55142 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8266 
+Lambda1 = 0.1734 
+r       = 0.12856 
+s       = 0.6266 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81359 
+Lambda1 = 0.18641 
+r       = 0.13222 
+s       = 0.55814 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81917 
+Lambda1 = 0.18083 
+r       = 0.12802 
+s       = 0.58217 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81362 
+Lambda1 = 0.18638 
+r       = 0.13331 
+s       = 0.55949 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81069 
+Lambda1 = 0.18931 
+r       = 0.1315 
+s       = 0.53324 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8197 
+Lambda1 = 0.1803 
+r       = 0.13127 
+s       = 0.56343 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81506 
+Lambda1 = 0.18494 
+r       = 0.13128 
+s       = 0.55548 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82464 
+Lambda1 = 0.17536 
+r       = 0.12542 
+s       = 0.57225 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82509 
+Lambda1 = 0.17491 
+r       = 0.13004 
+s       = 0.66758 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81652 
+Lambda1 = 0.18348 
+r       = 0.1307 
+s       = 0.54658 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82044 
+Lambda1 = 0.17956 
+r       = 0.12784 
+s       = 0.58126 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81915 
+Lambda1 = 0.18085 
+r       = 0.12766 
+s       = 0.56366 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81266 
+Lambda1 = 0.18734 
+r       = 0.12845 
+s       = 0.51093 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8153 
+Lambda1 = 0.1847 
+r       = 0.12625 
+s       = 0.50098 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82278 
+Lambda1 = 0.17722 
+r       = 0.1279 
+s       = 0.61869 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81986 
+Lambda1 = 0.18014 
+r       = 0.12873 
+s       = 0.55671 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81564 
+Lambda1 = 0.18436 
+r       = 0.12713 
+s       = 0.51503 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81457 
+Lambda1 = 0.18543 
+r       = 0.13152 
+s       = 0.56518 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81519 
+Lambda1 = 0.18481 
+r       = 0.13082 
+s       = 0.56069 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82611 
+Lambda1 = 0.17389 
+r       = 0.12993 
+s       = 0.66612 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81128 
+Lambda1 = 0.18872 
+r       = 0.13101 
+s       = 0.49898 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8137 
+Lambda1 = 0.1863 
+r       = 0.13321 
+s       = 0.58775 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82224 
+Lambda1 = 0.17776 
+r       = 0.12471 
+s       = 0.57943 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82084 
+Lambda1 = 0.17916 
+r       = 0.12943 
+s       = 0.55161 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8133 
+Lambda1 = 0.1867 
+r       = 0.12874 
+s       = 0.49368 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82558 
+Lambda1 = 0.17442 
+r       = 0.12889 
+s       = 0.67194 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82071 
+Lambda1 = 0.17929 
+r       = 0.13052 
+s       = 0.60004 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81921 
+Lambda1 = 0.18079 
+r       = 0.12769 
+s       = 0.58118 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81653 
+Lambda1 = 0.18347 
+r       = 0.13001 
+s       = 0.58839 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82739 
+Lambda1 = 0.17261 
+r       = 0.12692 
+s       = 0.60823 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81551 
+Lambda1 = 0.18449 
+r       = 0.12959 
+s       = 0.52782 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81523 
+Lambda1 = 0.18477 
+r       = 0.12425 
+s       = 0.49003 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81667 
+Lambda1 = 0.18333 
+r       = 0.13163 
+s       = 0.56971 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81918 
+Lambda1 = 0.18082 
+r       = 0.12947 
+s       = 0.64795 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81156 
+Lambda1 = 0.18844 
+r       = 0.12994 
+s       = 0.51161 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81133 
+Lambda1 = 0.18867 
+r       = 0.13287 
+s       = 0.56032 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81778 
+Lambda1 = 0.18222 
+r       = 0.12573 
+s       = 0.54562 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81799 
+Lambda1 = 0.18201 
+r       = 0.12626 
+s       = 0.54623 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81454 
+Lambda1 = 0.18546 
+r       = 0.12868 
+s       = 0.53029 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81324 
+Lambda1 = 0.18676 
+r       = 0.12792 
+s       = 0.52472 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81884 
+Lambda1 = 0.18116 
+r       = 0.12983 
+s       = 0.59333 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8166 
+Lambda1 = 0.1834 
+r       = 0.12597 
+s       = 0.54371 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81491 
+Lambda1 = 0.18509 
+r       = 0.12913 
+s       = 0.55893 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82099 
+Lambda1 = 0.17901 
+r       = 0.13122 
+s       = 0.6231 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81678 
+Lambda1 = 0.18322 
+r       = 0.12469 
+s       = 0.53795 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81547 
+Lambda1 = 0.18453 
+r       = 0.12479 
+s       = 0.49487 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82452 
+Lambda1 = 0.17548 
+r       = 0.12787 
+s       = 0.60469 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81934 
+Lambda1 = 0.18066 
+r       = 0.13039 
+s       = 0.57182 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82392 
+Lambda1 = 0.17608 
+r       = 0.12728 
+s       = 0.57806 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81553 
+Lambda1 = 0.18447 
+r       = 0.12652 
+s       = 0.51197 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81767 
+Lambda1 = 0.18233 
+r       = 0.12955 
+s       = 0.58686 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81558 
+Lambda1 = 0.18442 
+r       = 0.12804 
+s       = 0.53714 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82133 
+Lambda1 = 0.17867 
+r       = 0.12432 
+s       = 0.55101 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82378 
+Lambda1 = 0.17622 
+r       = 0.1267 
+s       = 0.60909 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8224 
+Lambda1 = 0.1776 
+r       = 0.12809 
+s       = 0.5836 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82396 
+Lambda1 = 0.17604 
+r       = 0.1265 
+s       = 0.57549 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81971 
+Lambda1 = 0.18029 
+r       = 0.12775 
+s       = 0.58657 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81927 
+Lambda1 = 0.18073 
+r       = 0.12856 
+s       = 0.55732 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81684 
+Lambda1 = 0.18316 
+r       = 0.12791 
+s       = 0.56642 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81561 
+Lambda1 = 0.18439 
+r       = 0.12871 
+s       = 0.54531 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81935 
+Lambda1 = 0.18065 
+r       = 0.13049 
+s       = 0.62499 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82116 
+Lambda1 = 0.17884 
+r       = 0.1268 
+s       = 0.61007 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82001 
+Lambda1 = 0.17999 
+r       = 0.12823 
+s       = 0.56978 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81767 
+Lambda1 = 0.18233 
+r       = 0.1326 
+s       = 0.60848 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82343 
+Lambda1 = 0.17657 
+r       = 0.12768 
+s       = 0.58751 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81559 
+Lambda1 = 0.18441 
+r       = 0.12846 
+s       = 0.52239 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81541 
+Lambda1 = 0.18459 
+r       = 0.13001 
+s       = 0.54964 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82174 
+Lambda1 = 0.17826 
+r       = 0.12607 
+s       = 0.53759 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81213 
+Lambda1 = 0.18787 
+r       = 0.13088 
+s       = 0.564 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81999 
+Lambda1 = 0.18001 
+r       = 0.12832 
+s       = 0.5735 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81585 
+Lambda1 = 0.18415 
+r       = 0.13028 
+s       = 0.57212 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82192 
+Lambda1 = 0.17808 
+r       = 0.12421 
+s       = 0.56418 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81863 
+Lambda1 = 0.18137 
+r       = 0.12772 
+s       = 0.58164 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81102 
+Lambda1 = 0.18898 
+r       = 0.12902 
+s       = 0.51935 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81403 
+Lambda1 = 0.18597 
+r       = 0.12961 
+s       = 0.55199 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80865 
+Lambda1 = 0.19135 
+r       = 0.13102 
+s       = 0.51381 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81649 
+Lambda1 = 0.18351 
+r       = 0.13051 
+s       = 0.57869 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81713 
+Lambda1 = 0.18287 
+r       = 0.12861 
+s       = 0.57747 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81653 
+Lambda1 = 0.18347 
+r       = 0.12941 
+s       = 0.59862 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81806 
+Lambda1 = 0.18194 
+r       = 0.12757 
+s       = 0.55786 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81065 
+Lambda1 = 0.18935 
+r       = 0.13023 
+s       = 0.53487 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81602 
+Lambda1 = 0.18398 
+r       = 0.12628 
+s       = 0.52495 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8224 
+Lambda1 = 0.1776 
+r       = 0.12808 
+s       = 0.58933 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80722 
+Lambda1 = 0.19278 
+r       = 0.13146 
+s       = 0.51465 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81624 
+Lambda1 = 0.18376 
+r       = 0.13075 
+s       = 0.58818 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82439 
+Lambda1 = 0.17561 
+r       = 0.12527 
+s       = 0.60558 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.818 
+Lambda1 = 0.182 
+r       = 0.12926 
+s       = 0.58112 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81692 
+Lambda1 = 0.18308 
+r       = 0.13054 
+s       = 0.55302 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8125 
+Lambda1 = 0.1875 
+r       = 0.12996 
+s       = 0.56821 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81437 
+Lambda1 = 0.18563 
+r       = 0.13066 
+s       = 0.552 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81102 
+Lambda1 = 0.18898 
+r       = 0.12969 
+s       = 0.5373 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82051 
+Lambda1 = 0.17949 
+r       = 0.12755 
+s       = 0.56788 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82134 
+Lambda1 = 0.17866 
+r       = 0.12608 
+s       = 0.57864 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8191 
+Lambda1 = 0.1809 
+r       = 0.12721 
+s       = 0.57396 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82345 
+Lambda1 = 0.17655 
+r       = 0.12932 
+s       = 0.58691 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82054 
+Lambda1 = 0.17946 
+r       = 0.12794 
+s       = 0.58678 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81625 
+Lambda1 = 0.18375 
+r       = 0.1292 
+s       = 0.57916 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81953 
+Lambda1 = 0.18047 
+r       = 0.12823 
+s       = 0.55459 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81817 
+Lambda1 = 0.18183 
+r       = 0.12843 
+s       = 0.54024 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81714 
+Lambda1 = 0.18286 
+r       = 0.13047 
+s       = 0.59533 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82112 
+Lambda1 = 0.17888 
+r       = 0.12822 
+s       = 0.59205 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81803 
+Lambda1 = 0.18197 
+r       = 0.13181 
+s       = 0.5666 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82415 
+Lambda1 = 0.17585 
+r       = 0.12933 
+s       = 0.66321 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81352 
+Lambda1 = 0.18648 
+r       = 0.12802 
+s       = 0.50219 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81379 
+Lambda1 = 0.18621 
+r       = 0.1318 
+s       = 0.58816 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81928 
+Lambda1 = 0.18072 
+r       = 0.13091 
+s       = 0.58468 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8157 
+Lambda1 = 0.1843 
+r       = 0.13213 
+s       = 0.59878 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81985 
+Lambda1 = 0.18015 
+r       = 0.12646 
+s       = 0.55072 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81729 
+Lambda1 = 0.18271 
+r       = 0.13069 
+s       = 0.56662 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81871 
+Lambda1 = 0.18129 
+r       = 0.12876 
+s       = 0.55096 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81331 
+Lambda1 = 0.18669 
+r       = 0.12896 
+s       = 0.51824 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81596 
+Lambda1 = 0.18404 
+r       = 0.13034 
+s       = 0.52689 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81889 
+Lambda1 = 0.18111 
+r       = 0.13003 
+s       = 0.57657 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81163 
+Lambda1 = 0.18837 
+r       = 0.13147 
+s       = 0.52091 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81674 
+Lambda1 = 0.18326 
+r       = 0.13364 
+s       = 0.58174 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81679 
+Lambda1 = 0.18321 
+r       = 0.13045 
+s       = 0.58698 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81762 
+Lambda1 = 0.18238 
+r       = 0.13064 
+s       = 0.57859 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81319 
+Lambda1 = 0.18681 
+r       = 0.1294 
+s       = 0.55767 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82276 
+Lambda1 = 0.17724 
+r       = 0.12739 
+s       = 0.61475 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81482 
+Lambda1 = 0.18518 
+r       = 0.13077 
+s       = 0.57418 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81627 
+Lambda1 = 0.18373 
+r       = 0.1303 
+s       = 0.54831 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8189 
+Lambda1 = 0.1811 
+r       = 0.12572 
+s       = 0.54167 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81692 
+Lambda1 = 0.18308 
+r       = 0.13155 
+s       = 0.55409 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82322 
+Lambda1 = 0.17678 
+r       = 0.12646 
+s       = 0.56269 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81761 
+Lambda1 = 0.18239 
+r       = 0.12778 
+s       = 0.52775 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82121 
+Lambda1 = 0.17879 
+r       = 0.12786 
+s       = 0.58611 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81734 
+Lambda1 = 0.18266 
+r       = 0.1272 
+s       = 0.52873 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82082 
+Lambda1 = 0.17918 
+r       = 0.12853 
+s       = 0.58858 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81496 
+Lambda1 = 0.18504 
+r       = 0.12982 
+s       = 0.53507 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81547 
+Lambda1 = 0.18453 
+r       = 0.13119 
+s       = 0.56034 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81856 
+Lambda1 = 0.18144 
+r       = 0.12733 
+s       = 0.5402 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81668 
+Lambda1 = 0.18332 
+r       = 0.12808 
+s       = 0.58507 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81398 
+Lambda1 = 0.18602 
+r       = 0.12747 
+s       = 0.4902 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81404 
+Lambda1 = 0.18596 
+r       = 0.13076 
+s       = 0.52841 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8181 
+Lambda1 = 0.1819 
+r       = 0.12836 
+s       = 0.57382 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81742 
+Lambda1 = 0.18258 
+r       = 0.12778 
+s       = 0.54641 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82211 
+Lambda1 = 0.17789 
+r       = 0.12548 
+s       = 0.53382 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8229 
+Lambda1 = 0.1771 
+r       = 0.12505 
+s       = 0.5685 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82007 
+Lambda1 = 0.17993 
+r       = 0.12732 
+s       = 0.5709 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81602 
+Lambda1 = 0.18398 
+r       = 0.13098 
+s       = 0.55776 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81118 
+Lambda1 = 0.18882 
+r       = 0.13121 
+s       = 0.51496 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81766 
+Lambda1 = 0.18234 
+r       = 0.12878 
+s       = 0.52972 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82237 
+Lambda1 = 0.17763 
+r       = 0.12823 
+s       = 0.60197 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81268 
+Lambda1 = 0.18732 
+r       = 0.12999 
+s       = 0.55114 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82616 
+Lambda1 = 0.17384 
+r       = 0.12643 
+s       = 0.59987 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81994 
+Lambda1 = 0.18006 
+r       = 0.12821 
+s       = 0.59545 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81278 
+Lambda1 = 0.18722 
+r       = 0.1303 
+s       = 0.53578 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80894 
+Lambda1 = 0.19106 
+r       = 0.13171 
+s       = 0.50948 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81632 
+Lambda1 = 0.18368 
+r       = 0.1297 
+s       = 0.5414 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82403 
+Lambda1 = 0.17597 
+r       = 0.12994 
+s       = 0.62746 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81231 
+Lambda1 = 0.18769 
+r       = 0.13212 
+s       = 0.53818 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81701 
+Lambda1 = 0.18299 
+r       = 0.12739 
+s       = 0.57373 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82132 
+Lambda1 = 0.17868 
+r       = 0.12728 
+s       = 0.55368 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81666 
+Lambda1 = 0.18334 
+r       = 0.12856 
+s       = 0.54036 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81806 
+Lambda1 = 0.18194 
+r       = 0.13011 
+s       = 0.55354 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81944 
+Lambda1 = 0.18056 
+r       = 0.1288 
+s       = 0.6143 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81999 
+Lambda1 = 0.18001 
+r       = 0.12911 
+s       = 0.56531 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81561 
+Lambda1 = 0.18439 
+r       = 0.13051 
+s       = 0.52252 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81989 
+Lambda1 = 0.18011 
+r       = 0.12956 
+s       = 0.54345 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82562 
+Lambda1 = 0.17438 
+r       = 0.12714 
+s       = 0.62462 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81915 
+Lambda1 = 0.18085 
+r       = 0.13008 
+s       = 0.57809 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82149 
+Lambda1 = 0.17851 
+r       = 0.12929 
+s       = 0.59524 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81146 
+Lambda1 = 0.18854 
+r       = 0.13219 
+s       = 0.53585 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81792 
+Lambda1 = 0.18208 
+r       = 0.12857 
+s       = 0.54757 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82183 
+Lambda1 = 0.17817 
+r       = 0.12923 
+s       = 0.58038 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81717 
+Lambda1 = 0.18283 
+r       = 0.12781 
+s       = 0.55889 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.824 
+Lambda1 = 0.176 
+r       = 0.12788 
+s       = 0.60511 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81899 
+Lambda1 = 0.18101 
+r       = 0.12973 
+s       = 0.5859 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81934 
+Lambda1 = 0.18066 
+r       = 0.12734 
+s       = 0.58932 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81538 
+Lambda1 = 0.18462 
+r       = 0.13144 
+s       = 0.5751 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81894 
+Lambda1 = 0.18106 
+r       = 0.12605 
+s       = 0.58619 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82774 
+Lambda1 = 0.17226 
+r       = 0.12535 
+s       = 0.6028 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8203 
+Lambda1 = 0.1797 
+r       = 0.12688 
+s       = 0.57468 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81398 
+Lambda1 = 0.18602 
+r       = 0.13011 
+s       = 0.53353 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82585 
+Lambda1 = 0.17415 
+r       = 0.12771 
+s       = 0.58771 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81849 
+Lambda1 = 0.18151 
+r       = 0.12691 
+s       = 0.58091 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81896 
+Lambda1 = 0.18104 
+r       = 0.12824 
+s       = 0.55382 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81912 
+Lambda1 = 0.18088 
+r       = 0.12953 
+s       = 0.56512 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81994 
+Lambda1 = 0.18006 
+r       = 0.12895 
+s       = 0.57255 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81742 
+Lambda1 = 0.18258 
+r       = 0.13019 
+s       = 0.54905 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82068 
+Lambda1 = 0.17932 
+r       = 0.12858 
+s       = 0.56251 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81255 
+Lambda1 = 0.18745 
+r       = 0.12875 
+s       = 0.54188 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82076 
+Lambda1 = 0.17924 
+r       = 0.12834 
+s       = 0.57972 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81631 
+Lambda1 = 0.18369 
+r       = 0.12867 
+s       = 0.5613 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81912 
+Lambda1 = 0.18088 
+r       = 0.12829 
+s       = 0.57531 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81737 
+Lambda1 = 0.18263 
+r       = 0.12934 
+s       = 0.56631 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82163 
+Lambda1 = 0.17837 
+r       = 0.12501 
+s       = 0.57494 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82349 
+Lambda1 = 0.17651 
+r       = 0.12959 
+s       = 0.62842 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81752 
+Lambda1 = 0.18248 
+r       = 0.12899 
+s       = 0.55237 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82281 
+Lambda1 = 0.17719 
+r       = 0.12524 
+s       = 0.56852 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81008 
+Lambda1 = 0.18992 
+r       = 0.1313 
+s       = 0.54478 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81668 
+Lambda1 = 0.18332 
+r       = 0.12595 
+s       = 0.5481 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82038 
+Lambda1 = 0.17962 
+r       = 0.12633 
+s       = 0.53826 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81226 
+Lambda1 = 0.18774 
+r       = 0.13122 
+s       = 0.53692 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82266 
+Lambda1 = 0.17734 
+r       = 0.13099 
+s       = 0.63697 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81715 
+Lambda1 = 0.18285 
+r       = 0.12778 
+s       = 0.54338 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82095 
+Lambda1 = 0.17905 
+r       = 0.1309 
+s       = 0.61036 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81257 
+Lambda1 = 0.18743 
+r       = 0.13075 
+s       = 0.54876 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82186 
+Lambda1 = 0.17814 
+r       = 0.12605 
+s       = 0.58233 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81369 
+Lambda1 = 0.18631 
+r       = 0.13053 
+s       = 0.55385 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81694 
+Lambda1 = 0.18306 
+r       = 0.13074 
+s       = 0.57043 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82435 
+Lambda1 = 0.17565 
+r       = 0.12674 
+s       = 0.62946 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81537 
+Lambda1 = 0.18463 
+r       = 0.12832 
+s       = 0.5216 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82666 
+Lambda1 = 0.17334 
+r       = 0.13063 
+s       = 0.65225 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81557 
+Lambda1 = 0.18443 
+r       = 0.13044 
+s       = 0.53985 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82475 
+Lambda1 = 0.17525 
+r       = 0.12781 
+s       = 0.63031 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82308 
+Lambda1 = 0.17692 
+r       = 0.12902 
+s       = 0.60366 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82445 
+Lambda1 = 0.17555 
+r       = 0.12898 
+s       = 0.6177 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81847 
+Lambda1 = 0.18153 
+r       = 0.12847 
+s       = 0.54248 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81587 
+Lambda1 = 0.18413 
+r       = 0.13152 
+s       = 0.56577 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81684 
+Lambda1 = 0.18316 
+r       = 0.12961 
+s       = 0.57441 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.822 
+Lambda1 = 0.178 
+r       = 0.12796 
+s       = 0.58614 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81425 
+Lambda1 = 0.18575 
+r       = 0.12772 
+s       = 0.54434 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82447 
+Lambda1 = 0.17553 
+r       = 0.12859 
+s       = 0.59969 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81366 
+Lambda1 = 0.18634 
+r       = 0.13139 
+s       = 0.53528 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82137 
+Lambda1 = 0.17863 
+r       = 0.12826 
+s       = 0.61512 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81949 
+Lambda1 = 0.18051 
+r       = 0.12695 
+s       = 0.55774 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81493 
+Lambda1 = 0.18507 
+r       = 0.13015 
+s       = 0.5622 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82256 
+Lambda1 = 0.17744 
+r       = 0.12796 
+s       = 0.6066 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82225 
+Lambda1 = 0.17775 
+r       = 0.12749 
+s       = 0.57131 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82 
+Lambda1 = 0.18 
+r       = 0.12663 
+s       = 0.55412 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81791 
+Lambda1 = 0.18209 
+r       = 0.12896 
+s       = 0.60869 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82028 
+Lambda1 = 0.17972 
+r       = 0.12753 
+s       = 0.55254 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82029 
+Lambda1 = 0.17971 
+r       = 0.13052 
+s       = 0.58674 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82278 
+Lambda1 = 0.17722 
+r       = 0.12673 
+s       = 0.57927 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81687 
+Lambda1 = 0.18313 
+r       = 0.12715 
+s       = 0.56163 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81784 
+Lambda1 = 0.18216 
+r       = 0.12849 
+s       = 0.5704 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83282 
+Lambda1 = 0.16718 
+r       = 0.12562 
+s       = 0.67526 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81178 
+Lambda1 = 0.18822 
+r       = 0.13044 
+s       = 0.54253 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81561 
+Lambda1 = 0.18439 
+r       = 0.12965 
+s       = 0.55115 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81962 
+Lambda1 = 0.18038 
+r       = 0.12812 
+s       = 0.58796 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8147 
+Lambda1 = 0.1853 
+r       = 0.12928 
+s       = 0.52198 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81433 
+Lambda1 = 0.18567 
+r       = 0.12791 
+s       = 0.52071 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81576 
+Lambda1 = 0.18424 
+r       = 0.12673 
+s       = 0.54185 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81728 
+Lambda1 = 0.18272 
+r       = 0.12744 
+s       = 0.52038 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81391 
+Lambda1 = 0.18609 
+r       = 0.1287 
+s       = 0.55982 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82072 
+Lambda1 = 0.17928 
+r       = 0.12725 
+s       = 0.57217 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81993 
+Lambda1 = 0.18007 
+r       = 0.12777 
+s       = 0.55182 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81393 
+Lambda1 = 0.18607 
+r       = 0.13041 
+s       = 0.51971 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82498 
+Lambda1 = 0.17502 
+r       = 0.12578 
+s       = 0.59516 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8248 
+Lambda1 = 0.1752 
+r       = 0.12668 
+s       = 0.62344 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82024 
+Lambda1 = 0.17976 
+r       = 0.12965 
+s       = 0.60663 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82377 
+Lambda1 = 0.17623 
+r       = 0.12635 
+s       = 0.57305 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82152 
+Lambda1 = 0.17848 
+r       = 0.12771 
+s       = 0.5622 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81676 
+Lambda1 = 0.18324 
+r       = 0.12874 
+s       = 0.53274 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82035 
+Lambda1 = 0.17965 
+r       = 0.13041 
+s       = 0.57484 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81848 
+Lambda1 = 0.18152 
+r       = 0.12748 
+s       = 0.55697 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81519 
+Lambda1 = 0.18481 
+r       = 0.13145 
+s       = 0.54015 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81573 
+Lambda1 = 0.18427 
+r       = 0.12953 
+s       = 0.57111 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81457 
+Lambda1 = 0.18543 
+r       = 0.13088 
+s       = 0.51625 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81654 
+Lambda1 = 0.18346 
+r       = 0.13251 
+s       = 0.60829 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82509 
+Lambda1 = 0.17491 
+r       = 0.12618 
+s       = 0.59291 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82064 
+Lambda1 = 0.17936 
+r       = 0.12669 
+s       = 0.55532 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8223 
+Lambda1 = 0.1777 
+r       = 0.12707 
+s       = 0.55683 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82212 
+Lambda1 = 0.17788 
+r       = 0.12838 
+s       = 0.58244 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81878 
+Lambda1 = 0.18122 
+r       = 0.13046 
+s       = 0.58027 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81802 
+Lambda1 = 0.18198 
+r       = 0.1293 
+s       = 0.57273 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82724 
+Lambda1 = 0.17276 
+r       = 0.12275 
+s       = 0.57841 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81827 
+Lambda1 = 0.18173 
+r       = 0.12716 
+s       = 0.56274 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81256 
+Lambda1 = 0.18744 
+r       = 0.12938 
+s       = 0.48862 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81852 
+Lambda1 = 0.18148 
+r       = 0.13136 
+s       = 0.56776 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81967 
+Lambda1 = 0.18033 
+r       = 0.12929 
+s       = 0.6038 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82194 
+Lambda1 = 0.17806 
+r       = 0.12362 
+s       = 0.54433 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81154 
+Lambda1 = 0.18846 
+r       = 0.13218 
+s       = 0.53725 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81683 
+Lambda1 = 0.18317 
+r       = 0.12825 
+s       = 0.53461 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81894 
+Lambda1 = 0.18106 
+r       = 0.12882 
+s       = 0.54004 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81668 
+Lambda1 = 0.18332 
+r       = 0.12761 
+s       = 0.55762 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8237 
+Lambda1 = 0.1763 
+r       = 0.12794 
+s       = 0.60921 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81385 
+Lambda1 = 0.18615 
+r       = 0.13467 
+s       = 0.53701 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81789 
+Lambda1 = 0.18211 
+r       = 0.13111 
+s       = 0.56883 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8121 
+Lambda1 = 0.1879 
+r       = 0.12684 
+s       = 0.49594 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8212 
+Lambda1 = 0.1788 
+r       = 0.12501 
+s       = 0.55745 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8201 
+Lambda1 = 0.1799 
+r       = 0.13243 
+s       = 0.62314 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81774 
+Lambda1 = 0.18226 
+r       = 0.12704 
+s       = 0.55574 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82323 
+Lambda1 = 0.17677 
+r       = 0.12612 
+s       = 0.59791 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81747 
+Lambda1 = 0.18253 
+r       = 0.13086 
+s       = 0.55499 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83151 
+Lambda1 = 0.16849 
+r       = 0.12738 
+s       = 0.62661 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81088 
+Lambda1 = 0.18912 
+r       = 0.13115 
+s       = 0.53364 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82092 
+Lambda1 = 0.17908 
+r       = 0.12881 
+s       = 0.55667 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81489 
+Lambda1 = 0.18511 
+r       = 0.13067 
+s       = 0.58314 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82061 
+Lambda1 = 0.17939 
+r       = 0.12859 
+s       = 0.5658 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81767 
+Lambda1 = 0.18233 
+r       = 0.12882 
+s       = 0.53909 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82182 
+Lambda1 = 0.17818 
+r       = 0.12873 
+s       = 0.61728 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8161 
+Lambda1 = 0.1839 
+r       = 0.12762 
+s       = 0.53318 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82047 
+Lambda1 = 0.17953 
+r       = 0.12798 
+s       = 0.56953 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81821 
+Lambda1 = 0.18179 
+r       = 0.12886 
+s       = 0.54669 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81949 
+Lambda1 = 0.18051 
+r       = 0.12907 
+s       = 0.60735 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8102 
+Lambda1 = 0.1898 
+r       = 0.13039 
+s       = 0.53334 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82297 
+Lambda1 = 0.17703 
+r       = 0.12686 
+s       = 0.60177 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81682 
+Lambda1 = 0.18318 
+r       = 0.12872 
+s       = 0.58373 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81474 
+Lambda1 = 0.18526 
+r       = 0.12932 
+s       = 0.57194 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81619 
+Lambda1 = 0.18381 
+r       = 0.12834 
+s       = 0.55359 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82267 
+Lambda1 = 0.17733 
+r       = 0.12739 
+s       = 0.59233 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.816 
+Lambda1 = 0.184 
+r       = 0.13056 
+s       = 0.54817 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8165 
+Lambda1 = 0.1835 
+r       = 0.13045 
+s       = 0.58007 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81688 
+Lambda1 = 0.18312 
+r       = 0.12881 
+s       = 0.56286 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82236 
+Lambda1 = 0.17764 
+r       = 0.12689 
+s       = 0.58433 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81474 
+Lambda1 = 0.18526 
+r       = 0.12582 
+s       = 0.53273 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.819 
+Lambda1 = 0.181 
+r       = 0.12809 
+s       = 0.58109 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82609 
+Lambda1 = 0.17391 
+r       = 0.12829 
+s       = 0.6008 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82248 
+Lambda1 = 0.17752 
+r       = 0.12945 
+s       = 0.62469 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82161 
+Lambda1 = 0.17839 
+r       = 0.12998 
+s       = 0.58114 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81176 
+Lambda1 = 0.18824 
+r       = 0.13131 
+s       = 0.53555 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82173 
+Lambda1 = 0.17827 
+r       = 0.12834 
+s       = 0.57661 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80689 
+Lambda1 = 0.19311 
+r       = 0.13091 
+s       = 0.51369 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82424 
+Lambda1 = 0.17576 
+r       = 0.1286 
+s       = 0.65121 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81953 
+Lambda1 = 0.18047 
+r       = 0.12808 
+s       = 0.61461 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82008 
+Lambda1 = 0.17992 
+r       = 0.13134 
+s       = 0.60665 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82068 
+Lambda1 = 0.17932 
+r       = 0.12918 
+s       = 0.62078 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81626 
+Lambda1 = 0.18374 
+r       = 0.13024 
+s       = 0.57504 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81384 
+Lambda1 = 0.18616 
+r       = 0.1278 
+s       = 0.53992 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81854 
+Lambda1 = 0.18146 
+r       = 0.12755 
+s       = 0.52471 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81537 
+Lambda1 = 0.18463 
+r       = 0.12919 
+s       = 0.56496 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81835 
+Lambda1 = 0.18165 
+r       = 0.12811 
+s       = 0.57785 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81693 
+Lambda1 = 0.18307 
+r       = 0.13039 
+s       = 0.56234 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81951 
+Lambda1 = 0.18049 
+r       = 0.12811 
+s       = 0.58427 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82008 
+Lambda1 = 0.17992 
+r       = 0.12812 
+s       = 0.58247 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81435 
+Lambda1 = 0.18565 
+r       = 0.13043 
+s       = 0.5432 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.80898 
+Lambda1 = 0.19102 
+r       = 0.13129 
+s       = 0.52675 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81745 
+Lambda1 = 0.18255 
+r       = 0.12935 
+s       = 0.56493 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81622 
+Lambda1 = 0.18378 
+r       = 0.13022 
+s       = 0.56278 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82775 
+Lambda1 = 0.17225 
+r       = 0.126 
+s       = 0.61841 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81885 
+Lambda1 = 0.18115 
+r       = 0.12593 
+s       = 0.56665 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81805 
+Lambda1 = 0.18195 
+r       = 0.12617 
+s       = 0.54152 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82207 
+Lambda1 = 0.17793 
+r       = 0.12811 
+s       = 0.55832 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81874 
+Lambda1 = 0.18126 
+r       = 0.12865 
+s       = 0.58011 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81905 
+Lambda1 = 0.18095 
+r       = 0.13072 
+s       = 0.61406 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81918 
+Lambda1 = 0.18082 
+r       = 0.13003 
+s       = 0.57052 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81683 
+Lambda1 = 0.18317 
+r       = 0.13039 
+s       = 0.55263 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81413 
+Lambda1 = 0.18587 
+r       = 0.13091 
+s       = 0.54588 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81797 
+Lambda1 = 0.18203 
+r       = 0.12693 
+s       = 0.55305 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82778 
+Lambda1 = 0.17222 
+r       = 0.1149 
+s       = 0.54585 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83057 
+Lambda1 = 0.16943 
+r       = 0.11344 
+s       = 0.57161 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82711 
+Lambda1 = 0.17289 
+r       = 0.11828 
+s       = 0.62555 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82558 
+Lambda1 = 0.17442 
+r       = 0.11755 
+s       = 0.56891 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82429 
+Lambda1 = 0.17571 
+r       = 0.11396 
+s       = 0.52363 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82897 
+Lambda1 = 0.17103 
+r       = 0.11732 
+s       = 0.59249 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82372 
+Lambda1 = 0.17628 
+r       = 0.11604 
+s       = 0.54055 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82783 
+Lambda1 = 0.17217 
+r       = 0.116 
+s       = 0.56055 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82307 
+Lambda1 = 0.17693 
+r       = 0.11836 
+s       = 0.57738 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83068 
+Lambda1 = 0.16932 
+r       = 0.11365 
+s       = 0.60867 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82578 
+Lambda1 = 0.17422 
+r       = 0.11424 
+s       = 0.53967 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82488 
+Lambda1 = 0.17512 
+r       = 0.11578 
+s       = 0.56739 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83126 
+Lambda1 = 0.16874 
+r       = 0.11499 
+s       = 0.60041 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82947 
+Lambda1 = 0.17053 
+r       = 0.11489 
+s       = 0.57831 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82984 
+Lambda1 = 0.17016 
+r       = 0.1172 
+s       = 0.60045 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82458 
+Lambda1 = 0.17542 
+r       = 0.11489 
+s       = 0.56675 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82548 
+Lambda1 = 0.17452 
+r       = 0.11691 
+s       = 0.56212 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82539 
+Lambda1 = 0.17461 
+r       = 0.11599 
+s       = 0.57898 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82649 
+Lambda1 = 0.17351 
+r       = 0.11718 
+s       = 0.61807 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82795 
+Lambda1 = 0.17205 
+r       = 0.11628 
+s       = 0.59611 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82586 
+Lambda1 = 0.17414 
+r       = 0.11583 
+s       = 0.5266 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82221 
+Lambda1 = 0.17779 
+r       = 0.11736 
+s       = 0.53979 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82674 
+Lambda1 = 0.17326 
+r       = 0.11543 
+s       = 0.59188 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82747 
+Lambda1 = 0.17253 
+r       = 0.11468 
+s       = 0.56861 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82495 
+Lambda1 = 0.17505 
+r       = 0.116 
+s       = 0.56058 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82442 
+Lambda1 = 0.17558 
+r       = 0.11637 
+s       = 0.52675 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82436 
+Lambda1 = 0.17564 
+r       = 0.1151 
+s       = 0.52345 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82812 
+Lambda1 = 0.17188 
+r       = 0.11422 
+s       = 0.55687 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83051 
+Lambda1 = 0.16949 
+r       = 0.11466 
+s       = 0.60478 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82188 
+Lambda1 = 0.17812 
+r       = 0.11854 
+s       = 0.56214 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82395 
+Lambda1 = 0.17605 
+r       = 0.11748 
+s       = 0.54996 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82626 
+Lambda1 = 0.17374 
+r       = 0.11532 
+s       = 0.55108 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82916 
+Lambda1 = 0.17084 
+r       = 0.11828 
+s       = 0.61084 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82594 
+Lambda1 = 0.17406 
+r       = 0.11497 
+s       = 0.56503 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82656 
+Lambda1 = 0.17344 
+r       = 0.11624 
+s       = 0.56381 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82662 
+Lambda1 = 0.17338 
+r       = 0.11496 
+s       = 0.58664 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82735 
+Lambda1 = 0.17265 
+r       = 0.11594 
+s       = 0.57237 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83334 
+Lambda1 = 0.16666 
+r       = 0.11439 
+s       = 0.65468 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82727 
+Lambda1 = 0.17273 
+r       = 0.11578 
+s       = 0.56085 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82002 
+Lambda1 = 0.17998 
+r       = 0.11782 
+s       = 0.55736 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82836 
+Lambda1 = 0.17164 
+r       = 0.11345 
+s       = 0.55324 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82654 
+Lambda1 = 0.17346 
+r       = 0.11597 
+s       = 0.59033 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82735 
+Lambda1 = 0.17265 
+r       = 0.11584 
+s       = 0.5651 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82841 
+Lambda1 = 0.17159 
+r       = 0.11646 
+s       = 0.5894 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82153 
+Lambda1 = 0.17847 
+r       = 0.11561 
+s       = 0.51847 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82191 
+Lambda1 = 0.17809 
+r       = 0.11825 
+s       = 0.54279 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82857 
+Lambda1 = 0.17143 
+r       = 0.11291 
+s       = 0.56517 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82689 
+Lambda1 = 0.17311 
+r       = 0.11653 
+s       = 0.57799 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83148 
+Lambda1 = 0.16852 
+r       = 0.11413 
+s       = 0.61175 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82128 
+Lambda1 = 0.17872 
+r       = 0.11848 
+s       = 0.56926 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8293 
+Lambda1 = 0.1707 
+r       = 0.11258 
+s       = 0.56798 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82473 
+Lambda1 = 0.17527 
+r       = 0.11418 
+s       = 0.50973 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82376 
+Lambda1 = 0.17624 
+r       = 0.11504 
+s       = 0.52167 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83089 
+Lambda1 = 0.16911 
+r       = 0.11319 
+s       = 0.57346 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8283 
+Lambda1 = 0.1717 
+r       = 0.11736 
+s       = 0.5792 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82834 
+Lambda1 = 0.17166 
+r       = 0.11894 
+s       = 0.57583 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82556 
+Lambda1 = 0.17444 
+r       = 0.113 
+s       = 0.52824 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82413 
+Lambda1 = 0.17587 
+r       = 0.11322 
+s       = 0.53413 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82708 
+Lambda1 = 0.17292 
+r       = 0.11644 
+s       = 0.55693 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82617 
+Lambda1 = 0.17383 
+r       = 0.11597 
+s       = 0.55438 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82761 
+Lambda1 = 0.17239 
+r       = 0.11398 
+s       = 0.56293 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82787 
+Lambda1 = 0.17213 
+r       = 0.11747 
+s       = 0.59794 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82678 
+Lambda1 = 0.17322 
+r       = 0.11502 
+s       = 0.54019 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83407 
+Lambda1 = 0.16593 
+r       = 0.11549 
+s       = 0.62992 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82909 
+Lambda1 = 0.17091 
+r       = 0.11439 
+s       = 0.5708 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83104 
+Lambda1 = 0.16896 
+r       = 0.11474 
+s       = 0.57255 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8288 
+Lambda1 = 0.1712 
+r       = 0.11466 
+s       = 0.59405 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82454 
+Lambda1 = 0.17546 
+r       = 0.11803 
+s       = 0.55347 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82601 
+Lambda1 = 0.17399 
+r       = 0.11616 
+s       = 0.5484 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82562 
+Lambda1 = 0.17438 
+r       = 0.11622 
+s       = 0.55847 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82478 
+Lambda1 = 0.17522 
+r       = 0.11682 
+s       = 0.56071 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81909 
+Lambda1 = 0.18091 
+r       = 0.11687 
+s       = 0.52091 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82455 
+Lambda1 = 0.17545 
+r       = 0.1158 
+s       = 0.53816 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82694 
+Lambda1 = 0.17306 
+r       = 0.11406 
+s       = 0.54162 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83077 
+Lambda1 = 0.16923 
+r       = 0.11538 
+s       = 0.59995 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82043 
+Lambda1 = 0.17957 
+r       = 0.11621 
+s       = 0.51718 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83085 
+Lambda1 = 0.16915 
+r       = 0.11725 
+s       = 0.60601 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83179 
+Lambda1 = 0.16821 
+r       = 0.1144 
+s       = 0.60075 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82476 
+Lambda1 = 0.17524 
+r       = 0.1177 
+s       = 0.56895 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83165 
+Lambda1 = 0.16835 
+r       = 0.11453 
+s       = 0.60954 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82822 
+Lambda1 = 0.17178 
+r       = 0.11404 
+s       = 0.57138 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82699 
+Lambda1 = 0.17301 
+r       = 0.11378 
+s       = 0.52269 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82404 
+Lambda1 = 0.17596 
+r       = 0.11691 
+s       = 0.52653 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82017 
+Lambda1 = 0.17983 
+r       = 0.11884 
+s       = 0.53826 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83084 
+Lambda1 = 0.16916 
+r       = 0.11678 
+s       = 0.61856 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82368 
+Lambda1 = 0.17632 
+r       = 0.11538 
+s       = 0.53738 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82619 
+Lambda1 = 0.17381 
+r       = 0.1149 
+s       = 0.54547 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83023 
+Lambda1 = 0.16977 
+r       = 0.11653 
+s       = 0.5718 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82457 
+Lambda1 = 0.17543 
+r       = 0.11563 
+s       = 0.54685 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8232 
+Lambda1 = 0.1768 
+r       = 0.11675 
+s       = 0.51856 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82385 
+Lambda1 = 0.17615 
+r       = 0.11637 
+s       = 0.542 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81915 
+Lambda1 = 0.18085 
+r       = 0.11943 
+s       = 0.53259 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83134 
+Lambda1 = 0.16866 
+r       = 0.11283 
+s       = 0.57794 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82852 
+Lambda1 = 0.17148 
+r       = 0.11657 
+s       = 0.61499 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82493 
+Lambda1 = 0.17507 
+r       = 0.11653 
+s       = 0.55842 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8225 
+Lambda1 = 0.1775 
+r       = 0.11605 
+s       = 0.57742 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82541 
+Lambda1 = 0.17459 
+r       = 0.11684 
+s       = 0.56967 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8285 
+Lambda1 = 0.1715 
+r       = 0.11786 
+s       = 0.63716 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82334 
+Lambda1 = 0.17666 
+r       = 0.11655 
+s       = 0.5323 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8275 
+Lambda1 = 0.1725 
+r       = 0.1153 
+s       = 0.57519 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82672 
+Lambda1 = 0.17328 
+r       = 0.11621 
+s       = 0.54996 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82208 
+Lambda1 = 0.17792 
+r       = 0.1178 
+s       = 0.56416 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82225 
+Lambda1 = 0.17775 
+r       = 0.11545 
+s       = 0.5159 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82546 
+Lambda1 = 0.17454 
+r       = 0.11536 
+s       = 0.57638 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82173 
+Lambda1 = 0.17827 
+r       = 0.11728 
+s       = 0.5308 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82803 
+Lambda1 = 0.17197 
+r       = 0.1165 
+s       = 0.62729 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82928 
+Lambda1 = 0.17072 
+r       = 0.11494 
+s       = 0.60224 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82929 
+Lambda1 = 0.17071 
+r       = 0.11504 
+s       = 0.55815 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82796 
+Lambda1 = 0.17204 
+r       = 0.11373 
+s       = 0.55772 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82728 
+Lambda1 = 0.17272 
+r       = 0.11615 
+s       = 0.55936 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82892 
+Lambda1 = 0.17108 
+r       = 0.11458 
+s       = 0.56267 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82583 
+Lambda1 = 0.17417 
+r       = 0.11287 
+s       = 0.50477 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82329 
+Lambda1 = 0.17671 
+r       = 0.11693 
+s       = 0.54315 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81886 
+Lambda1 = 0.18114 
+r       = 0.11711 
+s       = 0.52904 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82812 
+Lambda1 = 0.17188 
+r       = 0.11644 
+s       = 0.60196 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8247 
+Lambda1 = 0.1753 
+r       = 0.11428 
+s       = 0.49679 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82594 
+Lambda1 = 0.17406 
+r       = 0.11631 
+s       = 0.5417 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8313 
+Lambda1 = 0.1687 
+r       = 0.11519 
+s       = 0.62008 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82963 
+Lambda1 = 0.17037 
+r       = 0.11289 
+s       = 0.54898 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8299 
+Lambda1 = 0.1701 
+r       = 0.11538 
+s       = 0.56902 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81961 
+Lambda1 = 0.18039 
+r       = 0.11715 
+s       = 0.5318 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82342 
+Lambda1 = 0.17658 
+r       = 0.11738 
+s       = 0.51682 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83306 
+Lambda1 = 0.16694 
+r       = 0.11212 
+s       = 0.5832 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83216 
+Lambda1 = 0.16784 
+r       = 0.11279 
+s       = 0.57959 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82357 
+Lambda1 = 0.17643 
+r       = 0.11513 
+s       = 0.50338 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82489 
+Lambda1 = 0.17511 
+r       = 0.1172 
+s       = 0.56816 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81898 
+Lambda1 = 0.18102 
+r       = 0.11567 
+s       = 0.5065 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8245 
+Lambda1 = 0.1755 
+r       = 0.11694 
+s       = 0.55255 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82849 
+Lambda1 = 0.17151 
+r       = 0.11562 
+s       = 0.56635 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83105 
+Lambda1 = 0.16895 
+r       = 0.11329 
+s       = 0.56511 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82793 
+Lambda1 = 0.17207 
+r       = 0.11606 
+s       = 0.56299 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82253 
+Lambda1 = 0.17747 
+r       = 0.1159 
+s       = 0.52437 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82924 
+Lambda1 = 0.17076 
+r       = 0.11302 
+s       = 0.57179 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82764 
+Lambda1 = 0.17236 
+r       = 0.11393 
+s       = 0.54453 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82487 
+Lambda1 = 0.17513 
+r       = 0.1146 
+s       = 0.5124 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82338 
+Lambda1 = 0.17662 
+r       = 0.11512 
+s       = 0.53318 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82455 
+Lambda1 = 0.17545 
+r       = 0.1156 
+s       = 0.52133 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82426 
+Lambda1 = 0.17574 
+r       = 0.11479 
+s       = 0.52469 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8264 
+Lambda1 = 0.1736 
+r       = 0.11532 
+s       = 0.54733 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82839 
+Lambda1 = 0.17161 
+r       = 0.11626 
+s       = 0.55901 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82511 
+Lambda1 = 0.17489 
+r       = 0.11567 
+s       = 0.52958 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82689 
+Lambda1 = 0.17311 
+r       = 0.115 
+s       = 0.54974 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82759 
+Lambda1 = 0.17241 
+r       = 0.11348 
+s       = 0.54998 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82695 
+Lambda1 = 0.17305 
+r       = 0.11524 
+s       = 0.55329 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82231 
+Lambda1 = 0.17769 
+r       = 0.11629 
+s       = 0.51823 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.826 
+Lambda1 = 0.174 
+r       = 0.11482 
+s       = 0.54954 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82661 
+Lambda1 = 0.17339 
+r       = 0.11471 
+s       = 0.51032 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82383 
+Lambda1 = 0.17617 
+r       = 0.11609 
+s       = 0.5229 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83009 
+Lambda1 = 0.16991 
+r       = 0.11618 
+s       = 0.60344 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82446 
+Lambda1 = 0.17554 
+r       = 0.11548 
+s       = 0.52794 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81926 
+Lambda1 = 0.18074 
+r       = 0.12027 
+s       = 0.53889 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83456 
+Lambda1 = 0.16544 
+r       = 0.11409 
+s       = 0.62971 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8244 
+Lambda1 = 0.1756 
+r       = 0.11424 
+s       = 0.50125 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82138 
+Lambda1 = 0.17862 
+r       = 0.11595 
+s       = 0.49294 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82509 
+Lambda1 = 0.17491 
+r       = 0.11457 
+s       = 0.52207 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83065 
+Lambda1 = 0.16935 
+r       = 0.1175 
+s       = 0.62567 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82613 
+Lambda1 = 0.17387 
+r       = 0.1133 
+s       = 0.52529 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8204 
+Lambda1 = 0.1796 
+r       = 0.11472 
+s       = 0.51364 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82788 
+Lambda1 = 0.17212 
+r       = 0.11439 
+s       = 0.57619 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83341 
+Lambda1 = 0.16659 
+r       = 0.11518 
+s       = 0.66914 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82694 
+Lambda1 = 0.17306 
+r       = 0.11369 
+s       = 0.56238 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82511 
+Lambda1 = 0.17489 
+r       = 0.11585 
+s       = 0.56766 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82834 
+Lambda1 = 0.17166 
+r       = 0.11546 
+s       = 0.58527 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82313 
+Lambda1 = 0.17687 
+r       = 0.11797 
+s       = 0.55541 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82175 
+Lambda1 = 0.17825 
+r       = 0.11685 
+s       = 0.52742 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8233 
+Lambda1 = 0.1767 
+r       = 0.11736 
+s       = 0.54737 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82787 
+Lambda1 = 0.17213 
+r       = 0.11306 
+s       = 0.5405 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82311 
+Lambda1 = 0.17689 
+r       = 0.11951 
+s       = 0.54376 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82623 
+Lambda1 = 0.17377 
+r       = 0.11718 
+s       = 0.51654 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8273 
+Lambda1 = 0.1727 
+r       = 0.11583 
+s       = 0.57265 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82744 
+Lambda1 = 0.17256 
+r       = 0.11553 
+s       = 0.57844 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82661 
+Lambda1 = 0.17339 
+r       = 0.11393 
+s       = 0.51834 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82675 
+Lambda1 = 0.17325 
+r       = 0.11302 
+s       = 0.56526 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82376 
+Lambda1 = 0.17624 
+r       = 0.11595 
+s       = 0.52722 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82453 
+Lambda1 = 0.17547 
+r       = 0.11662 
+s       = 0.54836 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82503 
+Lambda1 = 0.17497 
+r       = 0.11384 
+s       = 0.55214 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82259 
+Lambda1 = 0.17741 
+r       = 0.11674 
+s       = 0.55926 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82774 
+Lambda1 = 0.17226 
+r       = 0.1141 
+s       = 0.53794 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82635 
+Lambda1 = 0.17365 
+r       = 0.1148 
+s       = 0.53918 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82084 
+Lambda1 = 0.17916 
+r       = 0.11705 
+s       = 0.53285 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82655 
+Lambda1 = 0.17345 
+r       = 0.11922 
+s       = 0.61156 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82554 
+Lambda1 = 0.17446 
+r       = 0.11333 
+s       = 0.52349 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82923 
+Lambda1 = 0.17077 
+r       = 0.11441 
+s       = 0.5708 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82812 
+Lambda1 = 0.17188 
+r       = 0.11551 
+s       = 0.57827 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82468 
+Lambda1 = 0.17532 
+r       = 0.11572 
+s       = 0.5687 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8215 
+Lambda1 = 0.1785 
+r       = 0.11652 
+s       = 0.5371 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82703 
+Lambda1 = 0.17297 
+r       = 0.11606 
+s       = 0.56165 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82697 
+Lambda1 = 0.17303 
+r       = 0.11469 
+s       = 0.56175 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82576 
+Lambda1 = 0.17424 
+r       = 0.11645 
+s       = 0.59379 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82269 
+Lambda1 = 0.17731 
+r       = 0.1179 
+s       = 0.54223 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82892 
+Lambda1 = 0.17108 
+r       = 0.11383 
+s       = 0.60094 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82944 
+Lambda1 = 0.17056 
+r       = 0.11634 
+s       = 0.60275 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.827 
+Lambda1 = 0.173 
+r       = 0.11669 
+s       = 0.55533 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82628 
+Lambda1 = 0.17372 
+r       = 0.11561 
+s       = 0.55069 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82819 
+Lambda1 = 0.17181 
+r       = 0.11262 
+s       = 0.5659 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82413 
+Lambda1 = 0.17587 
+r       = 0.1182 
+s       = 0.53378 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82832 
+Lambda1 = 0.17168 
+r       = 0.11597 
+s       = 0.57639 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82628 
+Lambda1 = 0.17372 
+r       = 0.11596 
+s       = 0.55547 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8264 
+Lambda1 = 0.1736 
+r       = 0.11443 
+s       = 0.52746 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82417 
+Lambda1 = 0.17583 
+r       = 0.11687 
+s       = 0.52585 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82904 
+Lambda1 = 0.17096 
+r       = 0.11356 
+s       = 0.56898 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82169 
+Lambda1 = 0.17831 
+r       = 0.11742 
+s       = 0.52975 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82782 
+Lambda1 = 0.17218 
+r       = 0.11511 
+s       = 0.54653 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83275 
+Lambda1 = 0.16725 
+r       = 0.11286 
+s       = 0.62036 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82687 
+Lambda1 = 0.17313 
+r       = 0.11386 
+s       = 0.54752 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82512 
+Lambda1 = 0.17488 
+r       = 0.11612 
+s       = 0.53763 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8325 
+Lambda1 = 0.1675 
+r       = 0.11575 
+s       = 0.60041 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82745 
+Lambda1 = 0.17255 
+r       = 0.11738 
+s       = 0.56872 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82261 
+Lambda1 = 0.17739 
+r       = 0.11594 
+s       = 0.51298 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82661 
+Lambda1 = 0.17339 
+r       = 0.11457 
+s       = 0.56274 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82814 
+Lambda1 = 0.17186 
+r       = 0.11587 
+s       = 0.59898 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82768 
+Lambda1 = 0.17232 
+r       = 0.11501 
+s       = 0.56749 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83071 
+Lambda1 = 0.16929 
+r       = 0.1169 
+s       = 0.62447 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82123 
+Lambda1 = 0.17877 
+r       = 0.11645 
+s       = 0.52077 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83004 
+Lambda1 = 0.16996 
+r       = 0.11449 
+s       = 0.5853 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82782 
+Lambda1 = 0.17218 
+r       = 0.11652 
+s       = 0.58556 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82281 
+Lambda1 = 0.17719 
+r       = 0.11645 
+s       = 0.51352 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82303 
+Lambda1 = 0.17697 
+r       = 0.11596 
+s       = 0.55204 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82549 
+Lambda1 = 0.17451 
+r       = 0.1177 
+s       = 0.57021 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82504 
+Lambda1 = 0.17496 
+r       = 0.11304 
+s       = 0.49743 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82087 
+Lambda1 = 0.17913 
+r       = 0.11799 
+s       = 0.538 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83352 
+Lambda1 = 0.16648 
+r       = 0.114 
+s       = 0.63313 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82388 
+Lambda1 = 0.17612 
+r       = 0.11669 
+s       = 0.52624 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83242 
+Lambda1 = 0.16758 
+r       = 0.11514 
+s       = 0.6859 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82601 
+Lambda1 = 0.17399 
+r       = 0.11685 
+s       = 0.57601 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82538 
+Lambda1 = 0.17462 
+r       = 0.11413 
+s       = 0.55646 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82487 
+Lambda1 = 0.17513 
+r       = 0.11508 
+s       = 0.53575 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83414 
+Lambda1 = 0.16586 
+r       = 0.11291 
+s       = 0.61788 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82178 
+Lambda1 = 0.17822 
+r       = 0.11596 
+s       = 0.54707 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82746 
+Lambda1 = 0.17254 
+r       = 0.11315 
+s       = 0.52942 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82613 
+Lambda1 = 0.17387 
+r       = 0.11492 
+s       = 0.53468 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81993 
+Lambda1 = 0.18007 
+r       = 0.11995 
+s       = 0.54353 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82534 
+Lambda1 = 0.17466 
+r       = 0.11604 
+s       = 0.55983 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81752 
+Lambda1 = 0.18248 
+r       = 0.11715 
+s       = 0.4778 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82514 
+Lambda1 = 0.17486 
+r       = 0.11353 
+s       = 0.52632 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82917 
+Lambda1 = 0.17083 
+r       = 0.11336 
+s       = 0.5631 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82994 
+Lambda1 = 0.17006 
+r       = 0.11488 
+s       = 0.60387 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83 
+Lambda1 = 0.17 
+r       = 0.11435 
+s       = 0.53134 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82552 
+Lambda1 = 0.17448 
+r       = 0.11555 
+s       = 0.54756 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82485 
+Lambda1 = 0.17515 
+r       = 0.11635 
+s       = 0.55572 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82147 
+Lambda1 = 0.17853 
+r       = 0.11915 
+s       = 0.53702 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8219 
+Lambda1 = 0.1781 
+r       = 0.12091 
+s       = 0.56546 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82549 
+Lambda1 = 0.17451 
+r       = 0.1153 
+s       = 0.54183 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82149 
+Lambda1 = 0.17851 
+r       = 0.11726 
+s       = 0.58011 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82436 
+Lambda1 = 0.17564 
+r       = 0.11548 
+s       = 0.5254 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8336 
+Lambda1 = 0.1664 
+r       = 0.11554 
+s       = 0.64742 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83272 
+Lambda1 = 0.16728 
+r       = 0.11535 
+s       = 0.63337 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82498 
+Lambda1 = 0.17502 
+r       = 0.11522 
+s       = 0.51833 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82508 
+Lambda1 = 0.17492 
+r       = 0.11413 
+s       = 0.53686 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82825 
+Lambda1 = 0.17175 
+r       = 0.11554 
+s       = 0.56523 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82868 
+Lambda1 = 0.17132 
+r       = 0.11376 
+s       = 0.56081 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82791 
+Lambda1 = 0.17209 
+r       = 0.11562 
+s       = 0.57255 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82496 
+Lambda1 = 0.17504 
+r       = 0.11665 
+s       = 0.55519 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8266 
+Lambda1 = 0.1734 
+r       = 0.11716 
+s       = 0.5899 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82968 
+Lambda1 = 0.17032 
+r       = 0.11584 
+s       = 0.5598 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82538 
+Lambda1 = 0.17462 
+r       = 0.1195 
+s       = 0.57808 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82235 
+Lambda1 = 0.17765 
+r       = 0.11703 
+s       = 0.5437 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82999 
+Lambda1 = 0.17001 
+r       = 0.11362 
+s       = 0.58008 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82404 
+Lambda1 = 0.17596 
+r       = 0.11659 
+s       = 0.55933 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82265 
+Lambda1 = 0.17735 
+r       = 0.1151 
+s       = 0.52061 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82651 
+Lambda1 = 0.17349 
+r       = 0.11613 
+s       = 0.54763 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82436 
+Lambda1 = 0.17564 
+r       = 0.11412 
+s       = 0.51909 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82525 
+Lambda1 = 0.17475 
+r       = 0.11674 
+s       = 0.52462 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82869 
+Lambda1 = 0.17131 
+r       = 0.11535 
+s       = 0.60226 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82894 
+Lambda1 = 0.17106 
+r       = 0.11545 
+s       = 0.61885 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81915 
+Lambda1 = 0.18085 
+r       = 0.11477 
+s       = 0.52244 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82556 
+Lambda1 = 0.17444 
+r       = 0.11685 
+s       = 0.57836 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82274 
+Lambda1 = 0.17726 
+r       = 0.11672 
+s       = 0.58545 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82279 
+Lambda1 = 0.17721 
+r       = 0.11689 
+s       = 0.52427 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82872 
+Lambda1 = 0.17128 
+r       = 0.11508 
+s       = 0.57508 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81966 
+Lambda1 = 0.18034 
+r       = 0.11854 
+s       = 0.50178 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82589 
+Lambda1 = 0.17411 
+r       = 0.11586 
+s       = 0.56293 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82779 
+Lambda1 = 0.17221 
+r       = 0.1175 
+s       = 0.59987 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81769 
+Lambda1 = 0.18231 
+r       = 0.11847 
+s       = 0.52697 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82947 
+Lambda1 = 0.17053 
+r       = 0.11393 
+s       = 0.53796 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82527 
+Lambda1 = 0.17473 
+r       = 0.11452 
+s       = 0.52064 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83032 
+Lambda1 = 0.16968 
+r       = 0.11458 
+s       = 0.60706 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83072 
+Lambda1 = 0.16928 
+r       = 0.11563 
+s       = 0.62482 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82591 
+Lambda1 = 0.17409 
+r       = 0.11336 
+s       = 0.55929 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82655 
+Lambda1 = 0.17345 
+r       = 0.11586 
+s       = 0.59276 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82501 
+Lambda1 = 0.17499 
+r       = 0.11653 
+s       = 0.56824 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82715 
+Lambda1 = 0.17285 
+r       = 0.11777 
+s       = 0.5784 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82829 
+Lambda1 = 0.17171 
+r       = 0.11456 
+s       = 0.55549 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82346 
+Lambda1 = 0.17654 
+r       = 0.11638 
+s       = 0.53369 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82802 
+Lambda1 = 0.17198 
+r       = 0.11376 
+s       = 0.53243 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82623 
+Lambda1 = 0.17377 
+r       = 0.11736 
+s       = 0.59367 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83055 
+Lambda1 = 0.16945 
+r       = 0.11416 
+s       = 0.57787 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82294 
+Lambda1 = 0.17706 
+r       = 0.11755 
+s       = 0.51236 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82903 
+Lambda1 = 0.17097 
+r       = 0.11572 
+s       = 0.5549 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83283 
+Lambda1 = 0.16717 
+r       = 0.11234 
+s       = 0.58785 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82612 
+Lambda1 = 0.17388 
+r       = 0.11346 
+s       = 0.54913 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82834 
+Lambda1 = 0.17166 
+r       = 0.11723 
+s       = 0.58258 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82896 
+Lambda1 = 0.17104 
+r       = 0.11662 
+s       = 0.6047 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82577 
+Lambda1 = 0.17423 
+r       = 0.11648 
+s       = 0.56553 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83306 
+Lambda1 = 0.16694 
+r       = 0.11398 
+s       = 0.61173 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82047 
+Lambda1 = 0.17953 
+r       = 0.11493 
+s       = 0.50972 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82585 
+Lambda1 = 0.17415 
+r       = 0.11613 
+s       = 0.53 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82998 
+Lambda1 = 0.17002 
+r       = 0.11342 
+s       = 0.60367 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82408 
+Lambda1 = 0.17592 
+r       = 0.11471 
+s       = 0.51994 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82091 
+Lambda1 = 0.17909 
+r       = 0.11685 
+s       = 0.5486 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82064 
+Lambda1 = 0.17936 
+r       = 0.11809 
+s       = 0.52369 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83238 
+Lambda1 = 0.16762 
+r       = 0.11484 
+s       = 0.62769 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82649 
+Lambda1 = 0.17351 
+r       = 0.11663 
+s       = 0.56326 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82477 
+Lambda1 = 0.17523 
+r       = 0.1164 
+s       = 0.54443 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82154 
+Lambda1 = 0.17846 
+r       = 0.11667 
+s       = 0.51932 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82783 
+Lambda1 = 0.17217 
+r       = 0.11373 
+s       = 0.5656 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82458 
+Lambda1 = 0.17542 
+r       = 0.11593 
+s       = 0.57057 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82628 
+Lambda1 = 0.17372 
+r       = 0.11516 
+s       = 0.53831 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81702 
+Lambda1 = 0.18298 
+r       = 0.11817 
+s       = 0.53027 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82359 
+Lambda1 = 0.17641 
+r       = 0.11597 
+s       = 0.53457 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82717 
+Lambda1 = 0.17283 
+r       = 0.11629 
+s       = 0.55984 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82451 
+Lambda1 = 0.17549 
+r       = 0.11454 
+s       = 0.53338 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82475 
+Lambda1 = 0.17525 
+r       = 0.11577 
+s       = 0.52385 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82878 
+Lambda1 = 0.17122 
+r       = 0.11245 
+s       = 0.5412 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82667 
+Lambda1 = 0.17333 
+r       = 0.11853 
+s       = 0.58962 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81988 
+Lambda1 = 0.18012 
+r       = 0.11926 
+s       = 0.5414 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82298 
+Lambda1 = 0.17702 
+r       = 0.11826 
+s       = 0.58392 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82996 
+Lambda1 = 0.17004 
+r       = 0.11645 
+s       = 0.59164 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8229 
+Lambda1 = 0.1771 
+r       = 0.12042 
+s       = 0.59177 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83044 
+Lambda1 = 0.16956 
+r       = 0.11446 
+s       = 0.57852 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82587 
+Lambda1 = 0.17413 
+r       = 0.11532 
+s       = 0.54422 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82654 
+Lambda1 = 0.17346 
+r       = 0.11242 
+s       = 0.52611 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83141 
+Lambda1 = 0.16859 
+r       = 0.11478 
+s       = 0.57801 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83042 
+Lambda1 = 0.16958 
+r       = 0.11546 
+s       = 0.57958 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82473 
+Lambda1 = 0.17527 
+r       = 0.117 
+s       = 0.58002 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83658 
+Lambda1 = 0.16342 
+r       = 0.11351 
+s       = 0.65781 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83101 
+Lambda1 = 0.16899 
+r       = 0.11319 
+s       = 0.59584 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82159 
+Lambda1 = 0.17841 
+r       = 0.11788 
+s       = 0.49768 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82807 
+Lambda1 = 0.17193 
+r       = 0.11527 
+s       = 0.57047 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82995 
+Lambda1 = 0.17005 
+r       = 0.11428 
+s       = 0.61936 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82925 
+Lambda1 = 0.17075 
+r       = 0.11595 
+s       = 0.60396 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82218 
+Lambda1 = 0.17782 
+r       = 0.11887 
+s       = 0.52078 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83391 
+Lambda1 = 0.16609 
+r       = 0.11315 
+s       = 0.59254 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82536 
+Lambda1 = 0.17464 
+r       = 0.11772 
+s       = 0.5601 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81663 
+Lambda1 = 0.18337 
+r       = 0.12017 
+s       = 0.51023 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82313 
+Lambda1 = 0.17687 
+r       = 0.11476 
+s       = 0.54003 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82307 
+Lambda1 = 0.17693 
+r       = 0.11748 
+s       = 0.53893 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81964 
+Lambda1 = 0.18036 
+r       = 0.11544 
+s       = 0.50007 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83247 
+Lambda1 = 0.16753 
+r       = 0.1143 
+s       = 0.56548 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82821 
+Lambda1 = 0.17179 
+r       = 0.11389 
+s       = 0.54991 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82762 
+Lambda1 = 0.17238 
+r       = 0.1164 
+s       = 0.54274 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82338 
+Lambda1 = 0.17662 
+r       = 0.11419 
+s       = 0.49346 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83154 
+Lambda1 = 0.16846 
+r       = 0.11454 
+s       = 0.60559 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82724 
+Lambda1 = 0.17276 
+r       = 0.11224 
+s       = 0.53621 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82983 
+Lambda1 = 0.17017 
+r       = 0.11461 
+s       = 0.61296 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82865 
+Lambda1 = 0.17135 
+r       = 0.11699 
+s       = 0.6021 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82786 
+Lambda1 = 0.17214 
+r       = 0.11498 
+s       = 0.54697 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82602 
+Lambda1 = 0.17398 
+r       = 0.11835 
+s       = 0.61882 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82725 
+Lambda1 = 0.17275 
+r       = 0.11558 
+s       = 0.54832 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82957 
+Lambda1 = 0.17043 
+r       = 0.11626 
+s       = 0.57094 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82476 
+Lambda1 = 0.17524 
+r       = 0.1133 
+s       = 0.53175 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82515 
+Lambda1 = 0.17485 
+r       = 0.11759 
+s       = 0.54603 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82377 
+Lambda1 = 0.17623 
+r       = 0.11415 
+s       = 0.51091 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82716 
+Lambda1 = 0.17284 
+r       = 0.11578 
+s       = 0.54269 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82285 
+Lambda1 = 0.17715 
+r       = 0.11525 
+s       = 0.53793 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82689 
+Lambda1 = 0.17311 
+r       = 0.11615 
+s       = 0.54512 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8262 
+Lambda1 = 0.1738 
+r       = 0.11414 
+s       = 0.54373 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83253 
+Lambda1 = 0.16747 
+r       = 0.11273 
+s       = 0.61206 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82713 
+Lambda1 = 0.17287 
+r       = 0.11376 
+s       = 0.55516 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82711 
+Lambda1 = 0.17289 
+r       = 0.11507 
+s       = 0.59556 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82966 
+Lambda1 = 0.17034 
+r       = 0.11707 
+s       = 0.6288 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82881 
+Lambda1 = 0.17119 
+r       = 0.11554 
+s       = 0.58682 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83007 
+Lambda1 = 0.16993 
+r       = 0.11312 
+s       = 0.58962 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82005 
+Lambda1 = 0.17995 
+r       = 0.11688 
+s       = 0.51277 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8245 
+Lambda1 = 0.1755 
+r       = 0.11982 
+s       = 0.56023 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83375 
+Lambda1 = 0.16625 
+r       = 0.11412 
+s       = 0.60394 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82354 
+Lambda1 = 0.17646 
+r       = 0.11514 
+s       = 0.56457 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82551 
+Lambda1 = 0.17449 
+r       = 0.11483 
+s       = 0.58947 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82234 
+Lambda1 = 0.17766 
+r       = 0.11591 
+s       = 0.516 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82102 
+Lambda1 = 0.17898 
+r       = 0.11529 
+s       = 0.50301 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82748 
+Lambda1 = 0.17252 
+r       = 0.11571 
+s       = 0.57811 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82943 
+Lambda1 = 0.17057 
+r       = 0.11663 
+s       = 0.61041 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81718 
+Lambda1 = 0.18282 
+r       = 0.11525 
+s       = 0.48636 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82115 
+Lambda1 = 0.17885 
+r       = 0.11672 
+s       = 0.51025 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83013 
+Lambda1 = 0.16987 
+r       = 0.1141 
+s       = 0.55501 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82591 
+Lambda1 = 0.17409 
+r       = 0.11376 
+s       = 0.55063 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82566 
+Lambda1 = 0.17434 
+r       = 0.11566 
+s       = 0.566 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82456 
+Lambda1 = 0.17544 
+r       = 0.11842 
+s       = 0.56399 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83165 
+Lambda1 = 0.16835 
+r       = 0.11492 
+s       = 0.59599 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82258 
+Lambda1 = 0.17742 
+r       = 0.11662 
+s       = 0.53466 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82452 
+Lambda1 = 0.17548 
+r       = 0.11524 
+s       = 0.55135 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82143 
+Lambda1 = 0.17857 
+r       = 0.11659 
+s       = 0.50839 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82957 
+Lambda1 = 0.17043 
+r       = 0.1126 
+s       = 0.57852 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82944 
+Lambda1 = 0.17056 
+r       = 0.11431 
+s       = 0.55437 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82184 
+Lambda1 = 0.17816 
+r       = 0.11727 
+s       = 0.54204 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8273 
+Lambda1 = 0.1727 
+r       = 0.11524 
+s       = 0.60557 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8346 
+Lambda1 = 0.1654 
+r       = 0.1113 
+s       = 0.63101 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82495 
+Lambda1 = 0.17505 
+r       = 0.11597 
+s       = 0.55356 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82497 
+Lambda1 = 0.17503 
+r       = 0.11475 
+s       = 0.51776 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82494 
+Lambda1 = 0.17506 
+r       = 0.11945 
+s       = 0.58846 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82609 
+Lambda1 = 0.17391 
+r       = 0.11583 
+s       = 0.5645 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82299 
+Lambda1 = 0.17701 
+r       = 0.11764 
+s       = 0.56723 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82014 
+Lambda1 = 0.17986 
+r       = 0.11741 
+s       = 0.50248 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82385 
+Lambda1 = 0.17615 
+r       = 0.11493 
+s       = 0.55815 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82515 
+Lambda1 = 0.17485 
+r       = 0.11715 
+s       = 0.58354 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82298 
+Lambda1 = 0.17702 
+r       = 0.11638 
+s       = 0.53943 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82825 
+Lambda1 = 0.17175 
+r       = 0.11718 
+s       = 0.60318 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.81976 
+Lambda1 = 0.18024 
+r       = 0.11751 
+s       = 0.54811 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82683 
+Lambda1 = 0.17317 
+r       = 0.11596 
+s       = 0.57794 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82628 
+Lambda1 = 0.17372 
+r       = 0.11443 
+s       = 0.54367 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82528 
+Lambda1 = 0.17472 
+r       = 0.11613 
+s       = 0.57535 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82859 
+Lambda1 = 0.17141 
+r       = 0.11365 
+s       = 0.59332 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82908 
+Lambda1 = 0.17092 
+r       = 0.1148 
+s       = 0.55351 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83048 
+Lambda1 = 0.16952 
+r       = 0.11391 
+s       = 0.57342 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8234 
+Lambda1 = 0.1766 
+r       = 0.1157 
+s       = 0.53885 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82897 
+Lambda1 = 0.17103 
+r       = 0.1137 
+s       = 0.56477 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83041 
+Lambda1 = 0.16959 
+r       = 0.11233 
+s       = 0.56928 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82574 
+Lambda1 = 0.17426 
+r       = 0.11537 
+s       = 0.57621 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83122 
+Lambda1 = 0.16878 
+r       = 0.11449 
+s       = 0.59756 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83142 
+Lambda1 = 0.16858 
+r       = 0.11459 
+s       = 0.55594 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82637 
+Lambda1 = 0.17363 
+r       = 0.11517 
+s       = 0.53739 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82169 
+Lambda1 = 0.17831 
+r       = 0.11517 
+s       = 0.5212 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82056 
+Lambda1 = 0.17944 
+r       = 0.11636 
+s       = 0.54713 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82344 
+Lambda1 = 0.17656 
+r       = 0.11291 
+s       = 0.49712 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82176 
+Lambda1 = 0.17824 
+r       = 0.11668 
+s       = 0.52767 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82371 
+Lambda1 = 0.17629 
+r       = 0.11656 
+s       = 0.54337 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82061 
+Lambda1 = 0.17939 
+r       = 0.11746 
+s       = 0.53101 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82709 
+Lambda1 = 0.17291 
+r       = 0.11507 
+s       = 0.53481 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82516 
+Lambda1 = 0.17484 
+r       = 0.11724 
+s       = 0.56031 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82991 
+Lambda1 = 0.17009 
+r       = 0.11592 
+s       = 0.58524 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82074 
+Lambda1 = 0.17926 
+r       = 0.11778 
+s       = 0.53144 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82713 
+Lambda1 = 0.17287 
+r       = 0.11465 
+s       = 0.54691 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82914 
+Lambda1 = 0.17086 
+r       = 0.11546 
+s       = 0.62112 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82148 
+Lambda1 = 0.17852 
+r       = 0.11702 
+s       = 0.54606 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83377 
+Lambda1 = 0.16623 
+r       = 0.11628 
+s       = 0.64469 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82607 
+Lambda1 = 0.17393 
+r       = 0.11558 
+s       = 0.5465 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82804 
+Lambda1 = 0.17196 
+r       = 0.11412 
+s       = 0.59832 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82262 
+Lambda1 = 0.17738 
+r       = 0.11844 
+s       = 0.53648 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82309 
+Lambda1 = 0.17691 
+r       = 0.1173 
+s       = 0.57977 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82861 
+Lambda1 = 0.17139 
+r       = 0.11205 
+s       = 0.52244 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82239 
+Lambda1 = 0.17761 
+r       = 0.11759 
+s       = 0.52476 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8259 
+Lambda1 = 0.1741 
+r       = 0.11514 
+s       = 0.53769 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82936 
+Lambda1 = 0.17064 
+r       = 0.11209 
+s       = 0.55505 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82679 
+Lambda1 = 0.17321 
+r       = 0.11713 
+s       = 0.56847 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83163 
+Lambda1 = 0.16837 
+r       = 0.11335 
+s       = 0.61751 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82856 
+Lambda1 = 0.17144 
+r       = 0.1136 
+s       = 0.57703 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82888 
+Lambda1 = 0.17112 
+r       = 0.11357 
+s       = 0.55756 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82192 
+Lambda1 = 0.17808 
+r       = 0.11551 
+s       = 0.51969 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82825 
+Lambda1 = 0.17175 
+r       = 0.11371 
+s       = 0.54605 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8256 
+Lambda1 = 0.1744 
+r       = 0.11629 
+s       = 0.54408 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82278 
+Lambda1 = 0.17722 
+r       = 0.11633 
+s       = 0.5138 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82406 
+Lambda1 = 0.17594 
+r       = 0.11504 
+s       = 0.51555 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82206 
+Lambda1 = 0.17794 
+r       = 0.11634 
+s       = 0.51208 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82466 
+Lambda1 = 0.17534 
+r       = 0.11577 
+s       = 0.55067 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82987 
+Lambda1 = 0.17013 
+r       = 0.11343 
+s       = 0.59166 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82741 
+Lambda1 = 0.17259 
+r       = 0.11747 
+s       = 0.61385 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82631 
+Lambda1 = 0.17369 
+r       = 0.11649 
+s       = 0.55151 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82624 
+Lambda1 = 0.17376 
+r       = 0.11506 
+s       = 0.55775 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82553 
+Lambda1 = 0.17447 
+r       = 0.11384 
+s       = 0.53862 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82252 
+Lambda1 = 0.17748 
+r       = 0.11848 
+s       = 0.55167 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82217 
+Lambda1 = 0.17783 
+r       = 0.11694 
+s       = 0.53601 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82699 
+Lambda1 = 0.17301 
+r       = 0.115 
+s       = 0.5404 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82859 
+Lambda1 = 0.17141 
+r       = 0.11472 
+s       = 0.60203 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82671 
+Lambda1 = 0.17329 
+r       = 0.11722 
+s       = 0.59739 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82171 
+Lambda1 = 0.17829 
+r       = 0.11532 
+s       = 0.50464 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82332 
+Lambda1 = 0.17668 
+r       = 0.11486 
+s       = 0.51841 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82167 
+Lambda1 = 0.17833 
+r       = 0.11846 
+s       = 0.56184 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82696 
+Lambda1 = 0.17304 
+r       = 0.11666 
+s       = 0.55869 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.828 
+Lambda1 = 0.172 
+r       = 0.11637 
+s       = 0.59798 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83141 
+Lambda1 = 0.16859 
+r       = 0.11661 
+s       = 0.57102 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83202 
+Lambda1 = 0.16798 
+r       = 0.118 
+s       = 0.67699 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82594 
+Lambda1 = 0.17406 
+r       = 0.11584 
+s       = 0.56876 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82768 
+Lambda1 = 0.17232 
+r       = 0.11176 
+s       = 0.55132 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82247 
+Lambda1 = 0.17753 
+r       = 0.11526 
+s       = 0.51097 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82793 
+Lambda1 = 0.17207 
+r       = 0.1145 
+s       = 0.54064 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82504 
+Lambda1 = 0.17496 
+r       = 0.1162 
+s       = 0.57143 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82435 
+Lambda1 = 0.17565 
+r       = 0.11404 
+s       = 0.5025 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83055 
+Lambda1 = 0.16945 
+r       = 0.11222 
+s       = 0.57293 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82889 
+Lambda1 = 0.17111 
+r       = 0.11481 
+s       = 0.60397 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82474 
+Lambda1 = 0.17526 
+r       = 0.11585 
+s       = 0.52941 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82776 
+Lambda1 = 0.17224 
+r       = 0.11831 
+s       = 0.58477 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8261 
+Lambda1 = 0.1739 
+r       = 0.11366 
+s       = 0.55023 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82379 
+Lambda1 = 0.17621 
+r       = 0.11502 
+s       = 0.53914 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83048 
+Lambda1 = 0.16952 
+r       = 0.11481 
+s       = 0.61958 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82714 
+Lambda1 = 0.17286 
+r       = 0.11661 
+s       = 0.58158 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8261 
+Lambda1 = 0.1739 
+r       = 0.11716 
+s       = 0.56032 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82094 
+Lambda1 = 0.17906 
+r       = 0.11956 
+s       = 0.56632 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82279 
+Lambda1 = 0.17721 
+r       = 0.11606 
+s       = 0.50619 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8306 
+Lambda1 = 0.1694 
+r       = 0.11456 
+s       = 0.57801 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82491 
+Lambda1 = 0.17509 
+r       = 0.11553 
+s       = 0.54591 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82568 
+Lambda1 = 0.17432 
+r       = 0.11387 
+s       = 0.54521 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82976 
+Lambda1 = 0.17024 
+r       = 0.11386 
+s       = 0.58595 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82818 
+Lambda1 = 0.17182 
+r       = 0.11602 
+s       = 0.62321 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82789 
+Lambda1 = 0.17211 
+r       = 0.11405 
+s       = 0.57169 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8291 
+Lambda1 = 0.1709 
+r       = 0.11608 
+s       = 0.62184 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82561 
+Lambda1 = 0.17439 
+r       = 0.11709 
+s       = 0.54156 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82142 
+Lambda1 = 0.17858 
+r       = 0.11574 
+s       = 0.49298 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82261 
+Lambda1 = 0.17739 
+r       = 0.11806 
+s       = 0.51372 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82535 
+Lambda1 = 0.17465 
+r       = 0.11568 
+s       = 0.52349 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8286 
+Lambda1 = 0.1714 
+r       = 0.1136 
+s       = 0.56187 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82895 
+Lambda1 = 0.17105 
+r       = 0.11501 
+s       = 0.59384 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82684 
+Lambda1 = 0.17316 
+r       = 0.11473 
+s       = 0.58143 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83142 
+Lambda1 = 0.16858 
+r       = 0.11427 
+s       = 0.62778 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83343 
+Lambda1 = 0.16657 
+r       = 0.11342 
+s       = 0.58744 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82975 
+Lambda1 = 0.17025 
+r       = 0.1145 
+s       = 0.59157 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82919 
+Lambda1 = 0.17081 
+r       = 0.11436 
+s       = 0.56002 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.8307 
+Lambda1 = 0.1693 
+r       = 0.11486 
+s       = 0.58877 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82897 
+Lambda1 = 0.17103 
+r       = 0.11585 
+s       = 0.61756 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.83059 
+Lambda1 = 0.16941 
+r       = 0.1159 
+s       = 0.60079 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.82405 
+Lambda1 = 0.17595 
+r       = 0.11496 
+s       = 0.51154 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.76193 
+Lambda1 = 0.23807 
+r       = 0.18444 
+s       = 0.5945 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.76417 
+Lambda1 = 0.23583 
+r       = 0.20152 
+s       = 0.79302 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.89625 
+Lambda1 = 0.10375 
+r       = 0.25711 
+s       = 165 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.77229 
+Lambda1 = 0.22771 
+r       = 0.19746 
+s       = 0.9845 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.90271 
+Lambda1 = 0.09729 
+r       = 0.25593 
+s       = 165 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 0.01 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 0.01 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.71761 
+Lambda1 = 0.28239 
+r       = 0.44941 
+s       = 1.08123 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.72531 
+Lambda1 = 0.27469 
+r       = 0.37102 
+s       = 0.81484 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.44977 
+Lambda1 = 0.55023 
+r       = 0.53072 
+s       = 0.74889 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 59.91545 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 54.62843 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 39.75381 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 24.89109 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 47.82537 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.72068 
+Lambda1 = 0.27932 
+r       = 0.21546 
+s       = 0.53004 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.78664 
+Lambda1 = 0.21336 
+r       = 0.20225 
+s       = 0.64293 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.73959 
+Lambda1 = 0.26041 
+r       = 0.19904 
+s       = 0.59362 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.75433 
+Lambda1 = 0.24567 
+r       = 0.20153 
+s       = 0.55516 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.72615 
+Lambda1 = 0.27385 
+r       = 0.2067 
+s       = 0.54072 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.7561 
+Lambda1 = 0.2439 
+r       = 0.30429 
+s       = 0.86391 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.69468 
+Lambda1 = 0.30532 
+r       = 0.30685 
+s       = 0.57779 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.659 
+Lambda1 = 0.341 
+r       = 0.33583 
+s       = 0.60524 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.76127 
+Lambda1 = 0.23873 
+r       = 0.30914 
+s       = 0.85102 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 0.89004 
+Lambda1 = 0.10996 
+r       = 0.48654 
+s       = 38.95041 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 0.01 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 0.01 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 0.01 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 0.01 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 0.01 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 
+PPDE mixture model parameters
+-----------------------------
+Lambda0 = 1 
+Lambda1 = 0 
+r       = 165 
+s       = 0.01 

@@ -151,6 +151,20 @@ def simulate_number_experiments():
     return res
 
 
+def simulate_variance_range():                                                  
+    u_std = [0.02, 0.06, 0.18]                                                  
+    g_beta = [0.05, 0.1, 0.2]                                                   
+    fc = 2**0.5                                                                 
+                                                                                
+    res = {}                                                                    
+                                                                                
+    for v in u_std:                                                             
+        res["uniform_%.2f" % v] = err_bars_peptide(fc, 100, "U", var=v)         
+    for b in g_beta:                                                            
+        res["inv_gamma_%.2f" % b] = err_bars_peptide(fc, 100, "G", beta=b)      
+                                                                                
+    return res  
+
 def simulate_with_gamma(n, alpha=3, beta=0.1, nctrl=3, use_var=np.random.normal):
     variances = 1 / np.random.gamma(alpha, 1./beta, n)
     noise = np.array([
