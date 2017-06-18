@@ -300,7 +300,7 @@ def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nct
         pep_var
 
     Returns:
-        ctrl, exp, is_changed
+        ctrl, exp, is_changed, protein_id
         ctrl: ctrl intensities (n x nctrl Pandas df)
         exp: experimental intensities (n x nexp Pandas df)
         is_changed: 0-1 Numpy vector, 1 if peptide comes from perturbed protein
@@ -401,7 +401,7 @@ def cyberT(ctrl, exp):
     df = pd.concat([ctrl, exp], axis=1, ignore_index=True)
     df.columns = (['C%d' % (i+1) for i in xrange(ctrl.shape[1])] +
                   ['E%d' % (i+1) for i in xrange(exp.shape[1])])
-    res = r['bayesT'](df, numC = ctrl.shape[1], numE = exp.shape[1], ppde=False, doMulttest=True)
+    res = r['bayesT'](df, numC = ctrl.shape[1], numE = exp.shape[1], ppde=True, doMulttest=True)
     res = pandas2ri.ri2py(res)
 
     return res
@@ -558,7 +558,7 @@ def do_stat_tests_protein(ctrl, exp, protein):
          cyberT_pvals (median)
          fold_change (median)
     
-    TODO implement protein level rollup
+    TODO implement protein level rollup using variance background
          
     (+) = Proper measure is inverted: i.e. x* = max(x) - x
     """

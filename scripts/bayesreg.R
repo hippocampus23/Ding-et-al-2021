@@ -33,7 +33,7 @@ ALMOST_ZERO = 10E-14;
 ##       bayesIntE - use similar means (instead of similar variances) to calculate bayesian variance
 ##                   for the Experimentals
 ################################################################################
-bayesT <- function (aData, numC, numE, ppde=TRUE, betaFit=1, bayes=TRUE, winSize=101, conf=10, doMulttest=FALSE, bayesIntC=FALSE, bayesIntE=FALSE){
+bayesT <- function (aData, numC, numE, ppde=FALSE, betaFit=1, bayes=TRUE, winSize=101, conf=10, doMulttest=FALSE, bayesIntC=FALSE, bayesIntE=FALSE){
   if ((ceiling((winSize-1)/2))!=((winSize-1)/2))
     stop("ERROR: winSize must be an odd number.")
   
@@ -228,7 +228,7 @@ runMulttest <- function(pvals){
 ## bayesIntR - pool ratios for the variance, instead of pooling variances
 ## 
 ################################################################################
-bayesT.pair <-  function (aData, numR, ppde=TRUE, betaFit=1, bayes=TRUE, winSize=101, conf=10,
+bayesT.pair <-  function (aData, numR, ppde=FALSE, betaFit=1, bayes=TRUE, winSize=101, conf=10,
                           doMulttest=FALSE, bayesIntR=FALSE){
   if ((ceiling((winSize-1)/2))!=((winSize-1)/2))
     stop("ERROR: winSize must be an odd number.")

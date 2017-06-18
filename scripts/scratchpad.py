@@ -110,15 +110,19 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", **kwargs):
     for i in xrange(N_RUNS):
         if i % 50 == 0:
             print "At iteration %d" % i
-        with suppress_stdout():
-            ctrl, exp, is_changed = sampler(
-                N_PEPS,
-                num_to_change,
-                fold_changes,
-                **kwargs)
-            p_vals = do_stat_tests(ctrl, exp)
-            res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
-                is_changed, p_vals, fdr=0.05)
+        try:
+            with suppress_stdout():
+                ctrl, exp, is_changed = sampler(
+                    N_PEPS,
+                    num_to_change,
+                    fold_changes,
+                    **kwargs)
+                p_vals = do_stat_tests(ctrl, exp)
+                res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
+                    is_changed, p_vals, fdr=0.05)
+        except RRuntimeError:
+            print "R error!"
+            res[i,:,:] = np.nan
 
     # TODO filename
     # Runs 500 rounds of simulations and finds error bars on pAUC results
