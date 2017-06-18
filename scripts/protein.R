@@ -39,6 +39,10 @@ find_protein_medians <- function(pepdf, use_isoform=TRUE) {
       data = pepdf[, c('accession_number', 'fold_change')],
       FUN = function(x) c(med=median(x), max=max(abs(x)))
   )))
+
+  # Count number of peptides assigned to each protein
+  count = as.data.frame(table(pepdf$accession_number))
+
   out <- merge(pval_df, fold_change_df, by='accession_number')
   #     out <- merge(out, fold_change_cv, by='accession_number')
   return(out)

@@ -36,8 +36,9 @@ parse_psm_report <- function(peptidesdf) {
     # Maps the raw psm report to the appropriate proteins
     psm = read.table("data/Neurogranin_KD_PSM_021517.ssv", sep=';', quote='', header=TRUE)
 
-    reduced_psm <- psm[, c('sequence', 'TMT_126', 'TMT_127', 'TMT_128', 'TMT_129', 'TMT_130', 'TMT_131')]
-    colnames(reduced_psm) <- c('sequence', 'E1', 'E2', 'E3', 'C1', 'C2', 'C3')
+    reduced_psm <- log2(psm[, c('TMT_126', 'TMT_127', 'TMT_128', 'TMT_129', 'TMT_130', 'TMT_131')])
+    colnames(reduced_psm) <- c('E1', 'E2', 'E3', 'C1', 'C2', 'C3')
+    reduced_psm$sequence <- psm$sequence
     # Drop any rows with NAs in intensities
     reduced_psm <- reduced_psm[complete.cases(reduced_psm),]
 
@@ -249,13 +250,13 @@ protein_variance <- function(psm_data) {
 #############################
 
 # peptides <- map_peptides_to_proteins()
-# psm <- parse_psm_report(peptides)
+psm <- parse_psm_report(peptides)
 # peptides_cyberT <- do_cyberT(peptides)
-# psm_cyberT <- do_cyberT(psm)
+psm_cyberT <- do_cyberT(psm)
 # proteins <- find_protein_medians(peptides_cyberT)
 # proteins_final <- peptide_to_prot_signif(peptides_cyberT, proteins)
-# proteins_psm <- find_protein_medians(psm_cyberT)
-# proteins_psm_final <- peptide_to_prot_signif(psm_cyberT, proteins_psm)
+proteins_psm <- find_protein_medians(psm_cyberT)
+proteins_psm_final <- peptide_to_prot_signif(psm_cyberT, proteins_psm)
 # phosphos <- map_phosphosites_to_proteins()
 # phosphos_cyberT <- do_cyberT(phosphos)
 # phosphos_norm <- normalize_peptide_to_protein(phosphos, proteins)

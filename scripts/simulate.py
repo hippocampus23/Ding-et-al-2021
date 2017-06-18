@@ -271,7 +271,7 @@ def sample_no_ctrl_gamma(n, num_to_change, fold_changes, alpha=3, beta=0.1, nctr
     return pd.DataFrame(ctrl), pd.DataFrame(exp), is_changed
 
 
-def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nctrl=3, nexp=3, use_var = np.random.normal, prot_var=0.5, pep_var=3.5):
+def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nctrl=3, nexp=3, use_var = np.random.normal, prot_var=0.5, pep_var=3.5, background = "U", alpha=3, beta=0.1):
     """Simulate data from protein-level generation
 
     Samples log intensity data from protein-level generation
@@ -290,14 +290,15 @@ def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nct
         peps_per_prot: int Each protein will have peps_per_prot
                 OR len-n vector of ints
         var: number, square of scale parameter of variance distribution
-                FOR INDIVIDUAL PEPTIDE INTENSITIES
+                FOR INDIVIDUAL PEPTIDE INTENSITIES (only if uniform background)
         nctrl: optional, number of control channels
         nexp: optional, number of experimental channels
         use_var: optional, sampling function to use. 
             Should take arguments loc, scale, size
             Default is normal distribution
-        prot_var: optional, 
-        pep_var
+        prot_var: optional, variance of protein means. 
+        pep_var: optional, variance of peptide means given protein mean
+        background: optional, how variance is sampled
 
     Returns:
         ctrl, exp, is_changed, protein_id
@@ -306,7 +307,6 @@ def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nct
         is_changed: 0-1 Numpy vector, 1 if peptide comes from perturbed protein
         protein_id: 0...(m-1) Numpy vector of ints
     """
-    # TODO have inverse gamma noise background for each peptide
 
     # Set up protein sampling by determining number of peptides for each protein
     if isinstance(peps_per_prot, int):
@@ -322,8 +322,18 @@ def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nct
     indices = np.insert(indices, 0, 0)
     assert len(protein) == n
 
-    # Constant variance noise from specified background
-    noise = use_var(loc=0, scale=var**0.5, size=(n, nctrl + nexp))
+    if background == "U":
+        # Constant variance noise 
+        noise = use_var(loc=0, scale=var**0.5, size=(n, nctrl + nexp))
+    elif background == "G":
+        # Inverse gamma background
+        variances = 1 / np.random.gamma(alpha, 1./beta, n)
+        noise = np.array([
+            use_var(loc=0, scale=v**0.5, size=nctrl + nexp)
+            for v in variances
+        ])
+    else:
+        raise ValueError("Invalid setting of background")
     
     # Draw protein and peptide averages (length-n vectors)
     # Protein means are N(16, 0.5)
