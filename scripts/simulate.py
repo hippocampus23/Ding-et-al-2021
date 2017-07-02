@@ -164,7 +164,7 @@ def generate_samples(ctrl_data, num_to_change, fold_change, num_samples='same', 
     return out, is_changed
 
 
-def _perturb_exp(exp_noise, num_to_change, fold_changes):
+def _perturb_exp(exp_noise, num_to_change, fold_changes, binary_labels):
     """ Applies artificial perturbation to simulated experimental intensities
     """
     n = exp_noise.shape[0]
@@ -178,8 +178,13 @@ def _perturb_exp(exp_noise, num_to_change, fold_changes):
     perturbs = np.zeros(n, dtype=float)
     perturbs[:len(fold_changes)*num_to_change] = np.repeat(
             np.log2(fold_changes), num_to_change)
-    is_changed = np.zeros(n, dtype=int)
-    is_changed[:len(fold_changes)*num_to_change] = 1
+    if binary_labels:
+        is_changed = np.zeros(n, dtype=int)
+        is_changed[:len(fold_changes)*num_to_change] = 1
+    else:
+        is_changed = np.ones(n, dtype=float)
+        is_changed[:len(fold_changes)*num_to_change] = (1 if binary_labels else
+            np.repeat(fold_changes, num_to_change))
 
     exp = exp_noise + perturbs[:,np.newaxis]
 
@@ -187,7 +192,7 @@ def _perturb_exp(exp_noise, num_to_change, fold_changes):
 
 
 
-def sample_no_ctrl_uniform(n, num_to_change, fold_changes, var=0.06, nctrl=3, nexp=3, use_var=np.random.normal):
+def sample_no_ctrl_uniform(n, num_to_change, fold_changes, var=0.06, nctrl=3, nexp=3, use_var=np.random.normal, binary_labels=True):
     """ Simulate data from uniform variance background
 
     Samples log intensity data from normal distribution with uniform variance
@@ -205,12 +210,15 @@ def sample_no_ctrl_uniform(n, num_to_change, fold_changes, var=0.06, nctrl=3, ne
         nctrl: optional, number of control channels
         nexp: optional number of experimental channels
         use_var: sampling function to use. Should take arguments loc, scale, size
+        binary_labels: bool, whether to return binary indicators (0-1) or scalar
+            (log2 true fc) for each peptide
 
     Returns:
         ctrl, exp, is_changed
         ctrl: ctrl intensities (n x nctrl Pandas df)
         exp: experimental intensities (n x nexp Pandas df)
-        is_changed: 0-1 Numpy vector, 1 if peptide was perturbed
+        is_changed: length-n Numpy array indicating perturbation of peptide
+            (see binary_labels argument)
     """
     # 'Spike-in' data for controls? Other paper did, not sure if useful here
     # Why not do both?
@@ -222,12 +230,12 @@ def sample_no_ctrl_uniform(n, num_to_change, fold_changes, var=0.06, nctrl=3, ne
 
     background = noise + avg_ctrl[:,np.newaxis]
     ctrl, exp = background[:,:nctrl], background[:,nctrl:]
-    exp, is_changed = _perturb_exp(exp, num_to_change, fold_changes)
+    exp, is_changed = _perturb_exp(exp, num_to_change, fold_changes, binary_labels)
 
     return pd.DataFrame(ctrl), pd.DataFrame(exp), is_changed
 
 
-def sample_no_ctrl_gamma(n, num_to_change, fold_changes, alpha=3, beta=0.1, nctrl=3, nexp=3, use_var=np.random.normal):
+def sample_no_ctrl_gamma(n, num_to_change, fold_changes, alpha=3, beta=0.1, nctrl=3, nexp=3, use_var=np.random.normal, binary_labels=True):
     """ Simulate data with variances drawn from inverse gamma distribution
 
     Samples log intensity data from normal distribution with variance
@@ -246,12 +254,15 @@ def sample_no_ctrl_gamma(n, num_to_change, fold_changes, alpha=3, beta=0.1, nctr
         nctrl: optional, number of control channels
         nexp: optional number of experimental channels
         use_var: sampling function to use. Should take arguments loc, scale, size
+        binary_labels: bool, whether to return binary indicators (0-1) or scalar
+            (log2 true fc) for each peptide
 
     Returns:
         ctrl, exp, is_changed
         ctrl: ctrl intensities (n x nctrl Pandas df)
         exp: experimental intensities (n x nexp Pandas df)
-        is_changed: 0-1 Numpy vector, 1 if peptide was perturbed
+        is_changed: length-n Numpy array indicating perturbation of peptide
+            (see binary_labels argument)
     """
 
     # Sample len(n) variance vector according to inv gamma
@@ -266,7 +277,7 @@ def sample_no_ctrl_gamma(n, num_to_change, fold_changes, alpha=3, beta=0.1, nctr
 
     background = noise + avg_ctrl[:,np.newaxis]
     ctrl, exp = background[:,:nctrl], background[:,nctrl:]
-    exp, is_changed = _perturb_exp(exp, num_to_change, fold_changes)
+    exp, is_changed = _perturb_exp(exp, num_to_change, fold_changes, binary_labels)
 
     return pd.DataFrame(ctrl), pd.DataFrame(exp), is_changed
 

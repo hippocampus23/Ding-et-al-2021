@@ -25,6 +25,7 @@ DEF_FOLD_CHANGES = [2**i for i in np.arange(0.1, 1.1, 0.1)]
 
 def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500,**kwargs):
     """ Runs multiple rounds of simulations using given sampler 
+        Summarizes overall ROC scores
    
     Args:
         fold_changes: non-negative float or list of floats
@@ -72,24 +73,94 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500,*
             print "R error!"
             res[i,:,:] = np.nan
 
-    # TODO filename
-    # Runs 500 rounds of simulations and finds error bars on pAUC results
-    # Sav0es results to binary file if filename is not None
     end = time.time()
-
     print end - start
 
     return res
 
 
+def err_bars_fold_change(fold_changes, num_to_change, background = "U", n_runs=500,**kwargs):
+    """ Runs multiple rounds of simulation using the given sampler
+        Summarizes ROC scores split by fold change
+   
+    Args:
+        fold_changes: non-negative float or list of floats
+        num_to_change: int or list of ints
+        background: "U" or "G" for uniform or inverse gamma variance
+        filename: optional, if present will save results in binary format
+        kwargs: passed to variance generating function
+            [Possible args include var, nctrl, nexp, use_var, alpha, beta]
+
+    Returns:
+        np array of size N_RUNS x len(fold_changes) x len(DEFAULT_LABELS) x 3
+        contains AUC, pAUC, and PRC for each run and metric
+        arr[i][j][k] = (AUC, PRC, pAUC)
+            i = run index
+            j = fold_change index
+            k = metric index (i.e. cyberT, modT, etc)
+    """
+
+    # TODO REMOVE ME
+    start = time.time()
+   
+    # Hardcoded params
+    N_PEPS = 10000
+
+    if background == "U":
+        sampler = sample_no_ctrl_uniform
+    elif background == "G":
+        sampler = sample_no_ctrl_gamma
+    else:
+        raise ValueError("Invalid background specification")
+
+    res = np.zeros(
+            (n_runs, 
+            len(fold_changes), 
+            len(DEFAULT_LABELS), 
+            3), dtype=np.float32)
+
+    for i in xrange(n_runs):
+        if i % 50 == 0:
+            print "At iteration %d" % i
+        try:
+            with suppress_stdout():
+                ctrl, exp, fcs = sampler(
+                    N_PEPS,
+                    num_to_change,
+                    fold_changes,
+                    binary_labels=False,
+                    **kwargs)
+                p_vals = do_stat_tests(ctrl, exp)
+
+            # Create binary labels from scalar
+            is_changed = (fcs != 1).astype(int)
+            # Cast p_vals as 2D array for easier subsetting
+            p_vals = np.array(p_vals)
+
+            # Calculate ROC score for EACH fc seperately
+            for (j, fc) in enumerate(fold_changes):
+                # Subset of peptides which have fold change=1 or fold change=fc
+                idx = np.logical_or(fcs == 1, fcs == fc)
+                res[i,j,:,0], res[i,j,:,1], res[i,j,:,2] = roc_prc_scores(
+                        is_changed[idx], p_vals[:,idx], fdr=0.05)
+
+        except rpy2.rinterface.RRuntimeError:
+            print "R error!"
+            res[i,:,:,:] = np.nan
+
+    end = time.time()
+    print end - start
+
+    return res
+
 TIME_FORMAT = "%Y-%m-%d_%H:%M"
 
 def simulate_multiple_fc(background="G"):
     start = time.strftime(TIME_FORMAT)
-    fold_changes = 2**np.arange(1, 2, 1./1000)
+    fold_changes = 2**(np.arange(0, 1, 1./100) + 0.01)
 
-    res = err_bars_peptide(fold_changes, 1, background)
-    
+    res = err_bars_fold_change(fold_changes, 10, background, n_runs=300)
+    np.save("tmp_%s.npy" % start, res) 
     return res
 
 
