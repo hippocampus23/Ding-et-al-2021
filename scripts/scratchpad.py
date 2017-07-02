@@ -84,11 +84,20 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500,*
 
 TIME_FORMAT = "%Y-%m-%d_%H:%M"
 
+def simulate_multiple_fc(background="G"):
+    start = time.strftime(TIME_FORMAT)
+    fold_changes = 2**np.arange(1, 2, 1./1000)
+
+    res = err_bars_peptide(fold_changes, 1, background)
+    
+    return res
+
+
 def simulate_random_fc():
     """ Creates simulated datasets with random fc
     """
     start = time.strftime(TIME_FORMAT)
-    fc = np.random.normal(1.5, 0.05, 1000)
+    fc = np.random.normal(1.5, 0.15, 1000)
     
     res = err_bars_peptide(fc, 1, "G")
     np.save("tmp_%s.npy" % start, res)
@@ -100,7 +109,6 @@ def simulate_fold_change_range(fold_changes = DEF_FOLD_CHANGES, **kwargs):
     """
     start = time.strftime(TIME_FORMAT)
     res = {}
-    kwargs.setdefault("background", "U")
     
     for f in fold_changes:
         res[f] = err_bars_peptide(f, 1000, "G")
