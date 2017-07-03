@@ -306,7 +306,7 @@ def simulate_protein_fold_change_range(
     res = {}
     
     for f in fold_changes:
-        res[f] = err_bars_protein(5000, 500, f, 2, n_runs=2, **kwargs)
+        res[f] = err_bars_protein(5000, 500, f, 2, n_runs=150, **kwargs)
         np.save("tmp_%s.npy" % start, res)
     return res
 
