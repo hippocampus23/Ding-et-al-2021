@@ -281,12 +281,14 @@ def err_bars_protein(m, num_to_change, fold_changes, peps_per_prot, n_runs=500,*
                 # Invert fold change columns
                 for c in p_vals.columns:
                     if "fold_change" in c:
-                        p_vals[c] = np.max(p_vals[c]) - p_vals[c]
+                        p_vals[c] = np.max(p_vals[c]) - p_vals[c] + 0.01
 
                 res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
                     is_changed_final, [p_vals[c] for c in p_vals], fdr=0.05)
-        except rpy2.rinterface.RRuntimeError:
-            print "R error!"
+        except (rpy2.rinterface.RRuntimeError, ValueError) as e:
+            # TODO determine why value errors appear
+            # Infinite or NaN input? but where? p-val should be finite . . .
+            print "Some error!"
             res[i,:,:] = np.nan
 
     end = time.time()
@@ -295,14 +297,16 @@ def err_bars_protein(m, num_to_change, fold_changes, peps_per_prot, n_runs=500,*
     return res
 
 
-def simulate_protein_fold_change_range(fold_changes = DEF_FOLD_CHANGES, **kwargs):
+def simulate_protein_fold_change_range(
+        fold_changes=2**np.arange(0.05, 0.55, 0.05),
+        **kwargs):
     """Creates simulated datasets with error bars
     """
     start = time.strftime(TIME_FORMAT)
     res = {}
     
     for f in fold_changes:
-        res[f] = err_bars_protein(5000, 500, f, 2, n_runs=250, **kwargs)
+        res[f] = err_bars_protein(5000, 500, f, 2, n_runs=2, **kwargs)
         np.save("tmp_%s.npy" % start, res)
     return res
 
