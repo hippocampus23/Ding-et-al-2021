@@ -2,13 +2,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from roc import plot_both
 
 HEADER_TEMPLATE =  "| {:>20} | {:^16} | {:^16s} | {:^16s} |"
 DEF_FIELDS = ("AUROC", "AUPRC", "pAUC")
 BRK = "|" + ("-" * 22) + "|" + ((("-" * 18) +"|") *3)
 
 
-def subtable(res, labels):
+## Following two functions summarize results dictionary into table ##
+def _subtable(res, labels):
     """ Summarizes results with mean and standard deviation for each measure
     """
     mns = np.nanmean(res, axis=0)
@@ -34,7 +36,7 @@ def summarize_result_dictionary(res, labels, title = "", desc="{}"):
     
     for i in sorted(res.keys()):
         lines += [BRK, HEADER_TEMPLATE.format(desc.format(i), "", "", ""), BRK]
-        lines += subtable(res[i], labels)
+        lines += _subtable(res[i], labels)
 
     lines += [BRK]
 
@@ -42,6 +44,7 @@ def summarize_result_dictionary(res, labels, title = "", desc="{}"):
     return lines
 
 
+## Writes result dictionary to df. Switch to R for boxplot functions ##
 def write_result_dict_to_df(res, labels):
     """ Converts result dictionary to pandas dataframe
     NOTE: every df in res MUST have same length """
@@ -60,10 +63,23 @@ def write_result_dict_to_df(res, labels):
     out['labels'] = label_col
     out['setting'] = setting
     return out
-    
 
-def _boxplot(res, labels, ax):
-    pass
 
-def boxplot_result_dictionary(res, labels, title="", desc="{}"):
-    pass
+## Transform protein df results for plotting ##
+def plot_protein_result_df(df, is_changed, protein, exclude_cols = ['accession_number'], **kwargs):
+    """ Plots protein results on ROC curve
+        
+    Args: df - output of do_stats_tests_protein
+               Each column is a list of pvals
+          is_changed - 0/1 list of true labels
+          exclude_cols - default ['accession_number'], list of cols to exclude
+          kwargs - passed to plotting code
+            Include title, is_pval
+    """
+    # Rollup changes to the protein level
+    changed_df = pd.DataFrame({"p":protein, "ic":is_changed})
+    ic_final = changed_df.groupby("p").first()['ic']
+
+    df = df.drop(exclude_cols, axis=1, inplace=False)
+    labels = df.columns
+    plot_both(ic_final, [df[c] for c in df.columns], labels, **kwargs)

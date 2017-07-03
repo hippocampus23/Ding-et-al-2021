@@ -20,6 +20,7 @@ import scipy as sp
 
 from rpy2.robjects import r
 from rpy2.robjects import pandas2ri
+from scipy import stats
 
 
 #################
@@ -53,6 +54,7 @@ r['source']('protein.R')
 # r['modT_test'](data, "placeholder", dframe=TRUE, data.col=[DATA COLS])
 # r['bayesT'](data, numC, numE)
 # r['find_protein_medians'](pepdf)
+# r['proteinBayesT'](data, numC, numE, pool_intensity=True)
 
 
 #################
@@ -282,7 +284,7 @@ def sample_no_ctrl_gamma(n, num_to_change, fold_changes, alpha=3, beta=0.1, nctr
     return pd.DataFrame(ctrl), pd.DataFrame(exp), is_changed
 
 
-def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nctrl=3, nexp=3, use_var = np.random.normal, prot_var=0.5, pep_var=3.5, background = "U", alpha=3, beta=0.1):
+def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nctrl=3, nexp=3, use_var = np.random.normal, prot_var=0.5, pep_var=3.5, background = "U", alpha=3, beta=0.1, binary_labels=True):
     """Simulate data from protein-level generation
 
     Samples log intensity data from protein-level generation
@@ -310,6 +312,8 @@ def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nct
         prot_var: optional, variance of protein means. 
         pep_var: optional, variance of peptide means given protein mean
         background: optional, how variance is sampled
+        binary_labels: bool, whether to return binary indicators (0-1) or scalar
+            (log2 true fc) for each peptide
 
     Returns:
         ctrl, exp, is_changed, protein_id
@@ -322,11 +326,13 @@ def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nct
     # Set up protein sampling by determining number of peptides for each protein
     if isinstance(peps_per_prot, int):
         peps_per_prot = [peps_per_prot] * m
+    elif m % len(peps_per_prot) == 0:
+        peps_per_prot = np.repeat(peps_per_prot, m // len(peps_per_prot))
 
     # n is total number of peptides to generate
     n = sum(peps_per_prot)
     # Create array of protein indices
-    protein = np.repeat(np.arange(m), peps_per_prot)
+    protein = np.repeat(np.arange(m, dtype=int), peps_per_prot)
     # indices[prot] is first index of protein
     # indices[prot+1] is last index of protein
     indices = np.cumsum(peps_per_prot)
@@ -374,7 +380,7 @@ def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nct
     # and the offset to the fold_change
     for i, prot in enumerate(prot_to_change):
         start, stop = indices[prot], indices[prot+1]
-        is_changed[start:stop] = 1
+        is_changed[start:stop] = 1 if binary_labels else 2**offsets[i]
         perturb[start:stop] = offsets[i]
 
     exp = exp + perturb[:,None]
@@ -439,11 +445,11 @@ def t_test(ctrl, exp, ratio_test = False):
     if ratio_test:
         if ctrl.shape[1] == 1 or ctrl.shape[1] == exp.shape[1]:
             data = np.array(exp.values - ctrl.values)
-            _, pvals = sp.stats.ttest_1samp(data, 0, axis=1)
+            _, pvals = stats.ttest_1samp(data, 0, axis=1)
         else:
             raise ValueError('Not valid number of ctrl columns, see documentation')
     else:
-        _, pvals = sp.stats.ttest_ind(ctrl, exp, axis=1)
+        _, pvals = stats.ttest_ind(ctrl, exp, axis=1)
 
     return pvals
 
@@ -578,6 +584,10 @@ def do_stat_tests_protein(ctrl, exp, protein):
         (modT_pvals (median)
          cyberT_pvals (median)
          fold_change (median)
+         ), df
+
+    pvals are all series, sorted in increasing order of protein id
+    df has columns for pvals. Can pass directly into plot visualization
     
     TODO implement protein level rollup using variance background
          
@@ -618,15 +628,30 @@ def do_stat_tests_protein(ctrl, exp, protein):
     df['meanE'] = meanE
 
     out = protein_rollup(df)
-    fc = out['fold_change.med']
-    fc = np.max(fc) + 0.01 - fc
 
-    return (
-        out['modT_PVal.med'],
-        out['cyberT_PVal.med'],
-        fc
-    ), out
+    ctrl.reset_index(drop=True, inplace=True)
+    exp.reset_index(drop=True, inplace=True)
+    cyberT_df = pd.concat([ctrl, exp], axis=1, ignore_index=True)
+    cyberT_df.columns = (['C%d' % (i+1) for i in xrange(ctrl.shape[1])] +
+                  ['E%d' % (i+1) for i in xrange(exp.shape[1])])
+    protein_cyberT = r['proteinBayesT'](
+            cyberT_df,
+            ctrl.shape[1],
+            exp.shape[1],
+            pool_intensity=True,
+            aggregate_by=protein)
+    protein_cyberT = pandas2ri.ri2py(protein_cyberT)
 
+    out['cyberT_prior_pval'] = protein_cyberT['pVal']
+    return out
+
+## TODO this is VERY JANKY
+## Just a convience function for getting the column names . . .
+def protein_pval_labels():
+    ctrl, exp, is_changed, protein = sample_proteins(500, 0, 2, 1)
+
+    tmp = do_stat_tests_protein(ctrl, exp, protein)
+    return tmp.columns
 
 if __name__ == "__main__":
     # quick_modT, quick_cyberT = setup()

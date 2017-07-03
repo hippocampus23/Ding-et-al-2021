@@ -178,11 +178,10 @@ bayesT <- function (aData, numC, numE, ppde=FALSE, betaFit=1, bayes=TRUE, winSiz
 ################################################################################
 ##   Protein BayesT
 ##   Handles cases where entries in the dataframe may be vectors
+##   Still treats all observations as independent
 ##   
-##       Adata - Actual data frame (ncol = numC + numE) contiguous controls then experimentals. Some entries may be lists
-##          MUST be ordered in increasing order of number of peptides per protein
-##          TODO figure this out
-##          For now require that all proteins have > 1 peptide
+##       aData - Actual data frame (ncol = numC + numE) contiguous controls then experimentals. Some entries may be lists
+##       aggregate_by = vector of length n by which to aggregate aData
 ##       bayes = do bayesian est of variance
 ##       winSize = how big around sorted dpoints for prior calc, has to be odd.
 ##       conf = degrees of freedom for each population prior calculation.
@@ -193,11 +192,19 @@ bayesT <- function (aData, numC, numE, ppde=FALSE, betaFit=1, bayes=TRUE, winSiz
 ##                   for the Controls
 ##       bayesIntE - use similar means (instead of similar variances) to calculate bayesian variance
 ##                   for the Experimentals
+##       TODO document additional arguments
 ################################################################################
-proteinBayesT <- function (aData, numC, numE, bayes=TRUE, winSize=101, conf=10, doMulttest=TRUE, bayesIntC=FALSE, bayesIntE=FALSE, pool="intensity"){
+proteinBayesT <- function (data, numC, numE, aggregate_by=NULL, bayes=TRUE, winSize=101, conf=10, doMulttest=TRUE, bayesIntC=FALSE, bayesIntE=FALSE, pool_intensity=TRUE){
   if ((ceiling((winSize-1)/2))!=((winSize-1)/2))
     stop("ERROR: winSize must be an odd number.")
-  
+
+  if (!is.null(aggregate_by)) {
+    aData <- aggregate(data, by=list(aggregate_by), FUN=function(x) list(x))
+    aData$Group.1 <- NULL
+  } else {
+    aData <- data
+  }
+     
   numGene<- nrow(aData)
   
   ## compute number of valid entries for each gene
@@ -236,33 +243,51 @@ proteinBayesT <- function (aData, numC, numE, bayes=TRUE, winSize=101, conf=10, 
     # TODO set up the intensity vs number of peptides calculation
     # If using number of peptides assign background variance of all 1-measure
     # proteins to be the std of all single peptides?
+    # For single peptide, average of all 1-peptide proteins
+    # For multiple peptides, average in rolling window by intensity for now
 
     ## Here we calculate the average sds over windows of probes.
     rasdC <- rep(NA, numGene)
-    ## basic case, order by means, average the sds in a window.
-    temp <- runavg(stdC[!is.na(stdC)][order(meanC[!is.na(stdC)])],((winSize-1)/2))	
-    temp <- temp[rank(meanC[!is.na(stdC)])]
+    if (pool_intensity) {
+      ## basic case, order by means, average the sds in a window.
+      temp <- runavg(stdC[!is.na(stdC)][order(meanC[!is.na(stdC)])],((winSize-1)/2))	
+      temp <- temp[rank(meanC[!is.na(stdC)])]
+    } else { 
+      ## Alternative case, order by number of peptides
+      temp <- runavg(stdC[!is.na(stdC)][order(nC[!is.na(stdC)])],((winSize-1)/2))	
+      temp <- temp[rank(nC[!is.na(stdC)])]
+    }
     rasdC[!is.na(stdC)] <- temp
+
     ## Calculate sd window for rows which have only 1
     ## Use variance of means of nearby peptides
-    intMat <- as.matrix(aData[nC == 1, 1:numC]);
-    intMat <- intMat[order(meanC[nC == 1]), ];
-    temp <- runavgPool(intMat, winSize)
-    temp <- temp[rank(meanC[nC == 1])]
-    rasdC[nC == 1]<- temp
+    # intMat <- as.matrix(aData[nC == 1, 1:numC]);
+    # intMat <- intMat[order(meanC[nC == 1]), ];
+    # temp <- runavgPool(intMat, winSize)
+    # temp <- temp[rank(meanC[nC == 1])]
+    # rasdC[nC == 1]<- temp
 
-    
+    ## Overall std of all 1-peptide proteins 
+    rasdC[nC == 1] <- sd(aData[nC==1, 1:numC])
+   
+
     ## Same here, check for a single replicate in the experiment.
     rasdE <- rep(NA, numGene)
-    temp <- runavg(stdE[!is.na(stdE)][order(meanE[!is.na(stdE)])],((winSize-1)/2))	
-    temp <- temp[rank(meanE[!is.na(stdE)])]	
-    rasdE[!is.na(stdE)]<- temp
+    if (pool_intensity) {
+      temp <- runavg(stdE[!is.na(stdE)][order(meanE[!is.na(stdE)])],((winSize-1)/2))
+      temp <- temp[rank(meanE[!is.na(stdE)])]
+    } else {
+      temp <- runavg(stdE[!is.na(stdE)][order(nE[!is.na(stdE)])],((winSize-1)/2))
+      temp <- temp[rank(nE[!is.na(stdE)])]
+    }
+    rasdE[!is.na(stdE)] <- temp
 
-    intMat<- as.matrix(aData[nE == 1, (numC+1):(numC+numE)]);
-    intMat <- intMat[order(meanE[nE == 1]), ];
-    temp <- runavgPool(intMat, winSize)	
-    temp <- temp[rank(meanE[nE == 1])]
-    rasdE[nE == 1]<- temp
+    # intMat<- as.matrix(aData[nE == 1, (numC+1):(numC+numE)]);
+    # intMat <- intMat[order(meanE[nE == 1]), ];
+    # temp <- runavgPool(intMat, winSize)	
+    # temp <- temp[rank(meanE[nE == 1])]
+    # rasdE[nE == 1]<- temp
+    rasdE[nE == 1] <- sd(aData[nE==1, (numC+1):(numC+numE)])
     
     ## Before computing the Bayes SD, go through and set StdC to almost (zero)  whereever is.na and rasdC is not NA
     ##   Vice versa for the expt data
@@ -299,7 +324,7 @@ proteinBayesT <- function (aData, numC, numE, bayes=TRUE, winSize=101, conf=10, 
     ttest <- t(apply(sumStats, 1, function(x) tstat(x)))
     colnames(ttest)=c("bayesT","bayesDF","varRatio")
     ##change Bayes degree of freedom to reflect pseudo-counts
-    ttest[,2] <- ttest[,2] + 2 * conf - 2		    
+    ttest[,2] <- ttest[,2] + 2 * conf - 2
     
     ##Subtract out the fake df for each single rep case:
     toSub <- sum(c(numC ==1, numE == 1 ));
@@ -317,11 +342,11 @@ proteinBayesT <- function (aData, numC, numE, bayes=TRUE, winSize=101, conf=10, 
   
   ## Then the final data.frame 
   if (bayes){
-    objBayes<- cbind(aData, nC, nE, meanC, meanE, stdC, stdE, fold, rasdC, rasdE, bayesSDC, bayesSDE,ttest, 
+    objBayes<- cbind(nC, nE, meanC, meanE, stdC, stdE, fold, rasdC, rasdE, bayesSDC, bayesSDE,ttest, 
                      pVal)
   }
   else{
-    objBayes<- cbind(aData, nC, nE, meanC, meanE, stdC, stdE, fold, ttest, pVal)
+    objBayes<- cbind(nC, nE, meanC, meanE, stdC, stdE, fold, ttest, pVal)
   }
 
   ## Mult testing correction
@@ -329,7 +354,7 @@ proteinBayesT <- function (aData, numC, numE, bayes=TRUE, winSize=101, conf=10, 
     ##Bind them, last two cols of adjp list in original order
     objBayes <- data.frame(objBayes, runMulttest(pVal))
   }
-  
+
   return(objBayes)
 }
 ################################################################################
@@ -1108,6 +1133,7 @@ runAllBayesAnova <- function(aData, numVec, bayes=1, winSize=101, conf=10, ppde=
     aovRes <- data.frame(aovRes, mtData)
   }
   aovRes
+
 }
 
 ################################################################################

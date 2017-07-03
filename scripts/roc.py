@@ -71,7 +71,8 @@ def plot_prc(y_act, pred, ax = None, is_pval=True, label='Area '):
 def plot_partial_auc(y_act, pred, fdr=0.05, ax=None, is_pval=True, label='Area '):
     """Calculates partial AUC up to FDR specified
 
-    TODO determine how to regularize the AUC measurement (!)
+    TODO determine how to regularize the AUC measurement
+        Currently simply divided by total area between 0 and FDR
     """
     if ax is None:
         f, ax = plt.subplots(1,1)
@@ -105,7 +106,7 @@ def plot_partial_auc(y_act, pred, fdr=0.05, ax=None, is_pval=True, label='Area '
     return AUC, ax, f
 
 
-def plot_both(y_act, p_vals, labels, title='', **kwargs):
+def plot_both(y_act, p_vals, labels, title='', is_pval=True, **kwargs):
     """
     Plots comparison of multiple methods
     
@@ -115,7 +116,9 @@ def plot_both(y_act, p_vals, labels, title='', **kwargs):
             If any p_vals are None, the entry is skipped. TODO handle this better
         labels: list of strings for legend, k x 1)
         title: optional, string for figur title
-        kwargs: passed through to plotting functions. Currently supports is_pval
+        is_pval: optional, default TRUE. Can be bool or list of bool, determines
+            if each set of pvals should be inverted or not
+        kwargs: passed through to plotting functions [NOT CURRENTLY USED]
 
     Returns:
         f, axarr
@@ -126,11 +129,14 @@ def plot_both(y_act, p_vals, labels, title='', **kwargs):
     f.suptitle(title, fontsize=16)
     kwargs.pop('ax', None)
 
+    if isinstance(is_pval, bool):
+        is_pval = [is_pval] * len(p_vals)
+
     for i, p_val in enumerate(p_vals):
         if p_val is None:
             continue  # TODO handle this better
-        plot_roc(y_act, p_val, ax=axarr[0], label=labels[i], **kwargs)
-        plot_partial_auc(y_act, p_val, ax=axarr[1], label=labels[i], fdr=0.05, **kwargs)
+        plot_roc(y_act, p_val, ax=axarr[0], label=labels[i], is_pval=is_pval[i])
+        plot_partial_auc(y_act, p_val, ax=axarr[1], label=labels[i], fdr=0.05, is_pval=is_pval[i])
         # plot_prc(y_act, p_val, ax=axarr[1], label=labels[i], **kwargs)
 
     return f, axarr

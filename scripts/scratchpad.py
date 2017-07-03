@@ -23,6 +23,8 @@ def suppress_stdout():
 DEF_FOLD_CHANGES = [2**i for i in np.arange(0.1, 1.1, 0.1)]
 
 
+### Functions for running multiple rounds of trials on peptide level ###
+
 def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500,**kwargs):
     """ Runs multiple rounds of simulations using given sampler 
         Summarizes overall ROC scores
@@ -229,6 +231,97 @@ def simulate_with_gamma(n, alpha=3, beta=0.1, nctrl=3, use_var=np.random.normal)
     ])
 
     return noise
+
+### Functions for simulating multiple trials on protein level ###
+
+def err_bars_protein(m, num_to_change, fold_changes, peps_per_prot, n_runs=500,**kwargs):
+    """ Runs multiple rounds of simulations using given sampler 
+        Summarizes overall ROC scores
+   
+    Args:
+        m: number of proteins
+        num_to_change: int or list of ints
+        fold_changes: non-negative float or list of floats
+        background: "U" or "G" for uniform or inverse gamma variance
+        filename: optional, if present will save results in binary format
+        kwargs: passed to variance generating function
+            [Possible args include var, nctrl, nexp, use_var, alpha, beta, background]
+
+    Returns:
+        np array of size N_RUNS x len(protein_pval_labels()) x 3
+        contains AUC, pAUC, and PRC for each run and metric
+        arr[i][j] = (AUC, PRC, pAUC)
+    """
+
+    # TODO REMOVE ME
+    start = time.time()
+    # TODO this is REALLY JANKY
+    with suppress_stdout():
+        labels = protein_pval_labels()
+   
+    res = np.zeros((n_runs, len(labels) - 1, 3), dtype=np.float32)
+
+    for i in xrange(n_runs):
+        if i % 50 == 0:
+            print "At iteration %d" % i
+        try:
+            with suppress_stdout():
+                ctrl, exp, is_changed, protein = sample_proteins(
+                    m,
+                    num_to_change,
+                    fold_changes,
+                    peps_per_prot,
+                    **kwargs)
+                p_vals = do_stat_tests_protein(ctrl, exp, protein)
+                # Format is_changed
+                is_changed_final = extract_y_act_protein(
+                        p_vals, protein, is_changed)
+                # Now drop acc_num columns
+                p_vals.drop('accession_number', axis=1, inplace=True)
+                # Invert fold change columns
+                for c in p_vals.columns:
+                    if "fold_change" in c:
+                        p_vals[c] = np.max(p_vals[c]) - p_vals[c]
+
+                res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
+                    is_changed_final, [p_vals[c] for c in p_vals], fdr=0.05)
+        except rpy2.rinterface.RRuntimeError:
+            print "R error!"
+            res[i,:,:] = np.nan
+
+    end = time.time()
+    print end - start
+
+    return res
+
+
+def simulate_protein_fold_change_range(fold_changes = DEF_FOLD_CHANGES, **kwargs):
+    """Creates simulated datasets with error bars
+    """
+    start = time.strftime(TIME_FORMAT)
+    res = {}
+    
+    for f in fold_changes:
+        res[f] = err_bars_protein(5000, 500, f, 2, n_runs=250, **kwargs)
+        np.save("tmp_%s.npy" % start, res)
+    return res
+
+
+def simulate_protein_num_peps(**kwargs):
+    """Creates simulated datasets with error bars
+    """
+    start = time.strftime(TIME_FORMAT)
+    res = {}
+    num_peps = [1,2,4,10]
+    N_PEPS = 10000
+    
+    for n_p in num_peps:
+        m = N_PEPS / n_p
+        tc = m / 10
+        res["u_%d" % n_p] = err_bars_protein(m, tc, 2**(0.3), n_p, n_runs=2, **kwargs)
+        res["g_%d" % n_p] = err_bars_protein(m, tc, 2**(0.3), n_p, n_runs=2, background="G", **kwargs)
+        np.save("tmp_%s.npy" % start, res)
+    return res
 
 
 def DEP_simulate_fold_change_range(
