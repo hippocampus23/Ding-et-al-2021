@@ -45,9 +45,12 @@ def summarize_result_dictionary(res, labels, title = "", desc="{}"):
 
 
 ## Writes result dictionary to df. Switch to R for boxplot functions ##
-def write_result_dict_to_df(res, labels):
+def write_result_dict_to_df(res, labels, filename=None):
     """ Converts result dictionary to pandas dataframe
-    NOTE: every df in res MUST have same length """
+    NOTE: every df in res MUST have same length 
+    Labels MUST be the same length as the second to last dimenstion of res"""
+
+
     skeys = sorted(res.keys())
     sorted_res = [res[i].reshape(res[i].shape[0] * res[i].shape[1], -1) 
                   for i in skeys]
@@ -62,6 +65,9 @@ def write_result_dict_to_df(res, labels):
     out.columns = ["AUROC", "AUPRC", "pAUROC"]
     out['labels'] = label_col
     out['setting'] = setting
+
+    if filename is not None:
+        out.to_csv(filename)
     return out
 
 

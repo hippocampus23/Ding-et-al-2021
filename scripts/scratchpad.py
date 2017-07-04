@@ -83,6 +83,7 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500,*
 
 def err_bars_fold_change(fold_changes, num_to_change, background = "U", n_runs=500,**kwargs):
     """ Runs multiple rounds of simulation using the given sampler
+        ROC scores are calculated for each fold change subset of the original
         Summarizes ROC scores split by fold change
    
     Args:

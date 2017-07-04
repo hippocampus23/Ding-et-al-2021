@@ -166,6 +166,40 @@ def extract_y_act_protein(protein_df, protein_ids, is_changed):
     return joint['is_changed']
 
 
+def plot_multiple_fc(multiple_fc_result, fold_changes, labels, title=""):
+    """ Plots "partial" ROC with respect to FC
+    TODO for now just plots pAUC
+    Maybe change API . . .
+
+    multiple_fc_result: 4D numpy array
+        [i][j][k] = (AUROC, AUPRC, pAUROC) for trial i, fold change index j,
+        and label k
+    fold_changes: 1D array of fold changes, length must equal fc_result.shape[1]
+    labels: 1D array of string labels, length must equal fc_result.shape[2]
+    """
+    # TODO check invariants asserted above
+
+    # Mean ROC
+    mean = np.nanmean(multiple_fc_result, axis=0)
+    # Stderr ROC
+    std = np.nanstd(multiple_fc_result, axis=0)
+
+    f, ax = plt.subplots()
+
+    for i, label in enumerate(labels):
+        lbl_mn = mean[:,i,2]
+        lbl_std = std[:,i,2]
+        mean_ln, = ax.plot(fold_changes, lbl_mn, lw=2, label=label)
+        ax.fill_between(fold_changes, lbl_mn-lbl_std, lbl_mn+lbl_std,
+            facecolor=mean_ln.get_color(), alpha=0.3, interpolate=True)
+    
+    ax.set_ylim(0, 1)
+    ax.set_xlabel('log2(fold_change)')
+    ax.set_ylabel('pAUC')
+    ax.set_title('pAUC versus fold_change for multiple FC in one experiment, %s' % title)
+    ax.legend(loc='bottom right', fontsize= 'medium', title='AUC')
+
+
 def roc_prc_scores(y_act, p_val, is_pval=True, fdr=0.05):
     """ Calculates AUROC, AUPRC, and pAUROC statistics
 

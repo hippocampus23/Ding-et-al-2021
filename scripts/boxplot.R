@@ -54,21 +54,34 @@ boxplot_results_pauc <- function(df, title="", xlab="Setting"){
   return(p1)
 }
 
-read_data_and_plot <- function(df_name, title, xlab) {
-  png(paste("AUTO_", strsplit(df_name,"\\.")[[1]][1], "_pauc.png", sep=""),
-      width=1280,
-      height=720,
-      units="px")
-  df = read.csv(df_name)
-  boxplot_results_pauc(df, title, xlab)
-  dev.off() 
+read_data_and_plot <- function(df_name, title, xlab, plot="pAUC") {
+  df <- read.csv(paste("data_simulated/", df_name, sep=""))
+  df <- df[complete.cases(df),]
+  name <- strsplit(df_name,"\\.")[[1]][1]
+  ggsave(paste("AUTO_", name, "_pauc.png", sep=""),
+      boxplot_results_pauc(df, title, xlab),
+      width=12.80,
+      height=7.20,
+      dpi=100)
 }
 
-plots <- list(
+replot_all <- function(plot_names) {
+  lapply(plot_names, FUN = function(x) read_data_and_plot(x[1], x[2], x[3]))
+}
+
+plot_names <- list(
     c("df_inv_gam_lap.csv", "Fold change varies, inverse gamma background, Laplacian noise", "log2(fold change)"),
     c("df_inv_gam_norm.csv", "Fold change varies, inverse gamma background, normal noise", "log2(fold change)"),
     c("df_uni_lap.csv", "Fold change varies, uniform background, Laplacian noise", "log2(fold change)"),
     c("df_nexp.csv", "Number of channels varies", "Number of channels"),
     c("df_random_fc.csv", "Fold change is randomly distributed", "Variance model"),
     c("df_var.csv", "Fixed fold change", "Variance model")
+)
+
+plot_protein_names <- list(
+    c("df_prot_fc_range_uni_2.csv", "Fold change varies, 2 peptides, uniform background", "log2(fold_change)"),
+    c("df_prot_fc_range_uni_4.csv", "Fold change varies, 4 peptides, uniform background", "log2(fold_change)"),
+    c("df_prot_fc_range_gam_2.csv", "Fold change varies, 2 peptides, Inv Gam background", "log2(fold_change)"),
+    c("df_prot_fc_range_gam_4.csv", "Fold change varies, 4 peptides, Inv Gam background", "log2(fold_change)"),
+    c("df_prot_num_peps.csv", "Number of peptides varies, log2(FC)=0.3", "Variance and peptide count")
 )
