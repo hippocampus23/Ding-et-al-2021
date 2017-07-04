@@ -158,7 +158,32 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", n_runs=5
 
 TIME_FORMAT = "%Y-%m-%d_%H:%M"
 
+def simulate_compare_one_two_sided():
+    """ Compare one-sided fold change with two-sided fold change
+
+    Compares single fc = 2**(0.5) with
+             single fc = 2**(-0.5) with
+             two fc = 2**([0.5, -0.5])
+             for both uniform and inv gam variance models
+    """
+    start = time.strftime(TIME_FORMAT)
+    fc1 = 2**(0.5)
+    fc2 = 2**(-0.5)
+
+    res = {}
+    res['hi_1_tail_uni'] = err_bars_peptide(fc1, 1000, "U", n_runs=500)
+    res['hi_1_tail_gam'] = err_bars_peptide(fc1, 1000, "G", n_runs=500)
+    res['lo_1_tail_uni'] = err_bars_peptide(fc2, 1000, "U", n_runs=500)
+    res['lo_1_tail_gam'] = err_bars_peptide(fc2, 1000, "G", n_runs=500)
+    res['2_tail_uni'] = err_bars_peptide([fc1,fc2], 500, "U", n_runs=500)
+    res['2_tail_gam'] = err_bars_peptide([fc1,fc2], 500, "G", n_runs=500)
+
+    np.save("tmp_%s.npy" % start, res) 
+    return res
+
 def simulate_multiple_fc(background="G"):
+    """ Generate partial ROCs for uniformly distributed FCs
+    """
     start = time.strftime(TIME_FORMAT)
     fold_changes = 2**(np.arange(0, 1, 1./100) + 0.01)
 
@@ -168,7 +193,7 @@ def simulate_multiple_fc(background="G"):
 
 
 def simulate_random_fc():
-    """ Creates simulated datasets with random fc
+    """ Creates simulated datasets with random fc, normally distributed
     """
     start = time.strftime(TIME_FORMAT)
     fc = np.random.normal(1.5, 0.15, 1000)
