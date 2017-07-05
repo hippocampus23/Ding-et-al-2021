@@ -1,13 +1,18 @@
 """
 Scratchpad for random functions and fragments which are useful
-in the IPython notebook
 
-IMPORTANT
-Some imports are omitted because functions are ONLY for interactive shell
-Run from IPython with -i flag
+Most of these functions deal with setting up and running long running tasks
+such as multiple rounds of simulations
 """
 from contextlib import contextmanager
-import sys, os
+import sys, os, time
+sys.dont_write_bytecode = True  # Avoid caching problems
+
+from format_results import *
+from heavy_tailed import *
+from roc import *
+from simulate import *
+
 
 @contextmanager
 def suppress_stdout():
@@ -107,7 +112,7 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", n_runs=5
     start = time.time()
    
     # Hardcoded params
-    N_PEPS = 10000
+    N_PEPS = 100000
 
     if background == "U":
         sampler = sample_no_ctrl_uniform
@@ -181,14 +186,16 @@ def simulate_compare_one_two_sided():
     np.save("tmp_%s.npy" % start, res) 
     return res
 
-def simulate_multiple_fc(background="G"):
+def simulate_multiple_fc(background="G", filename=None):
     """ Generate partial ROCs for uniformly distributed FCs
     """
     start = time.strftime(TIME_FORMAT)
+    if filename is None:
+        filename = "tmp_%s.npy" % start
     fold_changes = 2**(np.arange(0, 1, 1./100) + 0.01)
 
-    res = err_bars_fold_change(fold_changes, 10, background, n_runs=300)
-    np.save("tmp_%s.npy" % start, res) 
+    res = err_bars_fold_change(fold_changes, 100, background, n_runs=2)
+    np.save(filename, res) 
     return res
 
 
