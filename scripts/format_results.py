@@ -47,9 +47,13 @@ def summarize_result_dictionary(res, labels, title = "", desc="{}"):
 ## Writes result dictionary to df. Switch to R for boxplot functions ##
 def write_result_dict_to_df(res, labels, filename=None):
     """ Converts result dictionary to pandas dataframe
-    NOTE: every df in res MUST have same length 
+    NOTE: every df in res MUST have same length (n x |labels| x 3)
     Labels MUST be the same length as the second to last dimenstion of res"""
-
+    
+    len_label_dim = np.array([v.shape[-2] for v in res.itervalues()])
+    if not np.all(len_label_dim == len(labels)):
+        raise ValueError("Length of labels does not match second-to-last \
+                input dimension for all dataframes in res")
 
     skeys = sorted(res.keys())
     sorted_res = [res[i].reshape(res[i].shape[0] * res[i].shape[1], -1) 

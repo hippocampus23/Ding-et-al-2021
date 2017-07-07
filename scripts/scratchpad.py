@@ -114,7 +114,7 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", n_runs=5
     start = time.time()
    
     # Hardcoded params
-    N_PEPS = 100000
+    N_PEPS = 10000
 
     if background == "U":
         sampler = sample_no_ctrl_uniform
@@ -122,10 +122,11 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", n_runs=5
         sampler = sample_no_ctrl_gamma
     else:
         raise ValueError("Invalid background specification")
-
+    
+    unique_fold_changes = np.unique(fold_changes)
     res = np.zeros(
             (n_runs, 
-            len(fold_changes), 
+            len(unique_fold_changes), 
             len(DEFAULT_LABELS), 
             3), dtype=np.float32)
 
@@ -148,7 +149,7 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", n_runs=5
             p_vals = np.array(p_vals)
 
             # Calculate ROC score for EACH fc seperately
-            for (j, fc) in enumerate(fold_changes):
+            for (j, fc) in enumerate(unique_fold_changes):
                 # Subset of peptides which have fold change=1 or fold change=fc
                 idx = np.logical_or(fcs == 1, fcs == fc)
                 res[i,j,:,0], res[i,j,:,1], res[i,j,:,2] = roc_prc_scores(
@@ -189,7 +190,7 @@ def simulate_compare_one_two_sided():
     np.save("tmp_%s.npy" % start, res) 
     return res
 
-def simulate_multiple_fc_normal(background="G", filename=None):
+def simulate_multiple_fc_normal(background="G", n_runs=250, filename=None):
     """ Generate partial ROCs for normally distruited FCs (bucketed!)
         Compare to uniformly distributed FCs
 
@@ -197,22 +198,70 @@ def simulate_multiple_fc_normal(background="G", filename=None):
         -1 . . . 1
     """
     start = time.strftime(TIME_FORMAT)
+    N_TO_CHANGE = 1000
     if filename is None:
         filename = "tmp_%s.npy" % start
-   
+    filename_csv = filename[:-4] + ".csv"
+
+    # Set up buckets and weight appropriately
     norm = lambda x: np.exp(-x**2./(2*STD**2))/(2*pi*STD)**0.5  # Normal pdf
     buckets_all = np.setdiff1d(np.arange(-8, 9, 1), [0]) / 10.
-    buckets = np.setdiff1d(np.arange(-10, 11, 1), np.arange(-4, 5, 1)) / 10.
+    buckets = np.setdiff1d(np.arange(-8, 9, 1), np.arange(-4, 5, 1)) / 10.
     n_density_all = norm(buckets_all)
     n_density_all /= sum(n_density_all)
     n_density = norm(buckets)
     n_density /= sum(n_density)
 
-    num_to_change_uni = 1000
+    fold_changes = np.repeat(
+            buckets_all,
+            int(N_TO_CHANGE / len(buckets_all)))
+    fold_changes_n = np.repeat(
+            buckets,
+            np.round(N_TO_CHANGE * n_density).astype(int))
+    fold_changes_n_all = np.repeat(
+            buckets_all,
+            np.round(N_TO_CHANGE * n_density_all).astype(int))
 
-    # res = err_bars_fold_change(fold_changes, 100, background, n_runs=2)
-    # np.save(filename, res) 
-    return n_density, n_density_all
+    print N_TO_CHANGE * n_density
+    print N_TO_CHANGE * n_density_all
+
+    res_uniform = err_bars_fold_change(fold_changes, 1,
+                                       background, n_runs=n_runs)
+    res_norm = err_bars_fold_change(fold_changes_n, 1,
+                                    background, n_runs=n_runs)
+    res_norm_all = err_bars_fold_change(fold_changes_n_all, 1,
+                                        background, n_runs=n_runs)
+
+    # Drop the last two labels (t-test and one-tailed t-test)
+    keep_pvals = [0,1,4]
+    res_uniform = res_uniform[:,:,keep_pvals,:]
+    res_norm = res_norm[:,:,keep_pvals,:]
+    res_norm_all = res_norm_all[:,:,keep_pvals,:]
+
+    # Rearrange matrix so conditions are grouped by fold change 
+    # First pad the incomplete bucket list
+    missing = np.setdiff1d(buckets_all, buckets)
+    idx = np.where(buckets_all >= missing[0])[0][0] - 1  ## Idx at which to pad
+    shape = res_norm.shape
+    res_norm_padded = np.concatenate((
+            res_norm[:,:idx,:,:],
+            np.zeros((shape[0], len(missing), shape[2], shape[3]), dtype=float),
+            res_norm[:,idx:,:,:]),
+            axis=1)
+    # Concat along second to last dimension to squash conditions into setting
+    res_arr = np.concatenate(
+            (res_uniform, res_norm_padded, res_norm_all),
+            axis=2)
+    res = {fc: res_arr[:,i,:,:] for i,fc in enumerate(buckets_all)}
+    labels = ["%s: %s" % (lbl, ms)
+              for lbl in ["Uniform, all", "Normal", "Normal, all"]
+              for ms in ["ModT", "CyberT", "fold_change"]]
+    print labels
+    
+    # Here we save as both csv and npy file
+    np.save(filename, res) 
+    write_result_dict_to_df(res, labels, filename_csv)  ## TODO make less jank
+    return res
     
 
 def simulate_multiple_fc(background="G", filename=None):

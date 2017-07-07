@@ -84,7 +84,9 @@ plot_names <- list(
     c("df_uni_lap.csv", "Fold change varies, uniform background, Laplacian noise", "log2(fold change)"),
     c("df_nexp.csv", "Number of channels varies", "Number of channels"),
     c("df_random_fc.csv", "Fold change is randomly distributed", "Variance model"),
-    c("df_var.csv", "Fixed fold change", "Variance model")
+    c("df_var.csv", "Fixed fold change", "Variance model"),
+    c("df_compare_one_two_sided.csv", "One vs two sided fold change", "Fold change"),
+    c("df_with_without_central_fc.csv", "Normally distributed FC, with and without central variation")
 )
 
 plot_protein_names <- list(
