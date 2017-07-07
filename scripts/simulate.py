@@ -179,7 +179,7 @@ def _perturb_exp(exp_noise, num_to_change, fold_changes, binary_labels):
     # This should not affect the analysis: can always randomize order
     perturbs = np.zeros(n, dtype=float)
     perturbs[:len(fold_changes)*num_to_change] = np.repeat(
-            np.log2(fold_changes), num_to_change)
+            fold_changes, num_to_change)
     if binary_labels:
         is_changed = np.zeros(n, dtype=int)
         is_changed[:len(fold_changes)*num_to_change] = 1
@@ -206,7 +206,7 @@ def sample_no_ctrl_uniform(n, num_to_change, fold_changes, var=0.06, nctrl=3, ne
         num_to_change: integer number of rows to which each fold change
                         perturbation should be applied
                         NOTE: num_to_change * len(fold_changes) must be less than n
-        fold_changes: 1D array of positive fold changes
+        fold_changes: 1D array of log2 fold changes
                         Each fold_change will be applied num_to_change times
         var: number, fixed variance of noise
         nctrl: optional, number of control channels
@@ -250,7 +250,7 @@ def sample_no_ctrl_gamma(n, num_to_change, fold_changes, alpha=3, beta=0.1, nctr
         num_to_change: integer number of rows to which each fold change
                         perturbation should be applied
                         NOTE: num_to_change * len(fold_changes) must be less than n
-        fold_changes: 1D array of positive fold changes
+        fold_changes: 1D array of log2 fold changes
                         Each fold_change will be applied num_to_change times
         var: number, [[beta parameter of inverse gamme]]
         nctrl: optional, number of control channels
@@ -298,7 +298,7 @@ def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nct
         num_to_change: integer number of proteins for which each fold change
                         perturbation should be applied
                         NOTE: num_to_change * len(fold_changes) must be less than n
-        fold_changes: 1D array of positive fold changes
+        fold_changes: 1D array of log2 fold changes
                         Each fold_change will be applied num_to_change times
         peps_per_prot: int Each protein will have peps_per_prot
                 OR len-n vector of ints
@@ -370,7 +370,7 @@ def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nct
 
     # Randomly sample set of proteins which to perturb
     prot_to_change = set(np.random.permutation(m)[:len(fold_changes)*num_to_change])
-    offsets = np.repeat(np.log2(fold_changes), num_to_change)
+    offsets = np.repeat(fold_changes, num_to_change)
     assert len(prot_to_change) == len(offsets)
 
     is_changed = np.zeros(n)
@@ -454,6 +454,10 @@ def t_test(ctrl, exp, ratio_test = False):
     return pvals
 
 
+###############
+#    MISC     #
+###############
+
 def protein_rollup(protein_df):
     """
     Runs cyberT on peptides and rolls up to protein rollup using R script
@@ -470,10 +474,6 @@ def protein_rollup(protein_df):
 
     return out
 
-
-###############
-#    MISC     #
-###############
 
 def setup():
     # Convenience functions which encapsulate the ctrl data for quicker access
@@ -644,6 +644,7 @@ def do_stat_tests_protein(ctrl, exp, protein):
 
     out['cyberT_prior_pval'] = protein_cyberT['pVal']
     return out
+
 
 ## TODO this is VERY JANKY
 ## Just a convience function for getting the column names . . .

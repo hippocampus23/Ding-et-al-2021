@@ -58,7 +58,16 @@ read_data_and_plot <- function(df_name, title, xlab, plot="pAUC") {
   df <- read.csv(paste("data_simulated/", df_name, sep=""))
   df <- df[complete.cases(df),]
   name <- strsplit(df_name,"\\.")[[1]][1]
-  ggsave(paste("AUTO_", name, "_pauc.png", sep=""),
+  if (plot == "AUROC") {
+    p <- boxplot_results_auroc(df, title, xlab)
+  } else if (plot == "AUPRC") {
+    p <- boxplot_results_auprc(df, title, xlab)
+  } else if (plot == "pAUC") {
+    p <- boxplot_results_pauc(df, title, xlab)
+  } else {
+    stop("Invalid plot specification. Must be one of 'AUROC', 'AUPRC', 'pAUC')")
+  }
+  ggsave(paste("simulated_plots/boxplots/AUTO_", name, "_pauc.png", sep=""),
       boxplot_results_pauc(df, title, xlab),
       width=12.80,
       height=7.20,

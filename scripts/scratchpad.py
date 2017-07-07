@@ -5,6 +5,7 @@ Most of these functions deal with setting up and running long running tasks
 such as multiple rounds of simulations
 """
 from contextlib import contextmanager
+from math import pi
 import sys, os, time
 sys.dont_write_bytecode = True  # Avoid caching problems
 
@@ -25,8 +26,9 @@ def suppress_stdout():
             sys.stdout = old_stdout
 
 
-DEF_FOLD_CHANGES = [2**i for i in np.arange(0.1, 1.1, 0.1)]
-
+DEF_FOLD_CHANGES = np.arange(0.1, 1.1, 0.1)
+STD = 0.3039  ## Std such that 10% of peptides have |log2(FC)| >= 0.5
+THRESH = 0.5  ## Set all FC st |log2(FC)| < THRESH to 0
 
 ### Functions for running multiple rounds of trials on peptide level ###
 
@@ -163,6 +165,7 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", n_runs=5
 
 TIME_FORMAT = "%Y-%m-%d_%H:%M"
 
+
 def simulate_compare_one_two_sided():
     """ Compare one-sided fold change with two-sided fold change
 
@@ -172,8 +175,8 @@ def simulate_compare_one_two_sided():
              for both uniform and inv gam variance models
     """
     start = time.strftime(TIME_FORMAT)
-    fc1 = 2**(0.5)
-    fc2 = 2**(-0.5)
+    fc1 = 0.5
+    fc2 = -0.5
 
     res = {}
     res['hi_1_tail_uni'] = err_bars_peptide(fc1, 1000, "U", n_runs=500)
@@ -186,13 +189,39 @@ def simulate_compare_one_two_sided():
     np.save("tmp_%s.npy" % start, res) 
     return res
 
+def simulate_multiple_fc_normal(background="G", filename=None):
+    """ Generate partial ROCs for normally distruited FCs (bucketed!)
+        Compare to uniformly distributed FCs
+
+        Buckets into buckets of size 0.1, truncates fold changes to range
+        -1 . . . 1
+    """
+    start = time.strftime(TIME_FORMAT)
+    if filename is None:
+        filename = "tmp_%s.npy" % start
+   
+    norm = lambda x: np.exp(-x**2./(2*STD**2))/(2*pi*STD)**0.5  # Normal pdf
+    buckets_all = np.setdiff1d(np.arange(-8, 9, 1), [0]) / 10.
+    buckets = np.setdiff1d(np.arange(-10, 11, 1), np.arange(-4, 5, 1)) / 10.
+    n_density_all = norm(buckets_all)
+    n_density_all /= sum(n_density_all)
+    n_density = norm(buckets)
+    n_density /= sum(n_density)
+
+    num_to_change_uni = 1000
+
+    # res = err_bars_fold_change(fold_changes, 100, background, n_runs=2)
+    # np.save(filename, res) 
+    return n_density, n_density_all
+    
+
 def simulate_multiple_fc(background="G", filename=None):
     """ Generate partial ROCs for uniformly distributed FCs
     """
     start = time.strftime(TIME_FORMAT)
     if filename is None:
         filename = "tmp_%s.npy" % start
-    fold_changes = 2**(np.arange(0, 1, 1./100) + 0.01)
+    fold_changes = np.arange(0, 1, 1./100) + 0.01
 
     res = err_bars_fold_change(fold_changes, 100, background, n_runs=2)
     np.save(filename, res) 
@@ -227,7 +256,7 @@ def simulate_number_experiments():
     """
     start = time.strftime(TIME_FORMAT)
     res = {}
-    f = 2**0.5
+    f = 0.5
     
     for n in xrange(2, 11):
         res[n] = err_bars_peptide(f, 1000, "G", nexp=n, nctrl=n)
@@ -238,7 +267,7 @@ def simulate_number_experiments():
 def simulate_variance_range():                                                  
     u_std = [0.02, 0.06, 0.18]                                                  
     g_beta = [0.05, 0.1, 0.2]                                                   
-    fc = 2**0.5                                                                 
+    fc = 0.5                                                                 
                                                                                 
     start = time.strftime(TIME_FORMAT)
     res = {}                                                                    
@@ -359,6 +388,76 @@ def simulate_protein_num_peps(**kwargs):
         res["g_%d" % n_p] = err_bars_protein(m, tc, 2**(0.3), n_p, n_runs=2, background="G", **kwargs)
         np.save("tmp_%s.npy" % start, res)
     return res
+
+
+def simulate_compare_with_without_central_fc_peptides(
+        background="G", n_runs=500, filename=None):
+    """ Compares normally distributed fold changes with and without
+        including central tendency
+    """
+    start = time.time()  # Configure filename for results
+    if filename is None:
+        filename = "tmp_%s.npy" % start
+   
+    # Hardcoded params
+    N_PEPS = 10000
+    NUM_FC = 1000
+
+    if background == "U":
+        sampler = sample_no_ctrl_uniform
+    elif background == "G":
+        sampler = sample_no_ctrl_gamma
+    else:
+        raise ValueError("Invalid background specification")
+
+    res = np.zeros(  # Results array including center
+            (n_runs, 
+            len(DEFAULT_LABELS), 
+            3), dtype=np.float32)
+    res_t = res.copy()   # Results array not including center
+
+    for i in xrange(n_runs):
+        if i % 50 == 0:
+            print "At iteration %d" % i
+        try:
+            # Generate fold changes from normal distribution
+            fold_changes = np.random.normal(0, STD, NUM_FC)
+            fold_changes_t = fold_changes.copy()  ## Threshold FCs
+            fold_changes_t[np.where(np.abs(fold_changes_t) < THRESH)] = 0
+            with suppress_stdout():
+                # Pvals including all FCs
+                ctrl, exp, fcs = sampler(
+                    N_PEPS,
+                    1,
+                    fold_changes,
+                    binary_labels=False)
+                p_vals = do_stat_tests(ctrl, exp)
+                # Pvals when all central FCs are set to zero
+                ctrl_t, exp_t, fcs_t = sampler(
+                    N_PEPS,
+                    1,
+                    fold_changes_t,
+                    binary_labels=True)
+                p_vals_t = do_stat_tests(ctrl_t, exp_t)
+
+            is_changed = (np.abs(fcs) >= THRESH).astype(int)
+            is_changed_t = (np.abs(fcs_t) >= THRESH).astype(int)
+            res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
+                is_changed, p_vals, fdr=0.05)
+            res_t[i,:,0], res_t[i,:,1], res_t[i,:,2] = roc_prc_scores(
+                is_changed_t, p_vals_t, fdr=0.05)
+
+        except rpy2.rinterface.RRuntimeError:
+            print "R error!"
+            res[i,:,:] = np.nan
+
+    final = {'include_all_fcs': res,
+             'threshold_fcs': res_t}
+    np.save(filename, final)
+    end = time.time()
+    print end - start
+
+    return final
 
 
 def DEP_simulate_fold_change_range(
