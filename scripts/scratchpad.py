@@ -471,8 +471,7 @@ def simulate_compare_with_without_central_fc_peptides(
         try:
             # Generate fold changes from normal distribution
             fold_changes = np.random.normal(0, STD, NUM_FC)
-            fold_changes_t = fold_changes.copy()  ## Threshold FCs
-            fold_changes_t[np.where(np.abs(fold_changes_t) < THRESH)] = 0
+            fold_changes_t = fold_changes[np.abs(fold_changes) >= THRESH]
             with suppress_stdout():
                 # Pvals including all FCs
                 ctrl, exp, fcs = sampler(
@@ -482,7 +481,7 @@ def simulate_compare_with_without_central_fc_peptides(
                     binary_labels=False)
                 p_vals = do_stat_tests(ctrl, exp)
                 # Pvals when all central FCs are set to zero
-                ctrl_t, exp_t, fcs_t = sampler(
+                ctrl_t, exp_t, is_changed_t = sampler(
                     N_PEPS,
                     1,
                     fold_changes_t,
@@ -490,7 +489,6 @@ def simulate_compare_with_without_central_fc_peptides(
                 p_vals_t = do_stat_tests(ctrl_t, exp_t)
 
             is_changed = (np.abs(fcs) >= THRESH).astype(int)
-            is_changed_t = (np.abs(fcs_t) >= THRESH).astype(int)
             res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
                 is_changed, p_vals, fdr=0.05)
             res_t[i,:,0], res_t[i,:,1], res_t[i,:,2] = roc_prc_scores(

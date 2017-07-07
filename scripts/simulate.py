@@ -180,12 +180,8 @@ def _perturb_exp(exp_noise, num_to_change, fold_changes, binary_labels):
     perturbs = np.zeros(n, dtype=float)
     perturbs[:len(fold_changes)*num_to_change] = np.repeat(
             fold_changes, num_to_change)
-    if binary_labels:
-        is_changed = np.zeros(n, dtype=int)
-        is_changed[:len(fold_changes)*num_to_change] = 1
-    else:
-        is_changed = np.ones(n, dtype=float)
-        is_changed[:len(fold_changes)*num_to_change] = (1 if binary_labels else
+    is_changed = np.zeros(n, dtype=(int if binary_labels else float))
+    is_changed[:len(fold_changes)*num_to_change] = (1 if binary_labels else
             np.repeat(fold_changes, num_to_change))
 
     exp = exp_noise + perturbs[:,np.newaxis]
