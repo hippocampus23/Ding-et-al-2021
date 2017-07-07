@@ -114,7 +114,7 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", n_runs=5
     start = time.time()
    
     # Hardcoded params
-    N_PEPS = 10000
+    N_PEPS = 100000
 
     if background == "U":
         sampler = sample_no_ctrl_uniform
@@ -264,7 +264,7 @@ def simulate_multiple_fc_normal(background="G", n_runs=250, filename=None):
     return res
     
 
-def simulate_multiple_fc(background="G", filename=None):
+def simulate_multiple_fc(background="G", n_runs=200, filename=None):
     """ Generate partial ROCs for uniformly distributed FCs
     """
     start = time.strftime(TIME_FORMAT)
@@ -272,7 +272,7 @@ def simulate_multiple_fc(background="G", filename=None):
         filename = "tmp_%s.npy" % start
     fold_changes = np.arange(0, 1, 1./100) + 0.01
 
-    res = err_bars_fold_change(fold_changes, 100, background, n_runs=2)
+    res = err_bars_fold_change(fold_changes, 100, background, n_runs=200)
     np.save(filename, res) 
     return res
 
