@@ -141,14 +141,14 @@ def err_bars_fold_change(fold_changes, num_to_change, N_PEPS=10000, background =
                 p_vals = do_stat_tests(ctrl, exp)
 
             # Create binary labels from scalar
-            is_changed = (fcs != 1).astype(int)
+            is_changed = (fcs != 0).astype(int)
             # Cast p_vals as 2D array for easier subsetting
             p_vals = np.array(p_vals)
 
             # Calculate ROC score for EACH fc seperately
             for (j, fc) in enumerate(unique_fold_changes):
                 # Subset of peptides which have fold change=1 or fold change=fc
-                idx = np.logical_or(fcs == 1, fcs == fc)
+                idx = np.logical_or(fcs == 0, fcs == fc)
                 res[i,j,:,0], res[i,j,:,1], res[i,j,:,2] = roc_prc_scores(
                         is_changed[idx], p_vals[:,idx], fdr=0.05)
 
