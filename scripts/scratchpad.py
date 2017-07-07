@@ -88,7 +88,7 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500,*
     return res
 
 
-def err_bars_fold_change(fold_changes, num_to_change, background = "U", n_runs=500,**kwargs):
+def err_bars_fold_change(fold_changes, num_to_change, N_PEPS=10000, background = "U", n_runs=500,**kwargs):
     """ Runs multiple rounds of simulation using the given sampler
         ROC scores are calculated for each fold change subset of the original
         Summarizes ROC scores split by fold change
@@ -112,9 +112,6 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", n_runs=5
 
     # TODO REMOVE ME
     start = time.time()
-   
-    # Hardcoded params
-    N_PEPS = 100000
 
     if background == "U":
         sampler = sample_no_ctrl_uniform
@@ -198,7 +195,7 @@ def simulate_multiple_fc_normal(background="G", n_runs=250, filename=None):
         -1 . . . 1
     """
     start = time.strftime(TIME_FORMAT)
-    N_TO_CHANGE = 1000
+    N_TO_CHANGE = 5000
     if filename is None:
         filename = "tmp_%s.npy" % start
     filename_csv = filename[:-4] + ".csv"
@@ -225,11 +222,11 @@ def simulate_multiple_fc_normal(background="G", n_runs=250, filename=None):
     print N_TO_CHANGE * n_density
     print N_TO_CHANGE * n_density_all
 
-    res_uniform = err_bars_fold_change(fold_changes, 1,
+    res_uniform = err_bars_fold_change(fold_changes, 1, 50000,
                                        background, n_runs=n_runs)
-    res_norm = err_bars_fold_change(fold_changes_n, 1,
+    res_norm = err_bars_fold_change(fold_changes_n, 1, 50000,
                                     background, n_runs=n_runs)
-    res_norm_all = err_bars_fold_change(fold_changes_n_all, 1,
+    res_norm_all = err_bars_fold_change(fold_changes_n_all, 1, 50000,
                                         background, n_runs=n_runs)
 
     # Drop the last two labels (t-test and one-tailed t-test)
