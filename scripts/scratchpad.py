@@ -182,8 +182,6 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", breaks=N
             len(unique_fcs) if breaks is None else len(unique_fcs)-1 ,
             len(DEFAULT_LABELS), 
             3), dtype=np.float32)
-    print len(unique_fcs)
-    print breaks
 
     for i in xrange(n_runs):
         if i % 50 == 0:
@@ -393,7 +391,7 @@ def simulate_number_channels_imbalanced(n_runs=250, filename=None):
     if filename is None:
         filename = "tmp_%s.npy" % start
     res = {}
-    f = 0.5
+    f = np.random.normal(scale=STD, size=2000)
 
     trials = [(3,3),
               (2,4),
@@ -405,7 +403,7 @@ def simulate_number_channels_imbalanced(n_runs=250, filename=None):
               (1,9)]
     for nctrl, nexp in trials:
         key = "nctrl=%d, nexp=%d" % (nctrl, nexp)
-        res[key] = err_bars_peptide(f, 1000, "G", nexp=nexp, nctrl=nctrl, n_runs=n_runs)
+        res[key] = err_bars_peptide(f, 1, "G", nexp=nexp, nctrl=nctrl, n_runs=n_runs)
         np.save(filename, res)
     return res
 
