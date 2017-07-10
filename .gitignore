@@ -1,8 +1,13 @@
-data
-datasets
-environment
+data/
+datasets/
+environment/
+plots/
+simulated_plots/
+
 .RData
 .Rhistory
 .Rproj.user
 *.swp
 *.pyc
+
+*.lrg.npy

@@ -549,21 +549,17 @@ def do_stat_tests(ctrl, exp):
         print "Skipped one sample t test, dimensions not suitable"
 
     if do_t:
-        cyberT_res = cyberT(ctrl, exp)
-        cyberT_pvals = cyberT_res['pVal']
-        print "Ran cyberT test"
-
         ttest_pvals = t_test(ctrl, exp)
         print "Ran two sample t test"
     else:
-        cyberT_pvals = None
-        cyberT_ppde = None
-        print "Skipped cyberT, too few channels"
-
         ttest_pvals = None
         print "Skipped two sample t test, too few channels"
 
-    fold_change = np.abs(np.mean(ctrl.values - exp.values, axis=1))
+    cyberT_res = cyberT(ctrl, exp)
+    cyberT_pvals = cyberT_res['pVal']
+    print "Ran cyberT test"
+
+    fold_change = np.abs(np.mean(ctrl.values, axis=1) - np.mean(exp.values, axis=1))
    
     return (modT_pvals,
             cyberT_pvals,

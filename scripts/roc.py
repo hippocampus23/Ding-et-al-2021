@@ -86,7 +86,11 @@ def plot_partial_auc(y_act, pred, fdr=0.05, ax=None, is_pval=True, label='Area '
 
     fpr, tpr, _ = roc_curve(y_act, y_pred)
     # Truncate FPR and TPR
-    idx = next(i for i,v in enumerate(fpr) if v > fdr)
+    try:
+        idx = next(i for i,v in enumerate(fpr) if v > fdr)
+    except StopIteration:
+        print fpr[-10:]
+        idx = len(fpr) - 1
     t_fpr, t_tpr = fpr[:idx+1], tpr[:idx+1]
     t_fpr[-1] = fdr
 
@@ -212,7 +216,7 @@ def roc_prc_scores(y_act, p_val, is_pval=True, fdr=0.05):
         If p_val is a 1D array, roc_auc and prc_auc are floats
         If p_val is a list of lists, roc_auc and prc_auc are lists of floats
     """
-    pval_is_list = hasattr(p_val[0], '__iter__')
+    pval_is_list = hasattr(p_val, '__iter__')
     if not pval_is_list:
         p_val = [p_val]
 
@@ -221,6 +225,9 @@ def roc_prc_scores(y_act, p_val, is_pval=True, fdr=0.05):
     pauc = []
     for p in p_val:
         if p is None:
+            pauc.append(0)
+            roc_auc.append(0)
+            prc_auc.append(0)
             continue
 
         if is_pval:

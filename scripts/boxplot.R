@@ -68,10 +68,11 @@ read_data_and_plot <- function(df_name, title, xlab, plot="pAUC") {
     stop("Invalid plot specification. Must be one of 'AUROC', 'AUPRC', 'pAUC')")
   }
   ggsave(paste("simulated_plots/boxplots/AUTO_", name, "_pauc.png", sep=""),
-      boxplot_results_pauc(df, title, xlab),
+      p,
       width=12.80,
       height=7.20,
       dpi=100)
+  return(p)
 }
 
 replot_all <- function(plot_names) {
