@@ -161,9 +161,6 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", breaks=N
 
     # TODO REMOVE ME
     start = time.time()
-   
-    # Hardcoded params
-    N_PEPS = 10000
 
     if background == "U":
         sampler = sample_no_ctrl_uniform
@@ -189,7 +186,7 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", breaks=N
         try:
             with suppress_stdout():
                 ctrl, exp, fcs = sampler(
-                    N_PEPS,
+                    n_peps,
                     num_to_change,
                     fold_changes,
                     binary_labels=False,
@@ -209,8 +206,12 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", breaks=N
                 else:
                     idx = np.logical_not(is_changed) | (
                             (fcs >= fc) & (fcs < unique_fcs[j+1]))
-                res[i,j,:,0], res[i,j,:,1], res[i,j,:,2] = roc_prc_scores(
-                        is_changed[idx], p_vals[:,idx], fdr=0.05)
+
+                if np.sum(is_changed[idx]) == 0:
+                    res[i,j,:,:] = 0  # No positive examples
+                else:
+                    res[i,j,:,0], res[i,j,:,1], res[i,j,:,2] = roc_prc_scores(
+                            is_changed[idx], p_vals[:,idx], fdr=0.05)
 
         except rpy2.rinterface.RRuntimeError:
             print "R error!"
