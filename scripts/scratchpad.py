@@ -131,7 +131,7 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500,*
     return res
 
 
-def err_bars_fold_change(fold_changes, num_to_change, background = "U", breaks=None, n_runs=500, threshold=0, **kwargs):
+def err_bars_fold_change(fold_changes, num_to_change, background = "U", breaks=None, n_runs=500, threshold=0, n_peps = 10000, **kwargs):
     """ Runs multiple rounds of simulation using the given sampler
         ROC scores are calculated for each fold change subset of the original
         Summarizes ROC scores split by fold change
@@ -146,6 +146,7 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", breaks=N
             MUST be sorted in ascending order
             FCs outside of breakpoints will not be included in ROC calculation
         n_runs: how many simulations to run, default 500
+        threshold: Treat all fc < threshold to be control
         kwargs: passed to variance generating function
             [Possible args include var, nctrl, nexp, use_var, alpha, beta]
 
@@ -199,7 +200,6 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", breaks=N
 
             # Create binary labels from scalar
             is_changed = (np.abs(fcs) >= threshold).astype(int)
-            print "Changed: %d" % sum(is_changed)
             # Cast p_vals as 2D array for easier subsetting
             p_vals = np.array(p_vals)
 
@@ -211,8 +211,6 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", breaks=N
                 else:
                     idx = np.logical_not(is_changed) | (
                             (fcs >= fc) & (fcs < unique_fcs[j+1]))
-
-                print sum(is_changed[idx])
                 res[i,j,:,0], res[i,j,:,1], res[i,j,:,2] = roc_prc_scores(
                         is_changed[idx], p_vals[:,idx], fdr=0.05)
 
@@ -259,7 +257,7 @@ def simulate_multiple_fc_normal(background="G", n_runs=250, filename=None):
         -1 . . . 1
     """
     start = time.strftime(TIME_FORMAT)
-    N_TO_CHANGE = 1000
+    N_TO_CHANGE = 5000
     if filename is None:
         filename = "tmp_%s.npy" % start
     filename_csv = filename[:-4] + ".csv"
