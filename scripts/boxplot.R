@@ -54,9 +54,17 @@ boxplot_results_pauc <- function(df, title="", xlab="Setting"){
   return(p1)
 }
 
-read_data_and_plot <- function(df_name, title, xlab, plot="pAUC") {
+read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, order_lab=NULL) {
   df <- read.csv(paste("data_simulated/", df_name, sep=""))
   df <- df[complete.cases(df),]
+  if (!is.null(order_x)) {
+    fac <- as.factor(df$setting)
+    df$setting <- factor(fac, levels=levels(fac)[order_x(levels(fac))])
+  }
+  if (!is.null(order_lab)) {
+    fac <- as.factor(df$labels)
+    df$labels <- factor(fac, levels=levels(fac)[order_lab(levels(fac))])
+  }
   name <- strsplit(df_name,"\\.")[[1]][1]
   if (plot == "AUROC") {
     p <- boxplot_results_auroc(df, title, xlab)
@@ -97,3 +105,6 @@ plot_protein_names <- list(
     c("df_prot_fc_range_gam_4.csv", "Fold change varies, 4 peptides, Inv Gam background", "log2(fold_change)"),
     c("df_prot_num_peps.csv", "Number of peptides varies, log2(FC)=0.3", "Variance and peptide count")
 )
+
+# Ordering function
+# order(as.double(lapply(strsplit(as.character(x), '<'), function(l) l[1])))

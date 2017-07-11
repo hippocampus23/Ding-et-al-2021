@@ -138,6 +138,9 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", breaks=N
    
     Args:
         fold_changes: non-negative float or list of floats
+            OR a function which takes one argument, the number of iterations
+            and returns a vector of fold changes
+            If fold_change is a function, then breaks MUST be specified
         num_to_change: int or list of ints
         background: "U" or "G" for uniform or inverse gamma variance
         breaks: optional, default None
@@ -180,15 +183,19 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", breaks=N
             len(DEFAULT_LABELS), 
             3), dtype=np.float32)
 
+    call_fcs = callable(fold_changes)
+    gen_fcs = (fold_changes(i) for i in xrange(n_runs))
+
     for i in xrange(n_runs):
         if i % 50 == 0:
             print "At iteration %d" % i
         try:
+            n_fold_changes = next(gen_fcs) if call_fcs else fold_changes
             with suppress_stdout():
                 ctrl, exp, fcs = sampler(
                     n_peps,
                     num_to_change,
-                    fold_changes,
+                    n_fold_changes,
                     binary_labels=False,
                     **kwargs)
                 p_vals = do_stat_tests(ctrl, exp)
@@ -289,8 +296,14 @@ def simulate_multiple_fc_normal(background="G", n_runs=250, filename=None):
     breaks = buckets
     breaks_all = buckets_all
     fold_changes = np.arange(F_MIN/10., F_MAX/10., (F_MAX - F_MIN)/(10.*N_TO_CHANGE))
-    fold_changes_n_all = np.random.normal(scale=STD, size=N_TO_CHANGE)
-    fold_changes_n = fold_changes_n_all[np.abs(fold_changes_n_all) >= 0.5]
+    ## Fixed normal FC
+    # fold_changes_n_all = np.random.normal(scale=STD, size=N_TO_CHANGE)
+    # fold_changes_n = fold_changes_n_all[np.abs(fold_changes_n_all) >= 0.5]
+    ## Randomly generated normal FC at every iteration
+    fold_changes_n_all = lambda x: np.random.normal(scale=STD, size=N_TO_CHANGE)
+    def fold_changes_n(i):
+        tmp = np.random.normal(scale=STD, size=N_TO_CHANGE)
+        return tmp[np.abs(tmp) >= 0.5]
 
     res_uniform = err_bars_fold_change(fold_changes, 1, background,
             threshold=0.2, breaks=breaks_all, n_runs=n_runs)
@@ -322,8 +335,8 @@ def simulate_multiple_fc_normal(background="G", n_runs=250, filename=None):
     ## For discrete
     # res = {fc: res_arr[:,i,:,:] for i,fc in enumerate(buckets_all)}
     ## For continuous
-    res = {"%d<=fc<%d" % (buckets[i], buckets[i+1]): res_arr[:,i,:,:] 
-            for i in xrange(len(buckets)-1)}
+    res = {"%.1f<=fc<%.1fd" % (buckets_all[i], buckets_all[i+1]): res_arr[:,i,:,:] 
+            for i in xrange(len(buckets_all)-1)}
     labels = ["%s: %s" % (lbl, ms)
               for lbl in ["Uniform, all", "Normal", "Normal, all"]
               for ms in ["ModT", "CyberT", "fold_change"]]

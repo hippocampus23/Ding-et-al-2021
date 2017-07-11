@@ -181,7 +181,7 @@ do_cyberT <- function(pepdf, doVsn=FALSE, bayesInt=FALSE) {
         input <- input - min(input, na.rm = TRUE) + 1.0
     }
 
-    out <- bayesT(input, 3, 3, doMulttest=TRUE)
+    out <- bayesT(input, 6, 4, doMulttest=TRUE)
     out$fold_change <- out$meanE / out$meanC
     out <- merge(out, pepdf[, c('accession_number', 'accession_number_noiso', 'is_psd')], by=0)
     out$id <- out$Row.names
