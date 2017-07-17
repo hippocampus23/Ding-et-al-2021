@@ -37,6 +37,7 @@ DEFAULT_LABELS = [
     'One sample t-test',
     'Absolute fold change'
 ]
+DEFAULT_LABELS_MODT_2SAMP = DEFAULT_LABELS + ['ModT (2-sample)']
 PROTEIN_LABELS = [
     'ModT median p-value',
     'CyberT median p-value',
@@ -415,6 +416,29 @@ def modT(ctrl, exp):
     return res
 
 
+def modT_2sample(ctrl, exp):
+    """
+    Runs moderated T with 2 sample t test
+    """
+    if ctrl.shape[0] != exp.shape[0]:
+        print ctrl.shape
+        print exp.shape
+        raise ValueError('Length of exp and ctrl data frames not identical')
+
+    data = pd.DataFrame(np.concatenate((ctrl.values, exp.values), axis=1))
+    data.columns = (['C%d' % (i+1) for i in xrange(ctrl.shape[1])] +
+                    ['E%d' % (i+1) for i in xrange(exp.shape[1])])
+    data_cols= data.columns
+    data['id'] = np.arange(len(data))
+
+    design = np.array(([-1] * ctrl.shape[1]) + ([1] * exp.shape[1]), dtype=int) 
+
+    res = r['modT_test'](data, "placeholder", id_col='id', data_col=data_cols, dframe=True, design=design)
+    res = pandas2ri.ri2py(res)
+
+    return res
+
+
 def cyberT(ctrl, exp):
     if ctrl.shape[0] != exp.shape[0]:
         raise ValueError('Length of exp and ctrl data frames not identical')
@@ -518,7 +542,7 @@ def setup():
     return quick_modT, quick_cyberT
 
 
-def do_stat_tests(ctrl, exp):
+def do_stat_tests(ctrl, exp, run_modT_2sample=False):
     """
     Runs modT, cyberT, t-test, fold_change analysis
 
@@ -526,7 +550,8 @@ def do_stat_tests(ctrl, exp):
             cyberT_pvals, 
             ttest_pvals,
             ttest_ratio_pvals,
-            fold_change (+)
+            fold_change (+),
+            [modT_2sample]
     Any of these may be None if number of channels is not suitable
     (+) = Proper measure is inverted: i.e. x* = max(x) - x
     """
@@ -555,17 +580,23 @@ def do_stat_tests(ctrl, exp):
         ttest_pvals = None
         print "Skipped two sample t test, too few channels"
 
+    modT_2sample_pvals = modT_2sample(ctrl, exp)['P.Value']
     cyberT_res = cyberT(ctrl, exp)
     cyberT_pvals = cyberT_res['pVal']
     print "Ran cyberT test"
 
     fold_change = np.abs(np.mean(ctrl.values, axis=1) - np.mean(exp.values, axis=1))
-   
-    return (modT_pvals,
-            cyberT_pvals,
-            ttest_pvals,
-            ttest_ratio_pvals,
-            np.max(fold_change) + 0.01 - fold_change)
+  
+    res = [modT_pvals,
+           cyberT_pvals,
+           ttest_pvals,
+           ttest_ratio_pvals,
+           np.max(fold_change) + 0.01 - fold_change]
+    print run_modT_2sample
+    if run_modT_2sample:
+        return tuple(res + [modT_2sample_pvals])
+    else:
+        return res
 
 
 def do_stat_tests_protein(ctrl, exp, protein):

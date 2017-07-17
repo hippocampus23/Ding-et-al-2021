@@ -75,7 +75,7 @@ def err_bars_peptide_saveall(fold_changes, num_to_change, background="G", n_runs
 
 
 
-def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500,**kwargs):
+def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500, labels=DEFAULT_LABELS_MODT_2SAMP, run_modT_2samp = True, **kwargs):
     """ Runs multiple rounds of simulations using given sampler 
         Summarizes overall ROC scores
    
@@ -106,7 +106,7 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500,*
     else:
         raise ValueError("Invalid background specification")
 
-    res = np.zeros((n_runs, len(DEFAULT_LABELS), 3), dtype=np.float32)
+    res = np.zeros((n_runs, len(labels), 3), dtype=np.float32)
 
     for i in xrange(n_runs):
         if i % 50 == 0:
@@ -118,7 +118,7 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500,*
                     num_to_change,
                     fold_changes,
                     **kwargs)
-                p_vals = do_stat_tests(ctrl, exp)
+                p_vals = do_stat_tests(ctrl, exp, run_modT_2samp)
                 res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
                     is_changed, p_vals, fdr=0.05)
         except rpy2.rinterface.RRuntimeError:
@@ -180,7 +180,7 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", breaks=N
     res = np.zeros(
             (n_runs, 
             len(unique_fcs) if breaks is None else len(unique_fcs)-1 ,
-            len(DEFAULT_LABELS), 
+            len(DEFAULT_LABELS_MODT_2SAMP), 
             3), dtype=np.float32)
 
     call_fcs = callable(fold_changes)
@@ -313,7 +313,7 @@ def simulate_multiple_fc_normal(background="G", n_runs=250, filename=None):
             threshold=0.2, breaks=breaks_all, n_runs=n_runs)
 
     # Drop the last two labels (t-test and one-tailed t-test)
-    keep_pvals = [0,1,4]
+    keep_pvals = [0,1,4,5]
     res_uniform = res_uniform[:,:,keep_pvals,:]
     res_norm = res_norm[:,:,keep_pvals,:]
     res_norm_all = res_norm_all[:,:,keep_pvals,:]
@@ -379,7 +379,7 @@ def simulate_fold_change_range(fold_changes = DEF_FOLD_CHANGES, **kwargs):
     res = {}
     
     for f in fold_changes:
-        res[f] = err_bars_peptide(f, 1000, "G")
+        res[f] = err_bars_peptide(f, 1000, "G", **kwargs)
         np.save("tmp_%s.npy" % start, res)
     return res
 
@@ -573,6 +573,7 @@ def simulate_compare_with_without_central_fc_peptides(
             len(DEFAULT_LABELS), 
             3), dtype=np.float32)
     res_t = res.copy()   # Results array not including center
+    res_u = res.copy()   # Results array uniform fc
 
     for i in xrange(n_runs):
         if i % 50 == 0:
@@ -581,34 +582,45 @@ def simulate_compare_with_without_central_fc_peptides(
             # Generate fold changes from normal distribution
             fold_changes = np.random.normal(0, STD, NUM_FC)
             fold_changes_t = fold_changes[np.abs(fold_changes) >= THRESH]
+            fold_changes_u = np.arange(-1., 1., 2. / NUM_FC)
             with suppress_stdout():
-                # Pvals including all FCs
-                ctrl, exp, fcs = sampler(
+            #     # Pvals including all FCs
+            #     ctrl, exp, fcs = sampler(
+            #         N_PEPS,
+            #         1,
+            #         fold_changes,
+            #         binary_labels=False)
+            #     p_vals = do_stat_tests(ctrl, exp)
+            #     # Pvals when all central FCs are set to zero
+            #     ctrl_t, exp_t, is_changed_t = sampler(
+            #         N_PEPS,
+            #         1,
+            #         fold_changes_t,
+            #         binary_labels=True)
+            #     p_vals_t = do_stat_tests(ctrl_t, exp_t)
+                  # Pvals with uniform fcs
+                ctrl_u, exp_u, is_changed_u = sampler(
                     N_PEPS,
                     1,
-                    fold_changes,
-                    binary_labels=False)
-                p_vals = do_stat_tests(ctrl, exp)
-                # Pvals when all central FCs are set to zero
-                ctrl_t, exp_t, is_changed_t = sampler(
-                    N_PEPS,
-                    1,
-                    fold_changes_t,
+                    fold_changes_u,
                     binary_labels=True)
-                p_vals_t = do_stat_tests(ctrl_t, exp_t)
+                p_vals_u = do_stat_tests(ctrl_u, exp_u)
 
-            is_changed = (np.abs(fcs) >= THRESH).astype(int)
-            res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
-                is_changed, p_vals, fdr=0.05)
-            res_t[i,:,0], res_t[i,:,1], res_t[i,:,2] = roc_prc_scores(
-                is_changed_t, p_vals_t, fdr=0.05)
+            # is_changed = (np.abs(fcs) >= THRESH).astype(int)
+            # res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
+            #     is_changed, p_vals, fdr=0.05)
+            # res_t[i,:,0], res_t[i,:,1], res_t[i,:,2] = roc_prc_scores(
+            #     is_changed_t, p_vals_t, fdr=0.05)
+            res_u[i,:,0], res_u[i,:,1], res_u[i,:,2] = roc_prc_scores(
+                is_changed_u, p_vals_u, fdr=0.05)
 
         except rpy2.rinterface.RRuntimeError:
             print "R error!"
             res[i,:,:] = np.nan
 
-    final = {'include_all_fcs': res,
-             'threshold_fcs': res_t}
+    # final = {'include_all_fcs': res,
+    #          'threshold_fcs': res_t}
+    final = {'uniform': res_u}
     np.save(filename, final)
     end = time.time()
     print end - start
