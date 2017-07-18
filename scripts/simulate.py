@@ -278,7 +278,7 @@ def sample_no_ctrl_gamma(n, num_to_change, fold_changes, alpha=3, beta=0.1, nctr
     ctrl, exp = background[:,:nctrl], background[:,nctrl:]
     exp, is_changed = _perturb_exp(exp, num_to_change, fold_changes, binary_labels)
 
-    return pd.DataFrame(ctrl), pd.DataFrame(exp), is_chanVged
+    return pd.DataFrame(ctrl), pd.DataFrame(exp), is_changed
 
 
 def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nctrl=3, nexp=3, use_var = np.random.normal, prot_var=0.5, pep_var=3.5, background = "U", alpha=3, beta=0.1, binary_labels=True):
@@ -556,7 +556,7 @@ def do_stat_tests(ctrl, exp, run_modT_2sample=False):
     (+) = Proper measure is inverted: i.e. x* = max(x) - x
     """
 
-    do_ratio = (ctrl.shape[1] == 1 or ctrl.shape[1] == exp.shape[1])
+    do_ratio = (ctrl.shape[1] == 1 or ctrl.shape[1] == exp.shape[1]) and exp.shape[1] > 1
     do_t = (ctrl.shape[1] > 1)
    
     if do_ratio:
@@ -580,7 +580,6 @@ def do_stat_tests(ctrl, exp, run_modT_2sample=False):
         ttest_pvals = None
         print "Skipped two sample t test, too few channels"
 
-    modT_2sample_pvals = modT_2sample(ctrl, exp)['P.Value']
     cyberT_res = cyberT(ctrl, exp)
     cyberT_pvals = cyberT_res['pVal']
     print "Ran cyberT test"
@@ -592,8 +591,8 @@ def do_stat_tests(ctrl, exp, run_modT_2sample=False):
            ttest_pvals,
            ttest_ratio_pvals,
            np.max(fold_change) + 0.01 - fold_change]
-    print run_modT_2sample
     if run_modT_2sample:
+        modT_2sample_pvals = modT_2sample(ctrl, exp)['P.Value']
         return tuple(res + [modT_2sample_pvals])
     else:
         return res
@@ -676,6 +675,7 @@ def do_stat_tests_protein(ctrl, exp, protein):
             aggregate_by=protein)
     protein_cyberT_bypep = pandas2ri.ri2py(protein_cyberT_bypep)
     # And again without bayesian regularization this time
+    # Only if we have the necessary number of samples, however
     protein_cyberT_noreg = r['proteinBayesT'](
             cyberT_df,
             ctrl.shape[1],

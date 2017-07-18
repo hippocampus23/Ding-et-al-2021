@@ -353,7 +353,10 @@ proteinBayesT <- function (data, numC, numE, aggregate_by=NULL, bayes=TRUE, winS
   ## Mult testing correction
   if (doMulttest){
     ##Bind them, last two cols of adjp list in original order
-    objBayes <- data.frame(objBayes, runMulttest(pVal))
+    # objBayes <- data.frame(objBayes, runMulttest(pVal))
+    objBayes <- data.frame(objBayes,
+                           "Bonferroni"=p.adjust(pVal, method="bonferroni"),
+                           "BH"=p.adjust(pVal, method="BH"))
   }
 
   return(objBayes)
@@ -510,10 +513,17 @@ tstat <- function (sumStats)
   m1=sumStats[3];  m2=sumStats[4]
   sd1=sumStats[5]; sd2=sumStats[6]
   ##  do the two sample t-test
+ #  if (n1 > 1 && n2 > 1) {
   tt <- -(m1 - m2)/sqrt((((n1 - 1) * sd1^2 + (n2 - 1) * sd2^2)/(n1 +
                                                                 n2 - 2)) * ((n1 + n2)/(n1 * n2)))
   dft <- n1 + n2 - 2
   rvar <- max((sd1^2)/(sd2^2), (sd2^2)/(sd1^2))
+  # } else {
+  #   tt <- 0
+  #   dft <- 2
+  #   rvar <- NaN
+  # }
+
   as.vector(c(tt, dft, rvar))
 }
 
@@ -525,6 +535,7 @@ runavg <- function(x,k=1) {
   ##   includes the data point at that position plus k points 
   ##   on either side.  For example k = 3 would be a sliding
   ##   window of size {3+1+3}= 7 centered on each point
+  ## If n < k, simply returns the average over x
   ## r is the output vector
   if (k <= 0)
     stop("Error: Window size (k) must be greater than zero")
@@ -533,7 +544,8 @@ runavg <- function(x,k=1) {
   if (k >= n){
     msg <- 'Window Size must be less than number of data points!'
     writeError(msg)
-    stop(msg)
+    # stop(msg)
+    return(mean(x))
   }
   
   r<-0

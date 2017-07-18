@@ -509,7 +509,8 @@ def err_bars_protein(m, num_to_change, fold_changes, peps_per_prot, n_runs=500,*
         except (rpy2.rinterface.RRuntimeError, ValueError) as e:
             # TODO determine why value errors appear
             # Infinite or NaN input? but where? p-val should be finite . . .
-            print "Some error!"
+            print "R error"
+            print e
             res[i,:,:] = np.nan
 
     end = time.time()
@@ -519,7 +520,7 @@ def err_bars_protein(m, num_to_change, fold_changes, peps_per_prot, n_runs=500,*
 
 
 def simulate_protein_fold_change_range(
-        fold_changes=2**np.arange(0.05, 0.55, 0.1),
+        fold_changes=np.arange(0.05, 0.55, 0.1),
         n_runs=150,
         **kwargs):
     """Creates simulated datasets with error bars
@@ -538,14 +539,14 @@ def simulate_protein_num_peps(**kwargs):
     """
     start = time.strftime(TIME_FORMAT)
     res = {}
-    num_peps = [1,2,4,10]
+    num_peps = [1,2,4,10]  # TODO CHANGE ME 
     N_PEPS = 10000
     
     for n_p in num_peps:
         m = N_PEPS / n_p
         tc = m / 10
-        res["u_%d" % n_p] = err_bars_protein(m, tc, 2**(0.3), n_p, n_runs=2, **kwargs)
-        res["g_%d" % n_p] = err_bars_protein(m, tc, 2**(0.3), n_p, n_runs=2, background="G", **kwargs)
+        res["u_%d" % n_p] = err_bars_protein(m, tc, 2**(0.3), n_p, **kwargs)
+        res["g_%d" % n_p] = err_bars_protein(m, tc, 2**(0.3), n_p, background="G", **kwargs)
         np.save("tmp_protein_num_peps_%s.npy" % start, res)
     return res
 
