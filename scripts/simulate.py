@@ -278,7 +278,7 @@ def sample_no_ctrl_gamma(n, num_to_change, fold_changes, alpha=3, beta=0.1, nctr
     ctrl, exp = background[:,:nctrl], background[:,nctrl:]
     exp, is_changed = _perturb_exp(exp, num_to_change, fold_changes, binary_labels)
 
-    return pd.DataFrame(ctrl), pd.DataFrame(exp), is_changed
+    return pd.DataFrame(ctrl), pd.DataFrame(exp), is_chanVged
 
 
 def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nctrl=3, nexp=3, use_var = np.random.normal, prot_var=0.5, pep_var=3.5, background = "U", alpha=3, beta=0.1, binary_labels=True):
@@ -308,7 +308,7 @@ def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nct
             Default is normal distribution
         prot_var: optional, variance of protein means. 
         pep_var: optional, variance of peptide means given protein mean
-        background: optional, how variance is sampled
+        background: optional, how variance is sampled (must be "G" or "U")
         binary_labels: bool, whether to return binary indicators (0-1) or scalar
             (log2 true fc) for each peptide
 
@@ -654,6 +654,7 @@ def do_stat_tests_protein(ctrl, exp, protein):
 
     ctrl.reset_index(drop=True, inplace=True)
     exp.reset_index(drop=True, inplace=True)
+    # Treat all peptide measurements as independent
     cyberT_df = pd.concat([ctrl, exp], axis=1, ignore_index=True)
     cyberT_df.columns = (['C%d' % (i+1) for i in xrange(ctrl.shape[1])] +
                   ['E%d' % (i+1) for i in xrange(exp.shape[1])])
@@ -664,15 +665,45 @@ def do_stat_tests_protein(ctrl, exp, protein):
             pool_intensity=True,
             aggregate_by=protein)
     protein_cyberT = pandas2ri.ri2py(protein_cyberT)
+    # Now treat each peptide as one measurement
+    protein_cyberT_bypep = r['proteinBayesT'](
+            pd.DataFrame({
+                  'meanC': meanC,
+                  'meanE': meanE}),
+            1,
+            1,
+            pool_intensity=True,
+            aggregate_by=protein)
+    protein_cyberT_bypep = pandas2ri.ri2py(protein_cyberT_bypep)
+    # And again without bayesian regularization this time
+    protein_cyberT_noreg = r['proteinBayesT'](
+            cyberT_df,
+            ctrl.shape[1],
+            exp.shape[1],
+            bayes=False,
+            aggregate_by=protein)
+    protein_cyberT_noreg = pandas2ri.ri2py(protein_cyberT_noreg)
+    protein_cyberT_bypep_noreg = r['proteinBayesT'](
+            pd.DataFrame({
+                  'meanC': meanC,
+                  'meanE': meanE}),
+            1,
+            1,
+            bayes=False,
+            aggregate_by=protein)
+    protein_cyberT_bypep_noreg = pandas2ri.ri2py(protein_cyberT_bypep_noreg)
 
     out['cyberT_prior_pval'] = protein_cyberT['pVal']
+    out['ttest_bymes'] = protein_cyberT_noreg['pVal']
+    out['cyberT_prior_pval_bypep'] = protein_cyberT_bypep['pVal'].values
+    out['ttest_bypep'] = protein_cyberT_bypep_noreg['pVal'].values
     return out
 
 
 ## TODO this is VERY JANKY
 ## Just a convience function for getting the column names . . .
 def protein_pval_labels():
-    ctrl, exp, is_changed, protein = sample_proteins(500, 0, 2, 1)
+    ctrl, exp, is_changed, protein = sample_proteins(500, 0, 2, 2)
 
     tmp = do_stat_tests_protein(ctrl, exp, protein)
     return tmp.columns

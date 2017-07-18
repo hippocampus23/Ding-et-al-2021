@@ -477,7 +477,8 @@ def err_bars_protein(m, num_to_change, fold_changes, peps_per_prot, n_runs=500,*
     start = time.time()
     # TODO this is REALLY JANKY
     with suppress_stdout():
-        labels = protein_pval_labels()
+       labels = protein_pval_labels()
+    # labels = protein_pval_labels()
    
     res = np.zeros((n_runs, len(labels) - 1, 3), dtype=np.float32)
 
@@ -518,7 +519,8 @@ def err_bars_protein(m, num_to_change, fold_changes, peps_per_prot, n_runs=500,*
 
 
 def simulate_protein_fold_change_range(
-        fold_changes=2**np.arange(0.05, 0.55, 0.05),
+        fold_changes=2**np.arange(0.05, 0.55, 0.1),
+        n_runs=150,
         **kwargs):
     """Creates simulated datasets with error bars
     """
@@ -526,8 +528,8 @@ def simulate_protein_fold_change_range(
     res = {}
     
     for f in fold_changes:
-        res[f] = err_bars_protein(5000, 500, f, 2, n_runs=150, **kwargs)
-        np.save("tmp_%s.npy" % start, res)
+        res[f] = err_bars_protein(5000, 500, f, 2, n_runs=n_runs, **kwargs)
+        np.save("tmp_protein_fc_range_%s.npy" % start, res)
     return res
 
 
@@ -544,7 +546,7 @@ def simulate_protein_num_peps(**kwargs):
         tc = m / 10
         res["u_%d" % n_p] = err_bars_protein(m, tc, 2**(0.3), n_p, n_runs=2, **kwargs)
         res["g_%d" % n_p] = err_bars_protein(m, tc, 2**(0.3), n_p, n_runs=2, background="G", **kwargs)
-        np.save("tmp_%s.npy" % start, res)
+        np.save("tmp_protein_num_peps_%s.npy" % start, res)
     return res
 
 

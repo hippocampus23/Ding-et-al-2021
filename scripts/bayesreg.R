@@ -194,7 +194,7 @@ bayesT <- function (aData, numC, numE, ppde=FALSE, betaFit=1, bayes=TRUE, winSiz
 ##                   for the Experimentals
 ##       TODO document additional arguments
 ################################################################################
-proteinBayesT <- function (data, numC, numE, aggregate_by=NULL, bayes=TRUE, winSize=101, conf=10, doMulttest=TRUE, bayesIntC=FALSE, bayesIntE=FALSE, pool_intensity=TRUE){
+proteinBayesT <- function (data, numC, numE, aggregate_by=NULL, bayes=TRUE, winSize=51, conf=5, doMulttest=TRUE, bayesIntC=FALSE, bayesIntE=FALSE, pool_intensity=TRUE){
   if ((ceiling((winSize-1)/2))!=((winSize-1)/2))
     stop("ERROR: winSize must be an odd number.")
 
@@ -268,7 +268,8 @@ proteinBayesT <- function (data, numC, numE, aggregate_by=NULL, bayes=TRUE, winS
     # rasdC[nC == 1]<- temp
 
     ## Overall std of all 1-peptide proteins 
-    rasdC[nC == 1] <- sd(aData[nC==1, 1:numC])
+    rasdC[nC == 1] <- sd(meanC[nC==1])
+    print(sum(nC==1))
    
 
     ## Same here, check for a single replicate in the experiment.
@@ -281,13 +282,14 @@ proteinBayesT <- function (data, numC, numE, aggregate_by=NULL, bayes=TRUE, winS
       temp <- temp[rank(nE[!is.na(stdE)])]
     }
     rasdE[!is.na(stdE)] <- temp
+    print(sum(nE==1))
 
     # intMat<- as.matrix(aData[nE == 1, (numC+1):(numC+numE)]);
     # intMat <- intMat[order(meanE[nE == 1]), ];
     # temp <- runavgPool(intMat, winSize)	
     # temp <- temp[rank(meanE[nE == 1])]
     # rasdE[nE == 1]<- temp
-    rasdE[nE == 1] <- sd(aData[nE==1, (numC+1):(numC+numE)])
+    rasdE[nE == 1] <- sd(meanE[nE==1])
     
     ## Before computing the Bayes SD, go through and set StdC to almost (zero)  whereever is.na and rasdC is not NA
     ##   Vice versa for the expt data
@@ -339,11 +341,10 @@ proteinBayesT <- function (data, numC, numE, aggregate_by=NULL, bayes=TRUE, winS
   ## Pvals amd fold changes
   pVal <- 1 - pf(ttest[,1]^2, 1, ttest[,2])
   fold <- - (meanC/meanE) * ((meanE/meanC) < 1) + (meanE/meanC) * ((meanC/meanE) < 1)
-  
+ 
   ## Then the final data.frame 
   if (bayes){
-    objBayes<- cbind(nC, nE, meanC, meanE, stdC, stdE, fold, rasdC, rasdE, bayesSDC, bayesSDE,ttest, 
-                     pVal)
+    objBayes<- cbind(nC, nE, meanC, meanE, stdC, stdE, fold, rasdC, rasdE, bayesSDC, bayesSDE,ttest,pVal)
   }
   else{
     objBayes<- cbind(nC, nE, meanC, meanE, stdC, stdE, fold, ttest, pVal)
