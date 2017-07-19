@@ -545,8 +545,8 @@ def simulate_protein_num_peps(**kwargs):
     for n_p in num_peps:
         m = N_PEPS / n_p
         tc = m / 10
-        res["u_%d" % n_p] = err_bars_protein(m, tc, 2**(0.3), n_p, **kwargs)
-        res["g_%d" % n_p] = err_bars_protein(m, tc, 2**(0.3), n_p, background="G", **kwargs)
+        res["u_%d" % n_p] = err_bars_protein(m, tc, 0.3, n_p, **kwargs)
+        res["g_%d" % n_p] = err_bars_protein(m, tc, 0.3, n_p, background="G", **kwargs)
         np.save("tmp_protein_num_peps_%s.npy" % start, res)
     return res
 
