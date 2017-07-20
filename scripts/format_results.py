@@ -1,3 +1,9 @@
+""" format_results: Functions for displaying the results of simulation runs
+
+Most of these functions make use of the result dictionaries returned by
+the simulation functions in simulations.py
+"""
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd

@@ -12,7 +12,7 @@ sys.dont_write_bytecode = True  # Avoid caching problems
 from format_results import *
 from heavy_tailed import *
 from roc import *
-from simulate import *
+from sample import *
 
 
 @contextmanager
@@ -198,7 +198,7 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", breaks=N
                     n_fold_changes,
                     binary_labels=False,
                     **kwargs)
-                p_vals = do_stat_tests(ctrl, exp)
+                p_vals = do_stat_tests(ctrl, exp, True)
 
             # Create binary labels from scalar
             is_changed = (np.abs(fcs) >= threshold).astype(int)

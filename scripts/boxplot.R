@@ -54,8 +54,28 @@ boxplot_results_pauc <- function(df, title="", xlab="Setting"){
   return(p1)
 }
 
-read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, order_lab=NULL) {
-  df <- read.csv(paste("data_simulated/", df_name, sep=""))
+## Main interface for creating boxplots
+## df_name: string OR dataframe
+##      If string, will attempt to read csv from file given by df_name
+## title: Title of plot
+## xlab: x label of plot
+## plot: one of 'AUROC', 'AUPRC', or 'pAUC'
+## order_x: default NULL, function which orders [x-]settings for pretty display
+## order_lab: default NULL, function which orders labels WITHIN each x-setting
+read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, order_lab=NULL, filename="") {
+  if (is.character(input) & length(input) == 1) {
+    # Read dataframe
+    df <- read.csv(paste("data_simulated/", df_name, sep=""))
+    if (is.null(filename)) {
+        filename <- strsplit(df_name,"\\.")[[1]][1]
+    }
+  } else {
+    # Try to coerce to dataframe 
+    df <- data.frame(df_name)
+    if (is.null(filename)) {
+      stop("Must provide filename if df_name is not character vector")
+    }
+  }
   df <- df[complete.cases(df),]
   if (!is.null(order_x)) {
     fac <- as.factor(df$setting)
@@ -65,7 +85,6 @@ read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, 
     fac <- as.factor(df$labels)
     df$labels <- factor(fac, levels=levels(fac)[order_lab(levels(fac))])
   }
-  name <- strsplit(df_name,"\\.")[[1]][1]
   if (plot == "AUROC") {
     p <- boxplot_results_auroc(df, title, xlab)
   } else if (plot == "AUPRC") {
@@ -75,7 +94,9 @@ read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, 
   } else {
     stop("Invalid plot specification. Must be one of 'AUROC', 'AUPRC', 'pAUC')")
   }
-  ggsave(paste("simulated_plots/boxplots/AUTO_", name, "_pauc.png", sep=""),
+  
+  # Name of file to save plot
+  ggsave(paste("simulated_plots/boxplots/AUTO", filename, "pauc.png", sep="_"),
       p,
       width=12.80,
       height=7.20,

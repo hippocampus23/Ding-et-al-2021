@@ -192,9 +192,9 @@ bayesT <- function (aData, numC, numE, ppde=FALSE, betaFit=1, bayes=TRUE, winSiz
 ##                   for the Controls
 ##       bayesIntE - use similar means (instead of similar variances) to calculate bayesian variance
 ##                   for the Experimentals
-##       TODO document additional arguments
+##       base_vars - vector of length n of background variances to add to calculated vars
 ################################################################################
-proteinBayesT <- function (data, numC, numE, aggregate_by=NULL, bayes=TRUE, winSize=51, conf=5, doMulttest=TRUE, bayesIntC=FALSE, bayesIntE=FALSE, pool_intensity=TRUE){
+proteinBayesT <- function (data, numC, numE, aggregate_by=NULL, bayes=TRUE, winSize=51, conf=5, doMulttest=TRUE, bayesIntC=FALSE, bayesIntE=FALSE, pool_intensity=TRUE, base_vars=NULL){
   if ((ceiling((winSize-1)/2))!=((winSize-1)/2))
     stop("ERROR: winSize must be an odd number.")
 
