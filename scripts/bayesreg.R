@@ -269,7 +269,6 @@ proteinBayesT <- function (data, numC, numE, aggregate_by=NULL, bayes=TRUE, winS
 
     ## Overall std of all 1-peptide proteins 
     rasdC[nC == 1] <- sd(meanC[nC==1])
-    print(sum(nC==1))
    
 
     ## Same here, check for a single replicate in the experiment.
@@ -282,7 +281,6 @@ proteinBayesT <- function (data, numC, numE, aggregate_by=NULL, bayes=TRUE, winS
       temp <- temp[rank(nE[!is.na(stdE)])]
     }
     rasdE[!is.na(stdE)] <- temp
-    print(sum(nE==1))
 
     # intMat<- as.matrix(aData[nE == 1, (numC+1):(numC+numE)]);
     # intMat <- intMat[order(meanE[nE == 1]), ];

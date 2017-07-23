@@ -11,7 +11,6 @@ from statsmodels.tools import add_constant
 from sample import *
 from roc import *
 
-r['source']('wls.test.R')
 numpy2ri.activate()
 
 def run_test(n, means=None, sigs=None):

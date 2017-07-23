@@ -63,7 +63,7 @@ boxplot_results_pauc <- function(df, title="", xlab="Setting"){
 ## order_x: default NULL, function which orders [x-]settings for pretty display
 ## order_lab: default NULL, function which orders labels WITHIN each x-setting
 read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, order_lab=NULL, filename="") {
-  if (is.character(input) & length(input) == 1) {
+  if (is.character(df_name) & length(df_name) == 1) {
     # Read dataframe
     df <- read.csv(paste("data_simulated/", df_name, sep=""))
     if (is.null(filename)) {

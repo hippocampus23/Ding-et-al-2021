@@ -481,7 +481,6 @@ def err_bars_protein(m, num_to_change, fold_changes, peps_per_prot, n_runs=500,*
     # labels = protein_pval_labels()
    
     res = np.zeros((n_runs, len(labels) - 1, 3), dtype=np.float32)
-
     for i in xrange(n_runs):
         if i % 50 == 0:
             print "At iteration %d" % i
@@ -494,24 +493,24 @@ def err_bars_protein(m, num_to_change, fold_changes, peps_per_prot, n_runs=500,*
                     peps_per_prot,
                     **kwargs)
                 p_vals = do_stat_tests_protein(ctrl, exp, protein)
+                rel_cols = p_vals.columns # Workaround for inplace modification
                 # Format is_changed
                 is_changed_final = extract_y_act_protein(
                         p_vals, protein, is_changed)
-                # Now drop acc_num columns
-                p_vals.drop('accession_number', axis=1, inplace=True)
+                # Now drop protein_id
+                p_vals = p_vals[rel_cols]
+                p_vals.drop('protein_id', axis=1, inplace=True)
                 # Invert fold change columns
                 for c in p_vals.columns:
                     if "fold_change" in c:
                         p_vals[c] = np.max(p_vals[c]) - p_vals[c] + 0.01
-
                 res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
                     is_changed_final, [p_vals[c] for c in p_vals], fdr=0.05)
         except (rpy2.rinterface.RRuntimeError, ValueError) as e:
-            # TODO determine why value errors appear
-            # Infinite or NaN input? but where? p-val should be finite . . .
             print "R error"
             print e
             res[i,:,:] = np.nan
+            raise e
 
     end = time.time()
     print end - start
@@ -527,6 +526,7 @@ def simulate_protein_fold_change_range(
     """
     start = time.strftime(TIME_FORMAT)
     res = {}
+    res['_labels'] = protein_pval_labels()
     
     for f in fold_changes:
         res[f] = err_bars_protein(5000, 500, f, 2, n_runs=n_runs, **kwargs)
@@ -539,12 +539,13 @@ def simulate_protein_num_peps(**kwargs):
     """
     start = time.strftime(TIME_FORMAT)
     res = {}
+    res['_labels'] = protein_pval_labels()
     num_peps = [1,2,4,10]  # TODO CHANGE ME 
     N_PEPS = 10000
     
     for n_p in num_peps:
         m = N_PEPS / n_p
-        tc = m / 10
+        tc = m / 5
         res["u_%d" % n_p] = err_bars_protein(m, tc, 0.3, n_p, **kwargs)
         res["g_%d" % n_p] = err_bars_protein(m, tc, 0.3, n_p, background="G", **kwargs)
         np.save("tmp_protein_num_peps_%s.npy" % start, res)
@@ -630,54 +631,3 @@ def simulate_compare_with_without_central_fc_peptides(
 
     return final
 
-
-def DEP_simulate_fold_change_range(
-        fold_changes = DEF_FOLD_CHANGES,
-        var = 0.06,
-        nctrl=3,
-        nexp=3):
-    """Creates simulated datasets for multiple fold changes
-
-    Uses a SINGLE fold change per iteration
-    """
-    res = {}
-    
-    for f in fold_changes:
-        ctrl, exp, is_changed = sample_no_ctrl_uniform(
-                10000,
-                1000,
-                f,
-                var,
-                nctrl=nctrl,
-                nexp=nexp)
-        res[f] = (
-            do_stat_tests(ctrl, exp),
-            is_changed
-        )
-    return res
-
-
-def DEP_simulate_fold_change_vars(
-        fold_changes = DEF_FOLD_CHANGES,
-        variances = [0.01, 0.05, 0.1, 0.2],
-        nctrl=3,
-        nexp=3):
-    """Create simulated datasets for fold changes AND variances"""
-
-    res = {}
-    
-    for f in fold_changes:
-        for v in variances:
-            ctrl, exp, is_changed = sample_no_ctrl_uniform(
-                    10000,
-                    1000,
-                    f,
-                    v,
-                    nctrl=nctrl,
-                    nexp=nexp)
-            res[(f,v)] = (
-                do_stat_tests(ctrl, exp),
-                is_changed
-            )
-
-    return res

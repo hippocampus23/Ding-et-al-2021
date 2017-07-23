@@ -10,6 +10,16 @@ import pandas as pd
 
 from roc import plot_both
 
+# Placeholder for R object
+r = None
+def _setup_r():
+    global r
+    if r is None:
+        from rpy2.robjects import r
+        r['source']('boxplot.R')
+        
+
+
 HEADER_TEMPLATE =  "| {:>20} | {:^16} | {:^16s} | {:^16s} |"
 DEF_FIELDS = ("AUROC", "AUPRC", "pAUC")
 BRK = "|" + ("-" * 22) + "|" + ((("-" * 18) +"|") *3)
@@ -34,6 +44,7 @@ def _subtable(res, labels):
 
 def summarize_result_dictionary(res, labels, title = "", desc="{}"):
     """ Prints entire table to summarize results
+
     """
     lines = [
         title,
@@ -54,8 +65,18 @@ def summarize_result_dictionary(res, labels, title = "", desc="{}"):
 def write_result_dict_to_df(res, labels, filename=None):
     """ Converts result dictionary to pandas dataframe
     NOTE: every df in res MUST have same length (n x |labels| x 3)
-    Labels MUST be the same length as the second to last dimenstion of res"""
-    
+    Labels MUST be the same length as the second to last dimenstion of res
+
+    If labels is NONE, looks in result dict for key '_labels'
+    """
+    if labels is None:
+        if '_labels' in res:
+            labels = res['_labels']
+        else:
+            raise ValueError('If labels is None, res must have key "_labels"')
+    # Drop underscore keys
+    res = {k: v for k,v in res.iteritems() if (type(k) != str or k[0] != '_')}
+
     len_label_dim = np.array([v.shape[-2] for v in res.itervalues()])
     if not np.all(len_label_dim == len(labels)):
         raise ValueError("Length of labels does not match second-to-last \
@@ -79,6 +100,15 @@ def write_result_dict_to_df(res, labels, filename=None):
     if filename is not None:
         out.to_csv("../data_simulated/" + filename)
     return out
+
+
+def plot_result_dict(res, labels, title, xlab, filename, **kwargs):
+    """ Directly call R boxplot function on res after converting to df
+    """
+    _setup_r()
+    res_df = write_result_dict_to_df(res, labels)
+
+    r['read_data_and_plot'](res_df, title, xlab, filename=filename, **kwargs)
 
 
 ## Transform protein df results for plotting ##

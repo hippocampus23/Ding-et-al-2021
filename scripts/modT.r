@@ -187,7 +187,7 @@ moderated.t <- function (data, design=NULL) {
   }
   m <- eBayes (m)
  
-  sig <- topTable (m, number=nrow(data), sort.by='none')        
+  sig <- topTable (m, number=nrow(data), sort.by='none', confint=TRUE)        
   return (sig)
 }
 

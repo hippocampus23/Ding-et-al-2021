@@ -166,7 +166,6 @@ def extract_y_act_protein(protein_df, protein_ids, is_changed):
             df, 
             on='protein_id', 
             how='left')
-    print joint.columns
     joint = joint.set_index('order').ix[np.arange(protein_df.shape[0]),:]
     return joint['is_changed']
 
