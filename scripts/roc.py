@@ -149,23 +149,25 @@ def extract_y_act_protein(protein_df, protein_ids, is_changed):
     """Converts peptide level labels to protein labels
 
     Args:
-        protein_df: Pandas df which has a column labeled 'accession_number'
+        protein_df: Pandas df which has a column labeled 'protein_id'
         protein_ids: length-n vector of protein ids
         is_changed: length-n vector of labels: same length as protein_ids
 
     Returns:
         length-m vector of 0-1 labels, corresponds to order of acc_nums in protein_df
     """
-
     df = pd.DataFrame({
         'protein_id': protein_ids,
         'is_changed': is_changed
         }).drop_duplicates(inplace=False)
+    protein_df['order'] = np.arange(protein_df.shape[0])
 
-    joint = protein_df.join(
-            df.set_index('protein_id'), 
-            on='accession_number', 
-            how='inner')
+    joint = protein_df[['protein_id', 'order']].merge(
+            df, 
+            on='protein_id', 
+            how='left')
+    print joint.columns
+    joint = joint.set_index('order').ix[np.arange(protein_df.shape[0]),:]
     return joint['is_changed']
 
 
@@ -215,7 +217,7 @@ def roc_prc_scores(y_act, p_val, is_pval=True, fdr=0.05):
         If p_val is a 1D array, roc_auc and prc_auc are floats
         If p_val is a list of lists, roc_auc and prc_auc are lists of floats
     """
-    pval_is_list = hasattr(p_val, '__iter__')
+    pval_is_list = hasattr(p_val[0], '__iter__')
     if not pval_is_list:
         p_val = [p_val]
 
