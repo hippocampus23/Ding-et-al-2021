@@ -168,7 +168,7 @@ def extract_y_act_protein(protein_ids, is_changed):
     # joint = joint.set_index('order').ix[np.arange(protein_df.shape[0]),:]
     # return joint['is_changed']
 
-    return df.sort('protein_id')['is_changed']
+    return df.sort_values('protein_id')['is_changed']
 
 
 def plot_multiple_fc(multiple_fc_result, fold_changes, labels, title=""):
@@ -261,3 +261,11 @@ def roc_prc_scores(y_act, p_val, is_pval=True, fdr=0.05):
     return roc_auc, prc_auc, pauc
 
 
+def power_analysis(is_changed, pvals):
+    """ Calculates the false detection rate and power of pvals
+        at a given p-value threshold, and with adjustment"""
+    # FDR = false_positives / significant
+    fdr = 
+    # Power \approx true_positives / num_changed
+
+    # Adjust p-values using BH and repeat

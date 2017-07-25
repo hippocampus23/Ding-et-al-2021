@@ -413,7 +413,7 @@ def err_bars_protein(m, num_to_change, fold_changes, peps_per_prot, n_runs=500,*
                 is_changed_final = extract_y_act_protein(
                         protein, is_changed)
                 # Now sort and drop protein_id
-                p_vals.sort('protein_id', inplace=True)
+                p_vals.sort_values('protein_id', inplace=True)
                 p_vals.drop('protein_id', axis=1, inplace=True)
                 # Invert fold change columns
                 for c in p_vals.columns:
