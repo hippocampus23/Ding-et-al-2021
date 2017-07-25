@@ -32,8 +32,9 @@ ALMOST_ZERO = 10E-14;
 ##                   for the Controls
 ##       bayesIntE - use similar means (instead of similar variances) to calculate bayesian variance
 ##                   for the Experimentals
+##       base_vars - vector of length n of background variances to add to calculated vars
 ################################################################################
-bayesT <- function (aData, numC, numE, ppde=FALSE, betaFit=1, bayes=TRUE, winSize=101, conf=10, doMulttest=FALSE, bayesIntC=FALSE, bayesIntE=FALSE){
+bayesT <- function (aData, numC, numE, ppde=FALSE, betaFit=1, bayes=TRUE, winSize=101, conf=10, doMulttest=FALSE, bayesIntC=FALSE, bayesIntE=FALSE, base_vars=0){
   if ((ceiling((winSize-1)/2))!=((winSize-1)/2))
     stop("ERROR: winSize must be an odd number.")
   
@@ -110,6 +111,10 @@ bayesT <- function (aData, numC, numE, ppde=FALSE, betaFit=1, bayes=TRUE, winSiz
     ## Set the ALMOST_ZERO for all rasdC and rasdE at zero as well.
     rasdC[rasdC == 0] <- ALMOST_ZERO;
     rasdE[rasdE == 0] <- ALMOST_ZERO; 
+
+    # Add background variance
+    rasdC <- rasdC + base_vars
+    rasdE <- rasdE + base_vars
     
     ## compute bayes sd
     if (conf + nC == 2 || conf + nE == 2){
@@ -200,6 +205,7 @@ proteinBayesT <- function (data, numC, numE, aggregate_by=NULL, bayes=TRUE, winS
 
   if (!is.null(aggregate_by)) {
     aData <- aggregate(data, by=list(aggregate_by), FUN=function(x) list(x))
+    agg_order <- aData$Group.1
     aData$Group.1 <- NULL
   } else {
     aData <- data

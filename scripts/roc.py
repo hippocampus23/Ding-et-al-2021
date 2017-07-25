@@ -145,29 +145,30 @@ def plot_both(y_act, p_vals, labels, title='', is_pval=True, **kwargs):
     return f, axarr
 
 
-def extract_y_act_protein(protein_df, protein_ids, is_changed):
+def extract_y_act_protein(protein_ids, is_changed):
     """Converts peptide level labels to protein labels
 
     Args:
-        protein_df: Pandas df which has a column labeled 'protein_id'
         protein_ids: length-n vector of protein ids
         is_changed: length-n vector of labels: same length as protein_ids
 
     Returns:
-        length-m vector of 0-1 labels, corresponds to order of acc_nums in protein_df
+        length-m vector of 0-1 labels, sorted by protein id 0...n
     """
     df = pd.DataFrame({
         'protein_id': protein_ids,
-        'is_changed': is_changed
+        'is_changed': np.array(is_changed, dtype=int)
         }).drop_duplicates(inplace=False)
-    protein_df['order'] = np.arange(protein_df.shape[0])
+    # protein_df['order'] = np.arange(protein_df.shape[0])
 
-    joint = protein_df[['protein_id', 'order']].merge(
-            df, 
-            on='protein_id', 
-            how='left')
-    joint = joint.set_index('order').ix[np.arange(protein_df.shape[0]),:]
-    return joint['is_changed']
+    # joint = protein_df[['protein_id', 'order']].merge(
+    #         df, 
+    #         on='protein_id', 
+    #         how='left')
+    # joint = joint.set_index('order').ix[np.arange(protein_df.shape[0]),:]
+    # return joint['is_changed']
+
+    return df.sort('protein_id')['is_changed']
 
 
 def plot_multiple_fc(multiple_fc_result, fold_changes, labels, title=""):

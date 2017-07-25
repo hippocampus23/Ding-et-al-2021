@@ -339,9 +339,10 @@ def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nct
 
     # Draw protein and peptide averages (length-n vectors)
     # Protein means are N(16, 0.5)
-    protein_means = np.repeat(np.random.normal(16, 0.5**0.5, size=m), peps_per_prot)
+    protein_means = np.repeat(
+            np.random.normal(16, prot_var**0.5, size=m), peps_per_prot)
     # Peptide means are N(prot_mean, 3.5)
-    peptide_means = np.random.normal(0, 3.5**0.5, size=n) + protein_means
+    peptide_means = np.random.normal(0, pep_var**0.5, size=n) + protein_means
     avg_ctrl = peptide_means
 
     background = noise + avg_ctrl[:,np.newaxis]
@@ -373,23 +374,49 @@ def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nct
     return pd.DataFrame(ctrl), pd.DataFrame(exp), is_changed, protein
 
 
-def sample_phosphoproteins(num_peps, num_to_change, fold_changes, protein_df, use_var=np.random.normal, var=0.06, alpha=3, beta=0.1, nctrl=3, nexp=3, background="U", binary_labels=True):
+def sample_phospho(num_peps, num_to_change, fold_changes, protein_df, use_var=np.random.normal, var=0.06, alpha=3, beta=0.1, nctrl=3, nexp=3, background="U", binary_labels=True):
     """ Sample phosphoproteins based on protein fold changes
-    How to sample this??? 
-    Pick subset of proteins to normalize
-    Somehow fix the variance of each protein?
-    Which distribution best simulates the actual data we discovered?
-    Need to look at dist of variance vs intensity
-    Others . . . 
+    
+    Samples num_peps with nctrl and nexp channels
 
-    return ctrl, exp, is_changed, protein
+    Args:
+        num_peps: Number of phosphopeptides to generate
+        num_to_change: integer number of peptides for which each fold change
+                        perturbation should be applied
+                        NOTE: num_to_change * len(fold_changes) must be less than n
+        fold_changes: 1D array of log2 fold changes
+                        Each fold_change will be applied num_to_change times
+        protein_df: DataFrame summarizing protein level information, with cols
+                'protein_id': unique key for proteins
+                'fold_change': True fold change between ctrl and exp protein
+        var: number, square of scale parameter of variance distribution
+                FOR INDIVIDUAL PEPTIDE INTENSITIES (only if uniform background)
+        nctrl: optional, number of control channels
+        nexp: optional, number of experimental channels
+        use_var: optional, sampling function to use.
+            Should take arguments loc, scale, size
+            Default is normal distribution
+        background: optional, how variance is sampled (must be "G" or "U")
+        binary_labels: bool, whether to return binary indicators (0-1) or scalar
+            (log2 true fc) for each peptide
+
+    return ctrl, exp, is_changed, peptide_prot_indices
     """
     # m is number of proteins
     m = protein_df.shape[0]
-    if isinstance(num_peps, int):
-        num_peps = [num_peps] * m
-    elif m % len(num_peps) == 0:
-        num_peps = np.repeat(num_peps, m // len(num_peps))
+    # if isinstance(num_peps, int):
+    #     num_peps = [num_peps] * m
+    # elif m % len(num_peps) == 0:
+    #     num_peps = np.repeat(num_peps, m // len(num_peps))
+    # n = sum(num_peps)
+
+    # For now, generate peptides and randomly assign to proteins
+    # TODO: should mean of peptide depend on mean of protein?
+    # Really shouldn't make a difference
+    # Would have to pass in variance/mean information from protein samples
+    n = num_peps
+    peptide_prot_indices = np.random.choice(m, size=n, replace=True)
+    avg_ctrl = np.random.normal(16, 2, n)    
 
     if background == "U":
         # Constant variance noise
@@ -401,7 +428,14 @@ def sample_phosphoproteins(num_peps, num_to_change, fold_changes, protein_df, us
             use_var(loc=0, scale=v**0.5, size=nctrl + nexp)
             for v in variances
             ])
-        # TODO implement this stuff
+
+    background = noise + avg_ctrl[:,np.newaxis]
+    ctrl, exp = background[:,:nctrl], background[:,nctrl:]
+    # Adjust exp for protein level fold changes
+    exp += protein_df['fold_change'].values[peptide_prot_indices,np.newaxis]
+    exp, is_changed = _perturb_exp(exp, num_to_change, fold_changes, binary_labels)
+
+    return pd.DataFrame(ctrl), pd.DataFrame(exp), is_changed, peptide_prot_indices
 
 
 ########################
@@ -455,7 +489,7 @@ def modT_2sample(ctrl, exp):
     return res
 
 
-def cyberT(ctrl, exp):
+def cyberT(ctrl, exp, **kwargs):
     if ctrl.shape[0] != exp.shape[0]:
         raise ValueError('Length of exp and ctrl data frames not identical')
     ctrl.reset_index(drop=True, inplace=True)
@@ -464,7 +498,7 @@ def cyberT(ctrl, exp):
     df = pd.concat([ctrl, exp], axis=1, ignore_index=True)
     df.columns = (['C%d' % (i+1) for i in xrange(ctrl.shape[1])] +
             ['E%d' % (i+1) for i in xrange(exp.shape[1])])
-    res = r['bayesT'](df, numC = ctrl.shape[1], numE = exp.shape[1], ppde=False, doMulttest=True)
+    res = r['bayesT'](df, numC = ctrl.shape[1], numE = exp.shape[1], ppde=False, doMulttest=True, **kwargs)
     res = pandas2ri.ri2py(res)
 
     return res
@@ -490,10 +524,10 @@ def t_test(ctrl, exp, ratio_test = False):
     return pvals
 
 
-def protein_wls_test(ctrl, exp, protein, onesample=True, use_bayes=False, reg=None):
+def protein_wls_test(ctrl, exp, protein, onesample=True, use_bayes=False, reg=10):
     # Do cyberT
     cyberT_peps = cyberT(ctrl, exp)
-    cyberT_peps['protein'] = proteins
+    cyberT_peps['protein'] = protein
     return protein_wls_test_cyberT(
             cyberT_peps, onesample=onesample, use_bayes=use_bayes, reg=reg)
 
@@ -509,32 +543,39 @@ def protein_wls_test_cyberT(cyberT_peps, onesample=True, use_bayes=False, reg=10
     if reg is not None:
         if reg < 1:
             raise ValueError("Invalid regularization value: %.1f" % reg)
-        # Find overall background variance
+        # Determine overall background variance
         # Average of sum of control and experimental variance between peps
-        cols = (['protein', 'bayesSDC', 'bayesSDE'] if use_bayes else
-                ['protein', 'stdC', 'stdE'])
+        # cols = (['protein', 'bayesSDC', 'bayesSDE'] if use_bayes else
+        #         ['protein', 'stdC', 'stdE'])
+        # avg_std = np.mean(np.sum(
+        #     cyberT_peps[cols].groupby('protein').std(), axis=1
+        # ))
         avg_std = np.mean(np.sum(
-            cyberT_peps.groupby('protein').std()
-        ))
+            pd.DataFrame({'protein': cyberT_peps['protein'],
+                          'diff': cyberT_peps['meanC'] - cyberT_peps['meanE']
+                          }).groupby('protein').std(),
+            axis=1))
         reg_params = (avg_std, reg)
     else:
         reg_params = None
 
     # Group by protein
     grouped = cyberT_peps.groupby('protein', sort=False)
-    res = pd.DataFrame(columns=['protein_id','x','std', 'pval'],
+    res = pd.DataFrame(columns=['protein_id','fold_change','std_err', 'pval'],
             index=np.arange(len(grouped)))
     res['protein_id'] = res['protein_id'].astype(str)
-    res['x'] = res['x'].astype(float)
-    res['std'] = res['std'].astype(float)
+    res['fold_change'] = res['fold_change'].astype(float)
+    res['std_err'] = res['std_err'].astype(float)
     res['pval'] = res['pval'].astype(float)
     for j, (name, group) in enumerate(grouped):
         # Get the columns corresponding to meanC and meanE
         if onesample:
-            x, std, pval = _wls_onesample(group, use_bayes=use_bayes, reg=reg_params)
+            fold_change, std_err, pval = _wls_onesample(
+                    group, use_bayes=use_bayes, reg=reg_params)
         else:
-            x, std, pval = _wls(group, use_bayes=use_bayes, reg=reg_params)
-        res.ix[j] = [name, x, std, pval]
+            fold_change, std_err, pval = _wls(
+                    group, use_bayes=use_bayes, reg=reg_params)
+        res.ix[j] = [name, fold_change, std_err, pval]
     return res
 
 
@@ -556,6 +597,7 @@ def _wls_degenerate(data, use_bayes):
 
 def _wls(data, use_bayes=False, reg=None):
     """ Weighted least squares for peptides in protein.
+    DEPRECATED, do not use
     Args:
         data - df with columns including
             meanC, meanE, stdC, stdE, bayesSDC, bayesSDE
@@ -563,7 +605,7 @@ def _wls(data, use_bayes=False, reg=None):
         reg - (mean, n_obs) mean, pseudocount of of prior observation
             n_obs > 0
     Returns:
-        (beta, std_err, pval)
+        (beta, std_err, pval, n)
     """
     # Degenerate case, only one peptide
     # Only if no regularization
@@ -594,9 +636,9 @@ def _wls_onesample(data, use_bayes=False, reg=None):
     Returns:
         (beta, std_err, pval)
     """
+    n = data.shape[0]
     # Degenerate case, only one peptide
     # Regularization doesn't affect answer here
-    n = data.shape[0]
     if n == 1:
         return _wls_degenerate(data, use_bayes)
 
@@ -607,18 +649,20 @@ def _wls_onesample(data, use_bayes=False, reg=None):
         stdC, stdE = data['bayesSDC'].values, data['bayesSDE'].values
     else:
         stdC, stdE = data['stdC'].values, data['stdE'].values
-    w = (((nC-1)*(stdC**2) + (nE-1)*(stdE**2)) / (nC+nE-2)) * ((nC+nE) / (nC*nE))
+    # w2 = 1./(((nC-1)*(stdC**2) + (nE-1)*(stdE**2)) / (nC+nE-2)) * ((nC+nE) / (nC*nE))
+    w = 1. / (stdC**2 + stdE**2)
     # Weighted least squares with only constant term
-    mod_wls = sm.WLS(y, x, weights=1./w)
+    mod_wls = sm.WLS(y, x, weights=w)
     res_wls = mod_wls.fit()
     beta_hat, std_err, p_val = (res_wls.params[0], res_wls.bse[0], res_wls.pvalues[0])
-
-    # If we regularize, adjust the std and p-value
+    # Adjust the standard error for peptide level uncertainty additively
+    std_err += 1. / sum(w)
+    # If we regularize, adjust the std
     if reg is not None:
         p_std, conf = reg 
-        std_err = ((conf*p_std^2 + (n-1)*std_err^2)/(conf + n - 2))**0.5
-        # Two-tailed test
-        p_val = 2*stats.t.cdf(res_wls.tvalues[0], df=(n-1))
+        std_err = ((conf*(p_std**2) + (n-1)*(std_err**2)) / (conf+n-2))**0.5
+    # Two-tailed test
+    p_val = 2*stats.t.cdf(-abs(beta_hat) / std_err, df=(n-1))
 
     return (beta_hat, std_err, p_val) 
 
@@ -663,7 +707,7 @@ def do_stat_tests(ctrl, exp, run_modT_2sample=False):
 
     if do_ratio:
         modT_res = modT(ctrl, exp)
-        modT_pvals = modT_res['P.Value']
+        modT_pvals = modT_res['P.Value'].values
         print "Ran moderated T test"
 
         ttest_ratio_pvals = t_test(ctrl, exp, ratio_test=True)
@@ -683,21 +727,21 @@ def do_stat_tests(ctrl, exp, run_modT_2sample=False):
         print "Skipped two sample t test, too few channels"
 
     cyberT_res = cyberT(ctrl, exp)
-    cyberT_pvals = cyberT_res['pVal']
+    cyberT_pvals = cyberT_res['pVal'].values
     print "Ran cyberT test"
 
     fold_change = np.abs(np.mean(ctrl.values, axis=1) - np.mean(exp.values, axis=1))
 
-    res = [modT_pvals,
-            cyberT_pvals,
-            ttest_pvals,
-            ttest_ratio_pvals,
-            np.max(fold_change) + 0.01 - fold_change]
+    res = pd.DataFrame({'modT': modT_pvals,
+        'cyberT':cyberT_pvals,
+        't-test': ttest_pvals,
+        't test (1-sample)': ttest_ratio_pvals,
+        'fold change': np.max(fold_change) + 0.01 - fold_change})
     if run_modT_2sample:
-        modT_2sample_pvals = modT_2sample(ctrl, exp)['P.Value']
-        return tuple(res + [modT_2sample_pvals])
-    else:
-        return res
+        modT_2sample_pvals = modT_2sample(ctrl, exp)['P.Value'].values
+        res['modT (2-sample)'] = modT_2sample_pvals
+
+    return res
 
 
 def do_stat_tests_protein(ctrl, exp, protein):
@@ -750,12 +794,11 @@ def do_stat_tests_protein(ctrl, exp, protein):
     # Sorts in increasing order of id
     out = pval_df.groupby('protein_id').median()
 
-    ctrl.reset_index(drop=True, inplace=True)
-    exp.reset_index(drop=True, inplace=True)
-    pval_df.reset_index(drop=True, inplace=True)
-    meanC, meanE = cyberT_res['meanC'].values, cyberT_res['meanE'].values
-    # meanC = np.mean(ctrl.values, axis=1)
-    # meanE = np.mean(exp.values, axis=1)
+    # ctrl.reset_index(drop=True, inplace=True)
+    # exp.reset_index(drop=True, inplace=True)
+    # meanC, meanE = cyberT_res['meanC'].values, cyberT_res['meanE'].values
+    meanC = np.mean(ctrl.values, axis=1)
+    meanE = np.mean(exp.values, axis=1)
 
     # Note that all these are returned in ascending order of id
     # CyberT by peptide
@@ -780,25 +823,64 @@ def do_stat_tests_protein(ctrl, exp, protein):
     protein_cyberT_bypep_noreg = pandas2ri.ri2py(protein_cyberT_bypep_noreg)
 
     cyberT_res['protein'] = protein
-    wls_pval = protein_wls_test_cyberT(cyberT_res, onesample=True, reg=None)
-    wls_pval_reg = protein_wls_test_cyberT(cyberT_res, onesample=True)
+    # for reg in [2, 4, 8, 12, 16]:
+    #     out['wls_pval_reg_%02d' % reg] = protein_wls_test_cyberT(
+    #             cyberT_res, onesample=True, reg=reg)['pval'].values
+    out['wls'] = protein_wls_test_cyberT(
+            cyberT_res, use_bayes=True, onesample=True)['pval'].values
 
-    out['wls_pval_noreg'] = wls_pval['pval']
-    out['wls_pval'] = wls_pval_reg['pval']
-    out['cyberT_prior_pval_bypep'] = protein_cyberT_bypep['pVal'].values
+    # out['wls_pval'] = wls_pval_reg['pval']
+    out['cyberT_bypep'] = protein_cyberT_bypep['pVal'].values
     out['ttest_bypep'] = protein_cyberT_bypep_noreg['pVal'].values
     out.reset_index(inplace=True)
     return out
 
 
+def do_stat_tests_phospho(ctrl, exp, protein_labels, protein_df):
+    """ Do statistical tests for phosphoproteins
+
+    protein_df should have columns 'protein_id', 'fold_change', 'std_err'
+        If 'std_err' not provided, will default to 0
+    """
+    if 'std_err'in protein_df:
+        std_err = protein_df['std_err'][protein_labels,np.newaxis]
+    else:
+        std_err = 0
+        print "Warning! No standard errors were included in protein_df for phosphoprotein statistical tests, defaulting to zero"
+
+    no_norm = cyberT(ctrl, exp)
+    norm_exp = exp.subtract(
+            protein_df['fold_change'][protein_labels].reset_index(drop=True),
+            axis=0)
+    mean_norm = cyberT(ctrl, norm_exp)
+    norm_with_err = cyberT(ctrl, norm_exp, base_vars=std_err)
+
+    return pd.DataFrame({
+        'no_adj': no_norm['pVal'],
+        'mean_adj': mean_norm['pVal'],
+        'var_adj': norm_with_err['pVal']
+        })
+
 ## TODO this is VERY JANKY
-## Just a convience function for getting the column names . . .
+## Convenience function for protein pval labels
 def protein_pval_labels():
     ctrl, exp, is_changed, protein = sample_proteins(500, 0, 2, 2)
 
     tmp = do_stat_tests_protein(ctrl, exp, protein)
     return tmp.columns
 
-if __name__ == "__main__":
-    # quick_modT, quick_cyberT = setup()
-    pass
+## Convenience function for peptide pval labels
+def peptide_pval_labels():
+    ctrl, exp, is_changed = sample_no_ctrl_uniform(500, 0, 2)
+
+    tmp = do_stat_tests_protein(ctrl, exp)
+    return tmp.columns
+
+def phospho_pval_labels():
+    ctrl, exp, is_changed, protein = sample_proteins(500, 0, 2, 2)
+    protein_df = pd.DataFrame({'protein_id': np.arange(500),
+                               'fold_change': np.ones(500)})
+    ctrl_p, exp_p, is_changed, mapping = sample_phospho(500, 0, 0, protein_df)
+
+    tmp = do_stat_tests_phospho(ctrl_p, exp_p, mapping, protein_df)
+    return tmp.columns

@@ -30,7 +30,11 @@ DEF_FOLD_CHANGES = np.arange(0.1, 1.1, 0.1)
 STD = 0.3039  ## Std such that 10% of peptides have |log2(FC)| >= 0.5
 THRESH = 0.5  ## Set all FC st |log2(FC)| < THRESH to 0
 
-### Functions for running multiple rounds of trials on peptide level ###
+
+#####################
+### PEPTIDE LEVEL ###
+#####################
+
 
 def err_bars_peptide_saveall(fold_changes, num_to_change, background="G", n_runs=500, **kwargs):
     """Test function for determining size of dataframe if all results are saved"""
@@ -59,7 +63,7 @@ def err_bars_peptide_saveall(fold_changes, num_to_change, background="G", n_runs
                     num_to_change,
                     fold_changes,
                     **kwargs)
-                p_vals = np.array(do_stat_tests(ctrl, exp))
+                p_vals = do_stat_tests(ctrl, exp).values.transpose()
                 res[i,:,:] = p_vals
                 is_changed_all[i,:] = is_changed
 
@@ -118,7 +122,7 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500, 
                     num_to_change,
                     fold_changes,
                     **kwargs)
-                p_vals = do_stat_tests(ctrl, exp, run_modT_2samp)
+                p_vals = do_stat_tests(ctrl, exp, run_modT_2samp).values.transpose()
                 res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
                     is_changed, p_vals, fdr=0.05)
         except rpy2.rinterface.RRuntimeError:
@@ -198,12 +202,10 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", breaks=N
                     n_fold_changes,
                     binary_labels=False,
                     **kwargs)
-                p_vals = do_stat_tests(ctrl, exp, True)
+                p_vals = do_stat_tests(ctrl, exp, True).values.transpose()
 
             # Create binary labels from scalar
             is_changed = (np.abs(fcs) >= threshold).astype(int)
-            # Cast p_vals as 2D array for easier subsetting
-            p_vals = np.array(p_vals)
 
             # Calculate ROC score for EACH fc seperately
             for (j, fc) in enumerate(unique_fcs[:-1]):
@@ -231,6 +233,7 @@ def err_bars_fold_change(fold_changes, num_to_change, background = "U", breaks=N
 
 TIME_FORMAT = "%Y-%m-%d_%H:%M"
 
+### Multiple parameter settings ###
 
 def simulate_compare_one_two_sided():
     """ Compare one-sided fold change with two-sided fold change
@@ -255,97 +258,6 @@ def simulate_compare_one_two_sided():
     np.save("tmp_%s.npy" % start, res) 
     return res
 
-def simulate_multiple_fc_normal(background="G", n_runs=250, filename=None):
-    """ Generate partial ROCs for normally distruited FCs (bucketed!)
-        Compare to uniformly distributed FCs
-
-        Buckets into buckets of size 0.1, truncates fold changes to range
-        -1 . . . 1
-    """
-    start = time.strftime(TIME_FORMAT)
-    N_TO_CHANGE = 5000
-    if filename is None:
-        filename = "tmp_%s.npy" % start
-    filename_csv = filename[:-4] + ".csv"
-
-    # Set up buckets and weight appropriately
-    F_MIN, F_MAX = -8, 8
-    norm = lambda x: np.exp(-x**2./(2*STD**2))/(2*pi*STD)**0.5  # Normal pdf
-    buckets_all = np.setdiff1d(np.arange(F_MIN, F_MAX+1, 1), [0]) / 10.
-    buckets = np.setdiff1d(np.arange(F_MIN, F_MAX+1, 1), np.arange(-4, 5, 1)) / 10.
-    n_density_all = norm(buckets_all)
-    n_density_all /= sum(n_density_all)
-    n_density = norm(buckets)
-    n_density /= sum(n_density)
-
-    # This is for fixed bucketed fold changes
-    """
-    breaks, breaks_all = None, None
-    fold_changes = np.repeat(
-            buckets_all,
-            int(N_TO_CHANGE / len(buckets_all)))
-    fold_changes_n = np.repeat(
-            buckets,
-            np.round(N_TO_CHANGE * n_density).astype(int))
-    fold_changes_n_all = np.repeat(
-            buckets_all,
-            np.round(N_TO_CHANGE * n_density_all).astype(int))
-    """
-
-    # This is for continuous fold changes
-    breaks = buckets
-    breaks_all = buckets_all
-    fold_changes = np.arange(F_MIN/10., F_MAX/10., (F_MAX - F_MIN)/(10.*N_TO_CHANGE))
-    ## Fixed normal FC
-    # fold_changes_n_all = np.random.normal(scale=STD, size=N_TO_CHANGE)
-    # fold_changes_n = fold_changes_n_all[np.abs(fold_changes_n_all) >= 0.5]
-    ## Randomly generated normal FC at every iteration
-    fold_changes_n_all = lambda x: np.random.normal(scale=STD, size=N_TO_CHANGE)
-    def fold_changes_n(i):
-        tmp = np.random.normal(scale=STD, size=N_TO_CHANGE)
-        return tmp[np.abs(tmp) >= 0.5]
-
-    res_uniform = err_bars_fold_change(fold_changes, 1, background,
-            threshold=0.2, breaks=breaks_all, n_runs=n_runs)
-    res_norm = err_bars_fold_change(fold_changes_n, 1, background,
-            threshold=0.5, breaks=breaks, n_runs=n_runs)
-    res_norm_all = err_bars_fold_change(fold_changes_n_all, 1, background,
-            threshold=0.2, breaks=breaks_all, n_runs=n_runs)
-
-    # Drop the last two labels (t-test and one-tailed t-test)
-    keep_pvals = [0,1,4,5]
-    res_uniform = res_uniform[:,:,keep_pvals,:]
-    res_norm = res_norm[:,:,keep_pvals,:]
-    res_norm_all = res_norm_all[:,:,keep_pvals,:]
-
-    # Rearrange matrix so conditions are grouped by fold change 
-    # First pad the incomplete bucket list
-    missing = np.setdiff1d(buckets_all, buckets)
-    idx = np.where(buckets >= missing[0])[0][0] - 1  ## Idx at which to pad
-    shape = res_norm.shape
-    res_norm_padded = np.concatenate((
-            res_norm[:,:idx,:,:],
-            np.zeros((shape[0], len(missing), shape[2], shape[3]), dtype=float),
-            res_norm[:,idx:,:,:]),
-            axis=1)
-    # Concat along second to last dimension to squash conditions into setting
-    res_arr = np.concatenate(
-            (res_uniform, res_norm_padded, res_norm_all),
-            axis=2)
-    ## For discrete
-    # res = {fc: res_arr[:,i,:,:] for i,fc in enumerate(buckets_all)}
-    ## For continuous
-    res = {"%.1f<=fc<%.1fd" % (buckets_all[i], buckets_all[i+1]): res_arr[:,i,:,:] 
-            for i in xrange(len(buckets_all)-1)}
-    labels = ["%s: %s" % (lbl, ms)
-              for lbl in ["Uniform, all", "Normal", "Normal, all"]
-              for ms in ["ModT", "CyberT", "fold_change"]]
-    print labels
-    
-    # Here we save as both csv and npy file
-    np.save(filename, res) 
-    write_result_dict_to_df(res, labels, filename_csv)  ## TODO make less jank
-    return res
     
 
 def simulate_multiple_fc(background="G", n_runs=200, filename=None):
@@ -452,7 +364,11 @@ def simulate_with_gamma(n, alpha=3, beta=0.1, nctrl=3, use_var=np.random.normal)
 
     return noise
 
-### Functions for simulating multiple trials on protein level ###
+
+#################################
+### PROTEIN LEVEL SIMULATIONS ###
+#################################
+
 
 def err_bars_protein(m, num_to_change, fold_changes, peps_per_prot, n_runs=500,**kwargs):
     """ Runs multiple rounds of simulations using given sampler 
@@ -462,8 +378,8 @@ def err_bars_protein(m, num_to_change, fold_changes, peps_per_prot, n_runs=500,*
         m: number of proteins
         num_to_change: int or list of ints
         fold_changes: non-negative float or list of floats
+        peps_per_prot: number of peptides per protein
         background: "U" or "G" for uniform or inverse gamma variance
-        filename: optional, if present will save results in binary format
         kwargs: passed to variance generating function
             [Possible args include var, nctrl, nexp, use_var, alpha, beta, background]
 
@@ -493,12 +409,11 @@ def err_bars_protein(m, num_to_change, fold_changes, peps_per_prot, n_runs=500,*
                     peps_per_prot,
                     **kwargs)
                 p_vals = do_stat_tests_protein(ctrl, exp, protein)
-                rel_cols = p_vals.columns # Workaround for inplace modification
                 # Format is_changed
                 is_changed_final = extract_y_act_protein(
-                        p_vals, protein, is_changed)
-                # Now drop protein_id
-                p_vals = p_vals[rel_cols]
+                        protein, is_changed)
+                # Now sort and drop protein_id
+                p_vals.sort('protein_id', inplace=True)
                 p_vals.drop('protein_id', axis=1, inplace=True)
                 # Invert fold change columns
                 for c in p_vals.columns:
@@ -541,15 +456,90 @@ def simulate_protein_num_peps(**kwargs):
     res = {}
     res['_labels'] = protein_pval_labels()
     num_peps = [1,2,4,10]  # TODO CHANGE ME 
-    N_PEPS = 10000
+    N_PEPS = 5000
     
     for n_p in num_peps:
         m = N_PEPS / n_p
         tc = m / 5
-        res["u_%d" % n_p] = err_bars_protein(m, tc, 0.3, n_p, **kwargs)
-        res["g_%d" % n_p] = err_bars_protein(m, tc, 0.3, n_p, background="G", **kwargs)
+        res["u_%02d" % n_p] = err_bars_protein(m, tc, 0.3, n_p, **kwargs)
+        res["g_%02d" % n_p] = err_bars_protein(m, tc, 0.3, n_p, background="G", **kwargs)
         np.save("tmp_protein_num_peps_%s.npy" % start, res)
     return res
+
+
+#######################
+### PHOSPHOPROTEINS ###
+#######################
+
+
+def err_bars_phospho(n, num_to_change, fold_changes, m=None, peps_per_prot=None, prot_fold_changes=None, num_prot_to_change=1, n_runs=200, **kwargs):
+    """ Simulates phosphoproteins
+    TODO more documentation
+
+    m defaults to equal 0.25*n if not provided
+    peps_per_prot defaults to <currently 3, should eventually be equal to empirical distribution>
+    prot_fold_changes defaults to two normal distributions around 0.5, -0.5  
+    num_prot_to_change defaults to 1. If prot_fold_changes=None, setting num_prot_to_change will not have any effect
+    """
+    # Validate args
+    if m is None:
+        m = n / 4
+    if peps_per_prot is None:
+        peps_per_prot = 3
+    if prot_fold_changes is None:
+        # 2 normaldistributions around -0.5 and 0.5
+        # With m/20 proteins in each one
+        prot_fold_changes = np.concatenate((
+                np.random.normal(-0.5, 0.2, size=int(0.05 * m)),
+                np.random.normal(0.5, 0.2, size=int(0.05 * m))
+        ))
+        num_prot_to_change = 1
+
+    start = time.time()
+    with suppress_stdout():
+        labels = phospho_pval_labels()
+   
+    res = np.zeros((n_runs, len(labels), 3), dtype=np.float32)
+    for i in xrange(n_runs):
+        if i % 50 == 0:
+            print "At iteration %d" % i
+        try:
+            # with suppress_stdout():
+            if True:
+                ctrl, exp, is_changed_prot, protein = sample_proteins(
+                        m,
+                        num_prot_to_change,
+                        prot_fold_changes,
+                        peps_per_prot,
+                        **kwargs)
+                wls_res = protein_wls_test(ctrl, exp, protein, use_bayes=True)
+                print wls_res.columns
+                ctrl_p, exp_p, is_changed, mapping = sample_phospho(
+                        n,
+                        num_to_change,
+                        fold_changes,
+                        wls_res,
+                        **kwargs)
+                pvals = do_stat_tests_phospho(
+                        ctrl_p, exp_p, mapping, wls_res)
+                res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
+                        is_changed , pvals.values.transpose(), fdr=0.05) 
+
+        except (rpy2.rinterface.RRuntimeError, ValueError) as e:
+            print "R error"
+            print e
+            res[i,:,:] = np.nan
+            raise e
+
+    end = time.time()
+    print end - start
+
+    return res
+
+
+##############################
+### Bucketing fold changes ###
+##############################
 
 
 def simulate_compare_with_without_central_fc_peptides(
@@ -631,3 +621,95 @@ def simulate_compare_with_without_central_fc_peptides(
 
     return final
 
+
+def simulate_multiple_fc_normal(background="G", n_runs=250, filename=None):
+    """ Generate partial ROCs for normally distruited FCs (bucketed!)
+        Compare to uniformly distributed FCs
+
+        Buckets into buckets of size 0.1, truncates fold changes to range
+        -1 . . . 1
+    """
+    start = time.strftime(TIME_FORMAT)
+    N_TO_CHANGE = 5000
+    if filename is None:
+        filename = "tmp_%s.npy" % start
+    filename_csv = filename[:-4] + ".csv"
+
+    # Set up buckets and weight appropriately
+    F_MIN, F_MAX = -8, 8
+    norm = lambda x: np.exp(-x**2./(2*STD**2))/(2*pi*STD)**0.5  # Normal pdf
+    buckets_all = np.setdiff1d(np.arange(F_MIN, F_MAX+1, 1), [0]) / 10.
+    buckets = np.setdiff1d(np.arange(F_MIN, F_MAX+1, 1), np.arange(-4, 5, 1)) / 10.
+    n_density_all = norm(buckets_all)
+    n_density_all /= sum(n_density_all)
+    n_density = norm(buckets)
+    n_density /= sum(n_density)
+
+    # This is for fixed bucketed fold changes
+    """
+    breaks, breaks_all = None, None
+    fold_changes = np.repeat(
+            buckets_all,
+            int(N_TO_CHANGE / len(buckets_all)))
+    fold_changes_n = np.repeat(
+            buckets,
+            np.round(N_TO_CHANGE * n_density).astype(int))
+    fold_changes_n_all = np.repeat(
+            buckets_all,
+            np.round(N_TO_CHANGE * n_density_all).astype(int))
+    """
+
+    # This is for continuous fold changes
+    breaks = buckets
+    breaks_all = buckets_all
+    fold_changes = np.arange(F_MIN/10., F_MAX/10., (F_MAX - F_MIN)/(10.*N_TO_CHANGE))
+    ## Fixed normal FC
+    # fold_changes_n_all = np.random.normal(scale=STD, size=N_TO_CHANGE)
+    # fold_changes_n = fold_changes_n_all[np.abs(fold_changes_n_all) >= 0.5]
+    ## Randomly generated normal FC at every iteration
+    fold_changes_n_all = lambda x: np.random.normal(scale=STD, size=N_TO_CHANGE)
+    def fold_changes_n(i):
+        tmp = np.random.normal(scale=STD, size=N_TO_CHANGE)
+        return tmp[np.abs(tmp) >= 0.5]
+
+    res_uniform = err_bars_fold_change(fold_changes, 1, background,
+            threshold=0.2, breaks=breaks_all, n_runs=n_runs)
+    res_norm = err_bars_fold_change(fold_changes_n, 1, background,
+            threshold=0.5, breaks=breaks, n_runs=n_runs)
+    res_norm_all = err_bars_fold_change(fold_changes_n_all, 1, background,
+            threshold=0.2, breaks=breaks_all, n_runs=n_runs)
+
+    # Drop the last two labels (t-test and one-tailed t-test)
+    keep_pvals = [0,1,4,5]
+    res_uniform = res_uniform[:,:,keep_pvals,:]
+    res_norm = res_norm[:,:,keep_pvals,:]
+    res_norm_all = res_norm_all[:,:,keep_pvals,:]
+
+    # Rearrange matrix so conditions are grouped by fold change 
+    # First pad the incomplete bucket list
+    missing = np.setdiff1d(buckets_all, buckets)
+    idx = np.where(buckets >= missing[0])[0][0] - 1  ## Idx at which to pad
+    shape = res_norm.shape
+    res_norm_padded = np.concatenate((
+            res_norm[:,:idx,:,:],
+            np.zeros((shape[0], len(missing), shape[2], shape[3]), dtype=float),
+            res_norm[:,idx:,:,:]),
+            axis=1)
+    # Concat along second to last dimension to squash conditions into setting
+    res_arr = np.concatenate(
+            (res_uniform, res_norm_padded, res_norm_all),
+            axis=2)
+    ## For discrete
+    # res = {fc: res_arr[:,i,:,:] for i,fc in enumerate(buckets_all)}
+    ## For continuous
+    res = {"%.1f<=fc<%.1fd" % (buckets_all[i], buckets_all[i+1]): res_arr[:,i,:,:] 
+            for i in xrange(len(buckets_all)-1)}
+    labels = ["%s: %s" % (lbl, ms)
+              for lbl in ["Uniform, all", "Normal", "Normal, all"]
+              for ms in ["ModT", "CyberT", "fold_change"]]
+    print labels
+    
+    # Here we save as both csv and npy file
+    np.save(filename, res) 
+    write_result_dict_to_df(res, labels, filename_csv)  ## TODO make less jank
+    return res
