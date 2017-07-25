@@ -237,15 +237,23 @@ def roc_prc_scores(y_act, p_val, is_pval=True, fdr=0.05):
         else:
             y_pred = p
 
+        if np.all(np.isnan(y_pred)):
+            # No valid p-vals
+            pauc.append(0)
+            roc_auc.append(0)
+            prc_auc.append(0)
+            continue
+        
+        # Rank measurements with nan as lowest
+        y_pred[np.isnan(y_pred)] = 0
+
         fpr, tpr, _ = roc_curve(y_act, y_pred)
         # Truncate FPR and TPR for partial auc
         try:
             idx = next(i for i,v in enumerate(fpr) if v > fdr)
         except StopIteration:
-            print len(fpr)
-            print fpr
-            print fpr[-10:]
             idx = len(fpr) - 1
+
         t_fpr, t_tpr = fpr[:idx+1], tpr[:idx+1]
         t_fpr[-1] = fdr
 

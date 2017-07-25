@@ -28,8 +28,7 @@ def suppress_stdout():
 
 DEF_FOLD_CHANGES = np.arange(0.1, 1.1, 0.1)
 STD = 0.3039  ## Std such that 10% of peptides have |log2(FC)| >= 0.5
-THRESH = 0.5  ## Set all FC st |log2(FC)| < THRESH to 0
-
+THRESH = 0.5  ## Set all FC st |log2(FC)| < THRESH to 0 
 
 #####################
 ### PEPTIDE LEVEL ###
@@ -536,6 +535,39 @@ def err_bars_phospho(n, num_to_change, fold_changes, m=None, peps_per_prot=None,
 
     return res
 
+
+def simulate_phospho_fold_change_range(
+        fold_changes=np.arange(0.1, 1.1, 0.2),
+        n_runs=150,
+        **kwargs):
+    """Creates simulated datasets with error bars
+    """
+    start = time.strftime(TIME_FORMAT)
+    res = {}
+    res['_labels'] = phospho_pval_labels()
+    
+    for f in fold_changes:
+        res[f] = err_bars_phospho(10000, 1000, f, n_runs=n_runs, **kwargs)
+        np.save("tmp_phospho_fc_range_%s.npy" % start, res)
+    return res
+
+
+def simulate_phosphos_num_peps(**kwargs):
+    """Creates simulated datasets with error bars
+    """
+    start = time.strftime(TIME_FORMAT)
+    res = {}
+    res['_labels'] = protein_pval_labels()
+    m = 2500
+    num_peps = [1,2,4,10]  # TODO CHANGE ME 
+    
+    for n_p in num_peps:
+        res["u_%02d" % n_p] = err_bars_protein(
+                10000, 1000, 0.5, m, n_p, None, 1, **kwargs)
+        res["g_%02d" % n_p] = err_bars_protein(
+                10000, 1000, 0.5, m, n_p, None, 1, background="G", **kwargs)
+        np.save("tmp_phospho_num_peps_%s.npy" % start, res)
+    return res
 
 ##############################
 ### Bucketing fold changes ###
