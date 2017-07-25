@@ -1,4 +1,5 @@
 from sklearn.metrics import roc_curve, roc_auc_score, precision_recall_curve, auc
+from statsmodels.sandbox.stats.multicomp import multipletests
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -261,11 +262,46 @@ def roc_prc_scores(y_act, p_val, is_pval=True, fdr=0.05):
     return roc_auc, prc_auc, pauc
 
 
-def power_analysis(is_changed, pvals):
+def power_analysis(is_changed, pvals, alpha=0.05):
     """ Calculates the false detection rate and power of pvals
-        at a given p-value threshold, and with adjustment"""
-    # FDR = false_positives / significant
-    fdr = 
-    # Power \approx true_positives / num_changed
+        at a given p-value threshold, and with adjustment
+        
+        Returns (fdrs, powers, fdrs_adj, powers_adj)"""
 
-    # Adjust p-values using BH and repeat
+    pval_is_list = hasattr(p_val[0], '__iter__')
+    if not pval_is_list:
+        p_val = [p_val]
+
+    fdrs = []
+    powers = []
+    fdrs_adj = []
+    powers_adj = []
+    for pval in pvals:
+        # FDR = false_positives / significant
+        if np.sum(pval <= alpha) > 0:
+            fdr = (float(np.sum(np.logical_not(is_changed) & (pval <= alpha))) /
+                    np.sum(pval <= alpha))
+        else:
+            fdr = 0.0
+        # Power \approx true_positives / num_changed
+        power = (float(np.sum(is_changed & (pval <= alpha))) / 
+                np.sum(is_changed))
+
+        # Adjust p-values using BH and repeats
+        pval_adj = multipletests(pval, alpha=alpha, method='fdr_bh')
+        # FDR = false_positives / significant
+        if np.sum(pval_adj <= alpha) > 0:
+            fdr_adj = float(np.sum(np.logical_not(is_changed) 
+                & (pval_adj <= alpha))) / np.sum(pval_adj <= alpha)
+        else:
+            fdr_adj = 0.0
+        # Power \approx true_positives / num_changed
+        power_adj = (float(np.sum(is_changed & (pval_adj <= alpha))) / 
+                np.sum(is_changed))
+
+        fdrs.append(fdr)
+        powers.append(power)
+        fdrs_adj.append(fdr_adj)
+        powers_adj.append(power_adj)
+
+    return (fdrs, powers, fdrs_adj, powers_adj)
