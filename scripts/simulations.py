@@ -512,7 +512,6 @@ def err_bars_phospho(n, num_to_change, fold_changes, m=None, peps_per_prot=None,
                         peps_per_prot,
                         **kwargs)
                 wls_res = protein_wls_test(ctrl, exp, protein, use_bayes=True)
-                print wls_res.columns
                 ctrl_p, exp_p, is_changed, mapping = sample_phospho(
                         n,
                         num_to_change,
@@ -557,14 +556,14 @@ def simulate_phosphos_num_peps(**kwargs):
     """
     start = time.strftime(TIME_FORMAT)
     res = {}
-    res['_labels'] = protein_pval_labels()
+    res['_labels'] = phospho_pval_labels()
     m = 2500
     num_peps = [1,2,4,10]  # TODO CHANGE ME 
     
     for n_p in num_peps:
-        res["u_%02d" % n_p] = err_bars_protein(
+        res["u_%02d" % n_p] = err_bars_phospho(
                 10000, 1000, 0.5, m, n_p, None, 1, **kwargs)
-        res["g_%02d" % n_p] = err_bars_protein(
+        res["g_%02d" % n_p] = err_bars_phospho(
                 10000, 1000, 0.5, m, n_p, None, 1, background="G", **kwargs)
         np.save("tmp_phospho_num_peps_%s.npy" % start, res)
     return res

@@ -843,7 +843,7 @@ def do_stat_tests_phospho(ctrl, exp, protein_labels, protein_df):
         If 'std_err' not provided, will default to 0
     """
     if 'std_err'in protein_df:
-        std_err = protein_df['std_err'][protein_labels,np.newaxis]
+        std_err = protein_df['std_err'][protein_labels].values
     else:
         std_err = 0
         print "Warning! No standard errors were included in protein_df for phosphoprotein statistical tests, defaulting to zero"

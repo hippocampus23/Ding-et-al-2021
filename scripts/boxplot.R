@@ -1,5 +1,49 @@
 library(ggplot2)
 
+## Summarizes data.
+## Gives count, mean, standard deviation, standard error of the mean, and confidence interval (default 95%).
+##   data: a data frame.
+##   measurevar: the name of a column that contains the variable to be summariezed
+##   groupvars: a vector containing names of columns that contain grouping variables
+##   na.rm: a boolean that indicates whether to ignore NA's
+##   conf.interval: the percent range of the confidence interval (default is 95%)
+summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
+                      conf.interval=.95, .drop=TRUE) {
+    library(plyr)
+
+    # New version of length which can handle NA's: if na.rm==T, don't count them
+    length2 <- function (x, na.rm=FALSE) {
+        if (na.rm) sum(!is.na(x))
+        else       length(x)
+    }
+
+    # This does the summary. For each group's data frame, return a vector with
+    # N, mean, and sd
+    datac <- ddply(data, groupvars, .drop=.drop,
+      .fun = function(xx, col) {
+        c(N    = length2(xx[[col]], na.rm=na.rm),
+          mean = mean   (xx[[col]], na.rm=na.rm),
+          sd   = sd     (xx[[col]], na.rm=na.rm)
+        )
+      },
+      measurevar
+    )
+
+    # Rename the "mean" column    
+    datac <- rename(datac, c("mean" = measurevar))
+
+    datac$se <- datac$sd / sqrt(datac$N)  # Calculate standard error of the mean
+
+    # Confidence interval multiplier for standard error
+    # Calculate t-statistic for confidence interval: 
+    # e.g., if conf.interval is .95, use .975 (above/below), and use df=N-1
+    ciMult <- qt(conf.interval/2 + .5, datac$N-1)
+    datac$ci <- datac$se * ciMult
+
+    return(datac)
+}
+
+
 boxplot_results_auroc <- function(df, title="", xlab="Setting"){
   # Requires setting and labels column
   p1 <- ggplot(df, aes(x = as.factor(setting), fill=labels, y = AUROC)) + 
@@ -54,6 +98,17 @@ boxplot_results_pauc <- function(df, title="", xlab="Setting"){
   return(p1)
 }
 
+
+lineplot_results_pauc <- function(df, title="", xlab="Setting") {
+  data <- summarySE(df, measurevar='pAUROC', groupvars=c('setting', 'labels'))
+  print(head(data))
+  p1 <- ggplot(data, aes(x = setting, group=labels, colour=labels, y= 10^pAUROC)) +
+        geom_errorbar(aes(ymin=pAUROC-se, ymax=pAUROC+se), width=.1) +
+        geom_line() +
+        geom_point()
+  return(p1)
+}
+
 ## Main interface for creating boxplots
 ## df_name: string OR dataframe
 ##      If string, will attempt to read csv from file given by df_name
@@ -91,12 +146,15 @@ read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, 
     p <- boxplot_results_auprc(df, title, xlab)
   } else if (plot == "pAUC") {
     p <- boxplot_results_pauc(df, title, xlab)
+  } else if (plot == 'line') {
+    p <- lineplot_results_pauc(df, title, xlab)
   } else {
     stop("Invalid plot specification. Must be one of 'AUROC', 'AUPRC', 'pAUC')")
   }
   
   # Name of file to save plot
-  ggsave(paste("simulated_plots/boxplots/AUTO", filename, "pauc.png", sep="_"),
+  ggsave(paste("simulated_plots/boxplots/AUTO", filename,
+               paste(plot,".png", sep=""), sep="_"),
       p,
       width=12.80,
       height=7.20,

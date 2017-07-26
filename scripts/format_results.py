@@ -16,7 +16,7 @@ def _setup_r():
     global r
     if r is None:
         from rpy2.robjects import r
-        r['source']('boxplot.R')
+        r['source']('scripts/boxplot.R')
         
 
 
@@ -71,7 +71,7 @@ def write_result_dict_to_df(res, labels, filename=None):
     """
     if labels is None:
         if '_labels' in res:
-            labels = res['_labels']
+            labels = list(res['_labels'])
         else:
             raise ValueError('If labels is None, res must have key "_labels"')
     # Drop underscore keys
