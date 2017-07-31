@@ -112,12 +112,7 @@ bayesT <- function (aData, numC, numE, ppde=FALSE, betaFit=1, bayes=TRUE, winSiz
     rasdC[rasdC == 0] <- ALMOST_ZERO;
     rasdE[rasdE == 0] <- ALMOST_ZERO; 
 
-    print(head(rasdC, 10))
-    print(head(rasdE, 10))
-    print(head(base_vars, 10))
-
-    # Add background variance
-    rasdC <- rasdC + base_vars
+    # Add background variance to experimental group
     rasdE <- rasdE + base_vars
     
     ## compute bayes sd

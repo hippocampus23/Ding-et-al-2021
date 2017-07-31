@@ -78,7 +78,7 @@ def err_bars_peptide_saveall(fold_changes, num_to_change, background="G", n_runs
 
 
 
-def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500, labels=DEFAULT_LABELS_MODT_2SAMP, run_modT_2samp = True, **kwargs):
+def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500, labels=None, run_modT_2samp = True, N_PEPS=10000,  **kwargs):
     """ Runs multiple rounds of simulations using given sampler 
         Summarizes overall ROC scores
    
@@ -99,15 +99,15 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500, 
     # TODO REMOVE ME
     start = time.time()
    
-    # Hardcoded params
-    N_PEPS = 10000
-
     if background == "U":
         sampler = sample_no_ctrl_uniform
     elif background == "G":
         sampler = sample_no_ctrl_gamma
     else:
         raise ValueError("Invalid background specification")
+
+    if labels == None:
+        labels = peptide_pval_labels(run_modT_2sample=run_modT_2samp)
 
     res = np.zeros((n_runs, len(labels), 3), dtype=np.float32)
 
@@ -257,6 +257,23 @@ def simulate_compare_one_two_sided():
     np.save("tmp_%s.npy" % start, res) 
     return res
 
+
+def simulate_size_dataset(n_runs=100, filename=None, **kwargs):
+    """ Vary size of peptide dataset
+    """
+    start = time.strftime(TIME_FORMAT)
+    if filename is None:
+        filename = "tmp_%s.npy" % start
+    fc = 0.5
+    Ns = [1000, 10000, 100000]
+    ms = [0.04, 0.1, 0.25]
+    res = {}
+
+    for n in Ns:
+        for m in ms:
+            res[(n, int(n*m))] = err_bars_peptide(fc, int(n*m), "G", N_PEPS=n, n_runs=n_runs)
+            np.save(filename, res) 
+    return res
     
 
 def simulate_multiple_fc(background="G", n_runs=200, filename=None):
@@ -432,6 +449,22 @@ def err_bars_protein(m, num_to_change, fold_changes, peps_per_prot, n_runs=500,*
     return res
 
 
+def simulate_protein_variances(n_runs=100, filename=None, **kwargs):
+    if filename is None:
+        start = time.strftime(TIME_FORMAT)
+        filename = "tmp_protein_vars_%s.npy" % start
+
+    res = {}
+    res['_labels'] = protein_pval_labels()
+
+    # TODO add filename saving
+
+    res['g_def'] = err_bars_protein(1000, 100, 0.3, 2, background="G", n_runs=n_runs, **kwargs)
+    res['u_0.12'] = err_bars_protein(1000, 100, 0.3, 2, var=0.12, background="U", n_runs=n_runs, **kwargs)
+    res['u_0.06'] = err_bars_protein(1000, 100, 0.3, 2, var=0.06, background="U", n_runs=n_runs, **kwargs)
+    res['u_0.03'] = err_bars_protein(1000, 100, 0.3, 2, var=0.03, background="U", n_runs=n_runs, **kwargs)
+    return res
+
 def simulate_protein_fold_change_range(
         fold_changes=np.arange(0.05, 0.55, 0.1),
         n_runs=150,
@@ -455,7 +488,7 @@ def simulate_protein_num_peps(**kwargs):
     res = {}
     res['_labels'] = protein_pval_labels()
     num_peps = [1,2,4,10]  # TODO CHANGE ME 
-    N_PEPS = 5000
+    N_PEPS = 10000
     
     for n_p in num_peps:
         m = N_PEPS / n_p

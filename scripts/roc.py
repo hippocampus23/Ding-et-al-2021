@@ -1,6 +1,7 @@
 from sklearn.metrics import roc_curve, roc_auc_score, precision_recall_curve, auc
 from statsmodels.sandbox.stats.multicomp import multipletests
 
+import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -141,10 +142,19 @@ def plot_both(y_act, p_vals, labels, title='', is_pval=True, **kwargs):
             continue  # TODO handle this better
         plot_roc(y_act, p_val, ax=axarr[0], label=labels[i], is_pval=is_pval[i])
         plot_partial_auc(y_act, p_val, ax=axarr[1], label=labels[i], fdr=0.05, is_pval=is_pval[i])
+        # Shaded block on roc plot to indicate area of pAUC plot
+        axarr[0].add_patch(
+                patches.Rectangle(
+                    (0, 0),
+                    0.05,
+                    1.1
+        ))
         # plot_prc(y_act, p_val, ax=axarr[1], label=labels[i], **kwargs)
 
     return f, axarr
 
+def plot_pvalue_dist(pvals):
+    pass
 
 def extract_y_act_protein(protein_ids, is_changed):
     """Converts peptide level labels to protein labels
@@ -313,3 +323,4 @@ def power_analysis(is_changed, pvals, alpha=0.05):
         powers_adj.append(power_adj)
 
     return (fdrs, powers, fdrs_adj, powers_adj)
+
