@@ -417,28 +417,38 @@ runMulttest <- function(pvals){
 ## bayesIntR - pool ratios for the variance, instead of pooling variances
 ## 
 ################################################################################
-bayesT.pair <-  function (aData, numR, ppde=FALSE, betaFit=1, bayes=TRUE, winSize=101, conf=10,
-                          doMulttest=FALSE, bayesIntR=FALSE){
+bayesT.pair <-  function (data, numR, aggregate_by=NULL, ppde=FALSE, betaFit=1, bayes=TRUE, winSize=101, conf=10, doMulttest=FALSE, bayesIntR=FALSE){
   if ((ceiling((winSize-1)/2))!=((winSize-1)/2))
     stop("ERROR: winSize must be an odd number.")
   
   estExp <- numR + 1
+  if (!is.null(aggregate_by)) {
+    aData <- aggregate(data, by=list(aggregate_by), FUN=function(x) list(x))
+    agg_order <- aData$Group.1
+    aData$Group.1 <- NULL
+    aData[,estExp] <- lapply(aData[,estExp], 1, FUN=mean)
+  } else {
+    aData <- data
+  }
+
   numGene <- nrow(aData)
   
   ##compute number of valid entries for each gene
-  nR <- apply(as.matrix(aData[, 1:numR]), 1, function(x) sum(!is.na(x)))
+  nR <- apply(as.matrix(aData[, 1:numR]), 1, function(x) sum(!is.na(unlist(x))))
 
   ##compute means for valid entries
   meanR <- apply(as.matrix(aData[, 1:numR]),
                 1, function(x) {
-                  if (sum(!is.na(x)))
-                    mean(x[!is.na(x)])
+                  t <- unlist(x)
+                  if (sum(!is.na(t)))
+                    mean(t[!is.na(t)])
                   else NA}
                 )
   stdR <- apply(as.matrix(aData[, 1:numR]),
                1, function(x){ 
-                 if (sum(!is.na(x)) > 1)
-                   sqrt(var(x[!is.na(x)]))
+                 t <- unlist(x)
+                 if (sum(!is.na(t)) > 1)
+                   sqrt(var(t[!is.na(t)]))
                  else NA}
                )
 
@@ -448,14 +458,14 @@ bayesT.pair <-  function (aData, numR, ppde=FALSE, betaFit=1, bayes=TRUE, winSiz
     index.col <- aData[,estExp]
     
     ## If we are using intensities, do things a little differently
-    if (numR == 1){bayesIntR <- TRUE}
+    if (all(nR == 1)) {bayesIntR <- TRUE}
     
-    if (!bayesIntR){
-      ## Calculate averages over sd windows
-      temp <- runavg(stdR[!is.na(stdR)][order(index.col[!is.na(stdR)])],((winSize-1)/2))	
-      temp <- temp[rank(index.col[!is.na(stdR)])]	
-      rasdR[!is.na(stdR)]<- temp
-    } else {
+    ## Calculate averages over sd windows
+    temp <- runavg(stdR[!is.na(stdR)][order(index.col[!is.na(stdR)])],((winSize-1)/2))	
+    temp <- temp[rank(index.col[!is.na(stdR)])]	
+    rasdR[!is.na(stdR)]<- temp
+
+    if (bayesIntR) {
       ## Calculate averages of sds over windows of intensities
       cat('About to calc bayes Variance for ratios using intensities.')
       intMat <- as.matrix(aData[!is.na(meanR), 1:numR])
@@ -463,6 +473,9 @@ bayesT.pair <-  function (aData, numR, ppde=FALSE, betaFit=1, bayes=TRUE, winSiz
       temp <- runavgPool(intMat, winSize)
       temp <- temp[rank(meanR[!is.na(meanR)])]
       rasdR[!is.na(meanR)] <- temp
+    } else {
+      ## Calculate average sd over all probes which have n=1
+      rasdR[nR == 1] <- sd(meanR[nR==1])
     }
 
     forBayesStdR <- stdR
@@ -485,10 +498,10 @@ bayesT.pair <-  function (aData, numR, ppde=FALSE, betaFit=1, bayes=TRUE, winSiz
 
   ## Put together the final version of the output files 
   if (bayes){
-    objBayes<- data.frame(aData, nR, meanR, stdR, rasdR, bayesSD, ttest, bayesDF,pVal)
+    objBayes<- data.frame(nR, meanR, stdR, rasdR, bayesSD, ttest, bayesDF,pVal)
   }
   else{
-    objBayes<- data.frame(aData, nR, meanR, stdR, ttest, DF, pVal)
+    objBayes<- data.frame(nR, meanR, stdR, ttest, DF, pVal)
   }
   
   ##posterior probability of differential expression (ppde) test if wanted

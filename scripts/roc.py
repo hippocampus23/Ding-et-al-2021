@@ -102,7 +102,7 @@ def plot_partial_auc(y_act, pred, fdr=0.05, ax=None, is_pval=True, label='Area '
     roc_ln, = ax.plot(t_fpr, t_tpr, lw=lw, label=label + ' - %.3f' % AUC)
     base_ln, = ax.plot([0,fdr+0.01], [0,fdr+0.01], color='grey', lw=2, linestyle='--')
 
-    ax.set_xlim(0, fdr+0.01)
+    ax.set_xlim(0, fdr)
     ax.set_ylim(0, 1.01)
     ax.set_xlabel('FPR')
     ax.set_ylabel('TPR')
@@ -145,16 +145,51 @@ def plot_both(y_act, p_vals, labels, title='', is_pval=True, **kwargs):
         # Shaded block on roc plot to indicate area of pAUC plot
         axarr[0].add_patch(
                 patches.Rectangle(
-                    (0, 0),
-                    0.05,
-                    1.1
+                    (0, 0),  # Position
+                    0.05,    # Width
+                    1.1,     # Height (+ buffer)
+                    alpha=0.1,
+                    color='grey',
+                    edgecolor=None
         ))
         # plot_prc(y_act, p_val, ax=axarr[1], label=labels[i], **kwargs)
 
     return f, axarr
 
-def plot_pvalue_dist(pvals):
-    pass
+def plot_pvalue_dist(pvals, labels=None):
+    """
+    Pvals should be list of lists
+    """
+    # Plot histogram for this.
+    # log-log pvalue plot to focus on smallest p values
+    # TODO add labels
+
+    m = len(pvals)
+    f, (hist_axs, log_axs) = plt.subplots(2, m, sharey='row', squeeze=False)
+    
+    hist_axs[0].set_ylabel('Density')
+    log_axs[0].set_ylabel('Observed p-value')
+    
+    for i, pval in enumerate(pvals):
+        hax = hist_axs[i]
+        lax = log_axs[i]
+
+        _, _, rects = hax.hist(pval, bins=20, range=(0,1), normed=True, alpha=0.5)
+        hax.plot([0, 1], [1, 1], color='grey', lw=1, linestyle='--')
+        hax.set_title(labels[i] if labels is not None else '')
+        hax.set_xlabel('p-value')
+        exp_pvals = (np.argsort(np.argsort(pval)) + 0.5) / (len(pval) + 1)
+        lax.scatter(exp_pvals, pval)
+        lax.plot([0, 1], [0 ,1], color='grey', lw=1, linestyle='--')
+        lax.set_xlim(0, 1)
+        lax.set_ylim(0, 1)
+        lax.set_xlabel('Expected p-value')
+        
+        # TODO plot confidence interval
+
+    f.tight_layout()
+    return f
+    
 
 def extract_y_act_protein(protein_ids, is_changed):
     """Converts peptide level labels to protein labels
@@ -286,9 +321,9 @@ def power_analysis(is_changed, pvals, alpha=0.05):
         
         Returns (fdrs, powers, fdrs_adj, powers_adj)"""
 
-    pval_is_list = hasattr(p_val[0], '__iter__')
+    pval_is_list = hasattr(pvals[0], '__iter__')
     if not pval_is_list:
-        p_val = [p_val]
+        pvals = [p_val]
 
     fdrs = []
     powers = []
@@ -306,7 +341,7 @@ def power_analysis(is_changed, pvals, alpha=0.05):
                 np.sum(is_changed))
 
         # Adjust p-values using BH and repeats
-        pval_adj = multipletests(pval, alpha=alpha, method='fdr_bh')
+        _, pval_adj, _, _ = multipletests(pval, alpha=alpha, method='fdr_bh')
         # FDR = false_positives / significant
         if np.sum(pval_adj <= alpha) > 0:
             fdr_adj = float(np.sum(np.logical_not(is_changed) 
@@ -324,3 +359,55 @@ def power_analysis(is_changed, pvals, alpha=0.05):
 
     return (fdrs, powers, fdrs_adj, powers_adj)
 
+def count_quadrants(pval, fc, is_changed, alpha=0.05):
+    """ TODO documentation
+    """
+    not_changed = np.logical_not(is_changed)
+    n_sig = np.sum(pval <= alpha)
+    fc_thres = sorted(fc)[n_sig]
+
+    tp_sig_sig = np.sum((pval <= alpha) & (fc <= fc_thres) & is_changed)
+    fp_sig_sig = np.sum((pval <= alpha) & (fc <= fc_thres) & not_changed)
+    tp_sig_nsig = np.sum((pval <= alpha) & (fc > fc_thres) & is_changed)
+    fp_sig_nsig = np.sum((pval <= alpha) & (fc > fc_thres) & not_changed)
+    tp_nsig_sig = np.sum((pval > alpha) & (fc <= fc_thres) & is_changed)
+    fp_nsig_sig = np.sum((pval > alpha) & (fc <= fc_thres) & not_changed)
+    tp_nsig_nsig = np.sum((pval > alpha) & (fc > fc_thres) & is_changed)
+    fp_nsig_nsig = np.sum((pval > alpha) & (fc > fc_thres) & not_changed)
+
+    return (tp_sig_sig, fp_sig_sig, tp_sig_nsig, fp_sig_nsig,
+            tp_nsig_sig, fp_nsig_sig, tp_nsig_nsig, fp_nsig_nsig)
+
+# Scatterplot of fold change vs cyberT results
+"""
+plt.scatter(np.log2(np.argsort(np.argsort(pvals.cyberT))[random_sample]), np.log2(np.argsort(np.argsort(pvals['fold change']))[random_sample]), c=is_changed[random_sample], edgecolor=None, cmap='rainbow')
+
+# Count number of sig by CyberT
+In [120]: plt.plot(np.log2([2400, 2400]), [-5000, 25000])
+
+In [121]: plt.plot([-5000, 25000], np.log2([2326, 2326]))
+Out[121]: [<matplotlib.lines.Line2D at 0x7f53a5bf1650>]
+
+In [122]: plt.ylim(-5, 15)
+Out[122]: (-5, 15)
+
+In [123]: plt.xlim(-5, 15)
+Out[123]: (-5, 15)
+
+TODO label quadrants, count number in each quadrant
+Permute many times
+Check performance of combining methods (both significant?)
+
+Get Adobe Illustrator (possibly Photoshop/Powerpoint?)
+Making figures: Don't make the text too small. Labels and ticks should be visible
+Figures should be modular
+Big font, feels too big
+Color combination: may want to generate own color scheme
+    Consistent for each measure across figures
+    Fill vs rim for complex boxplot figures
+    Make sure pipeline is standardized before generating figures
+
+Print out all panels which might be included, sent to Weifeng
+    (1) Panel
+    (2) Bullet point explanation
+"""

@@ -46,6 +46,14 @@ def summarize_result_dictionary(res, labels, title = "", desc="{}"):
     """ Prints entire table to summarize results
 
     """
+    if labels is None:
+        if '_labels' in res:
+            labels = list(res['_labels'])
+        else:
+            raise ValueError('If labels is None, res must have key "_labels"')
+    # Drop underscore keys
+    res = {k: v for k,v in res.iteritems() if (type(k) != str or k[0] != '_')}
+        
     lines = [
         title,
         HEADER_TEMPLATE.format(" ", *DEF_FIELDS),

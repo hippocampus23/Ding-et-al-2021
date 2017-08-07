@@ -17,6 +17,7 @@ from sample import *
 
 @contextmanager
 def suppress_stdout():
+    """ Suppress print output """
     with open(os.devnull, "w") as devnull:
         old_stdout = sys.stdout
         sys.stdout = devnull
@@ -29,6 +30,88 @@ def suppress_stdout():
 DEF_FOLD_CHANGES = np.arange(0.1, 1.1, 0.1)
 STD = 0.3039  ## Std such that 10% of peptides have |log2(FC)| >= 0.5
 THRESH = 0.5  ## Set all FC st |log2(FC)| < THRESH to 0 
+
+## TMP ##
+def TMP_stat_tests(ctrl, exp, protein):
+    cyberT_res = cyberT(ctrl, exp)
+    cyberT_res['protein'] = protein
+
+    Cmed = ctrl.groupby(protein).median()
+    Emed = exp.groupby(protein).median()
+
+    pval_median = cyberT_res.groupby('protein').median().pVal
+    modt_median = modT(Cmed, Emed)['P.Value'].values
+    int_median = cyberT(Cmed, Emed).pVal
+    int_median.index = int_median.index.map(int)
+    protein_cyberT_bypep = r['bayesT.pair'](                                    
+            pd.DataFrame.from_items([                                           
+                ('ratio', np.mean(ctrl,1) - np.mean(exp,1)),
+                ('index', np.mean(ctrl,1) + np.mean(exp,1)),
+            ]),                                                                 
+            1,                                                                  
+            aggregate_by=protein)                                               
+    protein_cyberT_bypep = pandas2ri.ri2py(protein_cyberT_bypep).pVal.values
+
+    wls = protein_wls_test_cyberT(
+            cyberT_res, use_bayes=True, onesample=True)['pval'].values
+    """
+    wls_no_adjust = protein_wls_test_cyberT(
+            cyberT_res, use_bayes=True, adj_var=False)['pval'].values
+    wls_no_bayes = protein_wls_test_cyberT(
+            cyberT_res, use_bayes=False, adj_var=True)['pval'].values
+    """
+
+    return pd.DataFrame.from_items([
+        ('protein_id', int_median.index),
+        ('int_median', int_median),
+        ('1samp_bypep', protein_cyberT_bypep),
+        ('pval_median', pval_median),
+        ('wls', wls),
+        # 'wls_no_adj': wls_no_adjust,
+        # 'wls_no_bayes': wls_no_bayes,
+    ])
+     
+
+def test(n_runs=10, **kwargs):
+    m = 5000
+    num_to_change = 500
+    fold_changes = 0.3
+    peps_per_prot = 3
+    
+    res = np.zeros((n_runs, 4, 3), dtype=float)
+    for i in xrange(n_runs):
+        if i % 50 == 0:
+            print "At iteration %d" % i
+        try:
+            # with suppress_stdout():
+            if True:
+                ctrl, exp, is_changed, protein = sample_proteins(
+                    m,
+                    num_to_change,
+                    fold_changes,
+                    peps_per_prot,
+                    **kwargs)
+                p_vals = TMP_stat_tests(ctrl, exp, protein)
+                # Format is_changed
+                is_changed_final = extract_y_act_protein(
+                        protein, is_changed)
+                # Now sort and drop protein_id
+                p_vals.sort_values('protein_id', inplace=True)
+                p_vals.drop('protein_id', axis=1, inplace=True)
+                # Invert fold change columns
+                for c in p_vals.columns:
+                    if "fold_change" in c:
+                        p_vals[c] = np.max(p_vals[c]) - p_vals[c] + 0.01
+                res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
+                    is_changed_final, [p_vals[c] for c in p_vals], fdr=0.05)
+        except rpy2.rinterface.RRuntimeError:
+            print "R error!"
+            res[i,:,:] = np.nan
+            is_changed_all[i,:] = is_changed
+
+
+    return res
+
 
 #####################
 ### PEPTIDE LEVEL ###
@@ -77,6 +160,53 @@ def err_bars_peptide_saveall(fold_changes, num_to_change, background="G", n_runs
     return res, is_changed_all
 
 
+def err_bars_peptide_fdr(fold_changes, num_to_change, background = "U", n_runs=500, labels=None, run_modT_2samp = True, N_PEPS=10000,  **kwargs):
+    """ TODO documentation """
+    start = time.time()
+   
+    if background == "U":
+        sampler = sample_no_ctrl_uniform
+    elif background == "G":
+        sampler = sample_no_ctrl_gamma
+    else:
+        raise ValueError("Invalid background specification")
+
+    if labels == None:
+        labels = peptide_pval_labels(run_modT_2sample=run_modT_2samp)
+
+    res = np.zeros((n_runs, len(labels), 4), dtype=np.float32)
+    res_count = pd.DataFrame(                                                         
+            columns=['TP_Sig_Sig', 'FP_Sig_Sig',                                
+                     'TP_Sig_NS', 'FP_Sig_NS',                                  
+                     'TP_NS_Sig', 'FP_NS_Sig',                                  
+                     'TP_NS_NS', 'FP_NS_NS'],                                   
+            index=np.arange(n_runs)) 
+
+    for i in xrange(n_runs):
+        if i % 50 == 0:
+            print "At iteration %d" % i
+        try:
+            with suppress_stdout():
+                ctrl, exp, is_changed = sampler(
+                    N_PEPS,
+                    num_to_change,
+                    fold_changes,
+                    **kwargs)
+                p_vals = do_stat_tests(ctrl, exp, run_modT_2samp)
+                res[i,:,0], res[i,:,1], res[i,:,2], res[i,:,3] = power_analysis(
+                    is_changed, p_vals.values.transpose(), alpha=0.05)
+                res_count.ix[i] = count_quadrants(
+                        p_vals['cyberT'], p_vals['fold change'], is_changed)
+        except rpy2.rinterface.RRuntimeError:
+            print "R error!"
+            res[i,:,:] = np.nan
+            res_count.ix[i] = np.nan
+
+    end = time.time()
+    print end - start
+
+    return res, res_count
+
 
 def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500, labels=None, run_modT_2samp = True, N_PEPS=10000,  **kwargs):
     """ Runs multiple rounds of simulations using given sampler 
@@ -95,8 +225,6 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500, 
         contains AUC, pAUC, and PRC for each run and metric
         arr[i][j] = (AUC, PRC, pAUC)
     """
-
-    # TODO REMOVE ME
     start = time.time()
    
     if background == "U":
@@ -456,13 +584,23 @@ def simulate_protein_variances(n_runs=100, filename=None, **kwargs):
 
     res = {}
     res['_labels'] = protein_pval_labels()
+    DF = 3
+    def t_dist(loc, scale, size=1):
+        return np.random.standard_t(DF, size=size)*scale
 
-    # TODO add filename saving
+    M = 5000
+    TO_CHANGE = 500
+    FC = 0.35
+    NUM_PEPS = 3
 
-    res['g_def'] = err_bars_protein(1000, 100, 0.3, 2, background="G", n_runs=n_runs, **kwargs)
-    res['u_0.12'] = err_bars_protein(1000, 100, 0.3, 2, var=0.12, background="U", n_runs=n_runs, **kwargs)
-    res['u_0.06'] = err_bars_protein(1000, 100, 0.3, 2, var=0.06, background="U", n_runs=n_runs, **kwargs)
-    res['u_0.03'] = err_bars_protein(1000, 100, 0.3, 2, var=0.03, background="U", n_runs=n_runs, **kwargs)
+    res['g_t'] = err_bars_protein(M, TO_CHANGE, FC, NUM_PEPS, background="G", use_var=t_dist, n_runs=n_runs, **kwargs)
+    res['u_t'] = err_bars_protein(M, TO_CHANGE, FC, NUM_PEPS, background="U", use_var=t_dist, n_runs=n_runs, **kwargs)
+
+    res['g_norm'] = err_bars_protein(M, TO_CHANGE, FC, NUM_PEPS, background="G", n_runs=n_runs, **kwargs)
+    res['g_lap'] = err_bars_protein(M, TO_CHANGE, FC, NUM_PEPS, background="G", use_var=np.random.laplace, n_runs=n_runs, **kwargs)
+    res['u_norm'] = err_bars_protein(M, TO_CHANGE, FC, NUM_PEPS, var=0.06, background="U", n_runs=n_runs, **kwargs)
+    res['u_lap'] = err_bars_protein(M, TO_CHANGE, FC, NUM_PEPS, var=0.06, background="U", use_var=np.random.laplace, n_runs=n_runs, **kwargs)
+
     return res
 
 def simulate_protein_fold_change_range(
@@ -545,6 +683,11 @@ def err_bars_phospho(n, num_to_change, fold_changes, m=None, peps_per_prot=None,
                         peps_per_prot,
                         **kwargs)
                 wls_res = protein_wls_test(ctrl, exp, protein, use_bayes=True)
+                # Add unweighted std_err and mean
+                wls_res['fold_change_nwls'] = pd.DataFrame({
+                    'protein': protein,
+                    'x': np.mean(exp, 1) - np.mean(ctrl, 1)
+                    }).groupby('protein').mean()['x']
                 ctrl_p, exp_p, is_changed, mapping = sample_phospho(
                         n,
                         num_to_change,
@@ -570,7 +713,7 @@ def err_bars_phospho(n, num_to_change, fold_changes, m=None, peps_per_prot=None,
 
 def simulate_phospho_fold_change_range(
         fold_changes=np.arange(0.1, 1.1, 0.2),
-        n_runs=150,
+        n_runs=50,
         **kwargs):
     """Creates simulated datasets with error bars
     """

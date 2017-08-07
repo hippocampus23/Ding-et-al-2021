@@ -237,7 +237,7 @@ def sample_no_ctrl_gamma(n, num_to_change, fold_changes, alpha=3, beta=0.1, nctr
                         NOTE: num_to_change * len(fold_changes) must be less than n
         fold_changes: 1D array of log2 fold changes
                         Each fold_change will be applied num_to_change times
-        var: number, [[beta parameter of inverse gamme]]
+        alpha, beta: parameters controlling shape of inv gamma. Default 3, 0.1
         nctrl: optional, number of control channels
         nexp: optional number of experimental channels
         use_var: sampling function to use. Should take arguments loc, scale, size
@@ -269,7 +269,7 @@ def sample_no_ctrl_gamma(n, num_to_change, fold_changes, alpha=3, beta=0.1, nctr
     return pd.DataFrame(ctrl), pd.DataFrame(exp), is_changed
 
 
-def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nctrl=3, nexp=3, use_var = np.random.normal, prot_var=0.5, pep_var=3.5, background = "U", alpha=3, beta=0.1, binary_labels=True):
+def sample_proteins(m, num_to_change, fold_changes, peps_per_prot, var=0.06, nctrl=3, nexp=3, use_var = np.random.normal, prot_var=0.5, pep_var=3.5, background = "G", alpha=3, beta=0.1, binary_labels=True):
     """Simulate data from protein-level generation
 
     Samples log intensity data from protein-level generation
@@ -524,15 +524,15 @@ def t_test(ctrl, exp, ratio_test = False):
     return pvals
 
 
-def protein_wls_test(ctrl, exp, protein, onesample=True, use_bayes=False, reg=10):
+def protein_wls_test(ctrl, exp, protein, onesample=True, use_bayes=False, reg=10, adj_var=False):
     # Do cyberT
     cyberT_peps = cyberT(ctrl, exp)
     cyberT_peps['protein'] = protein
     return protein_wls_test_cyberT(
-            cyberT_peps, onesample=onesample, use_bayes=use_bayes, reg=reg)
+            cyberT_peps, onesample=onesample, use_bayes=use_bayes, reg=reg, adj_var=adj_var)
 
 
-def protein_wls_test_cyberT(cyberT_peps, onesample=True, use_bayes=False, reg=10):
+def protein_wls_test_cyberT(cyberT_peps, onesample=True, use_bayes=False, reg=10, adj_var=False):
     """ TODO documentation
     Especially what columns are required from cyberT_peps
     and what columns are in output
@@ -551,14 +551,14 @@ def protein_wls_test_cyberT(cyberT_peps, onesample=True, use_bayes=False, reg=10
     res['pval_no_reg'] = res['pval_no_reg'].astype(float)
     res['n'] = 0
     for j, (name, group) in enumerate(grouped):
+        # Do WLS
         if onesample:
             fold_change, std_err, pval = _wls_onesample(
-                    group, use_bayes=use_bayes)
+                    group, use_bayes=use_bayes, adj_var=adj_var)
         else:
             fold_change, std_err, pval = _wls(
                     group, use_bayes=use_bayes)
 
-        # Do WLS
         nC, nE = cyberT_peps['nC'].astype(float), cyberT_peps['nE'].astype(float)
         if use_bayes:
             stdC, stdE = cyberT_peps['bayesSDC'], cyberT_peps['bayesSDE']
@@ -595,8 +595,8 @@ def protein_wls_test_cyberT(cyberT_peps, onesample=True, use_bayes=False, reg=10
         res['pval'] = p_val
 
         # Copy over degenerate pvalues if n=1
-        res['pval'][res['n'] == 1] = res['pval_no_reg'][res['n'] == 1]
-        res['std_err'][res['n'] == 1] = res['raw_std_err'][res['n'] == 1]
+        res.loc[res['n'] == 1,'pval'] = res.loc[res['n'] == 1,'pval_no_reg']
+        res.loc[res['n'] == 1,'std_err'] = res.loc[res['n'] == 1,'raw_std_err']
     else:
         res['std_err'] = res['raw_std_err']
         res['pval'] = res['pval_no_reg']
@@ -649,9 +649,9 @@ def _wls(data, use_bayes=False):
 
     mod_wls = sm.WLS(y, add_constant(x, prepend=False), weights=1./w)
     res_wls = mod_wls.fit()
-    return (res_wls.params[0], res_wls.bse[0], res_wls.pvalues[0])
+    return (res_wls.params[0], res_wls.bse[0], res_wls.pvalues[0], data.shape[0])
 
-def _wls_onesample(data, use_bayes=False):
+def _wls_onesample(data, use_bayes=False, adj_var=True):
     """ Weighted least squares for one-sample peptides in protein
     Args:
         data - df with columns including
@@ -681,10 +681,11 @@ def _wls_onesample(data, use_bayes=False):
     mod_wls = sm.WLS(y, x, weights=w)
     res_wls = mod_wls.fit()
     beta_hat, std_err, p_val = (res_wls.params[0], res_wls.bse[0], res_wls.pvalues[0])
-    # Adjust the standard error for peptide level uncertainty
-    # = reciprocal of sum of reciprocals of peptide variances
-    std_err += 1. / sum(w)
-    p_val = 2*stats.t.cdf(-abs(beta_hat) / std_err, df=(n-1))
+    if adj_var:
+        # Adjust the standard error for peptide level uncertainty
+        # = reciprocal of sum of reciprocals of peptide variances
+        std_err += 1. / sum(w)
+        p_val = 2*stats.t.cdf(-abs(beta_hat) / std_err, df=(n-1))
 
     return (beta_hat, std_err, p_val) 
 
@@ -797,15 +798,19 @@ def do_stat_tests_protein(ctrl, exp, protein):
     #  fold_change) = do_stat_tests(ctrl, exp)
     # Revert fold change inversion
     # fold_change = np.max(fold_change) + 0.01 - fold_change
+    ctrl_mean = ctrl.groupby(protein).median()
+    exp_mean = exp.groupby(protein).median()
 
-    modT_pvals = modT(ctrl, exp)['P.Value']
-    cyberT_res = cyberT(ctrl, exp)
-    cyberT_pvals = cyberT_res['pVal']
-    ttest_pvals = t_test(ctrl, exp)
-    fold_change = np.abs(np.mean(ctrl.values, axis=1) - np.mean(exp.values, axis=1))
+    modT_pvals = modT(ctrl_mean, exp_mean)['P.Value']
+    cyberT_pvals = cyberT(ctrl_mean, exp_mean)['pVal']
+    ttest_pvals = t_test(ctrl_mean, exp_mean)
+    fold_change = np.abs(
+            np.mean(ctrl_mean.values, axis=1)
+            - np.mean(exp_mean.values, axis=1)
+    )
 
     pval_df = pd.DataFrame({
-        'protein_id': protein,
+        'protein_id': ctrl_mean.index,
         'fold_change_med': fold_change,
         'modT_PVal_med': modT_pvals,
         'cyberT_PVal_med': cyberT_pvals,
@@ -824,27 +829,27 @@ def do_stat_tests_protein(ctrl, exp, protein):
 
     # Note that all these are returned in ascending order of id
     # CyberT by peptide
-    protein_cyberT_bypep = r['proteinBayesT'](
-            pd.DataFrame({
-                'meanC': meanC,
-                'meanE': meanE}),
+    protein_cyberT_bypep = r['bayesT.pair'](
+            pd.DataFrame.from_items([
+                ('ratio', meanE - meanC),
+                ('index', meanE + meanC),
+            ]),
             1,
-            1,
-            pool_intensity=True,
             aggregate_by=protein)
     protein_cyberT_bypep = pandas2ri.ri2py(protein_cyberT_bypep)
-    # And again without bayesian regularization this time
-    protein_cyberT_bypep_noreg = r['proteinBayesT'](
-            pd.DataFrame({
-                'meanC': meanC,
-                'meanE': meanE}),
-            1,
+    protein_ttest_bypep = r['bayesT.pair'](
+            pd.DataFrame.from_items([
+                ('ratio', meanE - meanC),
+                ('index', meanE + meanC),
+            ]),
             1,
             bayes=False,
             aggregate_by=protein)
-    protein_cyberT_bypep_noreg = pandas2ri.ri2py(protein_cyberT_bypep_noreg)
+    protein_ttest_bypep = pandas2ri.ri2py(protein_ttest_bypep)
 
+    cyberT_res = cyberT(ctrl, exp)
     cyberT_res['protein'] = protein
+    # Testing different regularization coefficients
     # for reg in [2, 4, 8, 12, 16]:
     #     out['wls_pval_reg_%02d' % reg] = protein_wls_test_cyberT(
     #             cyberT_res, onesample=True, reg=reg)['pval'].values
@@ -853,7 +858,7 @@ def do_stat_tests_protein(ctrl, exp, protein):
 
     # out['wls_pval'] = wls_pval_reg['pval']
     out['cyberT_bypep'] = protein_cyberT_bypep['pVal'].values
-    out['ttest_bypep'] = protein_cyberT_bypep_noreg['pVal'].values
+    out['ttest_bypep'] = protein_ttest_bypep['pVal'].values
     out.reset_index(inplace=True)
     return out
 
@@ -863,6 +868,7 @@ def do_stat_tests_phospho(ctrl, exp, protein_labels, protein_df):
 
     protein_df should have columns 'protein_id', 'fold_change', 'std_err'
         If 'std_err' not provided, will default to 0
+        Optional: 'fold_change_nwls'
     """
     if 'std_err'in protein_df:
         std_err = protein_df['std_err'][protein_labels].values
@@ -874,15 +880,25 @@ def do_stat_tests_phospho(ctrl, exp, protein_labels, protein_df):
     norm_exp = exp.subtract(
             protein_df['fold_change'][protein_labels].reset_index(drop=True),
             axis=0)
-    # TODO what about non-wls mean???
     mean_norm = cyberT(ctrl, norm_exp)
     norm_with_err = cyberT(ctrl, norm_exp, base_vars=std_err)
 
-    return pd.DataFrame({
+    res = pd.DataFrame({
         'no_adj': no_norm['pVal'],
         'mean_adj': mean_norm['pVal'],
-        'var_adj': norm_with_err['pVal']
+        'var_adj': norm_with_err['pVal'],
         })
+
+    if 'fold_change_nwls' in protein_df:
+        # TODO what about non-wls mean???
+        norm_non_wls_exp = exp.subtract(
+                protein_df['fold_change_nwls'][protein_labels].reset_index(drop=True),
+                axis=0)
+        mean_norm_nwls = cyberT(ctrl, norm_non_wls_exp)
+        res['norm_nwls_adj'] = mean_norm_nwls['pVal']
+
+    return res
+
 
 ## TODO this is VERY JANKY
 ## Convenience function for protein pval labels
@@ -899,11 +915,14 @@ def peptide_pval_labels(run_modT_2sample=True):
     tmp = do_stat_tests(ctrl, exp, run_modT_2sample)
     return tmp.columns
 
-def phospho_pval_labels():
+def phospho_pval_labels(nowls=True):
     ctrl, exp, is_changed, protein = sample_proteins(500, 0, 2, 2)
     protein_df = pd.DataFrame({'protein_id': np.arange(500),
                                'fold_change': np.ones(500)})
     ctrl_p, exp_p, is_changed, mapping = sample_phospho(500, 0, 0, protein_df)
 
     tmp = do_stat_tests_phospho(ctrl_p, exp_p, mapping, protein_df)
-    return tmp.columns
+    if nowls:
+        return list(tmp.columns) + [u'mean_adj_nowls']
+    else:
+        return tmp.columns
