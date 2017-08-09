@@ -448,9 +448,12 @@ def simulate_variance_range(**kwargs):
     fc = 0.5                                                                 
                                                                                 
     start = time.strftime(TIME_FORMAT)
+    filename = "tmp_peptide_variances_%s" % start
     res = {}                                                                    
     labels = peptide_pval_labels(True)
     res['_labels'] = labels
+
+    DF = 3
     def t_dist(loc, scale, size=1):
         return np.random.standard_t(DF, size=size)*scale 
                                                                                 
@@ -462,16 +465,16 @@ def simulate_variance_range(**kwargs):
                 labels=labels, **kwargs)
         res["uniform_t_%.2f" % v] = err_bars_peptide(
                 fc, 1000, "U", var=v, use_var=t_dist, labels=labels, **kwargs)
-        np.save("tmp_%s.npy" % start, res)
+        np.save(filename, res)
     for b in g_beta:                                                            
         res["inv_gamma_%.2f" % b] = err_bars_peptide(
             fc, 1000, "G", beta=b, labels=labels, **kwargs)
-        res["inv_gamma_lap_%.2f" % v] = err_bars_peptide(
-                fc, 1000, "G", var=v, use_var=np.random.laplace,
+        res["inv_gamma_lap_%.2f" % b] = err_bars_peptide(
+                fc, 1000, "G", beta=b, use_var=np.random.laplace,
                 labels=labels, **kwargs)
-        res["inv_gamma_t_%.2f" % v] = err_bars_peptide(
-                fc, 1000, "G", var=v, use_var=t_dist, labels=labels, **kwargs)
-        np.save("tmp_%s.npy" % start, res)
+        res["inv_gamma_t_%.2f" % b] = err_bars_peptide(
+                fc, 1000, "G", beta=b, use_var=t_dist, labels=labels, **kwargs)
+        np.save(filename, res)
                                                                                 
     return res  
 
