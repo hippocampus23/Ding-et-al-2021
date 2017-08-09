@@ -465,7 +465,7 @@ def simulate_number_experiments(**kwargs):
     return res
 
 
-def simulate_number_channels_imbalanced(filename=None, **kwargs)
+def simulate_number_channels_imbalanced(filename=None, **kwargs):
     """Compared balanced and imbalanced number of channels
     """
     start = time.strftime(TIME_FORMAT)
