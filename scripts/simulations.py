@@ -362,7 +362,7 @@ TIME_FORMAT = "%Y-%m-%d_%H:%M"
 
 ### Multiple parameter settings ###
 
-def simulate_compare_one_two_sided():
+def simulate_compare_one_two_sided(**kwargs):
     """ Compare one-sided fold change with two-sided fold change
 
     Compares single fc = 2**(0.5) with
@@ -375,12 +375,12 @@ def simulate_compare_one_two_sided():
     fc2 = -0.5
 
     res = {}
-    res['hi_1_tail_uni'] = err_bars_peptide(fc1, 1000, "U", n_runs=500)
-    res['hi_1_tail_gam'] = err_bars_peptide(fc1, 1000, "G", n_runs=500)
-    res['lo_1_tail_uni'] = err_bars_peptide(fc2, 1000, "U", n_runs=500)
-    res['lo_1_tail_gam'] = err_bars_peptide(fc2, 1000, "G", n_runs=500)
-    res['2_tail_uni'] = err_bars_peptide([fc1,fc2], 500, "U", n_runs=500)
-    res['2_tail_gam'] = err_bars_peptide([fc1,fc2], 500, "G", n_runs=500)
+    res['hi_1_tail_uni'] = err_bars_peptide(fc1, 1000, "U", **kwargs)
+    res['hi_1_tail_gam'] = err_bars_peptide(fc1, 1000, "G", **kwargs)
+    res['lo_1_tail_uni'] = err_bars_peptide(fc2, 1000, "U", **kwargs)
+    res['lo_1_tail_gam'] = err_bars_peptide(fc2, 1000, "G", **kwargs)
+    res['2_tail_uni'] = err_bars_peptide([fc1,fc2], 500, "U", **kwargs)
+    res['2_tail_gam'] = err_bars_peptide([fc1,fc2], 500, "G", **kwargs)
 
     np.save("tmp_%s.npy" % start, res) 
     return res
@@ -399,12 +399,13 @@ def simulate_size_dataset(n_runs=100, filename=None, **kwargs):
 
     for n in Ns:
         for m in ms:
-            res[(n, int(n*m))] = err_bars_peptide(fc, int(n*m), "G", N_PEPS=n, n_runs=n_runs)
+            res[(n, int(n*m))] = err_bars_peptide(
+                    fc, int(n*m), "G", N_PEPS=n, n_runs=n_runs, **kwargs)
             np.save(filename, res) 
     return res
     
 
-def simulate_multiple_fc(background="G", n_runs=200, filename=None):
+def simulate_multiple_fc(background="G", filename=None, **kwargs):
     """ Generate partial ROCs for uniformly distributed FCs
     """
     start = time.strftime(TIME_FORMAT)
@@ -412,7 +413,7 @@ def simulate_multiple_fc(background="G", n_runs=200, filename=None):
         filename = "tmp_%s.npy" % start
     fold_changes = np.arange(0, 1, 1./100) + 0.01
 
-    res = err_bars_fold_change(fold_changes, 100, background, n_runs=200)
+    res = err_bars_fold_change(fold_changes, 100, background, **kwargs)
     np.save(filename, res) 
     return res
 
@@ -448,7 +449,7 @@ def simulate_fold_change_range(fold_changes=DEF_FOLD_CHANGES, **kwargs):
     return res, res_u
 
 
-def simulate_number_experiments():
+def simulate_number_experiments(**kwargs):
     """Runs simulated dataset with different number of samples
     """
     start = time.strftime(TIME_FORMAT)
@@ -458,12 +459,13 @@ def simulate_number_experiments():
     res['_labels'] = labels
     
     for n in xrange(2, 11):
-        res[n] = err_bars_peptide(f, 1000, "G", labels=labels, nexp=n, nctrl=n)
+        res[n] = err_bars_peptide(
+                f, 1000, "G", labels=labels, nexp=n, nctrl=n, **kwargs)
         np.save("tmp_nexp_%s.npy" % start, res)
     return res
 
 
-def simulate_number_channels_imbalanced(n_runs=100, filename=None):
+def simulate_number_channels_imbalanced(filename=None, **kwargs)
     """Compared balanced and imbalanced number of channels
     """
     start = time.strftime(TIME_FORMAT)
@@ -480,12 +482,12 @@ def simulate_number_channels_imbalanced(n_runs=100, filename=None):
               (1,9)]
     for nctrl, nexp in trials:
         key = (nctrl, nexp)
-        res[key] = err_bars_peptide(f, 1, "G", nexp=nexp, nctrl=nctrl, n_runs=n_runs)
+        res[key] = err_bars_peptide(f, 1, "G", nexp=nexp, nctrl=nctrl, **kwargs)
         np.save(filename, res)
     return res
 
 
-def simulate_variance_range():                                                  
+def simulate_variance_range(**kwargs):
     u_std = [0.02, 0.06, 0.18]                                                  
     g_beta = [0.05, 0.1, 0.2]                                                   
     fc = 0.5                                                                 
@@ -499,19 +501,21 @@ def simulate_variance_range():
                                                                                 
     for v in u_std: 
         res["uniform_%.2f" % v] = err_bars_peptide(
-                fc, 1000, "U", var=v, labels=labels)       
+                fc, 1000, "U", var=v, labels=labels, **kwargs)
         res["uniform_lap_%.2f" % v] = err_bars_peptide(
-                fc, 1000, "U", var=v, use_var=np.random.laplace, labels=labels)
+                fc, 1000, "U", var=v, use_var=np.random.laplace, 
+                labels=labels, **kwargs)
         res["uniform_t_%.2f" % v] = err_bars_peptide(
-                fc, 1000, "U", var=v, use_var=t_dist, labels=labels)
+                fc, 1000, "U", var=v, use_var=t_dist, labels=labels, **kwargs)
         np.save("tmp_%s.npy" % start, res)
     for b in g_beta:                                                            
         res["inv_gamma_%.2f" % b] = err_bars_peptide(
-            fc, 1000, "G", beta=b, labels=labels)
+            fc, 1000, "G", beta=b, labels=labels, **kwargs)
         res["inv_gamma_lap_%.2f" % v] = err_bars_peptide(
-                fc, 1000, "G", var=v, use_var=np.random.laplace, labels=labels)
+                fc, 1000, "G", var=v, use_var=np.random.laplace,
+                labels=labels, **kwargs)
         res["inv_gamma_t_%.2f" % v] = err_bars_peptide(
-                fc, 1000, "G", var=v, use_var=t_dist, labels=labels)
+                fc, 1000, "G", var=v, use_var=t_dist, labels=labels, **kwargs)
         np.save("tmp_%s.npy" % start, res)
                                                                                 
     return res  
