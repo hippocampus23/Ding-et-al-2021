@@ -473,7 +473,7 @@ Writing:
     Design of the simulation
     Analysis
     Conclusion 1, 2, 3, ...
-
+"""
     Interested in how the parameter space affects the power of the analysis
     Well accepted that parameters affect statistical power
     The extent to which this is true has not been quantified.
