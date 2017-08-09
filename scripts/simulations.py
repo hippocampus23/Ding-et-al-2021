@@ -171,7 +171,7 @@ def err_bars_peptide_fdr(fold_changes, num_to_change, background = "U", n_runs=5
     else:
         raise ValueError("Invalid background specification")
 
-    if labels == None:
+    if labels is None:
         labels = peptide_pval_labels(run_modT_2sample=run_modT_2samp)
 
     res = np.zeros((n_runs, len(labels), 4), dtype=np.float32)
@@ -234,7 +234,7 @@ def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500, 
     else:
         raise ValueError("Invalid background specification")
 
-    if labels == None:
+    if labels is None:
         labels = peptide_pval_labels(run_modT_2sample=run_modT_2samp)
 
     res = np.zeros((n_runs, len(labels), 3), dtype=np.float32)
@@ -454,9 +454,11 @@ def simulate_number_experiments():
     start = time.strftime(TIME_FORMAT)
     res = {}
     f = 0.5
+    labels = peptide_pval_labels(True)
+    res['_labels'] = labels
     
     for n in xrange(2, 11):
-        res[n] = err_bars_peptide(f, 1000, "G", nexp=n, nctrl=n)
+        res[n] = err_bars_peptide(f, 1000, "G", labels=labels, nexp=n, nctrl=n)
         np.save("tmp_nexp_%s.npy" % start, res)
     return res
 
@@ -490,22 +492,26 @@ def simulate_variance_range():
                                                                                 
     start = time.strftime(TIME_FORMAT)
     res = {}                                                                    
+    labels = peptide_pval_labels(True)
+    res['_labels'] = labels
     def t_dist(loc, scale, size=1):
         return np.random.standard_t(DF, size=size)*scale 
                                                                                 
     for v in u_std: 
-        res["uniform_%.2f" % v] = err_bars_peptide(fc, 1000, "U", var=v)         
+        res["uniform_%.2f" % v] = err_bars_peptide(
+                fc, 1000, "U", var=v, labels=labels)       
         res["uniform_lap_%.2f" % v] = err_bars_peptide(
-                fc, 1000, "U", var=v*(0.5**0.5), use_var=np.random.laplace)         
+                fc, 1000, "U", var=v, use_var=np.random.laplace, labels=labels)
         res["uniform_t_%.2f" % v] = err_bars_peptide(
-                fc, 1000, "U", var=v, use_var=t_dist)
+                fc, 1000, "U", var=v, use_var=t_dist, labels=labels)
         np.save("tmp_%s.npy" % start, res)
     for b in g_beta:                                                            
-        res["inv_gamma_%.2f" % b] = err_bars_peptide(fc, 1000, "G", beta=b)      
+        res["inv_gamma_%.2f" % b] = err_bars_peptide(
+            fc, 1000, "G", beta=b, labels=labels)
         res["inv_gamma_lap_%.2f" % v] = err_bars_peptide(
-                fc, 1000, "G", var=v*(0.5**0.5), use_var=np.random.laplace)         
+                fc, 1000, "G", var=v, use_var=np.random.laplace, labels=labels)
         res["inv_gamma_t_%.2f" % v] = err_bars_peptide(
-                fc, 1000, "G", var=v, use_var=t_dist)
+                fc, 1000, "G", var=v, use_var=t_dist, labels=labels)
         np.save("tmp_%s.npy" % start, res)
                                                                                 
     return res  
