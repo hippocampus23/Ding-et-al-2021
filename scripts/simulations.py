@@ -160,54 +160,6 @@ def err_bars_peptide_saveall(fold_changes, num_to_change, background="G", n_runs
     return res, is_changed_all
 
 
-def err_bars_peptide_fdr(fold_changes, num_to_change, background = "U", n_runs=500, labels=None, run_modT_2samp = True, N_PEPS=10000,  **kwargs):
-    """ TODO documentation """
-    start = time.time()
-   
-    if background == "U":
-        sampler = sample_no_ctrl_uniform
-    elif background == "G":
-        sampler = sample_no_ctrl_gamma
-    else:
-        raise ValueError("Invalid background specification")
-
-    if labels is None:
-        labels = peptide_pval_labels(run_modT_2sample=run_modT_2samp)
-
-    res = np.zeros((n_runs, len(labels), 4), dtype=np.float32)
-    res_count = pd.DataFrame(                                                         
-            columns=['TP_Sig_Sig', 'FP_Sig_Sig',                                
-                     'TP_Sig_NS', 'FP_Sig_NS',                                  
-                     'TP_NS_Sig', 'FP_NS_Sig',                                  
-                     'TP_NS_NS', 'FP_NS_NS'],                                   
-            index=np.arange(n_runs)) 
-
-    for i in xrange(n_runs):
-        if i % 50 == 0:
-            print "At iteration %d" % i
-        try:
-            with suppress_stdout():
-                ctrl, exp, is_changed = sampler(
-                    N_PEPS,
-                    num_to_change,
-                    fold_changes,
-                    **kwargs)
-                p_vals = do_stat_tests(ctrl, exp, run_modT_2samp)
-                res[i,:,0], res[i,:,1], res[i,:,2], res[i,:,3] = power_analysis(
-                    is_changed, p_vals.values.transpose(), alpha=0.05)
-                res_count.ix[i] = count_quadrants(
-                        p_vals['cyberT'], p_vals['fold change'], is_changed)
-        except rpy2.rinterface.RRuntimeError:
-            print "R error!"
-            res[i,:,:] = np.nan
-            res_count.ix[i] = np.nan
-
-    end = time.time()
-    print end - start
-
-    return res, res_count
-
-
 def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500, labels=None, run_modT_2samp=True, N_PEPS=10000,  **kwargs):
     """ Runs multiple rounds of simulations using given sampler 
         Summarizes overall ROC scores
@@ -473,7 +425,9 @@ def simulate_number_channels_imbalanced(filename=None, **kwargs):
     if filename is None:
         filename = "tmp_nexp_imba_%s.npy" % start
     res = {}
-    f = np.random.normal(scale=STD, size=2000)
+    labels = peptide_pval_labels(True)
+    res['_labels'] = labels
+    f = 0.5
 
     trials = [(5,5),  ## For n=10
               (4,6),
@@ -482,7 +436,8 @@ def simulate_number_channels_imbalanced(filename=None, **kwargs):
               (1,9)]
     for nctrl, nexp in trials:
         key = (nctrl, nexp)
-        res[key] = err_bars_peptide(f, 1, "G", nexp=nexp, nctrl=nctrl, **kwargs)
+        res[key] = err_bars_peptide(
+                f, 1000, "G", labels=labels, nexp=nexp, nctrl=nctrl, **kwargs)
         np.save(filename, res)
     return res
 
@@ -755,6 +710,77 @@ def simulate_phosphos_num_peps(**kwargs):
                 10000, 1000, 0.5, m, n_p, None, 1, background="G", **kwargs)
         np.save("tmp_phospho_num_peps_%s.npy" % start, res)
     return res
+
+
+####################
+### FDR ANALYSIS ###
+####################
+
+def err_bars_peptide_fdr(fold_changes, num_to_change, background = "U", n_runs=500, labels=None, run_modT_2samp = True, N_PEPS=10000,  **kwargs):
+    """ TODO documentation """
+    start = time.time()
+   
+    if background == "U":
+        sampler = sample_no_ctrl_uniform
+    elif background == "G":
+        sampler = sample_no_ctrl_gamma
+    else:
+        raise ValueError("Invalid background specification")
+
+    if labels is None:
+        labels = peptide_pval_labels(run_modT_2sample=run_modT_2samp)
+
+    res = np.zeros((n_runs, len(labels), 4), dtype=np.float32)
+    res_count = pd.DataFrame(                                                         
+            columns=['TP_Sig_Sig', 'FP_Sig_Sig',                                
+                     'TP_Sig_NS', 'FP_Sig_NS',                                  
+                     'TP_NS_Sig', 'FP_NS_Sig',                                  
+                     'TP_NS_NS', 'FP_NS_NS'],                                   
+            index=np.arange(n_runs)) 
+
+    for i in xrange(n_runs):
+        if i % 50 == 0:
+            print "At iteration %d" % i
+        try:
+            with suppress_stdout():
+                ctrl, exp, is_changed = sampler(
+                    N_PEPS,
+                    num_to_change,
+                    fold_changes,
+                    **kwargs)
+                p_vals = do_stat_tests(ctrl, exp, run_modT_2samp)
+                res[i,:,0], res[i,:,1], res[i,:,2], res[i,:,3] = power_analysis(
+                    is_changed, p_vals.values.transpose(), alpha=0.05)
+                # res_count.ix[i] = count_quadrants(
+                #         p_vals['cyberT'], p_vals['fold change'], is_changed)
+        except rpy2.rinterface.RRuntimeError:
+            print "R error!"
+            res[i,:,:] = np.nan
+            res_count.ix[i] = np.nan
+
+    end = time.time()
+    print end - start
+
+    return res
+
+
+def simulate_fdr_fc_range(fold_changes=(DEF_FOLD_CHANGES*2), **kwargs):
+    start = time.strftime(TIME_FORMAT)
+    res = {}
+    res_u = {}
+
+    labels = peptide_pval_labels(True)
+    res['_labels'] = labels
+    res_u['_labels'] = labels
+    
+    for f in fold_changes:
+        res[f], _ = err_bars_peptide_fdr(f, 1000, "G", labels=labels, **kwargs)
+        res_u[f], _ = err_bars_peptide_fdr(f, 1000, "U", labels=labels, **kwargs)
+        np.save("tmp_peptide_fc_gam_%s.npy" % start, res)
+        np.save("tmp_peptide_fc_uni_%s.npy" % start, res)
+
+    return res, res_u
+
 
 ##############################
 ### Bucketing fold changes ###

@@ -273,9 +273,9 @@ def roc_prc_scores(y_act, p_val, is_pval=True, fdr=0.05):
     pauc = []
     for p in p_val:
         if p is None:
-            pauc.append(0)
-            roc_auc.append(0)
-            prc_auc.append(0)
+            pauc.append(np.nan)
+            roc_auc.append(np.nan)
+            prc_auc.append(np.nan)
             continue
 
         if is_pval:
@@ -285,12 +285,12 @@ def roc_prc_scores(y_act, p_val, is_pval=True, fdr=0.05):
 
         if np.all(np.isnan(y_pred)):
             # No valid p-vals
-            pauc.append(0)
-            roc_auc.append(0)
-            prc_auc.append(0)
+            pauc.append(np.nan)
+            roc_auc.append(np.nan)
+            prc_auc.append(np.nan)
             continue
         
-        # Rank measurements with nan as lowest
+        # Rank measurements with nan as lowest priority
         y_pred[np.isnan(y_pred)] = 0
 
         fpr, tpr, _ = roc_curve(y_act, y_pred)

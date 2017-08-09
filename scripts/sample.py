@@ -736,17 +736,17 @@ def do_stat_tests(ctrl, exp, run_modT_2sample=False):
         ttest_ratio_pvals = t_test(ctrl, exp, ratio_test=True)
         print "Ran one sample t test"
     else:
-        modT_pvals = None
+        modT_pvals = np.nan
         print "Skipped moderated T test, dimensions not suitable"
 
-        ttest_ratio_pvals = None
+        ttest_ratio_pvals = np.nan
         print "Skipped one sample t test, dimensions not suitable"
 
     if do_t:
         ttest_pvals = t_test(ctrl, exp)
         print "Ran two sample t test"
     else:
-        ttest_pvals = None
+        ttest_pvals = np.nan
         print "Skipped two sample t test, too few channels"
 
     cyberT_res = cyberT(ctrl, exp)
