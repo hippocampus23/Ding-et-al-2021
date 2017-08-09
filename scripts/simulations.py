@@ -208,7 +208,7 @@ def err_bars_peptide_fdr(fold_changes, num_to_change, background = "U", n_runs=5
     return res, res_count
 
 
-def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500, labels=None, run_modT_2samp = True, N_PEPS=10000,  **kwargs):
+def err_bars_peptide(fold_changes, num_to_change, background = "U", n_runs=500, labels=None, run_modT_2samp=True, N_PEPS=10000,  **kwargs):
     """ Runs multiple rounds of simulations using given sampler 
         Summarizes overall ROC scores
    
@@ -421,23 +421,31 @@ def simulate_random_fc():
     """ Creates simulated datasets with random fc, normally distributed
     """
     start = time.strftime(TIME_FORMAT)
-    fc = np.random.normal(1.5, 0.15, 1000)
+    fc = np.random.normal(0.5, 0.15, 1000)
     
     res = err_bars_peptide(fc, 1, "G")
-    np.save("tmp_%s.npy" % start, res)
+    np.save("tmp_random_fc_%s.npy" % start, res)
     return res
 
 
-def simulate_fold_change_range(fold_changes = DEF_FOLD_CHANGES, **kwargs):
+def simulate_fold_change_range(fold_changes=DEF_FOLD_CHANGES, **kwargs):
     """Creates simulated datasets with error bars
     """
     start = time.strftime(TIME_FORMAT)
     res = {}
+    res_u = {}
+
+    labels = peptide_pval_labels(True)
+    res['_labels'] = labels
+    res_u['_labels'] = labels
     
     for f in fold_changes:
-        res[f] = err_bars_peptide(f, 1000, "G", **kwargs)
-        np.save("tmp_%s.npy" % start, res)
-    return res
+        res[f] = err_bars_peptide(f, 1000, "G", labels=labels, **kwargs)
+        res_u[f] = err_bars_peptide(f, 1000, "U", labels=labels, **kwargs)
+        np.save("tmp_peptide_fc_gam_%s.npy" % start, res)
+        np.save("tmp_peptide_fc_uni_%s.npy" % start, res)
+
+    return res, res_u
 
 
 def simulate_number_experiments():
@@ -449,30 +457,27 @@ def simulate_number_experiments():
     
     for n in xrange(2, 11):
         res[n] = err_bars_peptide(f, 1000, "G", nexp=n, nctrl=n)
-        np.save("tmp_%s.npy" % start, res)
+        np.save("tmp_nexp_%s.npy" % start, res)
     return res
 
 
-def simulate_number_channels_imbalanced(n_runs=250, filename=None):
+def simulate_number_channels_imbalanced(n_runs=100, filename=None):
     """Compared balanced and imbalanced number of channels
     """
     start = time.strftime(TIME_FORMAT)
     N_TO_CHANGE = 1000
     if filename is None:
-        filename = "tmp_%s.npy" % start
+        filename = "tmp_nexp_imba_%s.npy" % start
     res = {}
     f = np.random.normal(scale=STD, size=2000)
 
-    trials = [(3,3),
-              (2,4),
-              (1,5)]
     trials = [(5,5),  ## For n=10
               (4,6),
               (3,7),
               (2,8),
               (1,9)]
     for nctrl, nexp in trials:
-        key = "nctrl=%d, nexp=%d" % (nctrl, nexp)
+        key = (nctrl, nexp)
         res[key] = err_bars_peptide(f, 1, "G", nexp=nexp, nctrl=nctrl, n_runs=n_runs)
         np.save(filename, res)
     return res
@@ -485,28 +490,25 @@ def simulate_variance_range():
                                                                                 
     start = time.strftime(TIME_FORMAT)
     res = {}                                                                    
+    def t_dist(loc, scale, size=1):
+        return np.random.standard_t(DF, size=size)*scale 
                                                                                 
     for v in u_std: 
         res["uniform_%.2f" % v] = err_bars_peptide(fc, 1000, "U", var=v)         
         res["uniform_lap_%.2f" % v] = err_bars_peptide(
                 fc, 1000, "U", var=v*(0.5**0.5), use_var=np.random.laplace)         
+        res["uniform_t_%.2f" % v] = err_bars_peptide(
+                fc, 1000, "U", var=v, use_var=t_dist)
         np.save("tmp_%s.npy" % start, res)
     for b in g_beta:                                                            
         res["inv_gamma_%.2f" % b] = err_bars_peptide(fc, 1000, "G", beta=b)      
         res["inv_gamma_lap_%.2f" % v] = err_bars_peptide(
                 fc, 1000, "G", var=v*(0.5**0.5), use_var=np.random.laplace)         
+        res["inv_gamma_t_%.2f" % v] = err_bars_peptide(
+                fc, 1000, "G", var=v, use_var=t_dist)
         np.save("tmp_%s.npy" % start, res)
                                                                                 
     return res  
-
-def simulate_with_gamma(n, alpha=3, beta=0.1, nctrl=3, use_var=np.random.normal):
-    variances = 1 / np.random.gamma(alpha, 1./beta, n)
-    noise = np.array([
-        use_var(loc=0, scale=v**0.5, size=nctrl)
-        for v in variances
-    ])
-
-    return noise
 
 
 #################################

@@ -3,6 +3,7 @@
 Most of these functions make use of the result dictionaries returned by
 the simulation functions in simulations.py
 """
+from collections import OrderedDict
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -18,9 +19,28 @@ def _setup_r():
         from rpy2.robjects import r
         r['source']('scripts/boxplot.R')
         
+# Map header columns to well-formatted legend labels
+# NOTE order is important here
+LABEL_MAPPING = OrderedDict([
+        # Peptide labels
+        ('cyberT', 'CyberT'),
+        ('modT', 'Moderated T (1-sample)'),
+        ('fold change', 'Absolute fold change'),
+        ('fold_change', 'Absolute fold change'),
+        ('t-test', 't-test (2-sample)'),
+        ('t-test (1-sample)', 't-test (1-sample)'),
+        ('modT (2-sample)', 'Moderated T (2-sample)'),
+        # Protein labels
+        ('cyberT_PVal_med', 'Median intensity CyberT'),
+        ('modT_PVal_med', 'Median intensity Moderated T'),
+        ('fold_change_med', 'Median intensity absolute fold change'),
+        ('ttest_PVal_med', 'Median intensity t-test'),
+        ('wls', 'Weighted least squares'),
+        ('cyberT_bypep', 'CyberT by peptide'),
+        ('ttest_bypep', 't-test by peptide'),
+])
 
-
-HEADER_TEMPLATE =  "| {:>20} | {:^16} | {:^16s} | {:^16s} |"
+HEADER_TEMPLATE =  "| {:>20s} | {:^16s} | {:^16s} | {:^16s} |"
 DEF_FIELDS = ("AUROC", "AUPRC", "pAUC")
 BRK = "|" + ("-" * 22) + "|" + ((("-" * 18) +"|") *3)
 
@@ -82,6 +102,9 @@ def write_result_dict_to_df(res, labels, filename=None):
             labels = list(res['_labels'])
         else:
             raise ValueError('If labels is None, res must have key "_labels"')
+    # Map labels for better printing
+    labels = [LABEL_MAPPING[l] if l in LABEL_MAPPING else l for l in labels]
+
     # Drop underscore keys
     res = {k: v for k,v in res.iteritems() if (type(k) != str or k[0] != '_')}
 

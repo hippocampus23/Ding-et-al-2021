@@ -1,4 +1,5 @@
 library(ggplot2)
+library(RColorBrewer)
 
 ## Summarizes data.
 ## Gives count, mean, standard deviation, standard error of the mean, and confidence interval (default 95%).
@@ -42,6 +43,26 @@ summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
 
     return(datac)
 }
+
+
+# Mapping for settings
+# See format_results.py for original
+LABEL_MAPPING = data.frame(label=c('CyberT', 'Moderated T (1-sample)', 'Moderated T (2-sample)', 'Absolute fold change', 'Absolute fold change', 't-test (2-sample)', 't-test (1-sample)', 'Median intensity absolute fold change', 'Median intensity Moderated T', 'Median intensity CyberT', 'Median intensity t-test', 'Weighted least squares', 'CyberT by peptide', 't-test by peptide'))
+rownames(LABEL_MAPPING) <- c('cyberT', 'modT', 'modT (2-sample)', 'fold change', 'fold_change', 't-test', 't-test (1-sample)', 'fold_change_med', 'modT_PVal_med', 'cyberT_PVal_med', 'ttest_PVal_med', 'wls', 'cyberT_bypep', 'ttest_bypep')
+# Set up custom color map
+# TODO make this more readable by manually defining a color sequence
+colors_ = brewer.pal(12, "Set3")
+valid_labels = unique(LABEL_MAPPING$label)
+N_PEP = 6
+N_PROT_PARALLEL = 4
+myColorsPeptide <- colors_[1:N_PEP]
+names(myColorsPeptide) <- as.character(valid_labels[1:N_PEP])
+myColorsProtein <- c(
+        colors_[1:N_PROT_PARALLEL],
+        tail(colors_, length(valid_labels) - N_PEP - N_PROT_PARALLEL)
+)
+names(myColorsProtein) <- as.character(valid_labels[(N_PEP+1):length(valid_labels)])
+colScale <- scale_colour_manual(c(myColorsPeptide, myColorsProtein))
 
 
 boxplot_results_auroc <- function(df, title="", xlab="Setting"){
@@ -115,9 +136,11 @@ lineplot_results_pauc <- function(df, title="", xlab="Setting") {
 ## title: Title of plot
 ## xlab: x label of plot
 ## plot: one of 'AUROC', 'AUPRC', or 'pAUC'
-## order_x: default NULL, function which orders [x-]settings for pretty display
-## order_lab: default NULL, function which orders labels WITHIN each x-setting
-read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, order_lab=NULL, filename="") {
+## order_x: default NULL, order of x settings for pretty display
+## order_lab: default NULL, order of labels for pretty display 
+## save: TRUE to save plot, FALSE otherwise
+## colors: color scale for levels. NULL for default colors
+read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, order_lab=NULL, filename="", save=TRUE, colors=colScale) {
   if (is.character(df_name) & length(df_name) == 1) {
     # Read dataframe
     df <- read.csv(paste("data_simulated/", df_name, sep=""))
@@ -127,18 +150,21 @@ read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, 
   } else {
     # Try to coerce to dataframe 
     df <- data.frame(df_name)
-    if (is.null(filename)) {
+    if (is.null(filename) && save) {
       stop("Must provide filename if df_name is not character vector")
     }
   }
   df <- df[complete.cases(df),]
+  # Map labels to pretty print
+  df$labels[df$labels %in% rownames(LABEL_MAPPING)] <- 
+    LABEL_MAPPING[df$labels[df$labels %in% rownames(LABEL_MAPPING)], 1]
   if (!is.null(order_x)) {
     fac <- as.factor(df$setting)
-    df$setting <- factor(fac, levels=levels(fac)[order_x(levels(fac))])
+    df$setting <- factor(fac, levels=levels(fac)[order_x])
   }
   if (!is.null(order_lab)) {
     fac <- as.factor(df$labels)
-    df$labels <- factor(fac, levels=levels(fac)[order_lab(levels(fac))])
+    df$labels <- factor(fac, levels=levels(fac)[order_lab])
   }
   if (plot == "AUROC") {
     p <- boxplot_results_auroc(df, title, xlab)
@@ -151,14 +177,20 @@ read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, 
   } else {
     stop("Invalid plot specification. Must be one of 'AUROC', 'AUPRC', 'pAUC')")
   }
+
+  if (!is.null(colors)) {
+    p <- p + colors
+  }
   
   # Name of file to save plot
-  ggsave(paste("simulated_plots/boxplots/AUTO", filename,
-               paste(plot,".png", sep=""), sep="_"),
-      p,
-      width=12.80,
-      height=7.20,
-      dpi=100)
+  if (save) {
+    ggsave(paste("simulated_plots/boxplots/AUTO", filename,
+                 paste(plot,".png", sep=""), sep="_"),
+        p,
+        width=12.80,
+        height=7.20,
+        dpi=100)
+  }
   return(p)
 }
 

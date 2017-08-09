@@ -1,3 +1,4 @@
+from scipy.stats import gaussian_kde
 from sklearn.metrics import roc_curve, roc_auc_score, precision_recall_curve, auc
 from statsmodels.sandbox.stats.multicomp import multipletests
 
@@ -178,12 +179,12 @@ def plot_pvalue_dist(pvals, labels=None):
         hax.plot([0, 1], [1, 1], color='grey', lw=1, linestyle='--')
         hax.set_title(labels[i] if labels is not None else '')
         hax.set_xlabel('p-value')
-        exp_pvals = (np.argsort(np.argsort(pval)) + 0.5) / (len(pval) + 1)
-        lax.scatter(exp_pvals, pval)
-        lax.plot([0, 1], [0 ,1], color='grey', lw=1, linestyle='--')
-        lax.set_xlim(0, 1)
-        lax.set_ylim(0, 1)
-        lax.set_xlabel('Expected p-value')
+        # exp_pvals = (np.argsort(np.argsort(pval)) + 0.5) / (len(pval) + 1)
+        # lax.scatter(exp_pvals, pval)
+        # lax.plot([0, 1], [0 ,1], color='grey', lw=1, linestyle='--')
+        # lax.set_xlim(0, 1)
+        # lax.set_ylim(0, 1)
+        # lax.set_xlabel('Expected p-value')
         
         # TODO plot confidence interval
 
@@ -359,6 +360,7 @@ def power_analysis(is_changed, pvals, alpha=0.05):
 
     return (fdrs, powers, fdrs_adj, powers_adj)
 
+
 def count_quadrants(pval, fc, is_changed, alpha=0.05):
     """ TODO documentation
     """
@@ -377,6 +379,41 @@ def count_quadrants(pval, fc, is_changed, alpha=0.05):
 
     return (tp_sig_sig, fp_sig_sig, tp_sig_nsig, fp_sig_nsig,
             tp_nsig_sig, fp_nsig_sig, tp_nsig_nsig, fp_nsig_nsig)
+
+
+def density_scatter(data, ax=None):
+    """
+    Scatterplot of variance vs log2 mean intensity
+    """
+    x = np.mean(data.values, axis=1)
+    y = np.var(data.values, axis=1)
+    xy = np.vstack([x,y])
+
+    z = gaussian_kde(xy)(xy)
+    # Sort the points by density, so that the densest points are plotted last
+    idx = z.argsort()
+    x, y, z = x[idx], y[idx], z[idx]
+
+    if ax is None:
+        fig, ax = plt.subplots()
+    ax.scatter(x, y, c=z, s=10, edgecolor='')
+    ax.set_ylim(bottom=0)
+    ax.set_ylabel("Variance")
+    ax.set_xlabel("$log_2$ mean intensity")
+
+    return ax
+
+
+def set_fontsize(ax, title=30, axis=20, tick=15):
+    """ Set fontsize of ax or axarr """ 
+    if not hasattr(ax, '__iter__'):
+        ax = [ax]
+
+    for a in ax:
+        a.title.set_fontsize(title)
+        a.xaxis.label.set_fontsize(axis)
+        a.yaxis.label.set_fontsize(axis)
+        a.tick_params(axis='both', which='major', labelsize=10)
 
 # Scatterplot of fold change vs cyberT results
 """
@@ -407,7 +444,66 @@ Color combination: may want to generate own color scheme
     Fill vs rim for complex boxplot figures
     Make sure pipeline is standardized before generating figures
 
-Print out all panels which might be included, sent to Weifeng
-    (1) Panel
-    (2) Bullet point explanation
+Plot FDR and power (separately for each type?)
+    (adj and nonadj)
+Rerun comparison with and without central variance(!)
+    Why is uniform worse than the normal distribution?
+    Why is the summary AUROC different than the mean of the buckets???
+Is there a generalizable way to look at this data?
+    Estimate the power: within a reasonable variance space and statistical limitations
+    Absence of evidence is not evidence of absence
+
+Quantify how close the estimated fold changes are to true for WLS
+    Correlate TRUE and EST
+
+Protein-level: explore the parameter space
+    Statistically principled regularization(?)
+    Integrate ANOVA???
 """
+
+"""
+Figures:
+    Generate 2-sample moderated T
+    Consistent color for everything
+
+Writing:
+    Look at Molecular Cellular Proteomics for inspiration on results section
+
+    Establish the purpose of the experiment
+    Design of the simulation
+    Analysis
+    Conclusion 1, 2, 3, ...
+
+    Interested in how the parameter space affects the power of the analysis
+    Well accepted that parameters affect statistical power
+    The extent to which this is true has not been quantified.
+
+    Start at the factual information
+    Schematic of data generation
+    Place panel of schematic in every plot, highlight changing items
+    Be sure the noise distribution is highlighted
+    Get main message from panel, inset with information
+
+    Try keeping 2-sample/1-sample as line instead of boxplot
+    18.93.6.33
+
+New dataset:
+    First-pass: data quality
+    Reference channels + normalization
+        Do the reference channels correlate well?
+    Check variance
+    ANOVA or 2-way t-tests if necessary
+    DLG4 and DLG2 levels: are they down in the proper channels?
+
+    Do PSM and compare
+    Cleaning accession numbers: convert everything to gene symbols if possible
+        Remove duplicate symbols, find number of unique peptides
+
+For THU:
+    Quality control reference
+    Run regular pipeline: pathway + gene list sig
+"""
+
+"""
+
+
