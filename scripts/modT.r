@@ -52,7 +52,7 @@ library (limma)
 modT_test <- function (data.file, output.prefix, id.col=NULL, data.col=NULL,
                        p.value.alpha=0.05, use.adj.pvalue=TRUE, apply.log=FALSE,
                        na.rm=FALSE, nastrings=c("NA", "<NA>", "#NUM!", "#DIV/0!", "#NA", "#NAME?"), 
-                       plot=FALSE, pairs.plot.2rep=FALSE, limits=NULL, xlab="", ylab="", dframe=FALSE, design=NULL,...) {
+                       plot=FALSE, pairs.plot.2rep=FALSE, limits=NULL, xlab="", ylab="", dframe=FALSE, design=NULL, robust=TRUE,...) {
   #
   # data.file should contain one peptide in each row.
   # The columns contain the normalized log-ratio from each replicate
@@ -105,7 +105,7 @@ modT_test <- function (data.file, output.prefix, id.col=NULL, data.col=NULL,
   if (apply.log) data <- log2 (data)
 
   # moderated t test
-  mod.t.result <- moderated.t (data, design)
+  mod.t.result <- moderated.t (data, design, robust)
   if (use.adj.pvalue) mod.sig <- mod.t.result [,'adj.P.Val'] <= p.value.alpha
   else  mod.sig <- mod.t.result [,'P.Value'] <= p.value.alpha
   change <- apply (data, 1,
@@ -172,7 +172,7 @@ modT_test <- function (data.file, output.prefix, id.col=NULL, data.col=NULL,
 
 
 # Moderated t-test for significance testing
-moderated.t <- function (data, design=NULL) {
+moderated.t <- function (data, design=NULL, method='robust') {
   # data is a table with rows representing peptides/proteins/genes 
   # and columns representing replicates
         
@@ -180,10 +180,10 @@ moderated.t <- function (data, design=NULL) {
   if (is.null(design)) {
     # nb: the design matrix for lmFit is the default (unit vector)
     #     which treats each column in data as a replicate
-    m <- lmFit (data.matrix, method='robust')
+    m <- lmFit (data.matrix, method=method)
   } else {
     design = model.matrix(~factor(design))
-    m <- lmFit (data.matrix, method='robust', design=design)
+    m <- lmFit (data.matrix, method=method, design=design)
   }
   m <- eBayes (m)
  

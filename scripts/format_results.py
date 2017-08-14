@@ -129,7 +129,8 @@ def write_result_dict_to_df(res, labels, filename=None):
     out['setting'] = setting
 
     if filename is not None:
-        out.to_csv("../data_simulated/" + filename)
+        out.to_csv(filename)
+        # out.to_csv("../data_simulated/" + filename)
     return out
 
 

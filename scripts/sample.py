@@ -442,7 +442,7 @@ def sample_phospho(num_peps, num_to_change, fold_changes, protein_df, use_var=np
 #  STATISTICAL TESTS   #
 ########################
 
-def modT(ctrl, exp):
+def modT(ctrl, exp, robust=True):
     """
     NOTE: only defined if ncol(ctrl) == 1 or ncol(ctrl) = ncol(exp)
     Be sure ctrl and exp are presented in the same order
@@ -460,14 +460,14 @@ def modT(ctrl, exp):
     data_cols = data.columns
     data['id'] = np.arange(len(data))
 
-    res = r['modT_test'](data, "placeholder", id_col='id', data_col=data_cols, dframe=True)
+    res = r['modT_test'](data, "placeholder", id_col='id', data_col=data_cols, dframe=True, robust=robust)
     res = pandas2ri.ri2py(res)
     res['std_err'] = (res['CI.R'] - res['CI.L'])/3.92
 
     return res
 
 
-def modT_2sample(ctrl, exp):
+def modT_2sample(ctrl, exp, robust=True):
     """
     Runs moderated T with 2 sample t test
     """
@@ -482,7 +482,7 @@ def modT_2sample(ctrl, exp):
 
     design = np.array(([-1] * ctrl.shape[1]) + ([1] * exp.shape[1]), dtype=int)
 
-    res = r['modT_test'](data, "placeholder", id_col='id', data_col=data_cols, dframe=True, design=design)
+    res = r['modT_test'](data, "placeholder", id_col='id', data_col=data_cols, dframe=True, design=design, robust=robust)
     res = pandas2ri.ri2py(res)
     res['std_err'] = (res['CI.R'] - res['CI.L'])/3.92
 

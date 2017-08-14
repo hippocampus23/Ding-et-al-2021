@@ -777,13 +777,50 @@ def simulate_fdr_fc_range(fold_changes=(DEF_FOLD_CHANGES*2), **kwargs):
     res_u['_labels'] = labels
     
     for f in fold_changes:
-        res[f], _ = err_bars_peptide_fdr(f, 1000, "G", labels=labels, **kwargs)
-        res_u[f], _ = err_bars_peptide_fdr(f, 1000, "U", labels=labels, **kwargs)
+        res[f] = err_bars_peptide_fdr(f, 1000, "G", labels=labels, **kwargs)
+        res_u[f] = err_bars_peptide_fdr(f, 1000, "U", labels=labels, **kwargs)
         np.save("tmp_peptide_fc_gam_%s.npy" % start, res)
         np.save("tmp_peptide_fc_uni_%s.npy" % start, res)
 
     return res, res_u
 
+
+def simulate_fdr_variance(filename=None, **kwargs):
+    if filename is None:
+        start = time.strftime(TIME_FORMAT)
+        filename = "tmp_peptide_fdr_vars_%s.npy" % start
+
+    u_std = [0.02, 0.06, 0.18]                                                  
+    g_beta = [0.05, 0.1, 0.2]
+    fc = 1.0
+
+    res = {}
+    labels = peptide_pval_labels()
+    res['_labels'] = labels
+    DF = 3
+    def t_dist(loc, scale, size=1):
+        return np.random.standard_t(DF, size=size)*scale
+
+    for v in u_std: 
+        res["uniform_%.2f" % v] = err_bars_peptide_fdr(
+                fc, 1000, "U", var=v, labels=labels, **kwargs)
+        res["uniform_lap_%.2f" % v] = err_bars_peptide_fdr(
+                fc, 1000, "U", var=v, use_var=np.random.laplace, 
+                labels=labels, **kwargs)
+        res["uniform_t_%.2f" % v] = err_bars_peptide_fdr(
+                fc, 1000, "U", var=v, use_var=t_dist, labels=labels, **kwargs)
+        np.save(filename, res)
+    for b in g_beta:                                                            
+        res["inv_gamma_%.2f" % b] = err_bars_peptide_fdr(
+            fc, 1000, "G", beta=b, labels=labels, **kwargs)
+        res["inv_gamma_lap_%.2f" % b] = err_bars_peptide_fdr(
+                fc, 1000, "G", beta=b, use_var=np.random.laplace,
+                labels=labels, **kwargs)
+        res["inv_gamma_t_%.2f" % b] = err_bars_peptide_fdr(
+                fc, 1000, "G", beta=b, use_var=t_dist, labels=labels, **kwargs)
+        np.save(filename, res)
+
+    return res
 
 ##############################
 ### Bucketing fold changes ###
