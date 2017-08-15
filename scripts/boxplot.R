@@ -143,7 +143,8 @@ lineplot_results_pauc <- function(df, title="", xlab="Setting") {
 read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, order_lab=NULL, filename="", save=TRUE, colors=colScale) {
   if (is.character(df_name) & length(df_name) == 1) {
     # Read dataframe
-    df <- read.csv(paste("data_simulated/", df_name, sep=""))
+    # df <- read.csv(paste("data_simulated/", df_name, sep=""))
+    df <- read.csv(df_name)
     if (is.null(filename)) {
         filename <- strsplit(df_name,"\\.")[[1]][1]
     }
@@ -198,6 +199,60 @@ replot_all <- function(plot_names) {
   lapply(plot_names, FUN = function(x) read_data_and_plot(x[1], x[2], x[3]))
 }
 
+
+# Code for regenerating the final set of plots for the paper
+plot_final <- function() {
+  # Set font size and theme
+  theme_set(theme_bw(base_size=18))
+  # FC range for uniform and gamma distributions 
+  fc_range_gam <- read_data_and_plot(
+      "FINAL_DATA/df_peptide_fc_range_gam_FINAL.csv",
+      "", "log2(FC)", plot="pAUC", filename="", save=FALSE, colors=colScale)
+  fc_range_uni <- read_data_and_plot(
+      "FINAL_DATA/df_peptide_fc_range_uni_FINAL.csv",
+      "", "log2(FC)", plot="pAUC", filename="", save=FALSE, colors=colScale)
+  nexp <- read_data_and_plot(
+      "FINAL_DATA/df_peptide_nexp_FINAL.csv",
+      "", "Number of channels", plot="pAUC", save=FALSE, colors=colScale)
+  nexp_imba <- read_data_and_plot(
+      "FINAL_DATA/df_peptide_nexp_imba_FINAL.csv",
+      "", "Number of channels", plot="pAUC", save=FALSE, colors=colScale)
+
+  # Plot variance results
+  # This needs subsetting + faceting to be maximally useful
+  var_df <- read.csv('FINAL_DATA/df_peptide_variances_FINAL.csv')
+  # Split out setting into background, noise, number
+  setting_df <- as.data.frame(do.call(
+        'rbind', strsplit(as.character(var_df$setting), '_')))
+  colnames(setting_df) <- c('background', 'noise', 'setting')
+  # Pretty print settings
+  background_map <- setNames(c('Inverse ~ Gamma', 'Uniform'),c('invgam', 'uniform'))
+  pretty_label_map <- setNames(c('beta', 'sigma^2'),c('invgam', 'uniform'))
+  noise_map <- setNames(c('Gaussian', 'Laplacian', 'Scaled ~ t'), c('norm', 'lap', 't'))
+  setting_df$pretty_label <- pretty_label_map[setting_df$background]
+  setting_df$background <- background_map[setting_df$background]
+  setting_df$noise <- noise_map[setting_df$noise]
+
+  var_df$setting <- NULL
+  plot_df <- cbind(var_df, setting_df)
+  print(head(plot_df))
+  # Now plot treating the factor as the number
+  var <- read_data_and_plot(plot_df, "", "Variance", save=FALSE, colors=colScale)
+  var <- var + facet_grid(noise ~ background + pretty_label, scales='free',
+                          switch='x', labeller=label_parsed)
+
+  ggsave("FINAL_PLOTS/peptide_fc_range_gam_FINAL.png", fc_range_gam,
+        width=12.80, height=7.20, dpi=100)
+  ggsave("FINAL_PLOTS/peptide_fc_range_uni_FINAL.png", fc_range_gam,
+        width=12.80, height=7.20, dpi=100)
+  ggsave("FINAL_PLOTS/peptide_nexp_FINAL.png", fc_range_gam,
+        width=12.80, height=7.20, dpi=100)
+  ggsave("FINAL_PLOTS/peptide_nexp_imba_FINAL.png", fc_range_gam,
+        width=12.80, height=7.20, dpi=100)
+  ggsave("FINAL_PLOTS/peptide_var_FINAL.png", fc_range_gam,
+        width=12.80, height=7.20, dpi=100)
+}
+
 plot_names <- list(
     c("df_inv_gam_lap.csv", "Fold change varies, inverse gamma background, Laplacian noise", "log2(fold change)"),
     c("df_inv_gam_norm.csv", "Fold change varies, inverse gamma background, normal noise", "log2(fold change)"),
@@ -205,6 +260,7 @@ plot_names <- list(
     c("df_nexp.csv", "Number of channels varies", "Number of channels"),
     c("df_random_fc.csv", "Fold change is randomly distributed", "Variance model"),
     c("df_var.csv", "Fixed fold change", "Variance model"),
+
     c("df_compare_one_two_sided.csv", "One vs two sided fold change", "Fold change"),
     c("df_with_without_central_fc.csv", "Normally distributed FC, with and without central variation")
 )
