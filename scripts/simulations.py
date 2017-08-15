@@ -70,21 +70,35 @@ def TMP_stat_tests(ctrl, exp, protein):
         # 'wls_no_adj': wls_no_adjust,
         # 'wls_no_bayes': wls_no_bayes,
     ])
-     
+
+
+def compare_modT_pvals(ctrl, exp):
+    modt_r = modT(ctrl, exp, robust=True)['P.Value']
+    modt_2samp_r = modT_2sample(ctrl, exp, robust=True)['P.Value']
+    modt = modT(ctrl, exp, robust=False)['P.Value']
+    modt_2samp = modT_2sample(ctrl, exp, robust=False)['P.Value']
+
+    return pd.DataFrame({
+        '1':modt_r,
+        '2':modt_2samp_r,
+        '3':modt,
+        '4':modt_2samp})
 
 def test(n_runs=10, **kwargs):
     m = 5000
     num_to_change = 500
     fold_changes = 0.3
     peps_per_prot = 3
-    
+   
+    labels = ['modT(r)', 'modT_2sample(r)', 'modT', 'modT_2sample']
     res = np.zeros((n_runs, 4, 3), dtype=float)
     for i in xrange(n_runs):
         if i % 50 == 0:
             print "At iteration %d" % i
         try:
-            # with suppress_stdout():
-            if True:
+            with suppress_stdout():
+            #if True:
+                """
                 ctrl, exp, is_changed, protein = sample_proteins(
                     m,
                     num_to_change,
@@ -104,12 +118,18 @@ def test(n_runs=10, **kwargs):
                         p_vals[c] = np.max(p_vals[c]) - p_vals[c] + 0.01
                 res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
                     is_changed_final, [p_vals[c] for c in p_vals], fdr=0.05)
+                """
+                ctrl, exp, is_changed = sample_no_ctrl_gamma(
+                        10000, 1000, 0.5)
+                pvals = compare_modT_pvals(ctrl, exp)
+                res[i,:,0], res[i,:,1], res[i,:,2] = roc_prc_scores(
+                        is_changed, pvals.values.transpose(), fdr=0.05)
         except rpy2.rinterface.RRuntimeError:
             print "R error!"
             res[i,:,:] = np.nan
             is_changed_all[i,:] = is_changed
 
-
+    print "LABELS:", labels
     return res
 
 

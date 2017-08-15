@@ -85,6 +85,13 @@ modT_test <- function (data.file, output.prefix, id.col=NULL, data.col=NULL,
     d <- data.file
   }
 
+  # set method
+  if (robust) {
+    method <- 'robust'
+  } else {
+    method <- 'ls'
+  }
+
   # extract id column
   # if id column is not specified, use row numbers
   row.num <- 1:nrow (d)
@@ -105,7 +112,7 @@ modT_test <- function (data.file, output.prefix, id.col=NULL, data.col=NULL,
   if (apply.log) data <- log2 (data)
 
   # moderated t test
-  mod.t.result <- moderated.t (data, design, robust)
+  mod.t.result <- moderated.t (data, design, method)
   if (use.adj.pvalue) mod.sig <- mod.t.result [,'adj.P.Val'] <= p.value.alpha
   else  mod.sig <- mod.t.result [,'P.Value'] <= p.value.alpha
   change <- apply (data, 1,
