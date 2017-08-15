@@ -2,13 +2,14 @@ from scipy.stats import gaussian_kde
 from sklearn.metrics import roc_curve, roc_auc_score, precision_recall_curve, auc
 from statsmodels.sandbox.stats.multicomp import multipletests
 
+import matplotlib
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
 
-def plot_roc(y_act, pred, ax = None, is_pval=True, label='Area '):
+def plot_roc(y_act, pred, ax = None, is_pval=True, label='Area ', color=None):
     """
     Returns ax, figure
     Figure is none if ax was provided
@@ -26,7 +27,7 @@ def plot_roc(y_act, pred, ax = None, is_pval=True, label='Area '):
     AUC = roc_auc_score(y_act, y_pred)
 
     lw = 3
-    roc_ln, = ax.plot(fpr, tpr, lw=lw, label=label + ' - %.3f' % AUC)
+    roc_ln, = ax.plot(fpr, tpr, lw=lw, label=label + ' - %.3f' % AUC, color=color)
     diag_ln, = ax.plot([0,1.01], [0,1.01], color='grey', lw=2, linestyle='--')
     
     ax.set_xlim(0, 1.01)
@@ -40,7 +41,7 @@ def plot_roc(y_act, pred, ax = None, is_pval=True, label='Area '):
     return AUC, fpr, tpr
 
 
-def plot_prc(y_act, pred, ax = None, is_pval=True, label='Area '):
+def plot_prc(y_act, pred, ax = None, is_pval=True, label='Area ', color=None):
     """
     Returns ax, figure
     Figure is none if ax was provided
@@ -59,7 +60,7 @@ def plot_prc(y_act, pred, ax = None, is_pval=True, label='Area '):
 
     lw = 3
     frac_ones = np.mean(y_act)
-    roc_ln, = ax.plot(rec, prec, lw=lw, label=label + ' - %.3f' % AUC)
+    roc_ln, = ax.plot(rec, prec, lw=lw, label=label + ' - %.3f' % AUC, color=color)
     base_ln, = ax.plot([0,1.01], [frac_ones,frac_ones], color='grey', lw=2, linestyle='--')
 
     ax.set_xlim(0, 1.01)
@@ -71,7 +72,7 @@ def plot_prc(y_act, pred, ax = None, is_pval=True, label='Area '):
     return AUC, ax, f
 
 
-def plot_partial_auc(y_act, pred, fdr=0.05, ax=None, is_pval=True, label='Area '):
+def plot_partial_auc(y_act, pred, fdr=0.05, ax=None, is_pval=True, label='Area ', color=None):
     """Calculates partial AUC up to FDR specified
 
     TODO determine how to regularize the AUC measurement
@@ -100,7 +101,7 @@ def plot_partial_auc(y_act, pred, fdr=0.05, ax=None, is_pval=True, label='Area '
 
     lw = 3
     frac_ones = np.mean(y_act)
-    roc_ln, = ax.plot(t_fpr, t_tpr, lw=lw, label=label + ' - %.3f' % AUC)
+    roc_ln, = ax.plot(t_fpr, t_tpr, lw=lw, label=label + ' - %.3f' % AUC, color=color)
     base_ln, = ax.plot([0,fdr+0.01], [0,fdr+0.01], color='grey', lw=2, linestyle='--')
 
     ax.set_xlim(0, fdr)
@@ -108,11 +109,11 @@ def plot_partial_auc(y_act, pred, fdr=0.05, ax=None, is_pval=True, label='Area '
     ax.set_xlabel('FPR')
     ax.set_ylabel('TPR')
     ax.set_title('Partial ROC Curve')
-    ax.legend(loc='middle right', fontsize= 'medium', title='AUC')
+    # ax.legend(loc='middle right', fontsize= 'medium', title='AUC')
     return AUC, ax, f
 
 
-def plot_both(y_act, p_vals, labels, title='', is_pval=True, **kwargs):
+def plot_both(y_act, p_vals, labels, title='', is_pval=True, colors=None, **kwargs):
     """
     Plots comparison of multiple methods
     
@@ -141,8 +142,10 @@ def plot_both(y_act, p_vals, labels, title='', is_pval=True, **kwargs):
     for i, p_val in enumerate(p_vals):
         if p_val is None:
             continue  # TODO handle this better
-        plot_roc(y_act, p_val, ax=axarr[0], label=labels[i], is_pval=is_pval[i])
-        plot_partial_auc(y_act, p_val, ax=axarr[1], label=labels[i], fdr=0.05, is_pval=is_pval[i])
+        if colors is not None:
+            c = colors[i]
+        plot_roc(y_act, p_val, ax=axarr[0], label=labels[i], is_pval=is_pval[i], color=c)
+        plot_partial_auc(y_act, p_val, ax=axarr[1], label=labels[i], fdr=0.05, is_pval=is_pval[i], color=c)
         # Shaded block on roc plot to indicate area of pAUC plot
         axarr[0].add_patch(
                 patches.Rectangle(
