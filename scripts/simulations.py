@@ -79,10 +79,10 @@ def compare_modT_pvals(ctrl, exp):
     modt_2samp = modT_2sample(ctrl, exp, robust=False)['P.Value']
 
     return pd.DataFrame({
-        '1':modt_r,
-        '2':modt_2samp_r,
-        '3':modt,
-        '4':modt_2samp})
+        'modt_r':modt_r,
+        'modt_2samp_r':modt_2samp_r,
+        'modt':modt,
+        'modt_2samp':modt_2samp})
 
 def test(n_runs=10, **kwargs):
     m = 5000
@@ -416,7 +416,7 @@ def simulate_fold_change_range(fold_changes=DEF_FOLD_CHANGES, **kwargs):
         res[f] = err_bars_peptide(f, 1000, "G", labels=labels, **kwargs)
         res_u[f] = err_bars_peptide(f, 1000, "U", labels=labels, **kwargs)
         np.save("tmp_peptide_fc_gam_%s.npy" % start, res)
-        np.save("tmp_peptide_fc_uni_%s.npy" % start, res)
+        np.save("tmp_peptide_fc_uni_%s.npy" % start, res_u)
 
     return res, res_u
 
@@ -799,8 +799,8 @@ def simulate_fdr_fc_range(fold_changes=(DEF_FOLD_CHANGES*2), **kwargs):
     for f in fold_changes:
         res[f] = err_bars_peptide_fdr(f, 1000, "G", labels=labels, **kwargs)
         res_u[f] = err_bars_peptide_fdr(f, 1000, "U", labels=labels, **kwargs)
-        np.save("tmp_peptide_fc_gam_%s.npy" % start, res)
-        np.save("tmp_peptide_fc_uni_%s.npy" % start, res)
+        np.save("tmp_peptide_fdr_fc_gam_%s.npy" % start, res)
+        np.save("tmp_peptide_fdr_fc_uni_%s.npy" % start, res_u)
 
     return res, res_u
 

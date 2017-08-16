@@ -47,8 +47,8 @@ summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
 
 # Mapping for settings
 # See format_results.py for original
-LABEL_MAPPING = data.frame(label=c('CyberT', 'Moderated T (1-sample)', 'Moderated T (2-sample)', 'Absolute fold change', 'Absolute fold change', 't-test (2-sample)', 't-test (1-sample)', 'Median intensity absolute fold change', 'Median intensity Moderated T', 'Median intensity CyberT', 'Median intensity t-test', 'Weighted least squares', 'CyberT by peptide', 't-test by peptide'))
-rownames(LABEL_MAPPING) <- c('cyberT', 'modT', 'modT (2-sample)', 'fold change', 'fold_change', 't-test', 't-test (1-sample)', 'fold_change_med', 'modT_PVal_med', 'cyberT_PVal_med', 'ttest_PVal_med', 'wls', 'cyberT_bypep', 'ttest_bypep')
+LABEL_MAPPING = data.frame(label=c('CyberT', 'ModT (1-sample)', 'ModT (2-sample)', 'Fold Change', 'Fold Change', 't-test (2-sample)', 't-test (1-sample)', 't-test (1-sample)', 'Median intensity absolute fold change', 'Median intensity ModT', 'Median intensity CyberT', 'Median intensity t-test', 'Weighted least squares', 'CyberT by peptide', 't-test by peptide'), stringsAsFactors=FALSE)
+rownames(LABEL_MAPPING) <- c('cyberT', 'modT', 'modT (2-sample)', 'fold change', 'fold_change', 't-test', 't-test (1-sample)', 't test (1-sample)', 'fold_change_med', 'modT_PVal_med', 'cyberT_PVal_med', 'ttest_PVal_med', 'wls', 'cyberT_bypep', 'ttest_bypep')
 # Set up custom color map
 # TODO make this more readable by manually defining a color sequence
 colors_ = brewer.pal(12, "Set3")
@@ -72,14 +72,17 @@ boxplot_results_auroc <- function(df, title="", xlab="Setting"){
     geom_boxplot(outlier.shape=1, outlier.size=0.5) + 
     # Add lines between each group
     geom_vline(xintercept=seq(1.5, length(unique(df$setting))-0.5, 1),
-               lwd=0.5, color="white") +
+               lwd=0.5, color="grey") +
     scale_y_continuous(limits = quantile(df$AUROC, c(0.01, 1.0))) +
     theme( # remove the vertical grid lines
            panel.grid.major.x = element_blank() ,
            # explicitly set the horizontal lines (or they will disappear too)
-           panel.grid.major.y = element_line( size=.1, color="white" ) 
+           panel.grid.major.y = element_line( size=.1, color="grey" ),
+           # Set legend size
+           legend.key.size = unit(1.5, 'lines'),
+           legend.position = 'top',
     ) + 
-    labs(title=paste(title, "AUROC"), x=xlab, y="AUROC")
+    labs(title=title, x=xlab, y="AUROC", fill='')
   return(p1)
 }
 
@@ -90,32 +93,38 @@ boxplot_results_auprc <- function(df, title="", xlab="Setting"){
     geom_boxplot(outlier.shape=1, outlier.size=0.5) + 
     # Add lines between each group
     geom_vline(xintercept=seq(1.5, length(unique(df$setting))-0.5, 1),
-               lwd=0.5, color="white") +
+               lwd=0.5, color="grey") +
     scale_y_continuous(limits = quantile(df$AUPRC, c(0.01, 1.0))) +
     theme( # remove the vertical grid lines
            panel.grid.major.x = element_blank() ,
            # explicitly set the horizontal lines (or they will disappear too)
-           panel.grid.major.y = element_line( size=.1, color="white" ) 
+           panel.grid.major.y = element_line( size=.1, color="grey" ),
+           # Set legend size
+           legend.key.size = unit(1.5, 'lines'),
+           legend.position = 'top',
     ) + 
-    labs(title=paste(title, "AUPRC"), x=xlab, y="AUPRC")
+    labs(title=title, x=xlab, y="AUPRC", fill='')
   return(p1)
 }
 
-boxplot_results_pauc <- function(df, title="", xlab="Setting"){
+boxplot_results_pauc <- function(df, title="", xlab="Setting", fill=FALSE){
   # Requires setting and labels column
   p1 <- ggplot(df, aes(x = as.factor(setting), fill=labels, y = pAUROC)) + 
     # Boxplot
     geom_boxplot(outlier.shape=1, outlier.size=0.5) + 
     # Add lines between each group
     geom_vline(xintercept=seq(1.5, length(unique(df$setting))-0.5, 1),
-               lwd=0.5, color="white") +
+               lwd=0.5, color="grey") +
     scale_y_continuous(limits = quantile(df$pAUROC, c(0.01, 1.0))) +
     theme( # remove the vertical grid lines
            panel.grid.major.x = element_blank() ,
            # explicitly set the horizontal lines (or they will disappear too)
-           panel.grid.major.y = element_line( size=.1, color="white" ) 
+           panel.grid.major.y = element_line( size=.1, color="grey" ),
+           # Set legend size
+           legend.key.size = unit(1.5, 'lines'),
+           legend.position = 'top',
     ) + 
-    labs(title=paste(title, "pAUROC"), x=xlab, y="pAUROC")
+    labs(title=title, x=xlab, y="pAUROC", fill='')
   return(p1)
 }
 
@@ -157,8 +166,11 @@ read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, 
   }
   df <- df[complete.cases(df),]
   # Map labels to pretty print
+  df$labels <- as.character(df$labels)
   df$labels[df$labels %in% rownames(LABEL_MAPPING)] <- 
     LABEL_MAPPING[df$labels[df$labels %in% rownames(LABEL_MAPPING)], 1]
+  df$labels <- as.factor(df$labels)
+
   if (!is.null(order_x)) {
     fac <- as.factor(df$setting)
     df$setting <- factor(fac, levels=levels(fac)[order_x])
@@ -203,7 +215,7 @@ replot_all <- function(plot_names) {
 # Code for regenerating the final set of plots for the paper
 plot_final <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=18))
+  theme_set(theme_bw(base_size=26))
   # FC range for uniform and gamma distributions 
   fc_range_gam <- read_data_and_plot(
       "FINAL_DATA/df_peptide_fc_range_gam_FINAL.csv",
@@ -217,6 +229,12 @@ plot_final <- function() {
   nexp_imba <- read_data_and_plot(
       "FINAL_DATA/df_peptide_nexp_imba_FINAL.csv",
       "", "Number of channels", plot="pAUC", save=FALSE, colors=colScale)
+  nexp_fix <- read_data_and_plot(
+      "FINAL_DATA/df_peptide_nexp_modtfix_FINAL.csv",
+      "", "Number of channels", plot="pAUC", save=FALSE, colors=colScale)
+  nexp_imba_fix <- read_data_and_plot(
+      "FINAL_DATA/df_peptide_nexp_imba_modtfix_FINAL.csv",
+      "", "Number of channels", plot="pAUC", save=FALSE, colors=colScale)
 
   # Plot variance results
   # This needs subsetting + faceting to be maximally useful
@@ -225,33 +243,51 @@ plot_final <- function() {
   setting_df <- as.data.frame(do.call(
         'rbind', strsplit(as.character(var_df$setting), '_')))
   colnames(setting_df) <- c('background', 'noise', 'setting')
-  # Pretty print settings
+  # Pretty print settings, map abbreviations to full description
   background_map <- setNames(c('Inverse ~ Gamma', 'Uniform'),c('invgam', 'uniform'))
   pretty_label_map <- setNames(c('beta', 'sigma^2'),c('invgam', 'uniform'))
   noise_map <- setNames(c('Gaussian', 'Laplacian', 'Scaled ~ t'), c('norm', 'lap', 't'))
   setting_df$pretty_label <- pretty_label_map[setting_df$background]
   setting_df$background <- background_map[setting_df$background]
   setting_df$noise <- noise_map[setting_df$noise]
-
+  # Add columns to original DF
   var_df$setting <- NULL
-  plot_df <- cbind(var_df, setting_df)
-  print(head(plot_df))
-  # Now plot treating the factor as the number
-  var <- read_data_and_plot(plot_df, "", "Variance", save=FALSE, colors=colScale)
+  var_plot_df <- cbind(var_df, setting_df)
+  # Now plot, placing the numerical variance value on the x-axis
+  var <- read_data_and_plot(var_plot_df, "", "Variance", save=FALSE, colors=colScale)
   var <- var + facet_grid(noise ~ background + pretty_label, scales='free',
                           switch='x', labeller=label_parsed)
 
+  # Plot size of dataset results
+  # This also needs facetting
+  ds_size_df <- read.csv('FINAL_DATA/df_dataset_size_FINAL.csv')
+  # Split out setting into size and fraction
+  setting_df <- as.data.frame(do.call(
+        'rbind', strsplit(as.character(ds_size_df$setting), ': ')))
+  colnames(setting_df) <- c('size', 'setting')
+  setting_df$setting <- as.numeric(unlist(lapply(
+         as.character(setting_df$setting), function(x) strsplit(x," ")[[1]][1])))
+  ds_size_df$setting <- NULL
+  ds_size_plot_df <- cbind(ds_size_df, setting_df)
+  ds_size <- read_data_and_plot(ds_size_plot_df, "", "Number of peptides changed",
+                                save=FALSE, colors=colScale)
+  ds_size <- ds_size + facet_grid(. ~ size, scales='free_x') + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+  # Save plots
   ggsave("FINAL_PLOTS/peptide_fc_range_gam_FINAL.png", fc_range_gam,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/peptide_fc_range_uni_FINAL.png", fc_range_gam,
+  ggsave("FINAL_PLOTS/peptide_fc_range_uni_FINAL.png", fc_range_uni,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/peptide_nexp_FINAL.png", fc_range_gam,
+  ggsave("FINAL_PLOTS/peptide_nexp_modtfix_FINAL.png", nexp_fix,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/peptide_nexp_imba_FINAL.png", fc_range_gam,
+  ggsave("FINAL_PLOTS/peptide_nexp_imba_modtfix_FINAL.png", nexp_imba_fix,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/peptide_var_FINAL.png", fc_range_gam,
+  ggsave("FINAL_PLOTS/peptide_var_FINAL.png", var,
+        width=12.80, height=7.20, dpi=100)
+  ggsave("FINAL_PLOTS/peptide_ds_size_FINAL.png", ds_size,
         width=12.80, height=7.20, dpi=100)
 }
+
 
 plot_names <- list(
     c("df_inv_gam_lap.csv", "Fold change varies, inverse gamma background, Laplacian noise", "log2(fold change)"),

@@ -144,6 +144,9 @@ def plot_both(y_act, p_vals, labels, title='', is_pval=True, colors=None, **kwar
             continue  # TODO handle this better
         if colors is not None:
             c = colors[i]
+        else:
+            c = None
+
         plot_roc(y_act, p_val, ax=axarr[0], label=labels[i], is_pval=is_pval[i], color=c)
         plot_partial_auc(y_act, p_val, ax=axarr[1], label=labels[i], fdr=0.05, is_pval=is_pval[i], color=c)
         # Shaded block on roc plot to indicate area of pAUC plot
@@ -169,14 +172,15 @@ def plot_pvalue_dist(pvals, labels=None):
     # TODO add labels
 
     m = len(pvals)
-    f, (hist_axs, log_axs) = plt.subplots(2, m, sharey='row', squeeze=False)
+    # f, (hist_axs, log_axs) = plt.subplots(2, m, sharey='row', squeeze=False)
+    f, hist_axs = plt.subplots(1, m, sharey='row', squeeze=True)
     
     hist_axs[0].set_ylabel('Density')
-    log_axs[0].set_ylabel('Observed p-value')
+    # log_axs[0].set_ylabel('Observed p-value')
     
     for i, pval in enumerate(pvals):
         hax = hist_axs[i]
-        lax = log_axs[i]
+        # lax = log_axs[i]
 
         _, _, rects = hax.hist(pval, bins=20, range=(0,1), normed=True, alpha=0.5)
         hax.plot([0, 1], [1, 1], color='grey', lw=1, linestyle='--')
@@ -504,5 +508,17 @@ New dataset:
 For THU:
     Quality control reference
     Run regular pipeline: pathway + gene list sig
+
+
+FOR LATER: Show volcano plot - highlight true positive / negative
+    How high performers interact with fold change
+    One-sided, two-sided, and random
+    Do quick, no styling
+
+Make sure all parameters are defined in the methods section
+Make panels for the figures we've already finalized
+    Write up figure legend. Title, A, B, etc.
+Rerun simulations with fixed modT (for fc range)
 """
+
 
