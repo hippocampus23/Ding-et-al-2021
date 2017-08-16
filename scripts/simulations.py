@@ -478,7 +478,7 @@ def simulate_variance_range(**kwargs):
         return np.random.standard_t(DF, size=size)*scale 
                                                                                 
     for v in u_std: 
-        res["uniform_%.2f" % v] = err_bars_peptide(
+        res["uniform_norm_%.2f" % v] = err_bars_peptide(
                 fc, 1000, "U", var=v, labels=labels, **kwargs)
         res["uniform_lap_%.2f" % v] = err_bars_peptide(
                 fc, 1000, "U", var=v, use_var=np.random.laplace, 
@@ -487,7 +487,7 @@ def simulate_variance_range(**kwargs):
                 fc, 1000, "U", var=v, use_var=t_dist, labels=labels, **kwargs)
         np.save(filename, res)
     for b in g_beta:                                                            
-        res["inv_gamma_%.2f" % b] = err_bars_peptide(
+        res["inv_gamma_norm_%.2f" % b] = err_bars_peptide(
             fc, 1000, "G", beta=b, labels=labels, **kwargs)
         res["inv_gamma_lap_%.2f" % b] = err_bars_peptide(
                 fc, 1000, "G", beta=b, use_var=np.random.laplace,
