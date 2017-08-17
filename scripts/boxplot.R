@@ -223,18 +223,12 @@ plot_final <- function() {
   fc_range_uni <- read_data_and_plot(
       "FINAL_DATA/df_peptide_fc_range_uni_FINAL.csv",
       "", "log2(FC)", plot="pAUC", filename="", save=FALSE, colors=colScale)
-  nexp <- read_data_and_plot(
-      "FINAL_DATA/df_peptide_nexp_FINAL.csv",
-      "", "Number of channels", plot="pAUC", save=FALSE, colors=colScale)
-  nexp_imba <- read_data_and_plot(
-      "FINAL_DATA/df_peptide_nexp_imba_FINAL.csv",
-      "", "Number of channels", plot="pAUC", save=FALSE, colors=colScale)
   nexp_fix <- read_data_and_plot(
       "FINAL_DATA/df_peptide_nexp_modtfix_FINAL.csv",
       "", "Number of channels", plot="pAUC", save=FALSE, colors=colScale)
   nexp_imba_fix <- read_data_and_plot(
       "FINAL_DATA/df_peptide_nexp_imba_modtfix_FINAL.csv",
-      "", "Number of channels", plot="pAUC", save=FALSE, colors=colScale)
+      "", "(Number control, number experimental) channels", plot="pAUC", save=FALSE, colors=colScale)
 
   # Plot variance results
   # This needs subsetting + faceting to be maximally useful
@@ -260,13 +254,15 @@ plot_final <- function() {
 
   # Plot size of dataset results
   # This also needs facetting
-  ds_size_df <- read.csv('FINAL_DATA/df_dataset_size_FINAL.csv')
+  ds_size_df <- read.csv('FINAL_DATA/df_peptide_dataset_size_FINAL.csv',
+                         stringsAsFactors=FALSE)
   # Split out setting into size and fraction
   setting_df <- as.data.frame(do.call(
-        'rbind', strsplit(as.character(ds_size_df$setting), ': ')))
+        'rbind', strsplit(ds_size_df$setting, ': ')))
   colnames(setting_df) <- c('size', 'setting')
-  setting_df$setting <- as.numeric(unlist(lapply(
-         as.character(setting_df$setting), function(x) strsplit(x," ")[[1]][1])))
+  setting_df$setting <- as.numeric(setting_df$setting)
+  # setting_df$setting <- as.numeric(unlist(lapply(
+  #       as.character(setting_df$setting), function(x) strsplit(x," ")[[1]][1])))
   ds_size_df$setting <- NULL
   ds_size_plot_df <- cbind(ds_size_df, setting_df)
   ds_size <- read_data_and_plot(ds_size_plot_df, "", "Number of peptides changed",
@@ -278,9 +274,9 @@ plot_final <- function() {
         width=12.80, height=7.20, dpi=100)
   ggsave("FINAL_PLOTS/peptide_fc_range_uni_FINAL.png", fc_range_uni,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/peptide_nexp_modtfix_FINAL.png", nexp_fix,
+  ggsave("FINAL_PLOTS/peptide_nexp_FINAL.png", nexp_fix,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/peptide_nexp_imba_modtfix_FINAL.png", nexp_imba_fix,
+  ggsave("FINAL_PLOTS/peptide_nexp_imba_FINAL.png", nexp_imba_fix,
         width=12.80, height=7.20, dpi=100)
   ggsave("FINAL_PLOTS/peptide_var_FINAL.png", var,
         width=12.80, height=7.20, dpi=100)

@@ -1,5 +1,10 @@
-import matplotlib
+import sys
+sys.dont_write_bytecode = True  # Avoid caching problems
 
+import matplotlib
+import matplotlib.pyplot as plt
+
+from format_results import *
 from roc import *
 from sample import *
 
@@ -15,6 +20,7 @@ COLORS = {'CyberT': "#b79f00",
 }
 
 def plot_example_roc_curves():
+    """ Generate panel 2 of figure 1 """
     font = {'family' : 'normal',
             'weight' : 'bold',
             'size'   : 20}
@@ -32,6 +38,75 @@ def plot_example_roc_curves():
     pvals = do_stat_tests(ctrl, exp, True)
     plot_both(is_changed, pvals.values.transpose(), list(pvals.columns), colors=colors)
 
+
+def pvalue_multipanel():
+    """ Generate panel comparing p-value distributions 
+    Compare uniform and inverse gamma """
+    f, axarr = plt.subplots(2, 5, sharex='col', sharey='row')
+
+    ctrl_u, exp_u, _ = sample_no_ctrl_gamma(10000, 0, 0)
+    pvals_u = do_stat_tests(ctrl_u, exp_u, True)
+    
+    ctrl_g, exp_g, _ = sample_no_ctrl_uniform(10000, 0, 0)
+    pvals_g = do_stat_tests(ctrl_g, exp_g, True)
+
+    plot_pvalue_dist(pvals_u, axarr[0])
+    plot_pvalue_dist(pvals_g, axarr[1])
+
+    for ax in axarr[0]:
+        ax.set_xlabel('')
+    for ax in axarr[1]:
+        ax.set_title('')
+
+    return f
+
+
+def pvalue_multipanel_noise():
+    """ Compare p-value distributions different noise distributions """ 
+    f, axarr = plt.subplots(3, 5, sharex='col', sharey='row')
+    
+    DF = 3
+    def t_dist(loc, scale, size=1):
+        return np.random.standard_t(DF, size=size)*scale
+   
+    ctrl_n, exp_n, _ = sample_no_ctrl_gamma(10000, 0, 0, use_var=np.random.normal)
+    plot_pvalue_dist(do_stat_tests(ctrl_n, exp_n, True), axarr[0])
+    ctrl_l, exp_l, _ = sample_no_ctrl_gamma(10000, 0, 0, use_var=np.random.laplace)
+    plot_pvalue_dist(do_stat_tests(ctrl_l, exp_l, True), axarr[1])
+    ctrl_t, exp_t, _ = sample_no_ctrl_gamma(10000, 0, 0, use_var=t_dist)
+    plot_pvalue_dist(do_stat_tests(ctrl_t, exp_t, True), axarr[2])
+
+    for ax in axarr[0]:
+        ax.set_xlabel('')
+    for ax in axarr[1]:
+        ax.set_xlabel('')
+        ax.set_title('')
+    for ax in axarr[2]:
+        ax.set_title('')
+
+    return f
+
+def volcano_multipanel():
+    """ Generate panel comparing volcano plots
+    Compare uniform and inverse gamma
+    """
+    f, axarr = plt.subplots(2, 5, sharex='col', sharey='row')
+
+    ctrl_u, exp_u, is_changed_u = sample_no_ctrl_gamma(10000, 1000, 0.5)
+    pvals_u = do_stat_tests(ctrl_u, exp_u, True)
+    
+    ctrl_g, exp_g, is_changed_g = sample_no_ctrl_uniform(10000, 1000, 0.5)
+    pvals_g = do_stat_tests(ctrl_g, exp_g, True)
+
+    volcano_plots(pvals_u, ctrl_u, exp_u, is_changed_u, axarr[0])
+    volcano_plots(pvals_g, ctrl_g, exp_g, is_changed_g, axarr[1])
+
+    for ax in axarr[0]:
+        ax.set_xlabel('')
+    for ax in axarr[1]:
+        ax.set_title('')
+
+    return f
 
 """
 Transform results of variance AUC dictionary to more readable/usable ones
@@ -66,6 +141,39 @@ def format_multiple_fc_cont(df):
     # Drop everything between -0.2 and 0.2
      
     setting = df['setting']
-    true_setting = [float(x.split('<')[0] for x in setting]
+    true_setting = [float(x.split('<')[0]) for x in setting]
     pass
+
+def regenerate_dataframes():
+    """
+    Regenerate dataframes
+    """
+    fc_range_gam = np.load('peptide_fc_range_gam_FINAL.npy')[()]
+    fc_range_uni = np.load('peptide_fc_range_uni_FINAL.npy')[()]
+    nexp = np.load('peptide_nexp_modtfix_FINAL.npy')[()]
+    nexp_imba = np.load('peptide_nexp_imba_modtfix_FINAL.npy')[()]
+    var = np.load('peptide_variances_FINAL.npy')[()]
+    ds_size = np.load('peptide_ds_size_FINAL.npy')[()]
+
+    # fix nexp_imba keys
+    nexp_imba = {(('(%d,%d)' % k) if k != '_labels' else k):v for
+            k,v in nexp_imba.iteritems()}
+    # Fix ds_size keys
+    ds_size = {(('%d: %d' % k) if k != '_labels' else k):v for 
+            k,v in ds_size.iteritems()}
+    
+    write_result_dict_to_df(fc_range_gam, None).to_csv(
+            'df_peptide_fc_range_gam_FINAL.csv')
+    write_result_dict_to_df(fc_range_uni, None).to_csv(
+            'df_peptide_fc_range_uni_FINAL.csv')
+    write_result_dict_to_df(nexp, None).to_csv(
+            'df_peptide_nexp_modtfix_FINAL.csv')
+    write_result_dict_to_df(nexp_imba, None).to_csv(
+            'df_peptide_nexp_imba_modtfix_FINAL.csv')
+    write_result_dict_to_df(var, None).to_csv(
+            'df_peptide_variances_FINAL.csv')
+    write_result_dict_to_df(ds_size, None).to_csv(
+            'df_peptide_dataset_size_FINAL.csv')
+
+
 

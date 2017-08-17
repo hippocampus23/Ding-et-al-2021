@@ -163,29 +163,36 @@ def plot_both(y_act, p_vals, labels, title='', is_pval=True, colors=None, **kwar
 
     return f, axarr
 
-def plot_pvalue_dist(pvals, labels=None):
+def plot_pvalue_dist(pvals, axes=None):
     """
-    Pvals should be list of lists
+    Pvals should be df
     """
     # Plot histogram for this.
     # log-log pvalue plot to focus on smallest p values
     # TODO add labels
 
-    m = len(pvals)
+    # Don't plot fold change
+    valid_labels = list(pvals.columns)
+    valid_labels.remove('fold change')
+    m = len(valid_labels)
+    if axes is None:
+        f, axes = plt.subplots(1, m, sharey='row', squeeze=True)
+    else:
+        f = None
+
     # f, (hist_axs, log_axs) = plt.subplots(2, m, sharey='row', squeeze=False)
-    f, hist_axs = plt.subplots(1, m, sharey='row', squeeze=True)
     
-    hist_axs[0].set_ylabel('Density')
+    axes[0].set_ylabel('Density')
     # log_axs[0].set_ylabel('Observed p-value')
     
-    for i, pval in enumerate(pvals):
-        hax = hist_axs[i]
+    for i, name in enumerate(valid_labels):
+        ax = axes[i]
         # lax = log_axs[i]
 
-        _, _, rects = hax.hist(pval, bins=20, range=(0,1), normed=True, alpha=0.5)
-        hax.plot([0, 1], [1, 1], color='grey', lw=1, linestyle='--')
-        hax.set_title(labels[i] if labels is not None else '')
-        hax.set_xlabel('p-value')
+        _, _, rects = ax.hist(pvals[name], bins=20, range=(0,1), normed=True, alpha=0.5)
+        ax.plot([0, 1], [1, 1], color='grey', lw=1, linestyle='--')
+        ax.set_title(name)
+        ax.set_xlabel('p-value')
         # exp_pvals = (np.argsort(np.argsort(pval)) + 0.5) / (len(pval) + 1)
         # lax.scatter(exp_pvals, pval)
         # lax.plot([0, 1], [0 ,1], color='grey', lw=1, linestyle='--')
@@ -195,9 +202,33 @@ def plot_pvalue_dist(pvals, labels=None):
         
         # TODO plot confidence interval
 
-    f.tight_layout()
     return f
-    
+
+
+def volcano_plots(pval_df, ctrl, exp, is_changed, axes=None):
+    # Don't plot fold change
+    valid_labels = list(pval_df.columns)
+    valid_labels.remove('fold change')
+    m = len(valid_labels)
+    if axes is None:
+        f, axes = plt.subplots(1, m, sharey='row', squeeze=True)
+    else:
+        f = None
+
+    axes[0].set_ylabel('$-\log_{10}$(p-value)') 
+
+    fc = np.mean(exp, 1) - np.mean(ctrl, 1)
+    for i, name in enumerate(valid_labels):
+        ax = axes[i]
+
+        ax.scatter(fc.values, -np.log10(pval_df[name].values), 
+                   c=is_changed, alpha=0.2)
+        ax.set_title(name)
+        ax.set_ylim(bottom=0)
+        ax.set_xlabel('log2 fold change')
+   
+    return f
+
 
 def extract_y_act_protein(protein_ids, is_changed):
     """Converts peptide level labels to protein labels
