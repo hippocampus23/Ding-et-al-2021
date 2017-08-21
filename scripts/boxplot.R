@@ -1,5 +1,6 @@
 library(ggplot2)
 library(RColorBrewer)
+library(reshape2)
 
 ## Summarizes data.
 ## Gives count, mean, standard deviation, standard error of the mean, and confidence interval (default 95%).
@@ -8,7 +9,7 @@ library(RColorBrewer)
 ##   groupvars: a vector containing names of columns that contain grouping variables
 ##   na.rm: a boolean that indicates whether to ignore NA's
 ##   conf.interval: the percent range of the confidence interval (default is 95%)
-summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
+summarySE <- function(data, measurevar, groupvars, na.rm=FALSE,
                       conf.interval=.95, .drop=TRUE) {
     library(plyr)
 
@@ -20,6 +21,7 @@ summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
 
     # This does the summary. For each group's data frame, return a vector with
     # N, mean, and sd
+    if (FALSE) { 
     datac <- ddply(data, groupvars, .drop=.drop,
       .fun = function(xx, col) {
         c(N    = length2(xx[[col]], na.rm=na.rm),
@@ -29,17 +31,33 @@ summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
       },
       measurevar
     )
+    }
+
+    if (!"variable" %in% colnames(data)) {
+      data$variable <- 1
+    }
+    datac <- as.data.frame(as.list(aggregate(
+        #x = data[,measurevar],
+        #by = as.list(data$setting),
+        . ~ setting + labels + variable,
+        data = data[,c(measurevar, groupvars)],
+        FUN = function(x) c(
+            mn=mean(x),
+            sd=sd(x),
+            ci=(sd(x)/sqrt(length2(x))) * qt(conf.interval/2 + .5, length2(x)-1)
+        )
+    )))
 
     # Rename the "mean" column    
-    datac <- rename(datac, c("mean" = measurevar))
+    # datac <- rename(datac, c("mean" = measurevar))
 
-    datac$se <- datac$sd / sqrt(datac$N)  # Calculate standard error of the mean
+    # datac$se <- datac$sd / sqrt(datac$N)  # Calculate standard error of the mean
 
     # Confidence interval multiplier for standard error
     # Calculate t-statistic for confidence interval: 
     # e.g., if conf.interval is .95, use .975 (above/below), and use df=N-1
-    ciMult <- qt(conf.interval/2 + .5, datac$N-1)
-    datac$ci <- datac$se * ciMult
+    # ciMult <- qt(conf.interval/2 + .5, datac$N-1)
+    # datac$ci <- datac$se * ciMult
 
     return(datac)
 }
@@ -128,14 +146,46 @@ boxplot_results_pauc <- function(df, title="", xlab="Setting", fill=FALSE){
   return(p1)
 }
 
-
 lineplot_results_pauc <- function(df, title="", xlab="Setting") {
   data <- summarySE(df, measurevar='pAUROC', groupvars=c('setting', 'labels'))
-  print(head(data))
   p1 <- ggplot(data, aes(x = setting, group=labels, colour=labels, y= 10^pAUROC)) +
         geom_errorbar(aes(ymin=pAUROC-se, ymax=pAUROC+se), width=.1) +
         geom_line() +
         geom_point()
+  return(p1)
+}
+
+plot_fdr <- function(df, title="", xlab="Setting") {
+  # Drop t-test (1-sample) and modT (1-sample)
+  df <- df[(as.character(df$labels) != 't-test (1-sample)')
+           & (as.character(df$labels) !=  'ModT (1-sample)'),]
+  df <- droplevels(df)
+  # Melt dataframe
+  data <- melt(df, id.vars=c('setting', 'labels')) 
+
+  data.summary <- summarySE(data, 'value', c('setting', 'labels', 'variable'))
+  # Reorder levels for more useful line types
+  data.summary$variable <- factor(data.summary$variable,
+          levels(data.summary$variable)[c(4,3,2,1)])
+  # Set alpha for raw p-values lower for emphasis
+  setting_df <- as.data.frame(do.call(
+        'rbind', strsplit(as.character(data.summary$variable), '_')))
+  colnames(setting_df) <- c('fp_or_tp', 'adj')
+  data.summary$alpha <- 1
+  data.summary$alpha[setting_df$adj == 'raw'] <- 0.9
+
+  p1 <- ggplot(data.summary, 
+               aes(x = as.numeric(as.character(setting)),
+                   y = value.mn,
+                   color=labels,
+                   linetype=variable,
+                   shape=variable,
+                   alpha=alpha)) + 
+        geom_line(size=0.8) + geom_point(size=2) + 
+        scale_alpha(guide = FALSE, range = c(0.5, 1))
+        # guides(alpha=FALSE) +  # Remove alpha legend
+        labs(title=title, x=xlab, y='Count', color='Test', linetype='', shape='')
+
   return(p1)
 }
 
@@ -144,7 +194,7 @@ lineplot_results_pauc <- function(df, title="", xlab="Setting") {
 ##      If string, will attempt to read csv from file given by df_name
 ## title: Title of plot
 ## xlab: x label of plot
-## plot: one of 'AUROC', 'AUPRC', or 'pAUC'
+## plot: one of 'AUROC', 'AUPRC', 'pAUC', 'line', or 'fdr'
 ## order_x: default NULL, order of x settings for pretty display
 ## order_lab: default NULL, order of labels for pretty display 
 ## save: TRUE to save plot, FALSE otherwise
@@ -187,6 +237,8 @@ read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, 
     p <- boxplot_results_pauc(df, title, xlab)
   } else if (plot == 'line') {
     p <- lineplot_results_pauc(df, title, xlab)
+  } else if (plot == 'fdr') {
+    p <- plot_fdr(df, title, xlab)  
   } else {
     stop("Invalid plot specification. Must be one of 'AUROC', 'AUPRC', 'pAUC')")
   }
@@ -223,18 +275,12 @@ plot_final <- function() {
   fc_range_uni <- read_data_and_plot(
       "FINAL_DATA/df_peptide_fc_range_uni_FINAL.csv",
       "", "log2(FC)", plot="pAUC", filename="", save=FALSE, colors=colScale)
-  nexp <- read_data_and_plot(
-      "FINAL_DATA/df_peptide_nexp_FINAL.csv",
-      "", "Number of channels", plot="pAUC", save=FALSE, colors=colScale)
-  nexp_imba <- read_data_and_plot(
-      "FINAL_DATA/df_peptide_nexp_imba_FINAL.csv",
-      "", "Number of channels", plot="pAUC", save=FALSE, colors=colScale)
   nexp_fix <- read_data_and_plot(
       "FINAL_DATA/df_peptide_nexp_modtfix_FINAL.csv",
       "", "Number of channels", plot="pAUC", save=FALSE, colors=colScale)
   nexp_imba_fix <- read_data_and_plot(
       "FINAL_DATA/df_peptide_nexp_imba_modtfix_FINAL.csv",
-      "", "Number of channels", plot="pAUC", save=FALSE, colors=colScale)
+      "", "(Number control, number experimental) channels", plot="pAUC", save=FALSE, colors=colScale)
 
   # Plot variance results
   # This needs subsetting + faceting to be maximally useful
@@ -260,13 +306,15 @@ plot_final <- function() {
 
   # Plot size of dataset results
   # This also needs facetting
-  ds_size_df <- read.csv('FINAL_DATA/df_dataset_size_FINAL.csv')
+  ds_size_df <- read.csv('FINAL_DATA/df_peptide_dataset_size_FINAL.csv',
+                         stringsAsFactors=FALSE)
   # Split out setting into size and fraction
   setting_df <- as.data.frame(do.call(
-        'rbind', strsplit(as.character(ds_size_df$setting), ': ')))
+        'rbind', strsplit(ds_size_df$setting, ': ')))
   colnames(setting_df) <- c('size', 'setting')
-  setting_df$setting <- as.numeric(unlist(lapply(
-         as.character(setting_df$setting), function(x) strsplit(x," ")[[1]][1])))
+  setting_df$setting <- as.numeric(setting_df$setting)
+  # setting_df$setting <- as.numeric(unlist(lapply(
+  #       as.character(setting_df$setting), function(x) strsplit(x," ")[[1]][1])))
   ds_size_df$setting <- NULL
   ds_size_plot_df <- cbind(ds_size_df, setting_df)
   ds_size <- read_data_and_plot(ds_size_plot_df, "", "Number of peptides changed",
@@ -278,9 +326,9 @@ plot_final <- function() {
         width=12.80, height=7.20, dpi=100)
   ggsave("FINAL_PLOTS/peptide_fc_range_uni_FINAL.png", fc_range_uni,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/peptide_nexp_modtfix_FINAL.png", nexp_fix,
+  ggsave("FINAL_PLOTS/peptide_nexp_FINAL.png", nexp_fix,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/peptide_nexp_imba_modtfix_FINAL.png", nexp_imba_fix,
+  ggsave("FINAL_PLOTS/peptide_nexp_imba_FINAL.png", nexp_imba_fix,
         width=12.80, height=7.20, dpi=100)
   ggsave("FINAL_PLOTS/peptide_var_FINAL.png", var,
         width=12.80, height=7.20, dpi=100)

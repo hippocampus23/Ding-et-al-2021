@@ -369,10 +369,14 @@ def simulate_size_dataset(n_runs=100, filename=None, **kwargs):
     ms = [0.04, 0.1, 0.25]
     res = {}
 
+    labels = peptide_pval_labels(True)
+    res['_labels'] = labels
+
     for n in Ns:
         for m in ms:
             res[(n, int(n*m))] = err_bars_peptide(
-                    fc, int(n*m), "G", N_PEPS=n, n_runs=n_runs, **kwargs)
+                    fc, int(n*m), "G", N_PEPS=n, n_runs=n_runs, 
+                    labels=labels, **kwargs)
             np.save(filename, res) 
     return res
     
@@ -478,7 +482,7 @@ def simulate_variance_range(**kwargs):
         return np.random.standard_t(DF, size=size)*scale 
                                                                                 
     for v in u_std: 
-        res["uniform_%.2f" % v] = err_bars_peptide(
+        res["uniform_norm_%.2f" % v] = err_bars_peptide(
                 fc, 1000, "U", var=v, labels=labels, **kwargs)
         res["uniform_lap_%.2f" % v] = err_bars_peptide(
                 fc, 1000, "U", var=v, use_var=np.random.laplace, 
@@ -487,12 +491,12 @@ def simulate_variance_range(**kwargs):
                 fc, 1000, "U", var=v, use_var=t_dist, labels=labels, **kwargs)
         np.save(filename, res)
     for b in g_beta:                                                            
-        res["inv_gamma_%.2f" % b] = err_bars_peptide(
+        res["invgam_norm_%.2f" % b] = err_bars_peptide(
             fc, 1000, "G", beta=b, labels=labels, **kwargs)
-        res["inv_gamma_lap_%.2f" % b] = err_bars_peptide(
+        res["invgam_lap_%.2f" % b] = err_bars_peptide(
                 fc, 1000, "G", beta=b, use_var=np.random.laplace,
                 labels=labels, **kwargs)
-        res["inv_gamma_t_%.2f" % b] = err_bars_peptide(
+        res["invgam_t_%.2f" % b] = err_bars_peptide(
                 fc, 1000, "G", beta=b, use_var=t_dist, labels=labels, **kwargs)
         np.save(filename, res)
                                                                                 
@@ -754,12 +758,12 @@ def err_bars_peptide_fdr(fold_changes, num_to_change, background = "U", n_runs=5
         labels = peptide_pval_labels(run_modT_2sample=run_modT_2samp)
 
     res = np.zeros((n_runs, len(labels), 4), dtype=np.float32)
-    res_count = pd.DataFrame(                                                         
-            columns=['TP_Sig_Sig', 'FP_Sig_Sig',                                
-                     'TP_Sig_NS', 'FP_Sig_NS',                                  
-                     'TP_NS_Sig', 'FP_NS_Sig',                                  
-                     'TP_NS_NS', 'FP_NS_NS'],                                   
-            index=np.arange(n_runs)) 
+    # res_count = pd.DataFrame(
+    #         columns=['TP_Sig_Sig', 'FP_Sig_Sig',                                
+    #                  'TP_Sig_NS', 'FP_Sig_NS',                                  
+    #                  'TP_NS_Sig', 'FP_NS_Sig',                                  
+    #                  'TP_NS_NS', 'FP_NS_NS'],                                   
+    #         index=np.arange(n_runs)) 
 
     for i in xrange(n_runs):
         if i % 50 == 0:
@@ -772,6 +776,7 @@ def err_bars_peptide_fdr(fold_changes, num_to_change, background = "U", n_runs=5
                     fold_changes,
                     **kwargs)
                 p_vals = do_stat_tests(ctrl, exp, run_modT_2samp)
+                del p_vals['fold change']
                 res[i,:,0], res[i,:,1], res[i,:,2], res[i,:,3] = power_analysis(
                     is_changed, p_vals.values.transpose(), alpha=0.05)
                 # res_count.ix[i] = count_quadrants(
