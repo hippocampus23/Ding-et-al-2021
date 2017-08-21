@@ -412,15 +412,18 @@ def power_analysis(is_changed, pvals, alpha=0.05):
     fps_adj = []
     tps_adj = []
     for pval in pvals:
-        # False positives
-        fp = np.sum(np.logical_not(is_changed) & (pval <= alpha))
-        # Power \approx true_positives / num_changed
-        tp = np.sum(is_changed & (pval <= alpha))
+        if np.all(np.isnan(pval)):                                              
+            fp, tp, fp_adj, tp_adj = 0, 0, 0, 0                                 
+        else:
+            # False positives
+            fp = np.sum(np.logical_not(is_changed) & (pval <= alpha))
+            # Power \approx true_positives / num_changed
+            tp = np.sum(is_changed & (pval <= alpha))
 
-        # Adjust p-values using BH and repeat
-        _, pval_adj, _, _ = multipletests(pval, alpha=alpha, method='fdr_bh')
-        fp_adj = np.sum(np.logical_not(is_changed) & (pval_adj <= alpha))
-        tp_adj = np.sum(is_changed & (pval_adj <= alpha))
+            # Adjust p-values using BH and repeat
+            _, pval_adj, _, _ = multipletests(pval, alpha=alpha, method='fdr_bh')
+            fp_adj = np.sum(np.logical_not(is_changed) & (pval_adj <= alpha))
+            tp_adj = np.sum(is_changed & (pval_adj <= alpha))
 
         fps.append(fp)
         tps.append(tp)

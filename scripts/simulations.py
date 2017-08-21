@@ -757,7 +757,7 @@ def err_bars_peptide_fdr(fold_changes, num_to_change, background = "U", n_runs=5
     if labels is None:
         labels = peptide_pval_labels(run_modT_2sample=run_modT_2samp)
 
-    res = np.zeros((n_runs, len(labels), 4), dtype=np.float32)
+    res = np.zeros((n_runs, len(labels) - 1, 4), dtype=np.float32)
     # res_count = pd.DataFrame(
     #         columns=['TP_Sig_Sig', 'FP_Sig_Sig',                                
     #                  'TP_Sig_NS', 'FP_Sig_NS',                                  
@@ -892,7 +892,7 @@ def simulate_fdr_nexp_imba(filename=None, **kwargs):
         res[key] = err_bars_peptide_fdr(
                 f, 1000, "G", labels=labels, nexp=nexp, nctrl=nctrl, **kwargs)
         np.save(filename, res)
-    print time.time() - fdr
+    print time.time() - st
     return res
 
 
