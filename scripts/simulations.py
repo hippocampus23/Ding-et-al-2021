@@ -787,7 +787,8 @@ def err_bars_peptide_fdr(fold_changes, num_to_change, background = "U", n_runs=5
     return res
 
 
-def simulate_fdr_fc_range(fold_changes=(DEF_FOLD_CHANGES*2), **kwargs):
+def simulate_fdr_fc_range(fold_changes=np.arange(0.1, 1.6, 0.1), **kwargs):
+    st = time.time()
     start = time.strftime(TIME_FORMAT)
     res = {}
     res_u = {}
@@ -801,6 +802,8 @@ def simulate_fdr_fc_range(fold_changes=(DEF_FOLD_CHANGES*2), **kwargs):
         res_u[f] = err_bars_peptide_fdr(f, 1000, "U", labels=labels, **kwargs)
         np.save("tmp_peptide_fdr_fc_gam_%s.npy" % start, res)
         np.save("tmp_peptide_fdr_fc_uni_%s.npy" % start, res_u)
+
+    print time.time() - st
 
     return res, res_u
 
@@ -841,6 +844,52 @@ def simulate_fdr_variance(filename=None, **kwargs):
         np.save(filename, res)
 
     return res
+
+
+def simulate_fdr_nexp(**kwargs):
+    """Runs simulated dataset with different number of samples
+    """
+    st = time.time()
+    start = time.strftime(TIME_FORMAT)
+    res = {}
+    f = 0.5
+    labels = peptide_pval_labels(True)
+    res['_labels'] = labels
+    
+    for n in xrange(2, 11):
+        res[n] = err_bars_peptide_fdr(
+                f, 1000, "G", labels=labels, nexp=n, nctrl=n, **kwargs)
+        np.save("tmp_peptide_fdr_nexp_%s.npy" % start, res)
+    print time.time() - st
+    return res
+
+
+def simulate_fdr_nexp_imba(filename=None, **kwargs):
+    """Compared balanced and imbalanced number of channels
+    """
+    st = time.time()
+    start = time.strftime(TIME_FORMAT)
+    N_TO_CHANGE = 1000
+    if filename is None:
+        filename = "tmp_peptide_fdr_nexp_imba_%s.npy" % start
+    res = {}
+    labels = peptide_pval_labels(True)
+    res['_labels'] = labels
+    f = 0.5
+
+    trials = [(5,5),  ## For n=10
+              (4,6),
+              (3,7),
+              (2,8),
+              (1,9)]
+    for nctrl, nexp in trials:
+        key = (nctrl, nexp)
+        res[key] = err_bars_peptide_fdr(
+                f, 1000, "G", labels=labels, nexp=nexp, nctrl=nctrl, **kwargs)
+        np.save(filename, res)
+    print time.time() - fdr
+    return res
+
 
 ##############################
 ### Bucketing fold changes ###

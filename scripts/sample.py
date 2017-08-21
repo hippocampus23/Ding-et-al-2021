@@ -729,7 +729,7 @@ def do_stat_tests(ctrl, exp, run_modT_2sample=False):
     do_t = (ctrl.shape[1] > 1)
 
     if do_ratio:
-        modT_res = modT(ctrl, exp)
+        modT_res = modT(ctrl, exp, robust=False)
         modT_pvals = modT_res['P.Value'].values
         print "Ran moderated T test"
 
@@ -761,7 +761,7 @@ def do_stat_tests(ctrl, exp, run_modT_2sample=False):
         't test (1-sample)': ttest_ratio_pvals,
         'fold change': np.max(fold_change) + 0.01 - fold_change})
     if run_modT_2sample:
-        modT_2sample_pvals = modT_2sample(ctrl, exp)['P.Value'].values
+        modT_2sample_pvals = modT_2sample(ctrl, exp, robust=False)['P.Value'].values
         res['modT (2-sample)'] = modT_2sample_pvals
 
     return res
