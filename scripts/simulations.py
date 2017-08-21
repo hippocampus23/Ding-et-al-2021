@@ -758,12 +758,12 @@ def err_bars_peptide_fdr(fold_changes, num_to_change, background = "U", n_runs=5
         labels = peptide_pval_labels(run_modT_2sample=run_modT_2samp)
 
     res = np.zeros((n_runs, len(labels), 4), dtype=np.float32)
-    res_count = pd.DataFrame(                                                         
-            columns=['TP_Sig_Sig', 'FP_Sig_Sig',                                
-                     'TP_Sig_NS', 'FP_Sig_NS',                                  
-                     'TP_NS_Sig', 'FP_NS_Sig',                                  
-                     'TP_NS_NS', 'FP_NS_NS'],                                   
-            index=np.arange(n_runs)) 
+    # res_count = pd.DataFrame(
+    #         columns=['TP_Sig_Sig', 'FP_Sig_Sig',                                
+    #                  'TP_Sig_NS', 'FP_Sig_NS',                                  
+    #                  'TP_NS_Sig', 'FP_NS_Sig',                                  
+    #                  'TP_NS_NS', 'FP_NS_NS'],                                   
+    #         index=np.arange(n_runs)) 
 
     for i in xrange(n_runs):
         if i % 50 == 0:
@@ -776,6 +776,7 @@ def err_bars_peptide_fdr(fold_changes, num_to_change, background = "U", n_runs=5
                     fold_changes,
                     **kwargs)
                 p_vals = do_stat_tests(ctrl, exp, run_modT_2samp)
+                del p_vals['fold change']
                 res[i,:,0], res[i,:,1], res[i,:,2], res[i,:,3] = power_analysis(
                     is_changed, p_vals.values.transpose(), alpha=0.05)
                 # res_count.ix[i] = count_quadrants(

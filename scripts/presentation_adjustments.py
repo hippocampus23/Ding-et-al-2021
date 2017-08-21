@@ -4,27 +4,19 @@ sys.dont_write_bytecode = True  # Avoid caching problems
 import matplotlib
 import matplotlib.pyplot as plt
 
+from constants import COLORS
 from format_results import *
 from roc import *
 from sample import *
 
-"""
-Color mapping from R for peptides
-"""
-COLORS = {'CyberT': "#b79f00",
-          'Moderated T (1-sample)': "#00ba38",
-          'Moderated T (2-sample)': "#00bfc4",
-          'Absolute fold change': "#f8766d",
-          't-test (2-sample)': "#f564e3",
-          't-test (1-sample)': "#619cff",
-}
 
 def plot_example_roc_curves():
-    """ Generate panel 2 of figure 1 """
+    # Set up font
     font = {'family' : 'normal',
-            'weight' : 'bold',
+            'weight' : 'normal',
             'size'   : 20}
     matplotlib.rc('font', **font)
+    """ Generate panel 2 of figure 1 """
     colors = [
         COLORS['CyberT'],
         COLORS['Absolute fold change'],
@@ -86,25 +78,36 @@ def pvalue_multipanel_noise():
 
     return f
 
-def volcano_multipanel():
+def volcano_multipanel(background="U"):
     """ Generate panel comparing volcano plots
     Compare uniform and inverse gamma
     """
     f, axarr = plt.subplots(2, 5, sharex='col', sharey='row')
 
-    ctrl_u, exp_u, is_changed_u = sample_no_ctrl_gamma(10000, 1000, 0.5)
+    if background == "U":
+        sampler = sample_no_ctrl_uniform
+    elif background == "G":
+        sampler = sample_no_ctrl_gamma
+    else:
+        raise ValueError("Invalid specification for background")
+
+    ctrl_u, exp_u, is_changed_u = sampler(10000, 1000, 0.5)
     pvals_u = do_stat_tests(ctrl_u, exp_u, True)
     
-    ctrl_g, exp_g, is_changed_g = sample_no_ctrl_uniform(10000, 1000, 0.5)
-    pvals_g = do_stat_tests(ctrl_g, exp_g, True)
+    pvals_c = pd.DataFrame.from_items([
+        (col, multipletests(pvals_u[col], 0.05, method='fdr_bh')[1])
+        for col in pvals_u.columns
+    ])
 
     volcano_plots(pvals_u, ctrl_u, exp_u, is_changed_u, axarr[0])
-    volcano_plots(pvals_g, ctrl_g, exp_g, is_changed_g, axarr[1])
+    volcano_plots(pvals_c, ctrl_u, exp_u, is_changed_u, axarr[1])
 
+    # Remove unnecessary labels
     for ax in axarr[0]:
         ax.set_xlabel('')
     for ax in axarr[1]:
         ax.set_title('')
+    axarr[1][0].set_ylabel('$-\log_{10}$(Adjusted p-value)')
 
     return f
 

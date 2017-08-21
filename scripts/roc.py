@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from constants import LABEL_MAPPING
 
 def plot_roc(y_act, pred, ax = None, is_pval=True, label='Area ', color=None):
     """
@@ -207,7 +208,7 @@ def plot_pvalue_dist(pvals, axes=None):
 
 def volcano_plots(pval_df, ctrl, exp, is_changed, axes=None):
     # Don't plot fold change
-    valid_labels = list(pval_df.columns)
+    valid_labels = sorted(list(pval_df.columns))
     valid_labels.remove('fold change')
     m = len(valid_labels)
     if axes is None:
@@ -217,17 +218,59 @@ def volcano_plots(pval_df, ctrl, exp, is_changed, axes=None):
 
     axes[0].set_ylabel('$-\log_{10}$(p-value)') 
 
+    ALPHA = - np.log10(0.05)
+
+    # Volcano plots
     fc = np.mean(exp, 1) - np.mean(ctrl, 1)
     for i, name in enumerate(valid_labels):
         ax = axes[i]
 
         ax.scatter(fc.values, -np.log10(pval_df[name].values), 
                    c=is_changed, alpha=0.2)
-        ax.set_title(name)
+        (l, r) = ax.get_xlim()
+        ax.plot([l, r], [ALPHA, ALPHA], color='grey', lw=1, linestyle='--')
+        ax.set_title(name if name not in LABEL_MAPPING else LABEL_MAPPING[name])
         ax.set_ylim(bottom=0)
-        ax.set_xlabel('log2 fold change')
-   
+        ax.set_xlim(l, r)
+        ax.set_xlabel('$\log_2$(fold change)')
+    
+
     return f
+
+def barplot_accuracy(pval_df, is_changed, ax=None):
+    valid_labels = sorted(list(pval_df.columns))
+    valid_labels.remove('fold change')
+
+    if ax is None:
+        f, ax = plt.subplots()
+    else:
+        f = None
+    bax = ax
+    # Bar plot
+    A = 0.05
+    N = len(is_changed)
+    SIG = np.sum(is_changed)
+    tp = np.array([np.sum((pval_df[name] <= A) & is_changed) 
+            for name in valid_labels])
+    fn = np.array([(SIG - tpn) for tpn in tp])
+    fp = np.array([np.sum((pval_df[name] <= A) & (1-is_changed)) 
+        for name in valid_labels])
+    tn = np.array([(N - SIG - fpn) for fpn in fp])
+
+    ind = np.arange(len(valid_labels))
+    WIDTH = 1.0
+    bax.bar(ind, tp, WIDTH, color='black')
+    bax.bar(ind, fn, WIDTH, bottom=tp, color='grey')
+    bax.bar(ind, fp, WIDTH, bottom=fn + tp, color='lightgray')
+    bax.bar(ind, tn, WIDTH, bottom=fp + fn + tp, color='white')
+
+    bax.set_xticks(ind + 0.5)
+    bax.set_xticklabels(valid_labels)
+
+    # TODO 
+    # https://matplotlib.org/examples/pylab_examples/broken_axis.html
+
+    return ax, f
 
 
 def extract_y_act_protein(protein_ids, is_changed):
@@ -358,45 +401,33 @@ def power_analysis(is_changed, pvals, alpha=0.05):
     """ Calculates the false detection rate and power of pvals
         at a given p-value threshold, and with adjustment
         
-        Returns (fdrs, powers, fdrs_adj, powers_adj)"""
+        Returns (fp, tp, fp_adj, tp_adj)"""
 
     pval_is_list = hasattr(pvals[0], '__iter__')
     if not pval_is_list:
         pvals = [p_val]
 
-    fdrs = []
-    powers = []
-    fdrs_adj = []
-    powers_adj = []
+    fps = []
+    tps = []
+    fps_adj = []
+    tps_adj = []
     for pval in pvals:
-        # FDR = false_positives / significant
-        if np.sum(pval <= alpha) > 0:
-            fdr = (float(np.sum(np.logical_not(is_changed) & (pval <= alpha))) /
-                    np.sum(pval <= alpha))
-        else:
-            fdr = 0.0
+        # False positives
+        fp = np.sum(np.logical_not(is_changed) & (pval <= alpha))
         # Power \approx true_positives / num_changed
-        power = (float(np.sum(is_changed & (pval <= alpha))) / 
-                np.sum(is_changed))
+        tp = np.sum(is_changed & (pval <= alpha))
 
-        # Adjust p-values using BH and repeats
+        # Adjust p-values using BH and repeat
         _, pval_adj, _, _ = multipletests(pval, alpha=alpha, method='fdr_bh')
-        # FDR = false_positives / significant
-        if np.sum(pval_adj <= alpha) > 0:
-            fdr_adj = float(np.sum(np.logical_not(is_changed) 
-                & (pval_adj <= alpha))) / np.sum(pval_adj <= alpha)
-        else:
-            fdr_adj = 0.0
-        # Power \approx true_positives / num_changed
-        power_adj = (float(np.sum(is_changed & (pval_adj <= alpha))) / 
-                np.sum(is_changed))
+        fp_adj = np.sum(np.logical_not(is_changed) & (pval_adj <= alpha))
+        tp_adj = np.sum(is_changed & (pval_adj <= alpha))
 
-        fdrs.append(fdr)
-        powers.append(power)
-        fdrs_adj.append(fdr_adj)
-        powers_adj.append(power_adj)
+        fps.append(fp)
+        tps.append(tp)
+        fps_adj.append(fp_adj)
+        tps_adj.append(tp_adj)
 
-    return (fdrs, powers, fdrs_adj, powers_adj)
+    return (fps, tps, fps_adj, tps_adj)
 
 
 def count_quadrants(pval, fc, is_changed, alpha=0.05):
@@ -542,14 +573,16 @@ For THU:
 
 
 FOR LATER: Show volcano plot - highlight true positive / negative
-    How high performers interact with fold change
-    One-sided, two-sided, and random
-    Do quick, no styling
+        - Real world data distribution
+    Separate out: uniform, inv gamma, nominal vs adjusted p
+    Also quantify the FPR and power for different fold changes
 
 Make sure all parameters are defined in the methods section
 Make panels for the figures we've already finalized
     Write up figure legend. Title, A, B, etc.
-Rerun simulations with fixed modT (for fc range)
+
+Flowchart for evaluating proteomic data
+    Tables for power analysis
 """
 
 
