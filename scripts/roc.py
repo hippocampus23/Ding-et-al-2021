@@ -173,7 +173,7 @@ def plot_pvalue_dist(pvals, axes=None):
     # TODO add labels
 
     # Don't plot fold change
-    valid_labels = list(pvals.columns)
+    valid_labels = sorted(list(pvals.columns))
     valid_labels.remove('fold change')
     m = len(valid_labels)
     if axes is None:
@@ -237,6 +237,7 @@ def volcano_plots(pval_df, ctrl, exp, is_changed, axes=None):
 
     return f
 
+
 def barplot_accuracy(pval_df, is_changed, ax=None):
     valid_labels = sorted(list(pval_df.columns))
     valid_labels.remove('fold change')
@@ -259,14 +260,15 @@ def barplot_accuracy(pval_df, is_changed, ax=None):
 
     ind = np.arange(len(valid_labels))
     WIDTH = 1.0
-    bax.bar(ind, tp, WIDTH, color='black')
-    bax.bar(ind, fn, WIDTH, bottom=tp, color='grey')
-    bax.bar(ind, fp, WIDTH, bottom=fn + tp, color='lightgray')
-    bax.bar(ind, tn, WIDTH, bottom=fp + fn + tp, color='white')
+    bax.bar(ind, tp, WIDTH, color='black', label='True Positives')
+    bax.bar(ind, fn, WIDTH, bottom=tp, color='grey', label='False Negatives')
+    bax.bar(ind, fp, WIDTH, bottom=fn + tp, color='lightgray', label='False Positives')
+    bax.bar(ind, tn, WIDTH, bottom=fp + fn + tp, color='white', label='True Negatives')
 
     bax.set_xticks(ind + 0.5)
     bax.set_xticklabels(valid_labels)
-
+    
+    bax.set_xticklabels(bax.xaxis.get_majorticklabels(), rotation=90)
     # TODO 
     # https://matplotlib.org/examples/pylab_examples/broken_axis.html
 

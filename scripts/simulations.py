@@ -798,7 +798,8 @@ def simulate_fdr_fc_range(fold_changes=np.arange(0.1, 1.6, 0.1), **kwargs):
     res = {}
     res_u = {}
 
-    labels = peptide_pval_labels(True)
+    labels = list(peptide_pval_labels(True))
+    labels.remove('fold change')
     res['_labels'] = labels
     res_u['_labels'] = labels
     
@@ -823,7 +824,8 @@ def simulate_fdr_variance(filename=None, **kwargs):
     fc = 1.0
 
     res = {}
-    labels = peptide_pval_labels()
+    labels = list(peptide_pval_labels(True))
+    labels.remove('fold change')
     res['_labels'] = labels
     DF = 3
     def t_dist(loc, scale, size=1):
@@ -858,7 +860,8 @@ def simulate_fdr_nexp(**kwargs):
     start = time.strftime(TIME_FORMAT)
     res = {}
     f = 0.5
-    labels = peptide_pval_labels(True)
+    labels = list(peptide_pval_labels(True))
+    labels.remove('fold change')
     res['_labels'] = labels
     
     for n in xrange(2, 11):
@@ -878,7 +881,8 @@ def simulate_fdr_nexp_imba(filename=None, **kwargs):
     if filename is None:
         filename = "tmp_peptide_fdr_nexp_imba_%s.npy" % start
     res = {}
-    labels = peptide_pval_labels(True)
+    labels = list(peptide_pval_labels(True))
+    labels.remove('fold change')
     res['_labels'] = labels
     f = 0.5
 

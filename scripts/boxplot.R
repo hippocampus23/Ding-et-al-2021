@@ -80,7 +80,7 @@ myColorsProtein <- c(
         tail(colors_, length(valid_labels) - N_PEP - N_PROT_PARALLEL)
 )
 names(myColorsProtein) <- as.character(valid_labels[(N_PEP+1):length(valid_labels)])
-colScale <- scale_colour_manual(c(myColorsPeptide, myColorsProtein))
+colScale <- c(myColorsPeptide, myColorsProtein)
 
 
 boxplot_results_auroc <- function(df, title="", xlab="Setting"){
@@ -156,17 +156,28 @@ lineplot_results_pauc <- function(df, title="", xlab="Setting") {
 }
 
 plot_fdr <- function(df, title="", xlab="Setting") {
+  N_SIG <- 1000
   # Drop t-test (1-sample) and modT (1-sample)
   df <- df[(as.character(df$labels) != 't-test (1-sample)')
            & (as.character(df$labels) !=  'ModT (1-sample)'),]
   df <- droplevels(df)
+  fdr_raw <- df$FP_raw / (df$FP_raw + df$TP_raw)
+  fdr_adj <- df$FP_adj / (df$FP_adj + df$TP_adj)
   # Melt dataframe
-  data <- melt(df, id.vars=c('setting', 'labels')) 
+  data <- melt(data.frame(
+            setting = df$setting,
+            labels = df$labels,
+            FDR_raw = fdr_raw,
+            FDR_adj = fdr_adj,
+            TPR_raw = df$TP_raw / N_SIG,
+            TPR_adj = df$TP_adj / N_SIG), 
+        id.vars=c('setting', 'labels')) 
+  data <- replace(data, is.na(data), 0)
 
   data.summary <- summarySE(data, 'value', c('setting', 'labels', 'variable'))
   # Reorder levels for more useful line types
   data.summary$variable <- factor(data.summary$variable,
-          levels(data.summary$variable)[c(4,3,2,1)])
+          levels(data.summary$variable)[c(4,2,3,1)])
   # Set alpha for raw p-values lower for emphasis
   setting_df <- as.data.frame(do.call(
         'rbind', strsplit(as.character(data.summary$variable), '_')))
@@ -181,10 +192,13 @@ plot_fdr <- function(df, title="", xlab="Setting") {
                    linetype=variable,
                    shape=variable,
                    alpha=alpha)) + 
-        geom_line(size=0.8) + geom_point(size=2) + 
-        scale_alpha(guide = FALSE, range = c(0.5, 1))
-        # guides(alpha=FALSE) +  # Remove alpha legend
-        labs(title=title, x=xlab, y='Count', color='Test', linetype='', shape='')
+        geom_line(size=0.8) + geom_point(size=3) + 
+        # TODO scale the size of the line and point for raw vs adj
+        scale_alpha(guide = FALSE, range = c(0.5, 1)) +
+        scale_linetype_manual(values=c(1, 2, 1, 2)) +
+        scale_shape_manual(values=c(16, 16, 15, 15)) +
+        guides(linetype=guide_legend(keywidth=4)) + 
+        labs(title=title, x=xlab, y='TPR/FDR', color='Test', linetype='', shape='')
 
   return(p1)
 }
@@ -199,7 +213,7 @@ plot_fdr <- function(df, title="", xlab="Setting") {
 ## order_lab: default NULL, order of labels for pretty display 
 ## save: TRUE to save plot, FALSE otherwise
 ## colors: color scale for levels. NULL for default colors
-read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, order_lab=NULL, filename="", save=TRUE, colors=colScale) {
+read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, order_lab=NULL, filename="", save=TRUE, colors=colScale, fill=NULL) {
   if (is.character(df_name) & length(df_name) == 1) {
     # Read dataframe
     # df <- read.csv(paste("data_simulated/", df_name, sep=""))
@@ -244,7 +258,10 @@ read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, 
   }
 
   if (!is.null(colors)) {
-    p <- p + colors
+    p <- p + scale_colour_manual(colors)
+  }
+  if (!is.null(fill)) {
+    p <- p + scale_fill_manual(colors)
   }
   
   # Name of file to save plot
@@ -281,6 +298,13 @@ plot_final <- function() {
   nexp_imba_fix <- read_data_and_plot(
       "FINAL_DATA/df_peptide_nexp_imba_modtfix_FINAL.csv",
       "", "(Number control, number experimental) channels", plot="pAUC", save=FALSE, colors=colScale)
+
+  fdr_fc_gam <- read_data_and_plot(
+      'data_simulated/peptide_fdr_fc_range_gam.csv',
+      "", "log2(FC)", plot='fdr', filename="", save=FALSE, colors=colScale)
+  fdr_fc_uni <- read_data_and_plot(
+      'data_simulated/peptide_fdr_fc_range_uni.csv',
+      "", "log2(FC)", plot='fdr', filename="", save=FALSE, colors=colScale)
 
   # Plot variance results
   # This needs subsetting + faceting to be maximally useful
@@ -331,8 +355,13 @@ plot_final <- function() {
   ggsave("FINAL_PLOTS/peptide_nexp_imba_FINAL.png", nexp_imba_fix,
         width=12.80, height=7.20, dpi=100)
   ggsave("FINAL_PLOTS/peptide_var_FINAL.png", var,
-        width=12.80, height=7.20, dpi=100)
+        width=12.80, height=12.80, dpi=100)
   ggsave("FINAL_PLOTS/peptide_ds_size_FINAL.png", ds_size,
+        width=12.80, height=7.20, dpi=100)
+
+  ggsave("FINAL_PLOTS/peptide_fdr_fc_range_gam_FINAL.png", fdr_fc_gam,
+        width=12.80, height=7.20, dpi=100)
+  ggsave("FINAL_PLOTS/peptide_fdr_fc_range_uni_FINAL.png", fdr_fc_uni,
         width=12.80, height=7.20, dpi=100)
 }
 
@@ -344,7 +373,6 @@ plot_names <- list(
     c("df_nexp.csv", "Number of channels varies", "Number of channels"),
     c("df_random_fc.csv", "Fold change is randomly distributed", "Variance model"),
     c("df_var.csv", "Fixed fold change", "Variance model"),
-
     c("df_compare_one_two_sided.csv", "One vs two sided fold change", "Fold change"),
     c("df_with_without_central_fc.csv", "Normally distributed FC, with and without central variation")
 )

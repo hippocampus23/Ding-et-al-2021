@@ -4,7 +4,7 @@ sys.dont_write_bytecode = True  # Avoid caching problems
 import matplotlib
 import matplotlib.pyplot as plt
 
-from constants import COLORS
+from constants import COLORS, LABEL_MAPPING
 from format_results import *
 from roc import *
 from sample import *
@@ -111,6 +111,39 @@ def volcano_multipanel(background="U"):
 
     return f
 
+
+def barplot_multipanel(background='U'):
+    f, axarr = plt.subplots(1, 2, sharey='row')
+
+    if background == "U":
+        sampler = sample_no_ctrl_uniform
+    elif background == "G":
+        sampler = sample_no_ctrl_gamma
+    else:
+        raise ValueError("Invalid specification for background")
+
+    ctrl, exp, is_changed = sampler(10000, 1000, 0.5)
+    pvals = do_stat_tests(ctrl, exp, True)
+
+    pvals_a = pd.DataFrame.from_items([
+        (col, multipletests(pvals[col], 0.05, method='fdr_bh')[1])
+        for col in pvals.columns
+    ])
+
+    barplot_accuracy(pvals, is_changed, axarr[0])
+    barplot_accuracy(pvals_a, is_changed, axarr[1])
+    axarr[0].set_ylabel('Count')
+    axarr[0].set_title('Raw p-values')
+    axarr[1].set_title('BH adjusted')
+
+    # Add legend
+    # plt.legend((p1[0], p2[0]), ('Men', 'Women'))
+    handles, labels = axarr[1].get_legend_handles_labels()
+    # Map labels for pretty printing
+    plt.figlegend(handles, labels, loc='upper center', ncol=2)
+
+    return f
+
 """
 Transform results of variance AUC dictionary to more readable/usable ones
 """
@@ -158,12 +191,21 @@ def regenerate_dataframes():
     var = np.load('peptide_variances_FINAL.npy')[()]
     ds_size = np.load('peptide_ds_size_FINAL.npy')[()]
 
+    fdr_fc_gam = np.load('peptide_fdr_fc_gam_FINAL.npy')[()]
+    fdr_fc_uni = np.load('peptide_fdr_fc_uni_FINAL.npy')[()]
+
     # fix nexp_imba keys
     nexp_imba = {(('(%d,%d)' % k) if k != '_labels' else k):v for
             k,v in nexp_imba.iteritems()}
     # Fix ds_size keys
     ds_size = {(('%d: %d' % k) if k != '_labels' else k):v for 
             k,v in ds_size.iteritems()}
+
+    # Remove fold change from fdr labels
+    fdr_fc_gam['_labels'] = list(fdr_fc_gam['_labels'])
+    fdr_fc_gam['_labels'].remove('fold change') 
+    fdr_fc_uni['_labels'] = list(fdr_fc_uni['_labels'])
+    fdr_fc_uni['_labels'].remove('fold change') 
     
     write_result_dict_to_df(fc_range_gam, None).to_csv(
             'df_peptide_fc_range_gam_FINAL.csv')
@@ -177,6 +219,11 @@ def regenerate_dataframes():
             'df_peptide_variances_FINAL.csv')
     write_result_dict_to_df(ds_size, None).to_csv(
             'df_peptide_dataset_size_FINAL.csv')
+
+    write_result_dict_to_df(fdr_fc_gam, None, fdr=True).to_csv(
+            'df_peptide_fdr_fc_gam_FINAL.csv')
+    write_result_dict_to_df(fdr_fc_uni, None, fdr=True).to_csv(
+            'df_peptide_fdr_fc_uni_FINAL.csv')
 
 
 
