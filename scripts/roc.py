@@ -166,11 +166,8 @@ def plot_both(y_act, p_vals, labels, title='', is_pval=True, colors=None, **kwar
 
 def plot_pvalue_dist(pvals, axes=None):
     """
-    Pvals should be df
+    Pvals should be a Pandas dataframe
     """
-    # Plot histogram for this.
-    # log-log pvalue plot to focus on smallest p values
-    # TODO add labels
 
     # Don't plot fold change
     valid_labels = sorted(list(pvals.columns))
@@ -192,7 +189,7 @@ def plot_pvalue_dist(pvals, axes=None):
 
         _, _, rects = ax.hist(pvals[name], bins=20, range=(0,1), normed=True, alpha=0.5)
         ax.plot([0, 1], [1, 1], color='grey', lw=1, linestyle='--')
-        ax.set_title(name)
+        ax.set_title(name if name not in LABEL_MAPPING else LABEL_MAPPING[name])
         ax.set_xlabel('p-value')
         # exp_pvals = (np.argsort(np.argsort(pval)) + 0.5) / (len(pval) + 1)
         # lax.scatter(exp_pvals, pval)
@@ -453,29 +450,6 @@ def count_quadrants(pval, fc, is_changed, alpha=0.05):
 
     return (tp_sig_sig, fp_sig_sig, tp_sig_nsig, fp_sig_nsig,
             tp_nsig_sig, fp_nsig_sig, tp_nsig_nsig, fp_nsig_nsig)
-
-
-def density_scatter(data, ax=None):
-    """
-    Scatterplot of variance vs log2 mean intensity
-    """
-    x = np.mean(data.values, axis=1)
-    y = np.var(data.values, axis=1)
-    xy = np.vstack([x,y])
-
-    z = gaussian_kde(xy)(xy)
-    # Sort the points by density, so that the densest points are plotted last
-    idx = z.argsort()
-    x, y, z = x[idx], y[idx], z[idx]
-
-    if ax is None:
-        fig, ax = plt.subplots()
-    ax.scatter(x, y, c=z, s=10, edgecolor='')
-    ax.set_ylim(bottom=0)
-    ax.set_ylabel("Variance")
-    ax.set_xlabel("$log_2$ mean intensity")
-
-    return ax
 
 
 def set_fontsize(ax, title=30, axis=20, tick=15):

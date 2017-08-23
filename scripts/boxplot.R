@@ -1,5 +1,5 @@
 library(ggplot2)
-library(RColorBrewer)
+# library(RColorBrewer)
 library(reshape2)
 
 ## Summarizes data.
@@ -65,22 +65,26 @@ summarySE <- function(data, measurevar, groupvars, na.rm=FALSE,
 
 # Mapping for settings
 # See format_results.py for original
-LABEL_MAPPING = data.frame(label=c('CyberT', 'ModT (1-sample)', 'ModT (2-sample)', 'Fold Change', 'Fold Change', 't-test (2-sample)', 't-test (1-sample)', 't-test (1-sample)', 'Median intensity absolute fold change', 'Median intensity ModT', 'Median intensity CyberT', 'Median intensity t-test', 'Weighted least squares', 'CyberT by peptide', 't-test by peptide'), stringsAsFactors=FALSE)
+LABEL_MAPPING = data.frame(label=c('CyberT', 'ModT (1-sample)', 'ModT (2-sample)', 'Absolute Fold Change', 'Absolute Fold Change', 't-test (2-sample)', 't-test (1-sample)', 't-test (1-sample)', 'Median intensity absolute fold change', 'Median intensity ModT', 'Median intensity CyberT', 'Median intensity t-test', 'Weighted least squares', 'CyberT by peptide', 't-test by peptide'), stringsAsFactors=FALSE)
 rownames(LABEL_MAPPING) <- c('cyberT', 'modT', 'modT (2-sample)', 'fold change', 'fold_change', 't-test', 't-test (1-sample)', 't test (1-sample)', 'fold_change_med', 'modT_PVal_med', 'cyberT_PVal_med', 'ttest_PVal_med', 'wls', 'cyberT_bypep', 'ttest_bypep')
 # Set up custom color map
 # TODO make this more readable by manually defining a color sequence
-colors_ = brewer.pal(12, "Set3")
-valid_labels = unique(LABEL_MAPPING$label)
-N_PEP = 6
-N_PROT_PARALLEL = 4
-myColorsPeptide <- colors_[1:N_PEP]
-names(myColorsPeptide) <- as.character(valid_labels[1:N_PEP])
-myColorsProtein <- c(
-        colors_[1:N_PROT_PARALLEL],
-        tail(colors_, length(valid_labels) - N_PEP - N_PROT_PARALLEL)
-)
-names(myColorsProtein) <- as.character(valid_labels[(N_PEP+1):length(valid_labels)])
-colScale <- c(myColorsPeptide, myColorsProtein)
+  valid_labels = unique(LABEL_MAPPING$label)
+  N_PEP = 6
+  N_PROT_PARALLEL = 4
+if (FALSE) {
+  colors_ = brewer.pal(9, "Set1")
+  myColorsPeptide <- colors_[1:N_PEP]
+  names(myColorsPeptide) <- as.character(valid_labels[1:N_PEP])
+  myColorsProtein <- c(
+          colors_[1:N_PROT_PARALLEL],
+          tail(colors_, length(valid_labels) - N_PEP - N_PROT_PARALLEL)
+  )
+  names(myColorsProtein) <- as.character(valid_labels[(N_PEP+1):length(valid_labels)])
+  colScale <- c(myColorsPeptide, myColorsProtein)
+}
+colScale <- hcl(h = seq(15, 375, length = N_PEP + 1), l = 65, c = 100)[1:N_PEP]
+names(colScale) <- valid_labels[1:N_PEP]
 
 
 boxplot_results_auroc <- function(df, title="", xlab="Setting"){
@@ -213,7 +217,7 @@ plot_fdr <- function(df, title="", xlab="Setting") {
 ## order_lab: default NULL, order of labels for pretty display 
 ## save: TRUE to save plot, FALSE otherwise
 ## colors: color scale for levels. NULL for default colors
-read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, order_lab=NULL, filename="", save=TRUE, colors=colScale, fill=NULL) {
+read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, order_lab=NULL, filename="", save=TRUE, colors=colScale, fill=colScale) {
   if (is.character(df_name) & length(df_name) == 1) {
     # Read dataframe
     # df <- read.csv(paste("data_simulated/", df_name, sep=""))
@@ -258,16 +262,18 @@ read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, 
   }
 
   if (!is.null(colors)) {
-    p <- p + scale_colour_manual(colors)
+    p <- p + scale_colour_manual(values=colors)
   }
   if (!is.null(fill)) {
-    p <- p + scale_fill_manual(colors)
+    p <- p + scale_fill_manual(values=colors)
   }
   
   # Name of file to save plot
   if (save) {
-    ggsave(paste("simulated_plots/boxplots/AUTO", filename,
-                 paste(plot,".png", sep=""), sep="_"),
+    ggsave(
+        # paste("simulated_plots/boxplots/AUTO", filename,
+        #          paste(plot,".png", sep=""), sep="_"),
+        filename,
         p,
         width=12.80,
         height=7.20,
@@ -281,8 +287,51 @@ replot_all <- function(plot_names) {
 }
 
 
+### GENERATE FINAL FIGURES ###
+
+plots <- list()
+
+plots$transform_var <- function(var_df, plot='pAUC') {
+  # Split out setting into background, noise, number
+  setting_df <- as.data.frame(do.call(
+        'rbind', strsplit(as.character(var_df$setting), '_')))
+  colnames(setting_df) <- c('background', 'noise', 'setting')
+  # Pretty print settings, map abbreviations to full description
+  background_map <- setNames(c('Inverse ~ Gamma', 'Uniform'),c('invgam', 'uniform'))
+  pretty_label_map <- setNames(c('beta', 'sigma^2'),c('invgam', 'uniform'))
+  noise_map <- setNames(c('Gaussian', 'Laplacian', 'Scaled ~ t'), c('norm', 'lap', 't'))
+  setting_df$pretty_label <- pretty_label_map[setting_df$background]
+  setting_df$background <- background_map[setting_df$background]
+  setting_df$noise <- noise_map[setting_df$noise]
+  # Add columns to original DF
+  var_df$setting <- NULL
+  var_plot_df <- cbind(var_df, setting_df)
+  # Now plot, placing the numerical variance value on the x-axis
+  var <- read_data_and_plot(var_plot_df, "", "Variance", save=FALSE, colors=colScale, plot=plot)
+  var <- var + facet_grid(noise ~ background + pretty_label, scales='free',
+                          switch='x', labeller=label_parsed)
+  return(var)
+}
+
+
+plots$transform_ds_size <- function(ds_size_df, plot='pAUC') {
+  # Split out setting into size and fraction
+  setting_df <- as.data.frame(do.call(
+        'rbind', strsplit(ds_size_df$setting, ': ')))
+  colnames(setting_df) <- c('size', 'setting')
+  setting_df$setting <- as.numeric(setting_df$setting)
+  # setting_df$setting <- as.numeric(unlist(lapply(
+  #       as.character(setting_df$setting), function(x) strsplit(x," ")[[1]][1])))
+  ds_size_df$setting <- NULL
+  ds_size_plot_df <- cbind(ds_size_df, setting_df)
+  ds_size <- read_data_and_plot(ds_size_plot_df, "", "Number of peptides changed",
+                                save=FALSE, colors=colScale, plot=plot)
+  ds_size <- ds_size + facet_grid(. ~ size, scales='free_x') + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  return(ds_size)
+}
+
 # Code for regenerating the final set of plots for the paper
-plot_final <- function() {
+plots$plot_final <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=26))
   # FC range for uniform and gamma distributions 
@@ -299,91 +348,89 @@ plot_final <- function() {
       "FINAL_DATA/df_peptide_nexp_imba_modtfix_FINAL.csv",
       "", "(Number control, number experimental) channels", plot="pAUC", save=FALSE, colors=colScale)
 
+  fdr_fc_gam_df <- read.csv('data_simulated/peptide_fdr_fc_range_gam.csv')
   fdr_fc_gam <- read_data_and_plot(
-      'data_simulated/peptide_fdr_fc_range_gam.csv',
+      fdr_fc_gam_df[as.numeric(fdr_fc_gam_df$setting) <= 1.0,],
       "", "log2(FC)", plot='fdr', filename="", save=FALSE, colors=colScale)
+  fdr_fc_uni_df <- read.csv('data_simulated/peptide_fdr_fc_range_uni.csv')
   fdr_fc_uni <- read_data_and_plot(
-      'data_simulated/peptide_fdr_fc_range_uni.csv',
+      fdr_fc_uni_df[as.numeric(fdr_fc_uni_df$setting) <= 1.0,],
       "", "log2(FC)", plot='fdr', filename="", save=FALSE, colors=colScale)
 
   # Plot variance results
   # This needs subsetting + faceting to be maximally useful
-  var_df <- read.csv('FINAL_DATA/df_peptide_variances_FINAL.csv')
-  # Split out setting into background, noise, number
-  setting_df <- as.data.frame(do.call(
-        'rbind', strsplit(as.character(var_df$setting), '_')))
-  colnames(setting_df) <- c('background', 'noise', 'setting')
-  # Pretty print settings, map abbreviations to full description
-  background_map <- setNames(c('Inverse ~ Gamma', 'Uniform'),c('invgam', 'uniform'))
-  pretty_label_map <- setNames(c('beta', 'sigma^2'),c('invgam', 'uniform'))
-  noise_map <- setNames(c('Gaussian', 'Laplacian', 'Scaled ~ t'), c('norm', 'lap', 't'))
-  setting_df$pretty_label <- pretty_label_map[setting_df$background]
-  setting_df$background <- background_map[setting_df$background]
-  setting_df$noise <- noise_map[setting_df$noise]
-  # Add columns to original DF
-  var_df$setting <- NULL
-  var_plot_df <- cbind(var_df, setting_df)
-  # Now plot, placing the numerical variance value on the x-axis
-  var <- read_data_and_plot(var_plot_df, "", "Variance", save=FALSE, colors=colScale)
-  var <- var + facet_grid(noise ~ background + pretty_label, scales='free',
-                          switch='x', labeller=label_parsed)
-
+  var <- plots$transform_var(
+      read.csv('FINAL_DATA/df_peptide_variances_FINAL.csv'),
+      plot='pAUC')
   # Plot size of dataset results
   # This also needs facetting
-  ds_size_df <- read.csv('FINAL_DATA/df_peptide_dataset_size_FINAL.csv',
-                         stringsAsFactors=FALSE)
-  # Split out setting into size and fraction
-  setting_df <- as.data.frame(do.call(
-        'rbind', strsplit(ds_size_df$setting, ': ')))
-  colnames(setting_df) <- c('size', 'setting')
-  setting_df$setting <- as.numeric(setting_df$setting)
-  # setting_df$setting <- as.numeric(unlist(lapply(
-  #       as.character(setting_df$setting), function(x) strsplit(x," ")[[1]][1])))
-  ds_size_df$setting <- NULL
-  ds_size_plot_df <- cbind(ds_size_df, setting_df)
-  ds_size <- read_data_and_plot(ds_size_plot_df, "", "Number of peptides changed",
-                                save=FALSE, colors=colScale)
-  ds_size <- ds_size + facet_grid(. ~ size, scales='free_x') + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  ds_size <- plots$transform_ds_size(
+      read.csv('FINAL_DATA/df_peptide_dataset_size_FINAL.csv',
+          stringsAsFactors=FALSE),
+      plot='pAUC')
+
 
   # Save plots
-  ggsave("FINAL_PLOTS/peptide_fc_range_gam_FINAL.png", fc_range_gam,
+  ggsave("FINAL_PLOTS/3B.eps", fc_range_gam,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/peptide_fc_range_uni_FINAL.png", fc_range_uni,
+  ggsave("FINAL_PLOTS/3D.eps", fc_range_uni,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/peptide_nexp_FINAL.png", nexp_fix,
+  ggsave("FINAL_PLOTS/5B.eps", nexp_fix,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/peptide_nexp_imba_FINAL.png", nexp_imba_fix,
+  ggsave("FINAL_PLOTS/5C.eps", nexp_imba_fix,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/peptide_var_FINAL.png", var,
+  ggsave("FINAL_PLOTS/6B.eps", var,
         width=12.80, height=12.80, dpi=100)
-  ggsave("FINAL_PLOTS/peptide_ds_size_FINAL.png", ds_size,
+  ggsave("FINAL_PLOTS/S2B.eps", ds_size,
         width=12.80, height=7.20, dpi=100)
 
-  ggsave("FINAL_PLOTS/peptide_fdr_fc_range_gam_FINAL.png", fdr_fc_gam,
+  ggsave("FINAL_PLOTS/4B.eps", fdr_fc_gam,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/peptide_fdr_fc_range_uni_FINAL.png", fdr_fc_uni,
+  ggsave("FINAL_PLOTS/4D.eps", fdr_fc_uni,
         width=12.80, height=7.20, dpi=100)
 }
 
+plots$plot_supplementary <- function() {
+  # S3
+  # Fold change range AUROC and AUPRC
+  fc_range_uni_df <- read.csv('FINAL_DATA/df_peptide_fc_range_uni_FINAL.csv')
+  fc_range_gam_df <- read.csv('FINAL_DATA/df_peptide_fc_range_gam_FINAL.csv')
+  fc_range_uni <- read_data_and_plot(
+      fc_range_uni_df, "S3A", "log2(FC)", plot="AUROC",
+      filename="FINAL_PLOTS/supp/S3A.eps", save=TRUE, colors=colScale)
+  fc_range_uni <- read_data_and_plot(
+      fc_range_uni_df, "S3B", "log2(FC)", plot="AUPRC",
+      filename="FINAL_PLOTS/supp/S3B.eps", save=TRUE, colors=colScale)
+  fc_range_gam <- read_data_and_plot(
+      fc_range_gam_df, "S3C", "log2(FC)", plot="AUROC",
+      filename="FINAL_PLOTS/supp/S3C.eps", save=TRUE, colors=colScale)
+  fc_range_gam <- read_data_and_plot(
+      fc_range_gam_df, "S3D", "log2(FC)", plot="AUPRC",
+      filename="FINAL_PLOTS/supp/S3D.eps", save=TRUE, colors=colScale)
 
-plot_names <- list(
-    c("df_inv_gam_lap.csv", "Fold change varies, inverse gamma background, Laplacian noise", "log2(fold change)"),
-    c("df_inv_gam_norm.csv", "Fold change varies, inverse gamma background, normal noise", "log2(fold change)"),
-    c("df_uni_lap.csv", "Fold change varies, uniform background, Laplacian noise", "log2(fold change)"),
-    c("df_nexp.csv", "Number of channels varies", "Number of channels"),
-    c("df_random_fc.csv", "Fold change is randomly distributed", "Variance model"),
-    c("df_var.csv", "Fixed fold change", "Variance model"),
-    c("df_compare_one_two_sided.csv", "One vs two sided fold change", "Fold change"),
-    c("df_with_without_central_fc.csv", "Normally distributed FC, with and without central variation")
-)
+  # S4
+  # Fold change range AUROC and AUPRC
+  fc_nexp <- read.csv('FINAL_DATA/df_peptide_nexp_modtfix_FINAL.csv')
+  fc_nexp_imba <- read.csv('FINAL_DATA/df_peptide_nexp_imba_modtfix_FINAL.csv')
+  tmp <- read_data_and_plot(
+      fc_nexp, 'S4A', 'Number of Channels', plot='AUROC',
+      filename='FINAL_PLOTS/supp/S4A.eps', save=TRUE, colors=colScale)
+  tmp <- read_data_and_plot(
+      fc_nexp, 'S4B', '(Number control, number experimental) channels', plot='AUPRC',
+      filename='FINAL_PLOTS/supp/S4B.eps', save=TRUE, colors=colScale)
+  tmp <- read_data_and_plot(
+      fc_nexp_imba, 'S4C', 'Number of Channels', plot='AUROC',
+      filename='FINAL_PLOTS/supp/S4C.eps', save=TRUE, colors=colScale)
+  tmp <- read_data_and_plot(
+      fc_nexp_imba, 'S4D', '(Number control, number experimental) channels', plot='AUPRC',
+      filename='FINAL_PLOTS/supp/S4D.eps', save=TRUE, colors=colScale)
 
-plot_protein_names <- list(
-    c("df_prot_fc_range_uni_2.csv", "Fold change varies, 2 peptides, uniform background", "log2(fold_change)"),
-    c("df_prot_fc_range_uni_4.csv", "Fold change varies, 4 peptides, uniform background", "log2(fold_change)"),
-    c("df_prot_fc_range_gam_2.csv", "Fold change varies, 2 peptides, Inv Gam background", "log2(fold_change)"),
-    c("df_prot_fc_range_gam_4.csv", "Fold change varies, 4 peptides, Inv Gam background", "log2(fold_change)"),
-    c("df_prot_num_peps.csv", "Number of peptides varies, log2(FC)=0.3", "Variance and peptide count")
-)
+  var_df <- read.csv('FINAL_DATA/df_peptide_variances_FINAL.csv')
+  ggsave("FINAL_PLOTS/supp/S5A.eps", plots$transform_var(var_df, plot='AUROC'),
+        width=12.80, height=12.80, dpi=100)
+  ggsave("FINAL_PLOTS/supp/S5B.eps", plots$transform_var(var_df, plot='AUPRC'),
+        width=12.80, height=12.80, dpi=100)
+}
 
 # Ordering function
 # order(as.double(lapply(strsplit(as.character(x), '<'), function(l) l[1])))
