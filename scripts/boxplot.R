@@ -348,11 +348,11 @@ plots$plot_final <- function() {
       "FINAL_DATA/df_peptide_nexp_imba_modtfix_FINAL.csv",
       "", "(Number control, number experimental) channels", plot="pAUC", save=FALSE, colors=colScale)
 
-  fdr_fc_gam_df <- read.csv('data_simulated/peptide_fdr_fc_range_gam.csv')
+  fdr_fc_gam_df <- read.csv('FINAL_DATA/df_peptide_fdr_fc_gam_FINAL.csv')
   fdr_fc_gam <- read_data_and_plot(
       fdr_fc_gam_df[as.numeric(fdr_fc_gam_df$setting) <= 1.0,],
       "", "log2(FC)", plot='fdr', filename="", save=FALSE, colors=colScale)
-  fdr_fc_uni_df <- read.csv('data_simulated/peptide_fdr_fc_range_uni.csv')
+  fdr_fc_uni_df <- read.csv('FINAL_DATA/df_peptide_fdr_fc_uni_FINAL.csv')
   fdr_fc_uni <- read_data_and_plot(
       fdr_fc_uni_df[as.numeric(fdr_fc_uni_df$setting) <= 1.0,],
       "", "log2(FC)", plot='fdr', filename="", save=FALSE, colors=colScale)
@@ -362,31 +362,22 @@ plots$plot_final <- function() {
   var <- plots$transform_var(
       read.csv('FINAL_DATA/df_peptide_variances_FINAL.csv'),
       plot='pAUC')
-  # Plot size of dataset results
-  # This also needs facetting
-  ds_size <- plots$transform_ds_size(
-      read.csv('FINAL_DATA/df_peptide_dataset_size_FINAL.csv',
-          stringsAsFactors=FALSE),
-      plot='pAUC')
-
 
   # Save plots
-  ggsave("FINAL_PLOTS/3B.eps", fc_range_gam,
+  ggsave("FINAL_PLOTS/3B.png", fc_range_gam,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/3D.eps", fc_range_uni,
+  ggsave("FINAL_PLOTS/3D.png", fc_range_uni,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/5B.eps", nexp_fix,
+  ggsave("FINAL_PLOTS/5B.png", nexp_fix,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/5C.eps", nexp_imba_fix,
+  ggsave("FINAL_PLOTS/5C.png", nexp_imba_fix,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/6B.eps", var,
+  ggsave("FINAL_PLOTS/6B.png", var,
         width=12.80, height=12.80, dpi=100)
-  ggsave("FINAL_PLOTS/S2B.eps", ds_size,
-        width=12.80, height=7.20, dpi=100)
 
-  ggsave("FINAL_PLOTS/4B.eps", fdr_fc_gam,
+  ggsave("FINAL_PLOTS/4B.png", fdr_fc_gam,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/4D.eps", fdr_fc_uni,
+  ggsave("FINAL_PLOTS/4D.png", fdr_fc_uni,
         width=12.80, height=7.20, dpi=100)
 }
 
@@ -430,6 +421,15 @@ plots$plot_supplementary <- function() {
         width=12.80, height=12.80, dpi=100)
   ggsave("FINAL_PLOTS/supp/S5B.eps", plots$transform_var(var_df, plot='AUPRC'),
         width=12.80, height=12.80, dpi=100)
+
+  # Plot size of dataset results
+  # This also needs facetting
+  ds_size <- plots$transform_ds_size(
+      read.csv('FINAL_DATA/df_peptide_dataset_size_FINAL.csv',
+          stringsAsFactors=FALSE),
+      plot='pAUC')
+  ggsave("FINAL_PLOTS/supp/S2B.png", ds_size,
+        width=12.80, height=7.20, dpi=100)
 }
 
 # Ordering function
