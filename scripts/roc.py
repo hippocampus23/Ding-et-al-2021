@@ -114,13 +114,13 @@ def plot_partial_auc(y_act, pred, fdr=0.05, ax=None, is_pval=True, label='Area '
     return AUC, ax, f
 
 
-def plot_both(y_act, p_vals, labels, title='', is_pval=True, colors=None, **kwargs):
+def plot_both(y_act, p_vals, title='', is_pval=True, colors=None, **kwargs):
     """
     Plots comparison of multiple methods
     
     Args:
         y_act: actual labels (vector of ones and zeros, n x 1)
-        p_vals: predicted labels (list of vectors of nonnegative pvalues, smaller more significant, k x n)
+        p_vals: pandas df of pvalues to plot
             If any p_vals are None, the entry is skipped. TODO handle this better
         labels: list of strings for legend, k x 1)
         title: optional, string for figur title
@@ -140,7 +140,10 @@ def plot_both(y_act, p_vals, labels, title='', is_pval=True, colors=None, **kwar
     if isinstance(is_pval, bool):
         is_pval = [is_pval] * len(p_vals)
 
-    for i, p_val in enumerate(p_vals):
+    labels = sorted(list(p_vals.columns))
+    for i, lbl in enumerate(labels):
+        p_val = p_vals[lbl]
+
         if p_val is None:
             continue  # TODO handle this better
         if colors is not None:
@@ -148,8 +151,8 @@ def plot_both(y_act, p_vals, labels, title='', is_pval=True, colors=None, **kwar
         else:
             c = None
 
-        plot_roc(y_act, p_val, ax=axarr[0], label=labels[i], is_pval=is_pval[i], color=c)
-        plot_partial_auc(y_act, p_val, ax=axarr[1], label=labels[i], fdr=0.05, is_pval=is_pval[i], color=c)
+        plot_roc(y_act, p_val, ax=axarr[0], label=lbl, is_pval=is_pval[i], color=c)
+        plot_partial_auc(y_act, p_val, ax=axarr[1], label=lbl, fdr=0.05, is_pval=is_pval[i], color=c)
         # Shaded block on roc plot to indicate area of pAUC plot
         axarr[0].add_patch(
                 patches.Rectangle(
@@ -160,7 +163,7 @@ def plot_both(y_act, p_vals, labels, title='', is_pval=True, colors=None, **kwar
                     color='grey',
                     edgecolor=None
         ))
-        # plot_prc(y_act, p_val, ax=axarr[1], label=labels[i], **kwargs)
+        # plot_prc(y_act, p_val, ax=axarr[1], label=lbl, **kwargs)
 
     return f, axarr
 
@@ -168,10 +171,7 @@ def plot_pvalue_dist(pvals, axes=None):
     """
     Pvals should be a Pandas dataframe
     """
-
-    # Don't plot fold change
     valid_labels = sorted(list(pvals.columns))
-    valid_labels.remove('fold change')
     m = len(valid_labels)
     if axes is None:
         f, axes = plt.subplots(1, m, sharey='row', squeeze=True)
@@ -204,9 +204,7 @@ def plot_pvalue_dist(pvals, axes=None):
 
 
 def volcano_plots(pval_df, ctrl, exp, is_changed, axes=None):
-    # Don't plot fold change
     valid_labels = sorted(list(pval_df.columns))
-    valid_labels.remove('fold change')
     m = len(valid_labels)
     if axes is None:
         f, axes = plt.subplots(1, m, sharey='row', squeeze=True)
@@ -236,8 +234,10 @@ def volcano_plots(pval_df, ctrl, exp, is_changed, axes=None):
 
 
 def barplot_accuracy(pval_df, is_changed, ax=None):
+    """ Creates stacked barplots comparing the TP, FP, TN, and FN
+        of each method in the pval_df
+    """
     valid_labels = sorted(list(pval_df.columns))
-    valid_labels.remove('fold change')
 
     if ax is None:
         f, ax = plt.subplots()

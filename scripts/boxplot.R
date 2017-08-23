@@ -331,7 +331,12 @@ plots$transform_ds_size <- function(ds_size_df, plot='pAUC') {
 }
 
 # Code for regenerating the final set of plots for the paper
-plots$plot_final <- function() {
+plots$plot_final <- function(eps=FALSE) {
+  if (eps) {
+    ext <- 'eps'
+  } else {
+    ext <- 'png'
+  }
   # Set font size and theme
   theme_set(theme_bw(base_size=26))
   # FC range for uniform and gamma distributions 
@@ -351,11 +356,11 @@ plots$plot_final <- function() {
   fdr_fc_gam_df <- read.csv('FINAL_DATA/df_peptide_fdr_fc_gam_FINAL.csv')
   fdr_fc_gam <- read_data_and_plot(
       fdr_fc_gam_df[as.numeric(fdr_fc_gam_df$setting) <= 1.0,],
-      "", "log2(FC)", plot='fdr', filename="", save=FALSE, colors=colScale)
+      "4E", "log2(FC)", plot='fdr', filename="", save=FALSE, colors=colScale)
   fdr_fc_uni_df <- read.csv('FINAL_DATA/df_peptide_fdr_fc_uni_FINAL.csv')
   fdr_fc_uni <- read_data_and_plot(
       fdr_fc_uni_df[as.numeric(fdr_fc_uni_df$setting) <= 1.0,],
-      "", "log2(FC)", plot='fdr', filename="", save=FALSE, colors=colScale)
+      "4J", "log2(FC)", plot='fdr', filename="", save=FALSE, colors=colScale)
 
   # Plot variance results
   # This needs subsetting + faceting to be maximally useful
@@ -364,40 +369,49 @@ plots$plot_final <- function() {
       plot='pAUC')
 
   # Save plots
-  ggsave("FINAL_PLOTS/3B.png", fc_range_gam,
+  ggsave(paste("FINAL_PLOTS/3B",ext,sep='.'), fc_range_gam,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/3D.png", fc_range_uni,
+  ggsave(paste("FINAL_PLOTS/3D",ext,sep='.'), fc_range_uni,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/5B.png", nexp_fix,
+  ggsave(paste("FINAL_PLOTS/5B",ext,sep='.'), nexp_fix,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/5C.png", nexp_imba_fix,
+  ggsave(paste("FINAL_PLOTS/5C",ext,sep='.'), nexp_imba_fix,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/6B.png", var,
+  ggsave(paste("FINAL_PLOTS/6B",ext,sep='.'), var,
         width=12.80, height=12.80, dpi=100)
 
-  ggsave("FINAL_PLOTS/4B.png", fdr_fc_gam,
+  ggsave(paste("FINAL_PLOTS/4E",ext,sep='.'), fdr_fc_gam,
         width=12.80, height=7.20, dpi=100)
-  ggsave("FINAL_PLOTS/4D.png", fdr_fc_uni,
+  ggsave(paste("FINAL_PLOTS/4J",ext,sep='.'), fdr_fc_uni,
         width=12.80, height=7.20, dpi=100)
 }
 
 plots$plot_supplementary <- function() {
-  # S3
+  if (eps) {
+    ext <- 'eps'
+  } else {
+    ext <- 'png'
+  }
+  # Figure S3
   # Fold change range AUROC and AUPRC
   fc_range_uni_df <- read.csv('FINAL_DATA/df_peptide_fc_range_uni_FINAL.csv')
   fc_range_gam_df <- read.csv('FINAL_DATA/df_peptide_fc_range_gam_FINAL.csv')
   fc_range_uni <- read_data_and_plot(
       fc_range_uni_df, "S3A", "log2(FC)", plot="AUROC",
-      filename="FINAL_PLOTS/supp/S3A.eps", save=TRUE, colors=colScale)
+      filename=paste("FINAL_PLOTS/supp/S3A",ext,sep='.'),
+      save=TRUE, colors=colScale)
   fc_range_uni <- read_data_and_plot(
       fc_range_uni_df, "S3B", "log2(FC)", plot="AUPRC",
-      filename="FINAL_PLOTS/supp/S3B.eps", save=TRUE, colors=colScale)
+      filename=paste("FINAL_PLOTS/supp/S3B",ext,sep='.'),
+      save=TRUE, colors=colScale)
   fc_range_gam <- read_data_and_plot(
       fc_range_gam_df, "S3C", "log2(FC)", plot="AUROC",
-      filename="FINAL_PLOTS/supp/S3C.eps", save=TRUE, colors=colScale)
+      filename=paste("FINAL_PLOTS/supp/S3C",ext,sep='.'),
+      save=TRUE, colors=colScale)
   fc_range_gam <- read_data_and_plot(
       fc_range_gam_df, "S3D", "log2(FC)", plot="AUPRC",
-      filename="FINAL_PLOTS/supp/S3D.eps", save=TRUE, colors=colScale)
+      filename=paste("FINAL_PLOTS/supp/S3D",ext,sep='.'),
+      save=TRUE, colors=colScale)
 
   # S4
   # Fold change range AUROC and AUPRC
@@ -405,30 +419,37 @@ plots$plot_supplementary <- function() {
   fc_nexp_imba <- read.csv('FINAL_DATA/df_peptide_nexp_imba_modtfix_FINAL.csv')
   tmp <- read_data_and_plot(
       fc_nexp, 'S4A', 'Number of Channels', plot='AUROC',
-      filename='FINAL_PLOTS/supp/S4A.eps', save=TRUE, colors=colScale)
+      filename=paste('FINAL_PLOTS/supp/S4A.',ext,sep='.'),
+      save=TRUE, colors=colScale)
   tmp <- read_data_and_plot(
       fc_nexp, 'S4B', '(Number control, number experimental) channels', plot='AUPRC',
-      filename='FINAL_PLOTS/supp/S4B.eps', save=TRUE, colors=colScale)
+      filename=paste('FINAL_PLOTS/supp/S4B',ext,sep='.'),
+      save=TRUE, colors=colScale)
   tmp <- read_data_and_plot(
       fc_nexp_imba, 'S4C', 'Number of Channels', plot='AUROC',
-      filename='FINAL_PLOTS/supp/S4C.eps', save=TRUE, colors=colScale)
+      filename=paste('FINAL_PLOTS/supp/S4C',ext,sep='.'),
+      save=TRUE, colors=colScale)
   tmp <- read_data_and_plot(
       fc_nexp_imba, 'S4D', '(Number control, number experimental) channels', plot='AUPRC',
-      filename='FINAL_PLOTS/supp/S4D.eps', save=TRUE, colors=colScale)
+      filename=paste('FINAL_PLOTS/supp/S4D',ext,sep='.'),
+      save=TRUE, colors=colScale)
 
   var_df <- read.csv('FINAL_DATA/df_peptide_variances_FINAL.csv')
-  ggsave("FINAL_PLOTS/supp/S5A.eps", plots$transform_var(var_df, plot='AUROC'),
-        width=12.80, height=12.80, dpi=100)
-  ggsave("FINAL_PLOTS/supp/S5B.eps", plots$transform_var(var_df, plot='AUPRC'),
-        width=12.80, height=12.80, dpi=100)
-
   # Plot size of dataset results
   # This also needs facetting
   ds_size <- plots$transform_ds_size(
       read.csv('FINAL_DATA/df_peptide_dataset_size_FINAL.csv',
           stringsAsFactors=FALSE),
       plot='pAUC')
-  ggsave("FINAL_PLOTS/supp/S2B.png", ds_size,
+
+  ggsave(paste("FINAL_PLOTS/supp/S5A",ext,sep='.'),
+        plots$transform_var(var_df, plot='AUROC'),
+        width=12.80, height=12.80, dpi=100)
+  ggsave(paste("FINAL_PLOTS/supp/S5B",ext,sep='.'),
+        plots$transform_var(var_df, plot='AUPRC'),
+        width=12.80, height=12.80, dpi=100)
+  ggsave(paste("FINAL_PLOTS/supp/S2B",ext,sep='.'),
+        ds_size,
         width=12.80, height=7.20, dpi=100)
 }
 

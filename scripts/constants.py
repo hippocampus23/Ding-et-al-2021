@@ -1,12 +1,12 @@
 from collections import OrderedDict
 
 # Color mapping from R for peptides                                               
-COLORS = {'CyberT': "#b79f00",                                                  
-          'Moderated T (1-sample)': "#00ba38",                                  
-          'Moderated T (2-sample)': "#00bfc4",                                  
-          'Absolute fold change': "#f8766d",                                    
-          't-test (2-sample)': "#f564e3",                                       
-          't-test (1-sample)': "#619cff",                                       
+COLORS = {'Moderated T (1-sample)': "#b79f00",
+          'Moderated T (2-sample)': "#00ba38",                                  
+          'Absolute fold change': "#00bfc4",                                  
+          'CyberT': "#f8766d",                                    
+          't-test (1-sample)': "#f564e3",                                       
+          't-test (2-sample)': "#619cff",                                       
 }       
 
 # Map header columns to well-formatted legend labels

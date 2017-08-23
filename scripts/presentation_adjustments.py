@@ -18,17 +18,21 @@ def plot_example_roc_curves():
     matplotlib.rc('font', **font)
     """ Generate panel 2 of figure 1 """
     colors = [
-        COLORS['CyberT'],
         COLORS['Absolute fold change'],
+        COLORS['CyberT'],
         COLORS['Moderated T (1-sample)'],
+        COLORS['Moderated T (2-sample)'],
         COLORS['t-test (1-sample)'],
         COLORS['t-test (2-sample)'],
-        COLORS['Moderated T (2-sample)'],
     ]
 
     ctrl, exp, is_changed = sample_no_ctrl_gamma(10000, 1000, 0.4, nctrl=4, nexp=4)
     pvals = do_stat_tests(ctrl, exp, True)
-    plot_both(is_changed, pvals.values.transpose(), list(pvals.columns), colors=colors)
+
+    # Edit column titles for pretty printing
+    pvals.columns = [LABEL_MAPPING[l] if l in LABEL_MAPPING else l
+            for l in list(pvals.columns)]
+    plot_both(is_changed, pvals, colors=colors)
 
 
 def pvalue_multipanel(pvals_u=None, pvals_g=None):
@@ -42,6 +46,11 @@ def pvalue_multipanel(pvals_u=None, pvals_g=None):
     if pvals_u is None:
         ctrl_u, exp_u, _ = sample_no_ctrl_gamma(10000, 0, 0)
         pvals_u = do_stat_tests(ctrl_u, exp_u, True)
+        pvals_u.drop('fold change', axis=1, inplace=True)
+
+        # Edit column titles for pretty printing
+        pvals_u.columns = [LABEL_MAPPING[l] if l in LABEL_MAPPING else l
+                for l in list(pvals_u.columns)]
         pvals_u['Moderated T \n(2-sample, robust)'] = \
                 modT_2sample(ctrl_u, exp_u, True)['P.Value'].values
         pvals_u['Moderated T \n(1-sample, robust)'] = \
@@ -50,6 +59,11 @@ def pvalue_multipanel(pvals_u=None, pvals_g=None):
     if pvals_g is None:
         ctrl_g, exp_g, _ = sample_no_ctrl_uniform(10000, 0, 0)
         pvals_g = do_stat_tests(ctrl_g, exp_g, True)
+        pvals_g.drop('fold change', axis=1, inplace=True)
+
+        # Edit column titles for pretty printing
+        pvals_g.columns = [LABEL_MAPPING[l] if l in LABEL_MAPPING else l
+                for l in list(pvals_g.columns)]
         pvals_g['Moderated T \n(2-sample, robust)'] = \
                 modT_2sample(ctrl_g, exp_g, True)['P.Value'].values
         pvals_g['Moderated T \n(1-sample, robust)'] = \
@@ -109,6 +123,11 @@ def volcano_multipanel(background="U"):
 
     ctrl_u, exp_u, is_changed_u = sampler(10000, 1000, 0.5)
     pvals_u = do_stat_tests(ctrl_u, exp_u, True)
+    pvals_u.drop('fold change', axis=1, inplace=True)
+
+    # Edit column titles for pretty printing
+    pvals_u.columns = [LABEL_MAPPING[l] if l in LABEL_MAPPING else l
+            for l in list(pvals_u.columns)]
 
     pvals_c = pd.DataFrame.from_items([
         (col, multipletests(pvals_u[col], 0.05, method='fdr_bh')[1])
@@ -129,6 +148,11 @@ def volcano_multipanel(background="U"):
 
 
 def barplot_multipanel(background='U'):
+    """ Compute FP, TP, FN, TN for raw and adj p-values
+
+    Corresponds to Figure 4CD, 4HI in manuscript
+    """
+    matplotlib.rc('font', size=16)
     f, axarr = plt.subplots(1, 2, sharey='row')
 
     if background == "U":
@@ -140,12 +164,19 @@ def barplot_multipanel(background='U'):
 
     ctrl, exp, is_changed = sampler(10000, 1000, 0.5)
     pvals = do_stat_tests(ctrl, exp, True)
+    pvals.drop('fold change', axis=1, inplace=True)
 
+    # Edit column titles for pretty printing
+    pvals.columns = [LABEL_MAPPING[l] if l in LABEL_MAPPING else l
+            for l in list(pvals.columns)]
+
+    # Adjust pvals
     pvals_a = pd.DataFrame.from_items([
         (col, multipletests(pvals[col], 0.05, method='fdr_bh')[1])
         for col in pvals.columns
     ])
 
+    # Plot
     barplot_accuracy(pvals, is_changed, axarr[0])
     barplot_accuracy(pvals_a, is_changed, axarr[1])
     axarr[0].set_ylabel('Count')
@@ -153,10 +184,13 @@ def barplot_multipanel(background='U'):
     axarr[1].set_title('BH adjusted')
 
     # Add legend
-    # plt.legend((p1[0], p2[0]), ('Men', 'Women'))
     handles, labels = axarr[1].get_legend_handles_labels()
-    # Map labels for pretty printing
     plt.figlegend(handles, labels, loc='upper center', ncol=2)
+    f.tight_layout()
+    # Resize ax
+    for ax in axarr:
+        box = ax.get_position()
+        ax.set_position([box.x0, box.y0, box.width, box.height*0.85])
 
     return f
 
@@ -167,15 +201,18 @@ def plot_example_prc():
 
     ctrl, exp, is_changed = sample_no_ctrl_gamma(10000, 1000, 0.5)
     pvals = do_stat_tests(ctrl, exp, True)
-    labels = list(pvals.columns)
+    # Edit column titles for pretty printing
+    pvals.columns = [LABEL_MAPPING[l] if l in LABEL_MAPPING else l
+            for l in list(pvals.columns)]
+    labels = sorted(list(pvals.columns))
 
     colors = [
-        COLORS['CyberT'],
         COLORS['Absolute fold change'],
+        COLORS['CyberT'],
         COLORS['Moderated T (1-sample)'],
+        COLORS['Moderated T (2-sample)'],
         COLORS['t-test (1-sample)'],
         COLORS['t-test (2-sample)'],
-        COLORS['Moderated T (2-sample)'],
     ]
     for i, label in enumerate(labels):
         c = colors[i]
@@ -205,16 +242,26 @@ def density_scatter():
         ax.scatter(x, y, c=z, s=10, edgecolor='')
         ax.set_ylim(bottom=0)
 
+        return z
+
     ctrl_u, _, _ = sample_no_ctrl_uniform(10000, 0, 0)
     ctrl_g, _, _ = sample_no_ctrl_gamma(10000, 0, 0)
-    do_plot(ctrl_u, ax1)
-    do_plot(ctrl_g, ax2)
+    z = do_plot(ctrl_u, ax1)
+    _ = do_plot(ctrl_g, ax2)
 
+    ax1.set_ylabel('Peptide variance')
     ax1.set_title('Uniform')
     ax2.set_title('Inverse Gamma')
-    ax1.set_ylabel('Peptide variance')
     ax1.set_xlabel('Mean $log2$ peptide intensity')
-    ax1.set_xlabel('Mean $log2$ peptide intensity')
+    ax2.set_xlabel('Mean $log2$ peptide intensity')
+
+    # Legend
+    dummy_ax = f.add_subplot(100, 1, 1)
+    dummy_ax.axis('off')
+    # Create dummy image with 0 alpha for colormapping
+    img = dummy_ax.imshow(np.array([[0, np.max(z)]]))
+    f.colorbar(img, ax=ax2)
+    return f
 
 
 """
