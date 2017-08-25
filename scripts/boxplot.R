@@ -193,15 +193,17 @@ plot_fdr <- function(df, title="", xlab="Setting") {
                aes(x = as.numeric(as.character(setting)),
                    y = value.mn,
                    color=labels,
+                   fill=labels,
                    linetype=variable,
                    shape=variable,
-                   alpha=alpha)) + 
-        geom_line(size=0.8) + geom_point(size=3) + 
+                   size=variable)) + 
+        geom_line() + geom_point(aes(stroke=2)) + 
         # TODO scale the size of the line and point for raw vs adj
-        scale_alpha(guide = FALSE, range = c(0.5, 1)) +
-        scale_linetype_manual(values=c(1, 2, 1, 2)) +
-        scale_shape_manual(values=c(16, 16, 15, 15)) +
-        guides(linetype=guide_legend(keywidth=4)) + 
+        scale_size_manual(name='', values=c(1.2, 1.2, 0.6, 0.6)) +
+        scale_linetype_manual(name='', values=c(1, 2, 1, 2)) +
+        scale_shape_manual(name='', values=c(22, 22, 21, 21)) +
+        # scale_stroke_manual(values=c(2, 2, 1, 1)) +
+        guides(size=guide_legend(keywidth=4), fill=FALSE) + 
         labs(title=title, x=xlab, y='TPR/FDR', color='Test', linetype='', shape='')
 
   return(p1)
@@ -353,13 +355,13 @@ plots$plot_final <- function(eps=FALSE) {
       "FINAL_DATA/df_peptide_nexp_imba_modtfix_FINAL.csv",
       "", "(Number control, number experimental) channels", plot="pAUC", save=FALSE, colors=colScale)
 
-  fdr_fc_gam_df <- read.csv('FINAL_DATA/df_peptide_fdr_fc_gam_FINAL.csv')
-  fdr_fc_gam <- read_data_and_plot(
-      fdr_fc_gam_df[as.numeric(fdr_fc_gam_df$setting) <= 1.0,],
-      "4E", "log2(FC)", plot='fdr', filename="", save=FALSE, colors=colScale)
   fdr_fc_uni_df <- read.csv('FINAL_DATA/df_peptide_fdr_fc_uni_FINAL.csv')
   fdr_fc_uni <- read_data_and_plot(
       fdr_fc_uni_df[as.numeric(fdr_fc_uni_df$setting) <= 1.0,],
+      "4E", "log2(FC)", plot='fdr', filename="", save=FALSE, colors=colScale)
+  fdr_fc_gam_df <- read.csv('FINAL_DATA/df_peptide_fdr_fc_gam_FINAL.csv')
+  fdr_fc_gam <- read_data_and_plot(
+      fdr_fc_gam_df[as.numeric(fdr_fc_gam_df$setting) <= 1.0,],
       "4J", "log2(FC)", plot='fdr', filename="", save=FALSE, colors=colScale)
 
   # Plot variance results
@@ -380,9 +382,9 @@ plots$plot_final <- function(eps=FALSE) {
   ggsave(paste("FINAL_PLOTS/6B",ext,sep='.'), var,
         width=12.80, height=12.80, dpi=100)
 
-  ggsave(paste("FINAL_PLOTS/4E",ext,sep='.'), fdr_fc_gam,
+  ggsave(paste("FINAL_PLOTS/4E",ext,sep='.'), fdr_fc_uni,
         width=12.80, height=7.20, dpi=100)
-  ggsave(paste("FINAL_PLOTS/4J",ext,sep='.'), fdr_fc_uni,
+  ggsave(paste("FINAL_PLOTS/4J",ext,sep='.'), fdr_fc_gam,
         width=12.80, height=7.20, dpi=100)
 }
 

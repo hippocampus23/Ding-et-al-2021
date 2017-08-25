@@ -28,7 +28,8 @@ def plot_roc(y_act, pred, ax = None, is_pval=True, label='Area ', color=None):
     AUC = roc_auc_score(y_act, y_pred)
 
     lw = 3
-    roc_ln, = ax.plot(fpr, tpr, lw=lw, label=label + ' - %.3f' % AUC, color=color)
+    # roc_ln, = ax.plot(fpr, tpr, lw=lw, label=label + ' - %.3f' % AUC, color=color)
+    roc_ln, = ax.plot(fpr, tpr, lw=lw, label=label, color=color)
     diag_ln, = ax.plot([0,1.01], [0,1.01], color='grey', lw=2, linestyle='--')
     
     ax.set_xlim(0, 1.01)
@@ -36,10 +37,9 @@ def plot_roc(y_act, pred, ax = None, is_pval=True, label='Area ', color=None):
     ax.set_xlabel('False Positive Rate')
     ax.set_ylabel('True Positive Rate')
     ax.set_title('ROC curve')
-    ax.legend(loc='lower right', fontsize='medium', title='AUC')
-    # return ax, f
+    # ax.legend(loc='lower right', fontsize='medium', title='AUC')
 
-    return AUC, fpr, tpr
+    return AUC, ax, f
 
 
 def plot_prc(y_act, pred, ax = None, is_pval=True, label='Area ', color=None):
@@ -69,7 +69,7 @@ def plot_prc(y_act, pred, ax = None, is_pval=True, label='Area ', color=None):
     ax.set_xlabel('Recall')
     ax.set_ylabel('Precision')
     ax.set_title('PRC curve')
-    ax.legend(loc='lower left', fontsize= 'medium', title='AUC')
+    # ax.legend(loc='lower left', fontsize= 'medium', title='AUC')
     return AUC, ax, f
 
 
@@ -107,8 +107,8 @@ def plot_partial_auc(y_act, pred, fdr=0.05, ax=None, is_pval=True, label='Area '
 
     ax.set_xlim(0, fdr)
     ax.set_ylim(0, 1.01)
-    ax.set_xlabel('FPR')
-    ax.set_ylabel('TPR')
+    ax.set_xlabel('False Positive Rate')
+    ax.set_ylabel('True Positive Rate')
     ax.set_title('Partial ROC Curve')
     # ax.legend(loc='middle right', fontsize= 'medium', title='AUC')
     return AUC, ax, f
@@ -203,7 +203,7 @@ def plot_pvalue_dist(pvals, axes=None):
     return f
 
 
-def volcano_plots(pval_df, ctrl, exp, is_changed, axes=None):
+def volcano_plots(pval_df, ctrl, exp, is_changed, axes=None, sort=True):
     valid_labels = sorted(list(pval_df.columns))
     m = len(valid_labels)
     if axes is None:
@@ -215,13 +215,20 @@ def volcano_plots(pval_df, ctrl, exp, is_changed, axes=None):
 
     ALPHA = - np.log10(0.05)
 
+    if sort:
+        order = np.argsort(is_changed)
+        pval_df = pval_df.iloc[order]
+        ctrl = ctrl.iloc[order]
+        exp = exp.iloc[order]
+        is_changed = is_changed[order]
+
     # Volcano plots
     fc = np.mean(exp, 1) - np.mean(ctrl, 1)
     for i, name in enumerate(valid_labels):
         ax = axes[i]
 
-        ax.scatter(fc.values, -np.log10(pval_df[name].values), 
-                   c=is_changed, alpha=0.2)
+        ax.scatter(fc.values, -np.log10(pval_df[name].values),
+                   c=is_changed, alpha=0.25, cmap=matplotlib.cm.coolwarm, lw=0)
         (l, r) = ax.get_xlim()
         ax.plot([l, r], [ALPHA, ALPHA], color='grey', lw=1, linestyle='--')
         ax.set_title(name if name not in LABEL_MAPPING else LABEL_MAPPING[name])

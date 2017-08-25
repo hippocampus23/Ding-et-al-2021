@@ -11,12 +11,21 @@ from sample import *
 
 
 def plot_example_roc_curves():
+    """ Figure 1EFG, example curves """
     # Set up font
     font = {'family' : 'normal',
             'weight' : 'normal',
             'size'   : 22}
     matplotlib.rc('font', **font)
-    """ Generate panel 2 of figure 1 """
+    f, (ax1, ax2, ax3) = plt.subplots(1, 3)
+
+    ctrl, exp, is_changed = sample_no_ctrl_gamma(10000, 1000, 0.4, nexp=4, nctrl=4)
+    pvals = do_stat_tests(ctrl, exp, True)
+    # Edit column titles for pretty printing
+    pvals.columns = [LABEL_MAPPING[l] if l in LABEL_MAPPING else l
+            for l in list(pvals.columns)]
+    labels = sorted(list(pvals.columns))
+
     colors = [
         COLORS['Absolute fold change'],
         COLORS['CyberT'],
@@ -25,14 +34,26 @@ def plot_example_roc_curves():
         COLORS['t-test (1-sample)'],
         COLORS['t-test (2-sample)'],
     ]
+    for i, lbl in enumerate(labels):
+        c = colors[i]
+        p_val = pvals[lbl]
+        plot_roc(is_changed, p_val, ax=ax1, label=lbl, is_pval=True, color=c)
+        plot_partial_auc(is_changed, p_val, ax=ax2, label=lbl, fdr=0.05, is_pval=True, color=c)
+        plot_prc(is_changed, p_val, ax=ax3, label=lbl, is_pval=True, color=c)
 
-    ctrl, exp, is_changed = sample_no_ctrl_gamma(10000, 1000, 0.4, nctrl=4, nexp=4)
-    pvals = do_stat_tests(ctrl, exp, True)
-
-    # Edit column titles for pretty printing
-    pvals.columns = [LABEL_MAPPING[l] if l in LABEL_MAPPING else l
-            for l in list(pvals.columns)]
-    plot_both(is_changed, pvals, colors=colors)
+    # Shaded block on roc plot to indicate area of pAUC plot                
+    ax1.add_patch(                                                     
+        patches.Rectangle(                                              
+            (0, 0),  # Position                                         
+            0.05,    # Width                                            
+            1.1,     # Height (+ buffer)                                
+            alpha=0.1,                                                  
+            color='grey',                                               
+            edgecolor=None                                              
+    ))       
+    ax1.legend(loc='lower right', fontsize='medium')
+    f.tight_layout()
+    return f
 
 
 def pvalue_multipanel(pvals_u=None, pvals_g=None):
@@ -194,31 +215,6 @@ def barplot_multipanel(background='U'):
 
     return f
 
-def plot_example_prc():
-    """ Figure S1, example PRC curve """
-
-    f, ax = plt.subplots()
-
-    ctrl, exp, is_changed = sample_no_ctrl_gamma(10000, 1000, 0.5)
-    pvals = do_stat_tests(ctrl, exp, True)
-    # Edit column titles for pretty printing
-    pvals.columns = [LABEL_MAPPING[l] if l in LABEL_MAPPING else l
-            for l in list(pvals.columns)]
-    labels = sorted(list(pvals.columns))
-
-    colors = [
-        COLORS['Absolute fold change'],
-        COLORS['CyberT'],
-        COLORS['Moderated T (1-sample)'],
-        COLORS['Moderated T (2-sample)'],
-        COLORS['t-test (1-sample)'],
-        COLORS['t-test (2-sample)'],
-    ]
-    for i, label in enumerate(labels):
-        c = colors[i]
-        p_val = pvals[label]
-        plot_prc(is_changed, p_val, ax=ax, label=label, is_pval=True, color=c)
-
 
 def density_scatter():
     """
@@ -226,8 +222,8 @@ def density_scatter():
 
     Figure 1B
     """
-    matplotlib.rc('font', size=22)
-    f, (ax1, ax2) = plt.subplots(1, 2)
+    matplotlib.rc('font', size=18)
+    f, (ax1, ax2, ax3) = plt.subplots(1, 3)
 
     def do_plot(data, ax):
         x = np.mean(data.values, axis=1)
@@ -244,23 +240,32 @@ def density_scatter():
 
         return z
 
+    # Simulated
     ctrl_u, _, _ = sample_no_ctrl_uniform(10000, 0, 0)
     ctrl_g, _, _ = sample_no_ctrl_gamma(10000, 0, 0)
+    # Real
+    data = pd.read_csv('../data/psm.csv')[['C1','C2','C3']]
+    rs = np.random.choice(data.shape[0], 10000, replace=False)
+    data = data.iloc[rs]
+
     z = do_plot(ctrl_u, ax1)
     _ = do_plot(ctrl_g, ax2)
+    _ = do_plot(data, ax3)
 
     ax1.set_ylabel('Peptide variance')
     ax1.set_title('Uniform')
     ax2.set_title('Inverse Gamma')
+    ax3.set_title('Empirical Data')
     ax1.set_xlabel('Mean $log2$ peptide intensity')
     ax2.set_xlabel('Mean $log2$ peptide intensity')
+    ax3.set_xlabel('Mean $log2$ peptide intensity')
 
     # Legend
     dummy_ax = f.add_subplot(100, 1, 1)
     dummy_ax.axis('off')
     # Create dummy image with 0 alpha for colormapping
     img = dummy_ax.imshow(np.array([[0, np.max(z)]]))
-    f.colorbar(img, ax=ax2)
+    f.colorbar(img, ax=ax3)
     return f
 
 
