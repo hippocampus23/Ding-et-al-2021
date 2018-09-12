@@ -1,5 +1,5 @@
 
-# $Id: modT.r 31 2013-01-16 16:49:47Z manidr $
+# $Id: modT.R 31 2013-01-16 16:49:47Z manidr $
 print ("$Id: modT.r 31 2013-01-16 16:49:47Z manidr $", quote=FALSE)
 
 
@@ -12,10 +12,10 @@ library (limma)
 ##
 #  Data: itraq.csv contains the replicate (log) ratios for a specific comparison
 #  Results will be written to itraq-results.csv (table) and itraq-results.pdf (plots)
-#  Files needed: modT.r, scatterhist.r or pairs-plot.r (for plots, 2 replicates or more, resp.)
+#  Files needed: modT.R, scatterhist.r or pairs-plot.r (for plots, 2 replicates or more, resp.)
 #  To run the moderated T test:
 #
-#  source ('modT.r')
+#  source ('modT.R')
 #  modT.test ('itraq.csv', 'itraq-results',       -- these two arguments are required
 #             id.col='id',                        -- to specify id columns in itraq.csv;
 #                                                    if not present, one will be created with 1,2,...,N
@@ -52,7 +52,8 @@ library (limma)
 modT_test <- function (data.file, output.prefix, id.col=NULL, data.col=NULL,
                        p.value.alpha=0.05, use.adj.pvalue=TRUE, apply.log=FALSE,
                        na.rm=FALSE, nastrings=c("NA", "<NA>", "#NUM!", "#DIV/0!", "#NA", "#NAME?"), 
-                       plot=FALSE, pairs.plot.2rep=FALSE, limits=NULL, xlab="", ylab="", dframe=FALSE, design=NULL, robust=TRUE,...) {
+                       plot=FALSE, pairs.plot.2rep=FALSE, limits=NULL, xlab="", ylab="", dframe=FALSE,
+                       design=NULL, robust=FALSE, trend=FALSE, ...) {
   #
   # data.file should contain one peptide in each row.
   # The columns contain the normalized log-ratio from each replicate
@@ -72,6 +73,8 @@ modT_test <- function (data.file, output.prefix, id.col=NULL, data.col=NULL,
   #  when > 2 replicates are present, ... can include arguments to points in 
   #   addition to: plot.col, subset.col, hist.col, hist.breaks,
   #                prefix (for correlation), cex.cor
+  #
+  # Note: when robust is enabled to protect against outliers, test takes very long
 
   # read data file 
   if (!dframe) {
@@ -112,7 +115,7 @@ modT_test <- function (data.file, output.prefix, id.col=NULL, data.col=NULL,
   if (apply.log) data <- log2 (data)
 
   # moderated t test
-  mod.t.result <- moderated.t (data, design, method)
+  mod.t.result <- moderated.t (data, design, method, trend)
   if (use.adj.pvalue) mod.sig <- mod.t.result [,'adj.P.Val'] <= p.value.alpha
   else  mod.sig <- mod.t.result [,'P.Value'] <= p.value.alpha
   change <- apply (data, 1,
@@ -179,7 +182,7 @@ modT_test <- function (data.file, output.prefix, id.col=NULL, data.col=NULL,
 
 
 # Moderated t-test for significance testing
-moderated.t <- function (data, design=NULL, method='robust') {
+moderated.t <- function (data, design=NULL, method='robust', trend = FALSE) {
   # data is a table with rows representing peptides/proteins/genes 
   # and columns representing replicates
         
@@ -192,7 +195,7 @@ moderated.t <- function (data, design=NULL, method='robust') {
     design = model.matrix(~factor(design))
     m <- lmFit (data.matrix, method=method, design=design)
   }
-  m <- eBayes (m)
+  m <- eBayes (m, trend=trend)
  
   sig <- topTable (m, number=nrow(data), sort.by='none', confint=TRUE)        
   return (sig)

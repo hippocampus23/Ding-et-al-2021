@@ -1,8 +1,8 @@
-data/
-datasets/
-environment/
-plots/
-simulated_plots/
+.DS_Store
+
+.idea/
+*.npy
+*.pyc
 
 .RData
 .Rhistory
