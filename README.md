@@ -1,10 +1,9 @@
 # Proteomics Simulations
 
-Comparing the performance of several statistical for peptide-level analysis using simulated MS data.
+Comparing the performance of several statistical tests for peptide-level analysis using simulated MS data.
 
 **Note**: All simulated and empirical data is log transformed with base 2.
 
-Copied, extended and restructured code from Lei Ding at https://github.com/JerryLeiDing/new-proteomics.
 
 ## Requirements
 
