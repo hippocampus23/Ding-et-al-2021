@@ -78,6 +78,9 @@ that requires multiple rounds of simulations, the corresponding data file
 must already be in the directory "data_simulated". Either make it or use the one that is provided
 in the git repository.
 
+When making multiple targets at the same time (e.g. all data files), it is usefull to use options like
+```make data -j2``` on a machine with multiple cores / CPUs to make use of all of them.
+
 **Note**: It is recommended to create the data for the figures that require many rounds of simulations 
 in a VM e.g. on the Google Cloud Platform, as they are memory intensive and have a long runtime. 
 Alternatively, change N_RUNS in scripts/constants.py from 500 to a smaller number.
