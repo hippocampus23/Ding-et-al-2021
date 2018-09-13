@@ -9,5 +9,8 @@
 .Rproj.user
 *.swp
 *.pyc
+*.png
+*.pdf
+*.eps
 
 *.lrg.npy
