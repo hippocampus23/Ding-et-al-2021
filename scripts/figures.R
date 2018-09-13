@@ -113,7 +113,7 @@ transform_ds_size <- function(ds_size_df, plot="pAUC") {
 fig_3B <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
-  read_data_and_plot("../data_simulated/3B.csv", "", "log2(FC)", plot="pAUC", 
+  read_data_and_plot("../data_simulated/3B.csv", "", "log2(FC)", plot="pAUC",
 		     save=TRUE, filename="../figures/3B.eps")
   print("saved 3B.eps")
 }
@@ -245,7 +245,7 @@ fig_S3A <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/5B.csv", "S3A", "log2(FC)", plot="AUROC",
+      "../data_simulated/5B.csv", "S3A", "number of channels", plot="AUROC",
       filename="../figures/S3A.eps", save=TRUE)
   print("saved S3A.eps")
 }
@@ -255,7 +255,7 @@ fig_S3B <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/5B.csv", "S3B", "log2(FC)", plot="AUPRC",
+      "../data_simulated/5B.csv", "S3B", "number of channels", plot="AUPRC",
       filename="../figures/S3B.eps", save=TRUE)
   print("saved S3B.eps")
 }
@@ -265,7 +265,7 @@ fig_S3C <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/5D.csv", "S3C", "log2(FC)", plot="AUROC",
+      "../data_simulated/5D.csv", "S3C", "number of channels", plot="AUROC",
       filename="../figures/S3C.eps", save=TRUE)
   print("saved S3C.eps")
 }
@@ -275,7 +275,7 @@ fig_S3D <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/5D.csv", "S3D", "log2(FC)", plot="AUPRC",
+      "../data_simulated/5D.csv", "S3D", "number of channels", plot="AUPRC",
       filename="../figures/S3D.eps", save=TRUE)
   print("saved S3D.eps")
 }

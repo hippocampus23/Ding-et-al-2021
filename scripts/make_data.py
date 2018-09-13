@@ -11,7 +11,7 @@ from stat_tests import TESTS
 # TODO: 5D, supp
 
 # make data for figures 3B, 3D and with variance trend
-FOLD_CHANGES = np.arange(0.1, 1.1, 0.1)
+FOLD_CHANGES = np.arange(0.1, 1.0, 0.1)
 
 
 def data_3B():

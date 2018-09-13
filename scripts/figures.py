@@ -103,7 +103,7 @@ def pvalue_multipanel():
         pvals["Moderated T \n(1-sample, robust)"] = modT(ctrl, exp, robust=True)
         plot_pvalue_dist(pvals, axarr[i])
         for ax in axarr[i]:
-            ax.set_xlabel("")
+            ax.set_xlabel("" if i < 2 else "p-value")
 
     f.tight_layout()
 
