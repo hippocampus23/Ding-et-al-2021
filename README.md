@@ -4,6 +4,9 @@ Comparing the performance of several statistical tests for peptide-level analysi
 
 **Note**: All simulated and empirical data is log transformed with base 2.
 
+## Figures
+https://www.dropbox.com/sh/o1ydax3y9tql6cy/AACLABgJFt9zDSzhGd4rR7U9a?dl=0 
+
 
 ## Requirements
 
