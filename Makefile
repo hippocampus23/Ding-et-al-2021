@@ -8,7 +8,7 @@ simple_figures: 1BCD.eps 1EFG_gamma.eps 1EFG_uniform.eps 1EFG_trend.eps 2B.eps \
 
 # make data for figures that require many rounds of simulations
 data: 3B.csv 3D.csv 3B_trend.csv 4E.csv 4J.csv 4E_trend.csv 5B.csv 5D.eps \
-	6B.csv S1B.csv
+	5B_trend.csv 5D_trend.csv 6B.csv S1B.csv
 # Note: this is better than calling all functions in python because
 #       memory allocated for python is cleared after each rule
 
