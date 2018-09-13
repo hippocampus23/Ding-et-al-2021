@@ -54,9 +54,9 @@ def sample(pep_var_type, num_peps = NUM_PEPTIDES, num_ctrl=NUM_CHANNELS/2, num_e
         raise ValueError("pep_var_type must be uniform, gamma, or trend")
 
     # generate control data
-    var_ctrl = [var_sampler(mean) for mean in pep_means]
+    var = [var_sampler(mean) for mean in pep_means]
     ctrl = np.array([
-        use_var(loc=0, scale=var_ctrl[i] ** 0.5, size=num_ctrl) + pep_means[i]
+        use_var(loc=0, scale=var[i] ** 0.5, size=num_ctrl) + pep_means[i]
         for i in range(num_peps)
     ])
 
@@ -64,9 +64,12 @@ def sample(pep_var_type, num_peps = NUM_PEPTIDES, num_ctrl=NUM_CHANNELS/2, num_e
     # For convenience, always perturb the first num_to_change peptides
     # This should not affect the analysis: can always randomize order
     pep_means[:num_changed] += fold_change
-    var_exp = [var_sampler(mean) for mean in pep_means]
+    # variance is generated again as peptide variances in ctrl and exp are
+    # not related for each individual peptide
+    # but the overall character of the distribution is the same
+    var = [var_sampler(mean) for mean in pep_means]
     exp = np.array([
-        use_var(loc=0, scale=var_exp[i] ** 0.5, size=num_exp) + pep_means[i]
+        use_var(loc=0, scale=var[i] ** 0.5, size=num_exp) + pep_means[i]
         for i in range(num_peps)
     ])
 
