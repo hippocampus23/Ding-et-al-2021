@@ -188,6 +188,25 @@ fig_5D <- function() {
 }
 
 
+fig_5B_trend <- function() {
+  # Set font size and theme
+  theme_set(theme_bw(base_size=15))
+  read_data_and_plot("../data_simulated/5B_trend.csv",
+      "", "Number of channels", plot="pAUC", save=TRUE, filename="../figures/5B_trend.eps")
+  print("saved 5B_trend.eps")
+}
+
+
+fig_5D_trend <- function() {
+  # Set font size and theme
+  theme_set(theme_bw(base_size=15))
+  read_data_and_plot("../data_simulated/5D_trend.csv",
+      "", "Number of channels", plot="pAUC", save=TRUE, filename="../figures/5D_trend.eps")
+  print("saved 5D_trend.eps")
+}
+
+
+
 fig_6B <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
@@ -245,7 +264,7 @@ fig_S3A <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/5B.csv", "S3A", "number of channels", plot="AUROC",
+      "../data_simulated/5B.csv", "S3A", "Number of channels", plot="AUROC",
       filename="../figures/S3A.eps", save=TRUE)
   print("saved S3A.eps")
 }
@@ -255,7 +274,7 @@ fig_S3B <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/5B.csv", "S3B", "number of channels", plot="AUPRC",
+      "../data_simulated/5B.csv", "S3B", "Number of channels", plot="AUPRC",
       filename="../figures/S3B.eps", save=TRUE)
   print("saved S3B.eps")
 }
@@ -265,7 +284,7 @@ fig_S3C <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/5D.csv", "S3C", "number of channels", plot="AUROC",
+      "../data_simulated/5D.csv", "S3C", "Number of channels", plot="AUROC",
       filename="../figures/S3C.eps", save=TRUE)
   print("saved S3C.eps")
 }
@@ -275,7 +294,7 @@ fig_S3D <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/5D.csv", "S3D", "number of channels", plot="AUPRC",
+      "../data_simulated/5D.csv", "S3D", "Number of channels", plot="AUPRC",
       filename="../figures/S3D.eps", save=TRUE)
   print("saved S3D.eps")
 }

@@ -15,7 +15,7 @@ data: 3B.csv 3D.csv 3B_trend.csv 4E.csv 4J.csv 4E_trend.csv 5B.csv 5D.eps \
 # make figures that require many rounds of simulations
 # Note: data must already be made when calling summary_figures
 summary_figures: 3B.eps 3D.eps 3B_trend.eps 4E.eps 4J.eps 4E_trend.eps \
-	5B.eps 5D.eps 6B.eps
+	5B.eps 5D.eps 5B_trend.eps 5D_trend.eps 6B.eps
 
 # make supplementary figures which require many rounds of simulations
 # Note: data must already be made when calling summary_figures
@@ -47,6 +47,12 @@ supplementary_figures: S1B.eps S2A.eps S2B.eps S2C.eps S2D.eps \
 
 5D.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_5D()"
+
+5B_trend.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_5B_trend()"
+
+5D_trend.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_5D_trend()"
 
 6B.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_6B()"
@@ -111,6 +117,12 @@ S4B.eps:
 
 5D.csv:
 	cd scripts && python -c "from make_data import data_5D; data_5D()"
+
+5B_trend.csv:
+	cd scripts && python -c "from make_data import data_5B_trend; data_5B_trend()"
+
+5D_trend.csv:
+	cd scripts && python -c "from make_data import data_5D_trend; data_5D_trend()"
 
 6B.csv:
 	cd scripts && python -c "from make_data import data_6B; data_6B()"
