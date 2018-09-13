@@ -32,7 +32,7 @@ def data_3B_trend():
     print "saved 3B_trend.csv"
 
 
-def data_4E_trend():
+def data_4E():
     res_4E = simulate_fdr_fc_range(FOLD_CHANGES, "uniform")
     write_result_dict_to_df(res_4E, TESTS.keys(), filename="../data_simulated/4E.csv", ana_type="fdr")
     print "saved 4E.csv"
