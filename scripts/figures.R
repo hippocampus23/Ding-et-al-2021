@@ -206,7 +206,6 @@ fig_5D_trend <- function() {
 }
 
 
-
 fig_6B <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
@@ -230,6 +229,16 @@ fig_S2A <- function() {
 }
 
 
+fig_S2A_trend <- function() {
+  # Set font size and theme
+  theme_set(theme_bw(base_size=15))
+  read_data_and_plot(
+      "../data_simulated/3B_trend.csv", "S2A_trend", "log2(FC)", plot="AUROC",
+      filename="../figures/S2A_trend.eps", save=TRUE)
+  print("saved S2A_trend.eps")
+}
+
+
 fig_S2B <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
@@ -237,6 +246,16 @@ fig_S2B <- function() {
       "../data_simulated/3B.csv", "S2B", "log2(FC)", plot="AUPRC",
       filename="../figures/S2B.eps", save=TRUE)
   print("saved S2B.eps")
+}
+
+
+fig_S2B_trend <- function() {
+  # Set font size and theme
+  theme_set(theme_bw(base_size=15))
+  read_data_and_plot(
+      "../data_simulated/3B_trend.csv", "S2B_trend", "log2(FC)", plot="AUPRC",
+      filename="../figures/S2B_trend.eps", save=TRUE)
+  print("saved S2B_trend.eps")
 }
 
 
@@ -270,12 +289,32 @@ fig_S3A <- function() {
 }
 
 
+fig_S3A_trend <- function() {
+  # Set font size and theme
+  theme_set(theme_bw(base_size=15))
+  read_data_and_plot(
+      "../data_simulated/5B_trend.csv", "S3A_trend", "Number of channels", plot="AUROC",
+      filename="../figures/S3A_trend.eps", save=TRUE)
+  print("saved S3A_trend.eps")
+}
+
+
 fig_S3B <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
       "../data_simulated/5B.csv", "S3B", "Number of channels", plot="AUPRC",
       filename="../figures/S3B.eps", save=TRUE)
+  print("saved S3B.eps")
+}
+
+
+fig_S3B_trend <- function() {
+  # Set font size and theme
+  theme_set(theme_bw(base_size=15))
+  read_data_and_plot(
+      "../data_simulated/5B_trend.csv", "S3B_trend", "Number of channels", plot="AUPRC",
+      filename="../figures/S3B_trend.eps", save=TRUE)
   print("saved S3B.eps")
 }
 

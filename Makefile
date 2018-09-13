@@ -1,6 +1,6 @@
-all: simple_figures data summary_figures supplementary_figures
+all: simple_figures data summary_figures supplemental_figures
 
-figures: simple_figures summary_figures supplementary_figures
+figures: simple_figures summary_figures supplemental_figures
 
 # make figures that require few simulations
 simple_figures: 1BCD.eps 1EFG_gamma.eps 1EFG_uniform.eps 1EFG_trend.eps 2B.eps \
@@ -19,8 +19,9 @@ summary_figures: 3B.eps 3D.eps 3B_trend.eps 4E.eps 4J.eps 4E_trend.eps \
 
 # make supplementary figures which require many rounds of simulations
 # Note: data must already be made when calling summary_figures
-supplementary_figures: S1B.eps S2A.eps S2B.eps S2C.eps S2D.eps \
-	S3A.eps S3B.eps S3C.eps S3D.eps S4A.eps S4B.eps
+supplemental_figures: S1B.eps S2A.eps S2B.eps S2A_trend.eps S2B_trend.eps \
+	S2C.eps S2D.eps S3A.eps S3B.eps S3A_trend.eps S3B_trend.eps S3C.eps \
+	S3D.eps S4A.eps S4B.eps
 
 
 
@@ -65,8 +66,14 @@ S1B.eps:
 S2A.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_S2A()"
 
+S2A_trend.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_S2A_trend()"
+
 S2B.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_S2B()"
+
+S2B_trend.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_S2B_trend()"
 
 S2C.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_S2C()"
@@ -77,8 +84,14 @@ S2D.eps:
 S3A.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_S3A()"
 
+S3A_trend.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_S3A_trend()"
+
 S3B.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_S3B()"
+
+S3B_trend.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_S3B_trend()"
 
 S3C.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_S3C()"
