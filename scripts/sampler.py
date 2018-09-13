@@ -33,7 +33,6 @@ def sample(pep_var_type, num_peps = NUM_PEPTIDES, num_ctrl=NUM_CHANNELS/2, num_e
     def var_inv_gamma_sampler():
         return 1 / np.random.gamma(alpha, 1. / beta)
 
-    # TODO: fit function instead of using ranges
     def var_trend_sampler(pep_mean):
         if pep_mean < 10:
             return VAR_COEFFICIENTS[0] * var_inv_gamma_sampler()
@@ -43,7 +42,8 @@ def sample(pep_var_type, num_peps = NUM_PEPTIDES, num_ctrl=NUM_CHANNELS/2, num_e
             return VAR_COEFFICIENTS[math.ceil(pep_mean * 2)] * var_inv_gamma_sampler()
 
     # true peptide intensities in control data
-    avg_ctrl = np.random.normal(MEAN_PEPTIDE_INTENSITY, math.sqrt(OVERALL_VAR), num_peps)
+    pep_means = np.random.normal(MEAN_PEPTIDE_INTENSITY, math.sqrt(OVERALL_VAR), num_peps)
+
     if pep_var_type == "uniform":
         var_sampler = lambda _: pep_var
     elif pep_var_type == "gamma":
@@ -54,20 +54,22 @@ def sample(pep_var_type, num_peps = NUM_PEPTIDES, num_ctrl=NUM_CHANNELS/2, num_e
         raise ValueError("pep_var_type must be uniform, gamma, or trend")
 
     # generate control data
-    var_ctrl = [var_sampler(mean) for mean in avg_ctrl]
+    var_ctrl = [var_sampler(mean) for mean in pep_means]
     ctrl = np.array([
-        use_var(loc=0, scale=var_ctrl[i] ** 0.5, size=num_ctrl) + avg_ctrl[i]
+        use_var(loc=0, scale=var_ctrl[i] ** 0.5, size=num_ctrl) + pep_means[i]
         for i in range(num_peps)
     ])
+
     # generate experiment data
-    var_exp = [var_sampler(mean) for mean in avg_ctrl]
-    exp = np.array([
-        use_var(loc=0, scale=var_exp[i] ** 0.5, size=num_exp) + avg_ctrl[i]
-        for i in range(num_peps)
-    ])
     # For convenience, always perturb the first num_to_change peptides
     # This should not affect the analysis: can always randomize order
-    exp[:num_changed][:] += fold_change
+    pep_means[:num_changed] += fold_change
+    var_exp = [var_sampler(mean) for mean in pep_means]
+    exp = np.array([
+        use_var(loc=0, scale=var_exp[i] ** 0.5, size=num_exp) + pep_means[i]
+        for i in range(num_peps)
+    ])
+
     is_changed = np.concatenate([np.ones(num_changed, dtype=bool), np.zeros(num_peps-num_changed, dtype=bool)])
 
     return pd.DataFrame(ctrl), pd.DataFrame(exp), is_changed
