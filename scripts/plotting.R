@@ -183,7 +183,7 @@ plot_fdr <- function(df, title="", xlab="Setting", skip_labels=c("t-test (1-samp
         scale_shape_manual(name="", values=c(22, 22, 21, 21)) +
         # scale_stroke_manual(values=c(2, 2, 1, 1)) +
         guides(size=guide_legend(keywidth=4), fill=FALSE) + 
-        labs(title=title, x=xlab, y="TPR/FDR", color="Test", linetype="", shape="")
+        labs(title=title, x=xlab, y="TPR or FDR", color="Test", linetype="", shape="")
 
   return(p1)
 }
