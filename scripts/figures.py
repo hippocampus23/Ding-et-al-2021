@@ -230,20 +230,21 @@ def fig_4CD_trend():
 # to be added to 6B (plotted in R)
 # shapes of the noise distributions
 def fig_6B_dists():
-    fig, (a1, a2, a3) = plt.subplots(3, 1, sharex="col", figsize=(7, 12.80))
+    matplotlib.rc("font", size=15)
+    fig, (a1, a2, a3) = plt.subplots(3, 1, sharex="col", figsize=(6, 10))
     x = np.linspace(-2, 2, 200)
     normal = 1/np.sqrt(2 * np.pi * PEPTIDE_VAR) * np.exp(- x**2 / (2 * PEPTIDE_VAR))
     a1.plot(x, normal)
     a1.fill_between(x, normal)
-    a1.set_title("Normal distribution, $\mu = 0$, $\sigma^2 = %0.2f$" % PEPTIDE_VAR)
+    a1.set_title("Normal distribution,\n$\mu = 0$, $\sigma^2 = %0.2f$" % PEPTIDE_VAR)
     laplacian = np.exp(-abs(x) /PEPTIDE_VAR**0.5)/(2.*PEPTIDE_VAR**0.5)
     a2.plot(x, laplacian)
     a2.fill_between(x, laplacian)
-    a2.set_title("Laplacian distribution, $\mu = 0$, $\sigma^2 = %0.2f$" % PEPTIDE_VAR)
+    a2.set_title("Laplacian distribution,\n$\mu = 0$, $\sigma^2 = %0.2f$" % PEPTIDE_VAR)
     scaled_t = t.pdf(x / PEPTIDE_VAR**0.5, df=3) / PEPTIDE_VAR**0.5
     a3.plot(x, scaled_t)
     a3.fill_between(x, scaled_t)
-    a3.set_title("Scaled t distribution, $df = 3$, scaled using $\sigma^2 = %0.2f$" % PEPTIDE_VAR)
+    a3.set_title("Scaled t distribution,\n$df = 3$, scaled using $\sigma^2 = %0.2f$" % PEPTIDE_VAR)
     fig.tight_layout()
     fig.savefig("../figures/6B_dists.eps")
     print "saved 6B_dists.eps"
