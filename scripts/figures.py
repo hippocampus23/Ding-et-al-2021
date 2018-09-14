@@ -9,6 +9,7 @@ import matplotlib
 # matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from scipy.stats import t
+from collections import OrderedDict
 from plotting import plot_density_scatter, make_colorbar, plot_roc_curves, plot_pvalue_dist, \
                      volcano_multipanel, barplot_accuracy
 from statsmodels.sandbox.stats.multicomp import multipletests
@@ -147,10 +148,10 @@ def barplot_multipanel(var_type):
             for l in list(pvals.columns)]
 
     # Adjust pvals
-    pvals_a = pd.DataFrame.from_items([
+    pvals_a = pd.DataFrame.from_dict(OrderedDict([
         (col, multipletests(pvals[col], 0.05, method="fdr_bh")[1])
         for col in pvals.columns
-    ])
+    ]))
 
     # Plot
     barplot_accuracy(pvals, is_changed, axarr[0][0], axarr[1][0])
