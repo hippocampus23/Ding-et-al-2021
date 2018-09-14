@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import matplotlib
 # to avoid tkinter error on linux VM
-# matplotlib.use('Agg')
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from scipy.stats import t
 from collections import OrderedDict
