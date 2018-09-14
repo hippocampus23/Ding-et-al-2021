@@ -153,7 +153,7 @@ def plot_pvalue_dist(pvals, axes=None):
     for i, name in enumerate(valid_labels):
         ax = axes[i]
 
-        _, _, rects = ax.hist(pvals[name], bins=20, range=(0, 1), normed=True, alpha=0.5)
+        _, _, rects = ax.hist(pvals[name], bins=20, range=(0, 1), density=True, alpha=0.5)
         ax.plot([0, 1], [1, 1], color="grey", lw=1, linestyle="--")
         ax.set_title(name if name not in LABEL_MAPPING else LABEL_MAPPING[name])
         ax.set_xlabel("p-value")
