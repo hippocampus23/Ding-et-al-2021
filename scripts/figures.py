@@ -8,11 +8,12 @@ import matplotlib
 # to avoid tkinter error on linux VM
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from scipy.stats import t
 from collections import OrderedDict
 from plotting import plot_density_scatter, make_colorbar, plot_roc_curves, plot_pvalue_dist, \
                      volcano_multipanel, barplot_accuracy
 from statsmodels.sandbox.stats.multicomp import multipletests
-from constants import NUM_PEPTIDES, LABEL_MAPPING
+from constants import NUM_PEPTIDES, LABEL_MAPPING, PEPTIDE_VAR, MEAN_PEPTIDE_INTENSITY
 from sampler import sample
 from stat_tests import do_all_tests, modT, TESTS
 
@@ -224,3 +225,26 @@ def fig_4CD_trend():
     plot = barplot_multipanel("trend")
     plot.savefig("../figures/4CD_trend.eps")
     print "saved 4CD_trend.eps"
+
+
+# to be added to 6B (plotted in R)
+# shapes of the noise distributions
+def fig_6B_dists():
+    matplotlib.rc("font", size=15)
+    fig, (a1, a2, a3) = plt.subplots(3, 1, sharex="col", figsize=(6, 10))
+    x = np.linspace(-2, 2, 200)
+    normal = 1/np.sqrt(2 * np.pi * PEPTIDE_VAR) * np.exp(- x**2 / (2 * PEPTIDE_VAR))
+    a1.plot(x, normal)
+    a1.fill_between(x, normal)
+    a1.set_title("Normal distribution,\n$\mu = 0$, $\sigma^2 = %0.2f$" % PEPTIDE_VAR)
+    laplacian = np.exp(-abs(x) /PEPTIDE_VAR**0.5)/(2.*PEPTIDE_VAR**0.5)
+    a2.plot(x, laplacian)
+    a2.fill_between(x, laplacian)
+    a2.set_title("Laplacian distribution,\n$\mu = 0$, $\sigma^2 = %0.2f$" % PEPTIDE_VAR)
+    scaled_t = t.pdf(x / PEPTIDE_VAR**0.5, df=3) / PEPTIDE_VAR**0.5
+    a3.plot(x, scaled_t)
+    a3.fill_between(x, scaled_t)
+    a3.set_title("Scaled t distribution,\n$df = 3$, scaled using $\sigma^2 = %0.2f$" % PEPTIDE_VAR)
+    fig.tight_layout()
+    fig.savefig("../figures/6B_dists.eps")
+    print "saved 6B_dists.eps"

@@ -335,14 +335,14 @@ def barplot_accuracy(pval_df, is_changed, ax1=None, ax2=None):
 
     :param pval_df:    results from statistical tests, pandas.DataFrame
     :param is_changed: binary labels for each peptide describing whether or not it was perturbed
-    :param ax1:        optional, where to plot (there are 2 axis above each other for a broken axis plot
-    :param ax2:        optional, where to plot
+    :param ax1:        optional, where to plot (there are 2 axis above each other for a broken axis plot)
+    :param ax2:        optional, where to plot (if ax1 is specified, must give ax2 too)
     :return:           figure, None if ax specified
     """
 
     valid_labels = sorted(list(pval_df.columns))
 
-    if ax1 is None:
+    if ax1 is None or ax2 is None:
         f, (ax1, ax2) = plt.subplots()
     else:
         f = None
