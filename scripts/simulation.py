@@ -60,7 +60,7 @@ def simulate_variance_range(vars, betas):
     DF = 3
 
     def t_dist(loc, scale, size=1):
-        return np.random.standard_t(DF, size=size) * scale
+        return np.random.standard_t(DF, size=size) * scale + loc
 
     res = {}
     for v in vars:

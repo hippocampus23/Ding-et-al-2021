@@ -56,7 +56,7 @@ def sample(pep_var_type, num_peps = NUM_PEPTIDES, num_ctrl=NUM_CHANNELS/2, num_e
     # generate control data
     var = [var_sampler(mean) for mean in pep_means]
     ctrl = np.array([
-        use_var(loc=0, scale=var[i] ** 0.5, size=num_ctrl) + pep_means[i]
+        use_var(loc=pep_means[i], scale=var[i] ** 0.5, size=num_ctrl)
         for i in range(num_peps)
     ])
 
@@ -69,7 +69,7 @@ def sample(pep_var_type, num_peps = NUM_PEPTIDES, num_ctrl=NUM_CHANNELS/2, num_e
     # but the overall character of the distribution is the same
     var = [var_sampler(mean) for mean in pep_means]
     exp = np.array([
-        use_var(loc=0, scale=var[i] ** 0.5, size=num_exp) + pep_means[i]
+        use_var(loc=pep_means[i], scale=var[i] ** 0.5, size=num_exp)
         for i in range(num_peps)
     ])
 
