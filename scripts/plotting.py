@@ -117,8 +117,8 @@ def volcano_multipanel(pvals, ctrl, exp, is_changed):
         for col in pvals.columns
     ])
 
-    volcano_plots(pvals, ctrl, exp, is_changed, axarr[0])
-    volcano_plots(pvals_corrected, ctrl, exp, is_changed, axarr[1])
+    volcano_plots(pvals, ctrl, exp, is_changed, axarr[0], ylim=7, xrange=(-2.5, 2.5))
+    volcano_plots(pvals_corrected, ctrl, exp, is_changed, axarr[1], ylim=3, xrange=(-2.5, 2.5))
 
     # Remove unnecessary labels
     for ax in axarr[0]:
@@ -283,7 +283,7 @@ def plot_partial_auc(is_changed, pvals, fdr=0.05, ax=None, label="Area ", color=
     return AUC, ax, f
 
 
-def volcano_plots(pval_df, ctrl, exp, is_changed, axes=None):
+def volcano_plots(pval_df, ctrl, exp, is_changed, axes=None, ylim=None, xrange=None):
     """
     Volcano plots for all tests
 
@@ -292,6 +292,8 @@ def volcano_plots(pval_df, ctrl, exp, is_changed, axes=None):
     :param exp:         experiment data
     :param is_changed:  binary labels for each peptide describing whether or not it was perturbed
     :param axes:        optional, where to plot
+    :param ylim:        scaler, if specified, how high y axis should be
+    :param xrange:      tuple, if specified, how wide x axis should be
     :return:            figure, None if axes specified
     """
     valid_labels = sorted(list(pval_df.columns))
@@ -315,6 +317,10 @@ def volcano_plots(pval_df, ctrl, exp, is_changed, axes=None):
     fc = np.mean(exp, 1) - np.mean(ctrl, 1)
     for i, name in enumerate(valid_labels):
         ax = axes[i]
+        if ylim is not None:
+            ax.set_ylim(0, ylim)
+        if xrange is not None:
+            ax.set_xlim(xrange[0], xrange[1])
 
         ax.scatter(fc.values, -np.log10(pval_df[name].values),
                    c=is_changed, alpha=0.25, cmap=matplotlib.cm.coolwarm, lw=0, s=3)
