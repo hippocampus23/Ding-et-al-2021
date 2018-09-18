@@ -20,8 +20,8 @@ summary_figures: 3B.eps 3D.eps 3F.eps 4E.eps 4J.eps 4O.eps \
 # make supplementary figures which require many rounds of simulations
 # Note: data must already be made when calling summary_figures
 supplemental_figures: S1B.eps S2A.eps S2B.eps S2E.eps S2F.eps \
-	S2C.eps S2D.eps S3A.eps S3B.eps S3A_trend.eps S3F.eps S3C.eps \
-	S3D.eps S4A.eps S4B.eps
+	S2C.eps S2D.eps S3A.eps S3B.eps S3A_trend.eps S3B_trend.eps S3C.eps \
+	S3D.eps S3C_trend.eps S3D_trend.eps S4A.eps S4B.eps
 
 
 
@@ -93,14 +93,20 @@ S3A_trend.eps:
 S3B.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_S3B()"
 
-S3F.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S3F()"
+S3B_trend.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_S3B_trend()"
 
 S3C.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_S3C()"
 
+S3C_trend.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_S3C_trend()"
+
 S3D.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_S3D()"
+
+S3D_trend.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_S3D_trend()"
 
 S4A.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_S4A()"
