@@ -143,7 +143,7 @@ fig_4E <- function() {
   fdr_fc_uni_df <- read.csv("../data_simulated/4E.csv")
   read_data_and_plot(
       fdr_fc_uni_df[as.numeric(fdr_fc_uni_df$setting) <= 1.0,],
-      "4E", "log2(FC)", plot="fdr", save=TRUE, filename="../figures/4E.eps")
+      "", "log2(FC)", plot="fdr", save=TRUE, filename="../figures/4E.eps")
   print("saved 4E.eps")
 }
 
@@ -154,19 +154,19 @@ fig_4J <- function() {
   fdr_fc_gam_df <- read.csv("../data_simulated/4J.csv")
   read_data_and_plot(
       fdr_fc_gam_df[as.numeric(fdr_fc_gam_df$setting) <= 1.0,],
-      "4J", "log2(FC)", plot="fdr", save=TRUE, filename="../figures/4J.eps")
+      "", "log2(FC)", plot="fdr", save=TRUE, filename="../figures/4J.eps")
   print("saved 4J.eps")
 }
 
 
-fig_4E_trend <- function() {
+fig_4O <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
-  fdr_fc_trend_df <- read.csv("../data_simulated/4E_trend.csv")
+  fdr_fc_trend_df <- read.csv("../data_simulated/4O.csv")
   read_data_and_plot(
       fdr_fc_trend_df[as.numeric(fdr_fc_trend_df$setting) <= 1.0,],
-      "", "log2(FC)", plot="fdr", save=TRUE, filename="../figures/4E_trend.eps")
-  print("saved 4E_trend.eps")
+      "", "log2(FC)", plot="fdr", save=TRUE, filename="../figures/4O.eps")
+  print("saved 4O.eps")
 }
 
 

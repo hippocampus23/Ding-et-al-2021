@@ -44,10 +44,10 @@ def data_4J():
     print "saved 4J.csv"
 
 
-def data_4E_trend():
-    res_4E_trend = simulate_fdr_fc_range(FOLD_CHANGES, "trend")
-    write_result_dict_to_df(res_4E_trend, TESTS.keys(), filename="../data_simulated/4E_trend.csv", ana_type="fdr")
-    print "saved 4E_trend.csv"
+def data_4O():
+    res_4O = simulate_fdr_fc_range(FOLD_CHANGES, "trend")
+    write_result_dict_to_df(res_4O, TESTS.keys(), filename="../data_simulated/4O.csv", ana_type="fdr")
+    print "saved 4O.csv"
 
 
 def data_5B():

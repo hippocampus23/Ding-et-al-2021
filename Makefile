@@ -4,17 +4,17 @@ figures: simple_figures summary_figures supplemental_figures
 
 # make figures that require few simulations
 simple_figures: 1BCDE.eps 1FGH_gamma.eps 1FGH_uniform.eps 1FGH_trend.eps 2ABC.eps \
-	4B.eps 4G.eps 4B_trend.eps 4CD.eps 4HI.eps 4CD_trend.eps
+	4B.eps 4G.eps 4L.eps 4CD.eps 4HI.eps 4MN.eps
 
 # make data for figures that require many rounds of simulations
-data: 3B.csv 3D.csv 3F.csv 4E.csv 4J.csv 4E_trend.csv 5B.csv 5D.csv \
+data: 3B.csv 3D.csv 3F.csv 4E.csv 4J.csv 4O.csv 5B.csv 5D.csv \
 	5B_trend.csv 5D_trend.csv 6B.csv S1B.csv
 # Note: this is better than calling all functions in python because
 #       memory allocated for python is cleared after each rule
 
 # make figures that require many rounds of simulations
 # Note: data must already be made when calling summary_figures
-summary_figures: 3B.eps 3D.eps 3F.eps 4E.eps 4J.eps 4E_trend.eps \
+summary_figures: 3B.eps 3D.eps 3F.eps 4E.eps 4J.eps 4O.eps \
 	5B.eps 5D.eps 5B_trend.eps 5D_trend.eps 6B.eps 6B_dists.eps
 
 # make supplementary figures which require many rounds of simulations
@@ -40,8 +40,8 @@ supplemental_figures: S1B.eps S2A.eps S2ABC.eps S2A_trend.eps S2ABC_trend.eps \
 4J.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_4J()"
 
-4E_trend.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_4E_trend()"
+4O.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_4O()"
 
 5B.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_5B()"
@@ -125,8 +125,8 @@ S4B.eps:
 4J.csv:
 	cd scripts && python -c "from make_data import data_4J; data_4J()"
 
-4E_trend.csv:
-	cd scripts && python -c "from make_data import data_4E_trend; data_4E_trend()"
+4O.csv:
+	cd scripts && python -c "from make_data import data_4O; data_4O()"
 
 5B.csv:
 	cd scripts && python -c "from make_data import data_5B; data_5B()"
@@ -169,8 +169,8 @@ S1B.csv:
 4G.eps:
 	cd scripts && python -c "from figures import fig_4G; fig_4G()"
 
-4B_trend.eps:
-	cd scripts && python -c "from figures import fig_4B_trend; fig_4B_trend()"
+4L.eps:
+	cd scripts && python -c "from figures import fig_4L; fig_4L()"
 
 4CD.eps:
 	cd scripts && python -c "from figures import fig_4CD; fig_4CD()"
@@ -178,8 +178,8 @@ S1B.csv:
 4HI.eps:
 	cd scripts && python -c "from figures import fig_4HI; fig_4HI()"
 
-4CD_trend.eps:
-	cd scripts && python -c "from figures import fig_4CD_trend; fig_4CD_trend()"
+4MN.eps:
+	cd scripts && python -c "from figures import fig_4MN; fig_4MN()"
 
 
 

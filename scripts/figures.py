@@ -204,10 +204,10 @@ def fig_4G():
     print "saved 4G.eps"
 
 
-def fig_4B_trend():
+def fig_4L():
     plot = volcano_multipanel_example("trend")
-    plot.savefig("../figures/4B_trend.eps")
-    print "saved 4B_trend.eps"
+    plot.savefig("../figures/4L.eps")
+    print "saved 4L.eps"
 
 
 def fig_4CD():
@@ -222,10 +222,10 @@ def fig_4HI():
     print "saved 4HI.eps"
 
 
-def fig_4CD_trend():
+def fig_4MN():
     plot = barplot_multipanel("trend")
-    plot.savefig("../figures/4CD_trend.eps")
-    print "saved 4CD_trend.eps"
+    plot.savefig("../figures/4MN.eps")
+    print "saved 4MN.eps"
 
 
 # to be added to 6B (plotted in R)
