@@ -3,7 +3,7 @@ all: simple_figures data summary_figures supplemental_figures
 figures: simple_figures summary_figures supplemental_figures
 
 # make figures that require few simulations
-simple_figures: 1BCD.eps 1EFG_gamma.eps 1EFG_uniform.eps 1EFG_trend.eps 2B.eps \
+simple_figures: 1BCDE.eps 1FGH_gamma.eps 1FGH_uniform.eps 1FGH_trend.eps 2ABC.eps \
 	4B.eps 4G.eps 4B_trend.eps 4CD.eps 4HI.eps 4CD_trend.eps
 
 # make data for figures that require many rounds of simulations
@@ -19,7 +19,7 @@ summary_figures: 3B.eps 3D.eps 3B_trend.eps 4E.eps 4J.eps 4E_trend.eps \
 
 # make supplementary figures which require many rounds of simulations
 # Note: data must already be made when calling summary_figures
-supplemental_figures: S1B.eps S2A.eps S2B.eps S2A_trend.eps S2B_trend.eps \
+supplemental_figures: S1B.eps S2A.eps S2ABC.eps S2A_trend.eps S2ABC_trend.eps \
 	S2C.eps S2D.eps S3A.eps S3B.eps S3A_trend.eps S3B_trend.eps S3C.eps \
 	S3D.eps S4A.eps S4B.eps
 
@@ -72,11 +72,11 @@ S2A.eps:
 S2A_trend.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_S2A_trend()"
 
-S2B.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S2B()"
+S2ABC.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_S2ABC()"
 
-S2B_trend.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S2B_trend()"
+S2ABC_trend.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_S2ABC_trend()"
 
 S2C.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_S2C()"
@@ -148,20 +148,20 @@ S1B.csv:
 
 
 
-1BCD.eps:
-	cd scripts && python -c "from figures import fig_1BCD; fig_1BCD()"
+1BCDE.eps:
+	cd scripts && python -c "from figures import fig_1BCDE; fig_1BCDE()"
 
-1EFG_gamma.eps:
-	cd scripts && python -c "from figures import fig_1EFG; fig_1EFG('gamma')"
+1FGH_gamma.eps:
+	cd scripts && python -c "from figures import fig_1FGH; fig_1FGH('gamma')"
 
-1EFG_uniform.eps:
-	cd scripts && python -c "from figures import fig_1EFG; fig_1EFG('uniform')"
+1FGH_uniform.eps:
+	cd scripts && python -c "from figures import fig_1FGH; fig_1FGH('uniform')"
 
-1EFG_trend.eps:
-	cd scripts && python -c "from figures import fig_1EFG; fig_1EFG('trend')"
+1FGH_trend.eps:
+	cd scripts && python -c "from figures import fig_1FGH; fig_1FGH('trend')"
 
-2B.eps:
-	cd scripts && python -c "from figures import fig_2B; fig_2B()"
+2ABC.eps:
+	cd scripts && python -c "from figures import fig_2ABC; fig_2ABC()"
 
 4B.eps:
 	cd scripts && python -c "from figures import fig_4B; fig_4B()"

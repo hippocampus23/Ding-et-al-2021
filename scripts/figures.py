@@ -21,14 +21,14 @@ from stat_tests import do_all_tests, modT, TESTS
 def density_scatter(ctrl_data):
     """
     Scatterplot of variance vs log2 mean intensity
-    used for figure 1BCD
+    used for figure 1BCDE
 
     :param ctrl_data: pd.DataFrame containing control data
     :return:          plot
     """
 
     matplotlib.rc("font", size=10)
-    f, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(10, 5))
+    f, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(15, 5))
 
     def do_plot(data, ax):
         means = np.mean(data.values, axis=1)
@@ -86,12 +86,12 @@ def pvalue_multipanel():
     """
     Generate panel comparing p-value distributions
     Compare uniform, inverse gamma and trend
-    Corresponds to Figure 2B of manuscript
+    Corresponds to Figure 2ABC of manuscript
 
     :return:  plot
     """
     matplotlib.rc("font", size=10)
-    f, axarr = plt.subplots(3, len(TESTS) + 1, sharex="col", sharey="row", figsize=(20, 10))
+    f, axarr = plt.subplots(3, len(TESTS) + 1, sharex="col", sharey="row", figsize=(20, 15))
 
     for i, var_type in enumerate(["uniform", "gamma", "trend"]):
         ctrl, exp, _ = sample(var_type, num_changed=0)
@@ -108,6 +108,7 @@ def pvalue_multipanel():
             ax.set_xlabel("" if i < 2 else "p-value")
 
     f.tight_layout()
+    plt.subplots_adjust(hspace=0.4)
 
     return f
 
@@ -172,23 +173,23 @@ def barplot_multipanel(var_type):
     return f
 
 
-def fig_1BCD():
+def fig_1BCDE():
     data = pd.read_csv("../data_empirical/data.csv", sep=";", usecols=["C1", "C2", "C3"])
     plot = density_scatter(data)
-    plot.savefig("../figures/1BCD.eps")
-    print "saved 1BCD.eps"
+    plot.savefig("../figures/1BCDE.eps")
+    print "saved 1BCDE.eps"
 
 
-def fig_1EFG(var_type):
+def fig_1FGH(var_type):
     plot = plot_example_roc_curves(var_type)
-    plot.savefig("../figures/1EFG_"+var_type+".eps")
-    print "saved 1EFG_"+var_type+".eps"
+    plot.savefig("../figures/1FGH_"+var_type+".eps")
+    print "saved 1FGH_"+var_type+".eps"
 
 
-def fig_2B():
+def fig_2ABC():
     plot = pvalue_multipanel()
-    plot.savefig("../figures/2B.eps")
-    print "saved 2B.eps"
+    plot.savefig("../figures/2ABC.eps")
+    print "saved 2ABC.eps"
 
 
 def fig_4B():
