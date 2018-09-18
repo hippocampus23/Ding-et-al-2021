@@ -128,12 +128,12 @@ fig_3D <- function() {
 }
 
 
-fig_3B_trend <- function() {
+fig_3F <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
-  read_data_and_plot("../data_simulated/3B_trend.csv",
-      "", "log2(FC)", plot="pAUC", save=TRUE, filename="../figures/3B_trend.eps")
-  print("saved 3B_trend.eps")
+  read_data_and_plot("../data_simulated/3F.csv",
+      "", "log2(FC)", plot="pAUC", save=TRUE, filename="../figures/3F.eps")
+  print("saved 3F.eps")
 }
 
 
@@ -233,7 +233,7 @@ fig_S2A_trend <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/3B_trend.csv", "S2A_trend", "log2(FC)", plot="AUROC",
+      "../data_simulated/3F.csv", "S2A_trend", "log2(FC)", plot="AUROC",
       filename="../figures/S2A_trend.eps", save=TRUE)
   print("saved S2A_trend.eps")
 }
@@ -253,7 +253,7 @@ fig_S2B_trend <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/3B_trend.csv", "S2B_trend", "log2(FC)", plot="AUPRC",
+      "../data_simulated/3F.csv", "S2B_trend", "log2(FC)", plot="AUPRC",
       filename="../figures/S2B_trend.eps", save=TRUE)
   print("saved S2B_trend.eps")
 }
@@ -309,12 +309,12 @@ fig_S3B <- function() {
 }
 
 
-fig_S3B_trend <- function() {
+fig_S3F <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/5B_trend.csv", "S3B_trend", "Number of channels", plot="AUPRC",
-      filename="../figures/S3B_trend.eps", save=TRUE)
+      "../data_simulated/5B_trend.csv", "S3F", "Number of channels", plot="AUPRC",
+      filename="../figures/S3F.eps", save=TRUE)
   print("saved S3B.eps")
 }
 

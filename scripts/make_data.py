@@ -26,10 +26,10 @@ def data_3D():
     print "saved 3D.csv"
 
 
-def data_3B_trend():
-    res_3B_trend = simulate_fold_change_range(FOLD_CHANGES, "trend")
-    write_result_dict_to_df(res_3B_trend, TESTS.keys(), filename="../data_simulated/3B_trend.csv", ana_type="roc")
-    print "saved 3B_trend.csv"
+def data_3F():
+    res_3F = simulate_fold_change_range(FOLD_CHANGES, "trend")
+    write_result_dict_to_df(res_3F, TESTS.keys(), filename="../data_simulated/3F.csv", ana_type="roc")
+    print "saved 3F.csv"
 
 
 def data_4E():

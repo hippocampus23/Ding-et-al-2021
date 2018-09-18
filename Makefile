@@ -7,20 +7,20 @@ simple_figures: 1BCDE.eps 1FGH_gamma.eps 1FGH_uniform.eps 1FGH_trend.eps 2ABC.ep
 	4B.eps 4G.eps 4B_trend.eps 4CD.eps 4HI.eps 4CD_trend.eps
 
 # make data for figures that require many rounds of simulations
-data: 3B.csv 3D.csv 3B_trend.csv 4E.csv 4J.csv 4E_trend.csv 5B.csv 5D.csv \
+data: 3B.csv 3D.csv 3F.csv 4E.csv 4J.csv 4E_trend.csv 5B.csv 5D.csv \
 	5B_trend.csv 5D_trend.csv 6B.csv S1B.csv
 # Note: this is better than calling all functions in python because
 #       memory allocated for python is cleared after each rule
 
 # make figures that require many rounds of simulations
 # Note: data must already be made when calling summary_figures
-summary_figures: 3B.eps 3D.eps 3B_trend.eps 4E.eps 4J.eps 4E_trend.eps \
+summary_figures: 3B.eps 3D.eps 3F.eps 4E.eps 4J.eps 4E_trend.eps \
 	5B.eps 5D.eps 5B_trend.eps 5D_trend.eps 6B.eps 6B_dists.eps
 
 # make supplementary figures which require many rounds of simulations
 # Note: data must already be made when calling summary_figures
 supplemental_figures: S1B.eps S2A.eps S2ABC.eps S2A_trend.eps S2ABC_trend.eps \
-	S2C.eps S2D.eps S3A.eps S3B.eps S3A_trend.eps S3B_trend.eps S3C.eps \
+	S2C.eps S2D.eps S3A.eps S3B.eps S3A_trend.eps S3F.eps S3C.eps \
 	S3D.eps S4A.eps S4B.eps
 
 
@@ -31,8 +31,8 @@ supplemental_figures: S1B.eps S2A.eps S2ABC.eps S2A_trend.eps S2ABC_trend.eps \
 3D.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_3D()"
 
-3B_trend.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_3B_trend()"
+3F.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_3F()"
 
 4E.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_4E()"
@@ -93,8 +93,8 @@ S3A_trend.eps:
 S3B.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_S3B()"
 
-S3B_trend.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S3B_trend()"
+S3F.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_S3F()"
 
 S3C.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_S3C()"
@@ -116,8 +116,8 @@ S4B.eps:
 3D.csv:
 	cd scripts && python -c "from make_data import data_3D; data_3D()"
 
-3B_trend.csv:
-	cd scripts && python -c "from make_data import data_3B_trend; data_3B_trend()"
+3F.csv:
+	cd scripts && python -c "from make_data import data_3F; data_3F()"
 
 4E.csv:
 	cd scripts && python -c "from make_data import data_4E; data_4E()"
