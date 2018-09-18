@@ -368,4 +368,5 @@ fig_S1B <- function() {
   ds_size<- transform_ds_size(
       read.csv("../data_simulated/S1B.csv", stringsAsFactors=FALSE), plot='pAUC')
   ggsave("../figures/S1B.eps", ds_size, width=12.80, height=7.20, dpi=100)
+  print("saved S1B.eps")
 }
