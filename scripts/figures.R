@@ -223,19 +223,19 @@ fig_S2A <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/3B.csv", "S2A", "log2(FC)", plot="AUROC",
+      "../data_simulated/3B.csv", "Uniform peptide variance", "log2(FC)", plot="AUROC",
       filename="../figures/S2A.eps", save=TRUE)
   print("saved S2A.eps")
 }
 
 
-fig_S2A_trend <- function() {
+fig_S2E <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/3F.csv", "S2A_trend", "log2(FC)", plot="AUROC",
-      filename="../figures/S2A_trend.eps", save=TRUE)
-  print("saved S2A_trend.eps")
+      "../data_simulated/3F.csv", "Mean variance trend", "log2(FC)", plot="AUROC",
+      filename="../figures/S2E.eps", save=TRUE)
+  print("saved S2E.eps")
 }
 
 
@@ -243,19 +243,19 @@ fig_S2B <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/3B.csv", "S2B", "log2(FC)", plot="AUPRC",
+      "../data_simulated/3B.csv", "Uniform peptide variance", "log2(FC)", plot="AUPRC",
       filename="../figures/S2B.eps", save=TRUE)
   print("saved S2B.eps")
 }
 
 
-fig_S2B_trend <- function() {
+fig_S2F <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/3F.csv", "S2B_trend", "log2(FC)", plot="AUPRC",
-      filename="../figures/S2B_trend.eps", save=TRUE)
-  print("saved S2B_trend.eps")
+      "../data_simulated/3F.csv", "Mean variance trend", "log2(FC)", plot="AUPRC",
+      filename="../figures/S2F.eps", save=TRUE)
+  print("saved S2F.eps")
 }
 
 
@@ -263,7 +263,7 @@ fig_S2C <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/3D.csv", "S2C", "log2(FC)", plot="AUROC",
+      "../data_simulated/3D.csv", "Inverse gamma variance", "log2(FC)", plot="AUROC",
       filename="../figures/S2C.eps", save=TRUE)
   print("saved S2C.eps")
 }
@@ -273,7 +273,7 @@ fig_S2D <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   read_data_and_plot(
-      "../data_simulated/3D.csv", "S2D", "log2(FC)", plot="AUPRC",
+      "../data_simulated/3D.csv", "Inverse gamma variance", "log2(FC)", plot="AUPRC",
       filename="../figures/S2D.eps", save=TRUE)
   print("saved S2D.eps")
 }
