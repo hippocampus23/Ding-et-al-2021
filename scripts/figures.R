@@ -206,14 +206,14 @@ fig_5D_trend <- function() {
 }
 
 
-fig_6B <- function() {
+fig_6C <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=15))
   # Plot variance results
   # This needs subsetting + faceting to be maximally useful
-  var <- transform_var(read.csv("../data_simulated/6B.csv"), plot="pAUC")
-  ggsave("../figures/6B.eps", var, width=12.80, height=12.80, dpi=100)
-  print("saved 6B.eps")
+  var <- transform_var(read.csv("../data_simulated/6C.csv"), plot="pAUC")
+  ggsave("../figures/6C.eps", var, width=12.80, height=12.80, dpi=100)
+  print("saved 6C.eps")
 }
 
 
@@ -344,7 +344,7 @@ fig_S4A <- function() {
   theme_set(theme_bw(base_size=15))
   # Plot variance results
   # This needs subsetting + faceting to be maximally useful
-  var <- transform_var(read.csv("../data_simulated/6B.csv"), plot="AUROC")
+  var <- transform_var(read.csv("../data_simulated/6C.csv"), plot="AUROC")
   ggsave("../figures/S4A.eps", var, width=12.80, height=12.80, dpi=100)
   print("saved S4A.eps")
 }
@@ -355,7 +355,7 @@ fig_S4B <- function() {
   theme_set(theme_bw(base_size=15))
   # Plot variance results
   # This needs subsetting + faceting to be maximally useful
-  var <- transform_var(read.csv("../data_simulated/6B.csv"), plot="AUPRC")
+  var <- transform_var(read.csv("../data_simulated/6C.csv"), plot="AUPRC")
   ggsave("../figures/S4B.eps", var, width=12.80, height=12.80, dpi=100)
   print("saved S4B.eps")
 }

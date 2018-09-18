@@ -6,7 +6,7 @@ from formatting import write_result_dict_to_df
 from stat_tests import TESTS
 
 # script to run on Google cloud
-# generates data for figures 3B, 3D, 5B, 6B, 4E, 4J
+# generates data for figures 3B, 3D, 5B, 6C, 4E, 4J
 # figures can be created using the plots$make_figures() in figures.R
 # TODO: 5D, supp
 
@@ -74,10 +74,10 @@ def data_5D_trend():
     print "saved 5D_trend.csv"
 
 
-def data_6B():
-    res_6B = simulate_variance_range(vars=[0.02, 0.06, 0.18], betas=[0.05, 0.1, 0.2])
-    write_result_dict_to_df(res_6B, TESTS.keys(), filename="../data_simulated/6B.csv", ana_type="roc")
-    print "saved 6B.csv"
+def data_6C():
+    res_6C = simulate_variance_range(vars=[0.02, 0.06, 0.18], betas=[0.05, 0.1, 0.2])
+    write_result_dict_to_df(res_6C, TESTS.keys(), filename="../data_simulated/6C.csv", ana_type="roc")
+    print "saved 6C.csv"
 
 
 def data_S1B():

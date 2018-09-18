@@ -8,14 +8,14 @@ simple_figures: 1BCDE.eps 1FGH_gamma.eps 1FGH_uniform.eps 1FGH_trend.eps 2ABC.ep
 
 # make data for figures that require many rounds of simulations
 data: 3B.csv 3D.csv 3F.csv 4E.csv 4J.csv 4O.csv 5B.csv 5D.csv \
-	5B_trend.csv 5D_trend.csv 6B.csv S1B.csv
+	5B_trend.csv 5D_trend.csv 6C.csv S1B.csv
 # Note: this is better than calling all functions in python because
 #       memory allocated for python is cleared after each rule
 
 # make figures that require many rounds of simulations
 # Note: data must already be made when calling summary_figures
 summary_figures: 3B.eps 3D.eps 3F.eps 4E.eps 4J.eps 4O.eps \
-	5B.eps 5D.eps 5B_trend.eps 5D_trend.eps 6B.eps 6B_dists.eps
+	5B.eps 5D.eps 5B_trend.eps 5D_trend.eps 6C.eps 6C_dists.eps
 
 # make supplementary figures which require many rounds of simulations
 # Note: data must already be made when calling summary_figures
@@ -55,11 +55,11 @@ supplemental_figures: S1B.eps S2A.eps S2ABC.eps S2A_trend.eps S2ABC_trend.eps \
 5D_trend.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_5D_trend()"
 
-6B.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_6B()"
+6C.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_6C()"
 
-6B_dists.eps:
-	cd scripts && python -c "from figures import fig_6B_dists; fig_6B_dists()"
+6C_dists.eps:
+	cd scripts && python -c "from figures import fig_6C_dists; fig_6C_dists()"
 
 
 
@@ -140,8 +140,8 @@ S4B.eps:
 5D_trend.csv:
 	cd scripts && python -c "from make_data import data_5D_trend; data_5D_trend()"
 
-6B.csv:
-	cd scripts && python -c "from make_data import data_6B; data_6B()"
+6C.csv:
+	cd scripts && python -c "from make_data import data_6C; data_6C()"
 
 S1B.csv:
 	cd scripts && python -c "from make_data import data_S1B; data_S1B()"

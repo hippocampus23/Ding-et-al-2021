@@ -228,11 +228,11 @@ def fig_4MN():
     print "saved 4MN.eps"
 
 
-# to be added to 6B (plotted in R)
+# to be added to 6C (plotted in R)
 # shapes of the noise distributions
-def fig_6B_dists():
-    matplotlib.rc("font", size=15)
-    fig, (a1, a2, a3) = plt.subplots(3, 1, sharex="col", figsize=(6, 10))
+def fig_6C_dists():
+    matplotlib.rc("font", size=12)
+    fig, (a1, a2, a3) = plt.subplots(3, 1, sharex="col", figsize=(6, 13))
     x = np.linspace(-2, 2, 200)
     normal = 1/np.sqrt(2 * np.pi * PEPTIDE_VAR) * np.exp(- x**2 / (2 * PEPTIDE_VAR))
     a1.plot(x, normal)
@@ -247,5 +247,6 @@ def fig_6B_dists():
     a3.fill_between(x, scaled_t)
     a3.set_title("Scaled t distribution,\n$df = 3$, scaled using $\sigma^2 = %0.2f$" % PEPTIDE_VAR)
     fig.tight_layout()
-    fig.savefig("../figures/6B_dists.eps")
-    print "saved 6B_dists.eps"
+    fig.subplots_adjust(hspace=0.6)
+    fig.savefig("../figures/6C_dists.eps")
+    print "saved 6C_dists.eps"
