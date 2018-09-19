@@ -86,7 +86,7 @@ def pvalue_multipanel():
     """
     Generate panel comparing p-value distributions
     Compare uniform, inverse gamma and trend
-    Corresponds to Figure 2ABC of manuscript
+    Corresponds to Figure 2BDF of manuscript
 
     :return:  plot
     """
@@ -186,10 +186,10 @@ def fig_1FGH(var_type):
     print "saved 1FGH_"+var_type+".eps"
 
 
-def fig_2ABC():
+def fig_2BDF():
     plot = pvalue_multipanel()
-    plot.savefig("../figures/2ABC.eps")
-    print "saved 2ABC.eps"
+    plot.savefig("../figures/2BDF.eps")
+    print "saved 2BDF.eps"
 
 
 def fig_4B():

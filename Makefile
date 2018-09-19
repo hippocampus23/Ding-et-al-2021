@@ -3,7 +3,7 @@ all: simple_figures data summary_figures supplemental_figures
 figures: simple_figures summary_figures supplemental_figures
 
 # make figures that require few simulations
-simple_figures: 1BCDE.eps 1FGH_gamma.eps 1FGH_uniform.eps 1FGH_trend.eps 2ABC.eps \
+simple_figures: 1BCDE.eps 1FGH_gamma.eps 1FGH_uniform.eps 1FGH_trend.eps 2BDF.eps \
 	4B.eps 4G.eps 4L.eps 4CD.eps 4HI.eps 4MN.eps
 
 # make data for figures that require many rounds of simulations
@@ -166,8 +166,8 @@ S1B.csv:
 1FGH_trend.eps:
 	cd scripts && python -c "from figures import fig_1FGH; fig_1FGH('trend')"
 
-2ABC.eps:
-	cd scripts && python -c "from figures import fig_2ABC; fig_2ABC()"
+2BDF.eps:
+	cd scripts && python -c "from figures import fig_2BDF; fig_2BDF()"
 
 4B.eps:
 	cd scripts && python -c "from figures import fig_4B; fig_4B()"
