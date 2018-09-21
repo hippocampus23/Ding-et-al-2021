@@ -71,9 +71,9 @@ figures will be saved in the directory "figures". So, feel free to copy the
 existing data and figures elsewhere if you do not want to overwrite them.
 To regenerate a figure or data, simply type e.g.
 ``` bash
-make 1EFG.eps
+make 1FGH.eps
 ```
-Replace "1EFG.eps" with you desired target. Note, when regenerating a figure
+Replace "1FGH.eps" with you desired target. Note, when regenerating a figure
 that requires multiple rounds of simulations, the corresponding data file 
 must already be in the directory "data_simulated". Either make it or use the one that is provided
 in the git repository.
