@@ -529,17 +529,10 @@ tstat <- function (sumStats)
   m1=sumStats[3];  m2=sumStats[4]
   sd1=sumStats[5]; sd2=sumStats[6]
   ##  do the two sample t-test
- #  if (n1 > 1 && n2 > 1) {
   tt <- -(m1 - m2)/sqrt((((n1 - 1) * sd1^2 + (n2 - 1) * sd2^2)/(n1 +
                                                                 n2 - 2)) * ((n1 + n2)/(n1 * n2)))
   dft <- n1 + n2 - 2
   rvar <- max((sd1^2)/(sd2^2), (sd2^2)/(sd1^2))
-  # } else {
-  #   tt <- 0
-  #   dft <- 2
-  #   rvar <- NaN
-  # }
-
   as.vector(c(tt, dft, rvar))
 }
 

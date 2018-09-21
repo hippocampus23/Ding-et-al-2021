@@ -6,7 +6,7 @@ library(reshape2)
 LABEL_MAPPING = data.frame(label=c("Absolute fold change", "t-test (1-sample)", "t-test (2-sample)",
                                    "Moderated T (1-sample)", "Moderated T (2-sample)",
                                    "Mod T, variance trend (1-sample)",
-                                   "Mod T, variance trend (2-sample)", "CyberT"), stringsAsFactors=FALSE)
+                                   "Mod T, variance trend (2-sample)", "Cyber-T"), stringsAsFactors=FALSE)
 
 rownames(LABEL_MAPPING) <- c("fold change", "t-test-1", "t-test-2",
                              "modT-1", "modT-2", "modT-1 trend", "modT-2 trend", "cyberT")

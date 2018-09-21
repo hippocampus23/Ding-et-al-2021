@@ -2,7 +2,7 @@ import numpy as np
 from simulation import simulate_fold_change_range, simulate_number_experiments, \
                        simulate_fdr_fc_range, simulate_variance_range, simulate_size_dataset, \
                        simulate_number_channels_imbalanced
-from formatting import write_result_dict_to_df
+from format_utils import write_result_dict_to_df
 from stat_tests import TESTS
 
 # script to run on Google cloud

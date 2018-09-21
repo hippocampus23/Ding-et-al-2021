@@ -168,7 +168,7 @@ def barplot_multipanel(var_type):
     # Resize ax
     for ax in axarr[0]:
         box = ax.get_position()
-        ax.set_position([box.x0, box.y0, box.width, box.height*0.75])
+        ax.set_position([box.x0, box.y0, box.width, box.height*0.5])
 
     return f
 

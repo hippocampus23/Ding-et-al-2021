@@ -38,7 +38,7 @@ LABEL_MAPPING = OrderedDict([
     ("modT-2",       "Moderated T (2-sample)"),
     ("modT-1 trend", "Moderated T with \nvariance trend (1-sample)"),
     ("modT-2 trend", "Moderated T with \nvariance trend (2-sample)"),
-    ("cyberT",       "CyberT")
+    ("cyberT",       "Cyber-T")
 ])
 
 
