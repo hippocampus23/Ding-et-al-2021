@@ -138,7 +138,7 @@ def barplot_multipanel(var_type):
     :return:          plot
     """
     matplotlib.rc("font", size=8)
-    f, axarr = plt.subplots(2, 2, sharey="row", sharex=True, figsize=(5, 6))
+    f, axarr = plt.subplots(2, 2, sharey="row", sharex=True, figsize=(5, 7))
 
     ctrl, exp, is_changed = sample(var_type)
     pvals = do_all_tests(ctrl, exp)
@@ -161,14 +161,16 @@ def barplot_multipanel(var_type):
     axarr[0][0].set_title("Raw p-values")
     axarr[0][1].set_title("BH adjusted")
 
-    # Add legend
-    handles, labels = axarr[0][1].get_legend_handles_labels()
-    plt.figlegend(handles, labels, loc="upper center", ncol=2)
     f.tight_layout()
+
     # Resize ax
     for ax in axarr[0]:
         box = ax.get_position()
         ax.set_position([box.x0, box.y0, box.width, box.height*0.5])
+
+    # Add legend
+    handles, labels = axarr[0][1].get_legend_handles_labels()
+    plt.figlegend(handles, labels, loc="upper center", ncol=2)
 
     return f
 

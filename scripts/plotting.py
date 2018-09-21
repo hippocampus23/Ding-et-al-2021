@@ -367,10 +367,10 @@ def barplot_accuracy(pval_df, is_changed, ax1=None, ax2=None):
     ind = np.arange(len(valid_labels))
     WIDTH = 1.0
     for bax in (ax1, ax2):
-        bax.bar(ind, tp, WIDTH, color="black", label="True Positives")
-        bax.bar(ind, fn, WIDTH, bottom=tp, color="grey", label="False Negatives")
-        bax.bar(ind, fp, WIDTH, bottom=fn + tp, color="lightgray", label="False Positives")
-        bax.bar(ind, tn, WIDTH, bottom=fp + fn + tp, color="white", label="True Negatives")
+        bax.bar(ind, tp, WIDTH, color="black", label="True Positives", edgecolor="black", linewidth=0.5)
+        bax.bar(ind, fn, WIDTH, bottom=tp, color="grey", label="False Negatives", edgecolor="black", linewidth=0.5)
+        bax.bar(ind, fp, WIDTH, bottom=fn + tp, color="lightgray", label="False Positives", edgecolor="black", linewidth=0.5)
+        bax.bar(ind, tn, WIDTH, bottom=fp + fn + tp, color="white", label="True Negatives", edgecolor="black", linewidth=0.5)
 
         bax.set_xticklabels(valid_labels)
         bax.set_xticks(ind)
@@ -387,8 +387,8 @@ def barplot_accuracy(pval_df, is_changed, ax1=None, ax2=None):
 
     d = .015
     kwargs = dict(transform=ax1.transAxes, color='k', clip_on=False)
-    ax1.plot((-d, +d), (-d, +d), **kwargs)              # top-left diagonal
-    ax1.plot((1 - d, 1 + d), (-d, +d), **kwargs)        # top-right diagonal
+    ax1.plot((-d, +d), (-2*d, +2*d), **kwargs)          # top-left diagonal
+    ax1.plot((1 - d, 1 + d), (-2*d, +2*d), **kwargs)    # top-right diagonal
 
     kwargs.update(transform=ax2.transAxes)              # switch to the bottom axes
     ax2.plot((-d, +d), (1 - d, 1 + d), **kwargs)        # bottom-left diagonal

@@ -46,22 +46,3 @@ def write_result_dict_to_df(res, labels, filename, ana_type):
     out.to_csv(filename)
 
     return out
-
-    # skeys = sorted(res.keys())
-    # sorted_res = [res[i].reshape(res[i].shape[0] * res[i].shape[1], -1)
-    #               for i in skeys]
-    # out = pd.DataFrame(np.concatenate(sorted_res, axis=0))
-    #
-    # if ana_type== "fdr":
-    #     out.columns = ["FP_raw", "TP_raw", "FP_adj", "TP_adj"]
-    # elif ana_type== "roc":
-    #     out.columns = ["AUROC", "AUPRC", "pAUROC"]
-    # else:
-    #     raise ValueError("Unknown type of data. Only takes fdr and roc data.")
-    #
-    # out["labels"] = labels * (out.shape[0] / len(labels))
-    # out["setting"] = np.repeat(skeys, [res[i].shape[0] * res[i].shape[1] for i in skeys])
-    #
-    # out.to_csv(filename)
-    #
-    # return out
