@@ -58,9 +58,6 @@ def plot_roc_curves(is_changed, pvals):
     :return:             plot
     """
 
-    font = {"weight": "normal",
-            "size": 8}
-    matplotlib.rc("font", **font)
     f, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(10, 4))
 
     # Edit column titles for pretty printing
@@ -68,9 +65,8 @@ def plot_roc_curves(is_changed, pvals):
                      for l in list(pvals.columns)]
     labels = sorted(list(pvals.columns))
 
-    colors = COLORS.values()
     for i, lbl in enumerate(labels):
-        c = colors[i]
+        c = COLORS[lbl]
         p_val = pvals[lbl]
         plot_roc(is_changed, p_val, ax=ax1, label=lbl, color=c)
         plot_partial_auc(is_changed, p_val, ax=ax2, label=lbl, fdr=0.05, color=c)
@@ -108,7 +104,6 @@ def volcano_multipanel(pvals, ctrl, exp, is_changed):
     pvals.columns = [LABEL_MAPPING[l] if l in LABEL_MAPPING else l
                        for l in list(pvals.columns)]
 
-    matplotlib.rc("font", size=10)
     nc = len(list(pvals.columns))
     f, axarr = plt.subplots(2, nc, sharex="col", sharey="row", figsize=(20, 10))
 

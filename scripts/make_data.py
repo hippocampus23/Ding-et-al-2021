@@ -5,12 +5,8 @@ from simulation import simulate_fold_change_range, simulate_number_experiments, 
 from format_utils import write_result_dict_to_df
 from stat_tests import TESTS
 
-# script to run on Google cloud
-# generates data for figures 3B, 3D, 5B, 6C, 4E, 4J
-# figures can be created using the plots$make_figures() in figures.R
-# TODO: 5D, supp
+# regenerate data for the figures that require multiple simulations
 
-# make data for figures 3B, 3D and with variance trend
 FOLD_CHANGES = np.arange(0.1, 1.0, 0.1)
 
 
@@ -32,22 +28,22 @@ def data_3F():
     print "saved 3F.csv"
 
 
-def data_4E():
-    res_4E = simulate_fdr_fc_range(FOLD_CHANGES, "uniform")
-    write_result_dict_to_df(res_4E, TESTS.keys(), filename="../data_simulated/4E.csv", ana_type="fdr")
-    print "saved 4E.csv"
+def data_4D():
+    res_4D = simulate_fdr_fc_range(FOLD_CHANGES, "uniform")
+    write_result_dict_to_df(res_4D, TESTS.keys(), filename="../data_simulated/4D.csv", ana_type="fdr")
+    print "saved 4D.csv"
 
 
-def data_4J():
-    res_4J = simulate_fdr_fc_range(FOLD_CHANGES, "gamma")
-    write_result_dict_to_df(res_4J, TESTS.keys(), filename="../data_simulated/4J.csv", ana_type="fdr")
-    print "saved 4J.csv"
+def data_4H():
+    res_4H = simulate_fdr_fc_range(FOLD_CHANGES, "gamma")
+    write_result_dict_to_df(res_4H, TESTS.keys(), filename="../data_simulated/4H.csv", ana_type="fdr")
+    print "saved 4H.csv"
 
 
-def data_4O():
-    res_4O = simulate_fdr_fc_range(FOLD_CHANGES, "trend")
-    write_result_dict_to_df(res_4O, TESTS.keys(), filename="../data_simulated/4O.csv", ana_type="fdr")
-    print "saved 4O.csv"
+def data_4L():
+    res_4L = simulate_fdr_fc_range(FOLD_CHANGES, "trend")
+    write_result_dict_to_df(res_4L, TESTS.keys(), filename="../data_simulated/4L.csv", ana_type="fdr")
+    print "saved 4L.csv"
 
 
 def data_5B():

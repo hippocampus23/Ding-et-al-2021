@@ -8,7 +8,7 @@ from constants import NUM_CHANGED, NUM_PEPTIDES, NUM_CHANNELS, VAR_COEFFICIENTS,
 
 
 def sample(pep_var_type, num_peps = NUM_PEPTIDES, num_ctrl=NUM_CHANNELS/2, num_exp=NUM_CHANNELS/2,
-           num_changed = NUM_CHANGED, fold_change=FOLD_CHANGE, use_var=np.random.normal, alpha=ALPHA,
+           num_changed=NUM_CHANGED, fold_change=FOLD_CHANGE, use_var=np.random.normal, alpha=ALPHA,
            beta=BETA, pep_var=PEPTIDE_VAR):
     """
     Simulate a MS data set with experiment and control data
@@ -23,7 +23,7 @@ def sample(pep_var_type, num_peps = NUM_PEPTIDES, num_ctrl=NUM_CHANNELS/2, num_e
                              between peptides
     :param alpha:            parameter for inverse gamma distribution
     :param beta              parameter for inverse gamma distribution
-    :param pep_var               uniform variance if pep_var_type is "uniform"
+    :param pep_var           uniform variance if pep_var_type is "uniform"
     :return:
                  ctrl:       pandas.DataFrame with log 2 control data
                  exp:        pandas.DataFrame with log 2 experiment data

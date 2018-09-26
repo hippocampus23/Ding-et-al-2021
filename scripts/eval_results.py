@@ -5,7 +5,7 @@ from constants import FDR
 
 def roc_prc_scores(is_changed, p_vals):
     """
-    Calculates AUROC, AUPRC, and pAUROC statistics
+    Calculates AUROC, AUPRC, and pAUROC scores
     :param is_changed: actual labels (vector of ones and zeros, n x 1)
     :param p_vals:     predicted labels (list of vectors of non-negative pvalues, smaller more significant, k x n)
     :return:           roc_auc, prc_aucs, pauc (all lists of floats)

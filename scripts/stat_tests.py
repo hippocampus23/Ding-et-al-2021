@@ -12,9 +12,9 @@ r["source"]("modT.R")
 r["source"]("bayesreg.R")
 
 
-def cyberT(ctrl, exp, **kwargs):
+def regT(ctrl, exp, **kwargs):
     """
-    CyberT test for comparing the peptide intensities of control and experiment data.
+    regularized t-test for comparing the peptide intensities of control and experiment data.
 
     :param ctrl:    pandas.DataFrame where each column represents a control channel
     :param exp:     pandas.DataFrame where each column represents an experiment channel
@@ -117,7 +117,7 @@ TESTS = OrderedDict([
     ("modT-2",       lambda ctrl, exp: modT(ctrl, exp, True, False)),
     ("modT-1 trend", lambda ctrl, exp: modT(ctrl, exp, False, True)),
     ("modT-2 trend", lambda ctrl, exp: modT(ctrl, exp, True, True)),
-    ("cyberT",       cyberT)
+    ("RegT",         regT)
 ])
 
 

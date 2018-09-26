@@ -112,7 +112,7 @@ transform_ds_size <- function(ds_size_df, plot="pAUC") {
 # Code for regenerating the plots for the paper
 fig_3B <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot("../data_simulated/3B.csv", "", "log2(FC)", plot="pAUC",
 		     save=TRUE, filename="../figures/3B.eps")
   print("saved 3B.eps")
@@ -121,7 +121,7 @@ fig_3B <- function() {
 
 fig_3D <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot("../data_simulated/3D.csv", "", "log2(FC)", plot="pAUC",
 		     save=TRUE, filename="../figures/3D.eps")
   print("saved 3D.eps")
@@ -130,49 +130,49 @@ fig_3D <- function() {
 
 fig_3F <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot("../data_simulated/3F.csv",
       "", "log2(FC)", plot="pAUC", save=TRUE, filename="../figures/3F.eps")
   print("saved 3F.eps")
 }
 
 
-fig_4E <- function() {
+fig_4D <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
-  fdr_fc_uni_df <- read.csv("../data_simulated/4E.csv")
+  theme_set(theme_bw(base_size=23))
+  fdr_fc_uni_df <- read.csv("../data_simulated/4D.csv")
   read_data_and_plot(
       fdr_fc_uni_df[as.numeric(fdr_fc_uni_df$setting) <= 1.0,],
-      "", "log2(FC)", plot="fdr", save=TRUE, filename="../figures/4E.eps")
-  print("saved 4E.eps")
+      "", "log2(FC)", plot="fdr", save=TRUE, filename="../figures/4D.eps")
+  print("saved 4D.eps")
 }
 
 
-fig_4J <- function() {
+fig_4H <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
-  fdr_fc_gam_df <- read.csv("../data_simulated/4J.csv")
+  theme_set(theme_bw(base_size=23))
+  fdr_fc_gam_df <- read.csv("../data_simulated/4H.csv")
   read_data_and_plot(
       fdr_fc_gam_df[as.numeric(fdr_fc_gam_df$setting) <= 1.0,],
-      "", "log2(FC)", plot="fdr", save=TRUE, filename="../figures/4J.eps")
-  print("saved 4J.eps")
+      "", "log2(FC)", plot="fdr", save=TRUE, filename="../figures/4H.eps")
+  print("saved 4H.eps")
 }
 
 
-fig_4O <- function() {
+fig_4L <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
-  fdr_fc_trend_df <- read.csv("../data_simulated/4O.csv")
+  theme_set(theme_bw(base_size=23))
+  fdr_fc_trend_df <- read.csv("../data_simulated/4L.csv")
   read_data_and_plot(
       fdr_fc_trend_df[as.numeric(fdr_fc_trend_df$setting) <= 1.0,],
-      "", "log2(FC)", plot="fdr", save=TRUE, filename="../figures/4O.eps")
-  print("saved 4O.eps")
+      "", "log2(FC)", plot="fdr", save=TRUE, filename="../figures/4L.eps")
+  print("saved 4L.eps")
 }
 
 
 fig_5B <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot("../data_simulated/5B.csv",
       "", "Number of channels", plot="pAUC", save=TRUE, filename="../figures/5B.eps")
   print("saved 5B.eps")
@@ -181,7 +181,7 @@ fig_5B <- function() {
 
 fig_5D <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot("../data_simulated/5D.csv",
       "", "Number of channels", plot="pAUC", save=TRUE, filename="../figures/5D.eps")
   print("saved 5D.eps")
@@ -190,7 +190,7 @@ fig_5D <- function() {
 
 fig_5B_trend <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot("../data_simulated/5B_trend.csv",
       "", "Number of channels", plot="pAUC", save=TRUE, filename="../figures/5B_trend.eps")
   print("saved 5B_trend.eps")
@@ -199,7 +199,7 @@ fig_5B_trend <- function() {
 
 fig_5D_trend <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot("../data_simulated/5D_trend.csv",
       "", "Number of channels", plot="pAUC", save=TRUE, filename="../figures/5D_trend.eps")
   print("saved 5D_trend.eps")
@@ -208,7 +208,7 @@ fig_5D_trend <- function() {
 
 fig_6C <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   # Plot variance results
   # This needs subsetting + faceting to be maximally useful
   var <- transform_var(read.csv("../data_simulated/6C.csv"), plot="pAUC")
@@ -221,7 +221,7 @@ fig_6C <- function() {
 
 fig_S2A <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot(
       "../data_simulated/3B.csv", "Uniform peptide variance", "log2(FC)", plot="AUROC",
       filename="../figures/S2A.eps", save=TRUE)
@@ -231,9 +231,9 @@ fig_S2A <- function() {
 
 fig_S2E <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot(
-      "../data_simulated/3F.csv", "Mean variance trend", "log2(FC)", plot="AUROC",
+      "../data_simulated/3F.csv", "Mean dependent inverse gamma variance", "log2(FC)", plot="AUROC",
       filename="../figures/S2E.eps", save=TRUE)
   print("saved S2E.eps")
 }
@@ -241,7 +241,7 @@ fig_S2E <- function() {
 
 fig_S2B <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot(
       "../data_simulated/3B.csv", "Uniform peptide variance", "log2(FC)", plot="AUPRC",
       filename="../figures/S2B.eps", save=TRUE)
@@ -251,9 +251,9 @@ fig_S2B <- function() {
 
 fig_S2F <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot(
-      "../data_simulated/3F.csv", "Mean variance trend", "log2(FC)", plot="AUPRC",
+      "../data_simulated/3F.csv", "Mean dependent inverse gamma variance", "log2(FC)", plot="AUPRC",
       filename="../figures/S2F.eps", save=TRUE)
   print("saved S2F.eps")
 }
@@ -261,7 +261,7 @@ fig_S2F <- function() {
 
 fig_S2C <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot(
       "../data_simulated/3D.csv", "Inverse gamma variance", "log2(FC)", plot="AUROC",
       filename="../figures/S2C.eps", save=TRUE)
@@ -271,7 +271,7 @@ fig_S2C <- function() {
 
 fig_S2D <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot(
       "../data_simulated/3D.csv", "Inverse gamma variance", "log2(FC)", plot="AUPRC",
       filename="../figures/S2D.eps", save=TRUE)
@@ -281,9 +281,9 @@ fig_S2D <- function() {
 
 fig_S3A <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot(
-      "../data_simulated/5B.csv", "S3A", "Number of channels", plot="AUROC",
+      "../data_simulated/5B.csv", "Inverse gamma variance", "Number of channels", plot="AUROC",
       filename="../figures/S3A.eps", save=TRUE)
   print("saved S3A.eps")
 }
@@ -291,9 +291,9 @@ fig_S3A <- function() {
 
 fig_S3A_trend <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot(
-      "../data_simulated/5B_trend.csv", "Mean variance trend", "Number of channels", plot="AUROC",
+      "../data_simulated/5B_trend.csv", "Mean dependent inverse gamma variance", "Number of channels", plot="AUROC",
       filename="../figures/S3A_trend.eps", save=TRUE)
   print("saved S3A_trend.eps")
 }
@@ -301,7 +301,7 @@ fig_S3A_trend <- function() {
 
 fig_S3B <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot(
       "../data_simulated/5B.csv", "Inverse gamma variance", "Number of channels", plot="AUPRC",
       filename="../figures/S3B.eps", save=TRUE)
@@ -311,9 +311,9 @@ fig_S3B <- function() {
 
 fig_S3B_trend <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot(
-      "../data_simulated/5B_trend.csv", "Mean variance trend", "Number of channels", plot="AUPRC",
+      "../data_simulated/5B_trend.csv", "Mean dependent inverse gamma variance", "Number of channels", plot="AUPRC",
       filename="../figures/S3B_trend.eps", save=TRUE)
   print("saved S3B_trend.eps")
 }
@@ -321,7 +321,7 @@ fig_S3B_trend <- function() {
 
 fig_S3C <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot(
       "../data_simulated/5D.csv", "Inverse gamma variance", "Number of channels", plot="AUROC",
       filename="../figures/S3C.eps", save=TRUE)
@@ -331,9 +331,9 @@ fig_S3C <- function() {
 
 fig_S3C_trend <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot(
-      "../data_simulated/5D_trend.csv", "Mean variance trend", "Number of channels", plot="AUROC",
+      "../data_simulated/5D_trend.csv", "Mean dependent inverse gamma variance", "Number of channels", plot="AUROC",
       filename="../figures/S3C_trend.eps", save=TRUE)
   print("saved S3C_trend.eps")
 }
@@ -341,7 +341,7 @@ fig_S3C_trend <- function() {
 
 fig_S3D <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot(
       "../data_simulated/5D.csv", "Inverse gamma variance", "Number of channels", plot="AUPRC",
       filename="../figures/S3D.eps", save=TRUE)
@@ -351,9 +351,9 @@ fig_S3D <- function() {
 
 fig_S3D_trend <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   read_data_and_plot(
-      "../data_simulated/5D_trend.csv", "Mean variance trend", "Number of channels", plot="AUPRC",
+      "../data_simulated/5D_trend.csv", "Mean dependent inverse gamma variance", "Number of channels", plot="AUPRC",
       filename="../figures/S3D_trend.eps", save=TRUE)
   print("saved S3D_trend.eps")
 }
@@ -361,7 +361,7 @@ fig_S3D_trend <- function() {
 
 fig_S4A <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   # Plot variance results
   # This needs subsetting + faceting to be maximally useful
   var <- transform_var(read.csv("../data_simulated/6C.csv"), plot="AUROC")
@@ -372,7 +372,7 @@ fig_S4A <- function() {
 
 fig_S4B <- function() {
   # Set font size and theme
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   # Plot variance results
   # This needs subsetting + faceting to be maximally useful
   var <- transform_var(read.csv("../data_simulated/6C.csv"), plot="AUPRC")
@@ -384,7 +384,7 @@ fig_S4B <- function() {
 fig_S1B <- function() {
   # Plot size of dataset results
   # This also needs facetting
-  theme_set(theme_bw(base_size=15))
+  theme_set(theme_bw(base_size=23))
   ds_size<- transform_ds_size(
       read.csv("../data_simulated/S1B.csv", stringsAsFactors=FALSE), plot='pAUC')
   ggsave("../figures/S1B.eps", ds_size, width=12.80, height=7.20, dpi=100)

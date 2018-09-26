@@ -180,191 +180,6 @@ bayesT <- function (aData, numC, numE, ppde=FALSE, betaFit=1, bayes=TRUE, winSiz
 }
 
 ################################################################################
-##   Protein BayesT
-##   Handles cases where entries in the dataframe may be vectors
-##   Still treats all observations as independent
-##   
-##       aData - Actual data frame (ncol = numC + numE) contiguous controls then experimentals. Some entries may be lists
-##       aggregate_by = vector of length n by which to aggregate aData
-##       bayes = do bayesian est of variance
-##       winSize = how big around sorted dpoints for prior calc, has to be odd.
-##       conf = degrees of freedom for each population prior calculation.
-##              (how many dpoints do we believe make up the prior?)
-##       doMulttest - allow BH and Bonferroni adjusted p-vals to be 
-##                   calculated right here.
-##       bayesIntC - use similar means (instead of similar variances) to calculate bayesian variance 
-##                   for the Controls
-##       bayesIntE - use similar means (instead of similar variances) to calculate bayesian variance
-##                   for the Experimentals
-##       base_vars - vector of length n of background variances to add to calculated vars
-################################################################################
-proteinBayesT <- function (data, numC, numE, aggregate_by=NULL, bayes=TRUE, winSize=51, conf=5, doMulttest=TRUE, bayesIntC=FALSE, bayesIntE=FALSE, pool_intensity=TRUE, base_vars=NULL){
-  if ((ceiling((winSize-1)/2))!=((winSize-1)/2))
-    stop("ERROR: winSize must be an odd number.")
-
-  if (!is.null(aggregate_by)) {
-    aData <- aggregate(data, by=list(aggregate_by), FUN=function(x) list(x))
-    agg_order <- aData$Group.1
-    aData$Group.1 <- NULL
-  } else {
-    aData <- data
-  }
-     
-  numGene<- nrow(aData)
-  
-  ## compute number of valid entries for each gene
-  nC <- apply(as.matrix(aData[, 1:numC]), 1, function(x) sum(!is.na(unlist(x))))
-  nE <- apply(as.matrix(aData[, (numC+1):(numC+numE)]), 1, function(x) sum(!is.na(unlist(x))))
-  
-  ## compute means for valid entries
-  meanC<- apply(as.matrix(aData[, 1:numC]), 1, function(x) {
-                t <- unlist(x)
-                if (sum(!is.na(t)))
-                mean(t[!is.na(t)])
-                else NA })
-  meanE<- apply(as.matrix(aData[, (numC+1):(numC+numE)]), 1, function(x) {
-                t <- unlist(x)
-                if (sum(!is.na(t)))
-                mean(t[!is.na(t)])
-                else NA })
-  stdC<- apply(as.matrix(aData[, 1:numC]), 1, function(x) {
-               t <- unlist(x)
-               if (sum(!is.na(t)) > 1)
-               sqrt(var(t[!is.na(t)]))
-               else NA })
-  stdE<- apply(as.matrix(aData[, (numC+1):(numC+numE)]), 1, function(x) {
-               t <- unlist(x)
-               if (sum(!is.na(t)) > 1)
-               sqrt(var(t[!is.na(t)]))
-               else NA })
-
-  ## Calc the statistics in a Bayesian or Classical way
-  if (bayes){
-
-    ## Do something a little different if we only have a single replicate
-    if (numC == 1) {bayesIntC <- TRUE};
-    if (numE == 1) {bayesIntE <- TRUE};
-   
-    # TODO set up the intensity vs number of peptides calculation
-    # If using number of peptides assign background variance of all 1-measure
-    # proteins to be the std of all single peptides?
-    # For single peptide, average of all 1-peptide proteins
-    # For multiple peptides, average in rolling window by intensity for now
-
-    ## Here we calculate the average sds over windows of probes.
-    rasdC <- rep(NA, numGene)
-    if (pool_intensity) {
-      ## basic case, order by means, average the sds in a window.
-      temp <- runavg(stdC[!is.na(stdC)][order(meanC[!is.na(stdC)])],((winSize-1)/2))	
-      temp <- temp[rank(meanC[!is.na(stdC)])]
-    } else { 
-      ## Alternative case, order by number of peptides
-      temp <- runavg(stdC[!is.na(stdC)][order(nC[!is.na(stdC)])],((winSize-1)/2))	
-      temp <- temp[rank(nC[!is.na(stdC)])]
-    }
-    rasdC[!is.na(stdC)] <- temp
-
-    ## Calculate sd window for rows which have only 1
-    ## Use variance of means of nearby peptides
-    # intMat <- as.matrix(aData[nC == 1, 1:numC]);
-    # intMat <- intMat[order(meanC[nC == 1]), ];
-    # temp <- runavgPool(intMat, winSize)
-    # temp <- temp[rank(meanC[nC == 1])]
-    # rasdC[nC == 1]<- temp
-
-    ## Overall std of all 1-peptide proteins 
-    rasdC[nC == 1] <- sd(meanC[nC==1])
-   
-
-    ## Same here, check for a single replicate in the experiment.
-    rasdE <- rep(NA, numGene)
-    if (pool_intensity) {
-      temp <- runavg(stdE[!is.na(stdE)][order(meanE[!is.na(stdE)])],((winSize-1)/2))
-      temp <- temp[rank(meanE[!is.na(stdE)])]
-    } else {
-      temp <- runavg(stdE[!is.na(stdE)][order(nE[!is.na(stdE)])],((winSize-1)/2))
-      temp <- temp[rank(nE[!is.na(stdE)])]
-    }
-    rasdE[!is.na(stdE)] <- temp
-
-    # intMat<- as.matrix(aData[nE == 1, (numC+1):(numC+numE)]);
-    # intMat <- intMat[order(meanE[nE == 1]), ];
-    # temp <- runavgPool(intMat, winSize)	
-    # temp <- temp[rank(meanE[nE == 1])]
-    # rasdE[nE == 1]<- temp
-    rasdE[nE == 1] <- sd(meanE[nE==1])
-    
-    ## Before computing the Bayes SD, go through and set StdC to almost (zero)  whereever is.na and rasdC is not NA
-    ##   Vice versa for the expt data
-    forBayesStdC <- stdC
-    forBayesStdE <- stdE
-    
-    forBayesStdC[is.na(stdC) & !is.na(rasdC)] <- ALMOST_ZERO;
-    forBayesStdE[is.na(stdE) & !is.na(rasdE)] <- ALMOST_ZERO;
-    
-    ## Set the ALMOST_ZERO for all rasdC and rasdE at zero as well.
-    rasdC[rasdC == 0] <- ALMOST_ZERO;
-    rasdE[rasdE == 0] <- ALMOST_ZERO; 
-    
-    ## compute bayes sd
-    if (conf + nC == 2 || conf + nE == 2){
-      stop('ERROR: Zero degrees of freedom, increase the confidence parameter.');
-    }
-    bayesSDC<- sqrt((conf * rasdC^2 + (nC - 1) * forBayesStdC^2)/(conf + nC - 2))
-    bayesSDE<- sqrt((conf * rasdE^2 + (nE - 1) * forBayesStdE^2)/(conf + nE - 2))
-    		
-    ##For here, they were using the regular Dfs to calculate the original T value,
-    ##   But if we have only a single replicate, then we need to tweak this.., 
-    ##   Note with a single rep, we are in effect increasing conf by 1.
-    newNumC <- nC
-    if (numC < 2){
-      newNumC <- 2;
-    } 
-    newNumE <- nE;
-    if (numE < 2){
-      newNumE <- 2;
-    }
-    
-    sumStats <- cbind(newNumC,newNumE,meanC,meanE,bayesSDC,bayesSDE)
-    ttest <- t(apply(sumStats, 1, function(x) tstat(x)))
-    colnames(ttest)=c("bayesT","bayesDF","varRatio")
-    ##change Bayes degree of freedom to reflect pseudo-counts
-    ttest[,2] <- ttest[,2] + 2 * conf - 2
-    
-    ##Subtract out the fake df for each single rep case:
-    toSub <- sum(c(numC ==1, numE == 1 ));
-    ttest[, 2] <- ttest[, 2] - toSub;
-  } else {
-    ## A regular t-test
-    sumStats <- cbind(nC, nE, meanC, meanE, stdC, stdE)
-    ttest <- t(apply(sumStats, 1, function(x) tstat(x)))
-    colnames(ttest) = c("T", "DF", "varRatio")
-  }
-  
-  ## Pvals amd fold changes
-  pVal <- 1 - pf(ttest[,1]^2, 1, ttest[,2])
-  fold <- - (meanC/meanE) * ((meanE/meanC) < 1) + (meanE/meanC) * ((meanC/meanE) < 1)
- 
-  ## Then the final data.frame 
-  if (bayes){
-    objBayes<- cbind(nC, nE, meanC, meanE, stdC, stdE, fold, rasdC, rasdE, bayesSDC, bayesSDE,ttest,pVal)
-  }
-  else{
-    objBayes<- cbind(nC, nE, meanC, meanE, stdC, stdE, fold, ttest, pVal)
-  }
-
-  ## Mult testing correction
-  if (doMulttest){
-    ##Bind them, last two cols of adjp list in original order
-    # objBayes <- data.frame(objBayes, runMulttest(pVal))
-    objBayes <- data.frame(objBayes,
-                           "Bonferroni"=p.adjust(pVal, method="bonferroni"),
-                           "BH"=p.adjust(pVal, method="BH"))
-  }
-
-  return(objBayes)
-}
-################################################################################
 ## Simple wrapper to load and then run vsn
 ################################################################################
 runVsn <- function(data, ...){
@@ -677,7 +492,7 @@ adjPVal<-function(a){
 
 
 ################################################################################
-## cyberTPlots
+## RegTPlots
 ## Make some simple plots for the webserver
 ## resData - has normalized data, pVals, ROC vals
 ## rawData - has original data sent in.
@@ -695,7 +510,7 @@ adjPVal<-function(a){
 ## 1-25-12 - Make so write out each in different png files for display on web
 ##
 ################################################################################
-cyberTPlots <- function(resData, rawData, numC=0, numE=0, numR=0, repPerCond=NULL, dataType='CE', normType='None',
+RegTPlots <- function(resData, rawData, numC=0, numE=0, numR=0, repPerCond=NULL, dataType='CE', normType='None',
                         doSmoothing=TRUE, doOutlierRemoval=TRUE, outputFmt='png', doTitle=TRUE){
   .libPaths("/home/baldig/shared_libraries/centos64/pkgs/R/2.15.1_fix/lib64/R/library")
   library(lattice)

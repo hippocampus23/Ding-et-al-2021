@@ -3,18 +3,19 @@ library(reshape2)
 
 # Mapping for settings
 # See format_results.py for original
-LABEL_MAPPING = data.frame(label=c("Absolute fold change", "t-test (1-sample)", "t-test (2-sample)",
-                                   "Moderated T (1-sample)", "Moderated T (2-sample)",
-                                   "Mod T, variance trend (1-sample)",
-                                   "Mod T, variance trend (2-sample)", "Cyber-T"), stringsAsFactors=FALSE)
+LABEL_MAPPING = data.frame(label=c("Abs. fold change", "t-test (1-sample)", "t-test (2-sample)",
+                                   "ModT (1-sample)", "ModT (2-sample)",
+                                   "ModT (1-s., trend)",
+                                   "ModT (2-s., trend)", "RegT"), stringsAsFactors=FALSE)
 
 rownames(LABEL_MAPPING) <- c("fold change", "t-test-1", "t-test-2",
-                             "modT-1", "modT-2", "modT-1 trend", "modT-2 trend", "cyberT")
+                             "modT-1", "modT-2", "modT-1 trend", "modT-2 trend", "RegT")
 # Set up custom color map
 valid_labels = unique(LABEL_MAPPING$label)
 N_PEP = 8
 
-colScale <- c("#C14242", "#FDA51F", "#0882FB", "#20E6FC", "#0BFD33", "#10B571", "#F826FB", "#4D03EC")
+colScale <- c("#C14242", "#FDA51F", "#0882FB", "#0BFD33", "#10B571", "#F826FB", "#4E03EC", "#20E6FC")
+
 names(colScale) <- as.character(valid_labels[1:N_PEP])
 
 ## Summarizes data.
@@ -106,7 +107,7 @@ boxplot_results_auprc <- function(df, title="", xlab="Setting"){
   return(p1)
 }
 
-boxplot_results_pauc <- function(df, title="", xlab="Setting", fill=FALSE, skip_labels=c()){
+boxplot_results_pauc <- function(df, title="", xlab="Setting", skip_labels=c()){
   # Requires setting and labels column
   # Drop skipped tests
   df <- df[!(as.character(df$labels) %in% skip_labels),]
@@ -130,7 +131,7 @@ boxplot_results_pauc <- function(df, title="", xlab="Setting", fill=FALSE, skip_
   return(p1)
 }
 
-lineplot_results_pauc <- function(df, title="", xlab="Setting") {
+lineplot_results_pauc <- function(df) {
   data <- summarySE(df, measurevar="pAUROC", groupvars=c("setting", "labels"))
   p1 <- ggplot(data, aes(x = setting, group=labels, colour=labels, y= 10^pAUROC)) +
         geom_errorbar(aes(ymin=pAUROC-se, ymax=pAUROC+se), width=.1) +
@@ -139,7 +140,7 @@ lineplot_results_pauc <- function(df, title="", xlab="Setting") {
   return(p1)
 }
 
-plot_fdr <- function(df, title="", xlab="Setting", skip_labels=c("t-test (1-sample)", "Moderated T (1-sample)", "Absolute fold change", "Mod T, variance trend (1-sample)")) {
+plot_fdr <- function(df, title="", xlab="Setting", skip_labels=c("t-test (1-sample)", "ModT (1-sample)", "Abs. fold change", "ModT (1-s., trend)")) {
   N_SIG <- 1000
   # Drop weaker tests
   df <- df[!(as.character(df$labels) %in% skip_labels),]
@@ -183,7 +184,7 @@ plot_fdr <- function(df, title="", xlab="Setting", skip_labels=c("t-test (1-samp
         scale_shape_manual(name="", values=c(22, 22, 21, 21)) +
         # scale_stroke_manual(values=c(2, 2, 1, 1)) +
         guides(size=guide_legend(keywidth=4), fill=FALSE) + 
-        labs(title=title, x=xlab, y="TPR or FDR", color="Test", linetype="", shape="")
+        labs(title=title, x=xlab, y="Rate", color="Test", linetype="", shape="")
 
   return(p1)
 }

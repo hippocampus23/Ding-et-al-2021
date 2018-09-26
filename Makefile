@@ -3,18 +3,18 @@ all: simple_figures data summary_figures supplemental_figures
 figures: simple_figures summary_figures supplemental_figures
 
 # make figures that require few simulations
-simple_figures: 1BCDE.eps 1FGH_gamma.eps 1FGH_uniform.eps 1FGH_trend.eps 2BDF.eps \
-	4B.eps 4G.eps 4L.eps 4CD.eps 4HI.eps 4MN.eps
+simple_figures: 1ABCD.eps 1FGH_gamma.eps 1FGH_uniform.eps 1FGH_trend.eps 2BDF.eps \
+	4B.eps 4C.eps 4F.eps 4G.eps 4J.eps 4K.eps
 
 # make data for figures that require many rounds of simulations
-data: 3B.csv 3D.csv 3F.csv 4E.csv 4J.csv 4O.csv 5B.csv 5D.csv \
+data: 3B.csv 3D.csv 3F.csv 4D.csv 4H.csv 4L.csv 5B.csv 5D.csv \
 	5B_trend.csv 5D_trend.csv 6C.csv S1B.csv
 # Note: this is better than calling all functions in python because
 #       memory allocated for python is cleared after each rule
 
 # make figures that require many rounds of simulations
 # Note: data must already be made when calling summary_figures
-summary_figures: 3B.eps 3D.eps 3F.eps 4E.eps 4J.eps 4O.eps \
+summary_figures: 3B.eps 3D.eps 3F.eps 4D.eps 4H.eps 4L.eps \
 	5B.eps 5D.eps 5B_trend.eps 5D_trend.eps 6C.eps 6C_dists.eps
 
 # make supplementary figures which require many rounds of simulations
@@ -34,14 +34,14 @@ supplemental_figures: S1B.eps S2A.eps S2B.eps S2E.eps S2F.eps \
 3F.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_3F()"
 
-4E.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_4E()"
+4D.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_4D()"
 
-4J.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_4J()"
+4H.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_4H()"
 
-4O.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_4O()"
+4L.eps:
+	cd scripts && Rscript -e "source('figures.R'); fig_4L()"
 
 5B.eps:
 	cd scripts && Rscript -e "source('figures.R'); fig_5B()"
@@ -125,14 +125,14 @@ S4B.eps:
 3F.csv:
 	cd scripts && python -c "from make_data import data_3F; data_3F()"
 
-4E.csv:
-	cd scripts && python -c "from make_data import data_4E; data_4E()"
+4D.csv:
+	cd scripts && python -c "from make_data import data_4D; data_4D()"
 
-4J.csv:
-	cd scripts && python -c "from make_data import data_4J; data_4J()"
+4H.csv:
+	cd scripts && python -c "from make_data import data_4H; data_4H()"
 
-4O.csv:
-	cd scripts && python -c "from make_data import data_4O; data_4O()"
+4L.csv:
+	cd scripts && python -c "from make_data import data_4L; data_4L()"
 
 5B.csv:
 	cd scripts && python -c "from make_data import data_5B; data_5B()"
@@ -154,8 +154,8 @@ S1B.csv:
 
 
 
-1BCDE.eps:
-	cd scripts && python -c "from figures import fig_1BCDE; fig_1BCDE()"
+1ABCD.eps:
+	cd scripts && python -c "from figures import fig_1ABCD; fig_1ABCD()"
 
 1FGH_gamma.eps:
 	cd scripts && python -c "from figures import fig_1FGH; fig_1FGH('gamma')"
@@ -172,20 +172,20 @@ S1B.csv:
 4B.eps:
 	cd scripts && python -c "from figures import fig_4B; fig_4B()"
 
+4F.eps:
+	cd scripts && python -c "from figures import fig_4F; fig_4F()"
+
+4J.eps:
+	cd scripts && python -c "from figures import fig_4J; fig_4J()"
+
+4C.eps:
+	cd scripts && python -c "from figures import fig_4C; fig_4C()"
+
 4G.eps:
 	cd scripts && python -c "from figures import fig_4G; fig_4G()"
 
-4L.eps:
-	cd scripts && python -c "from figures import fig_4L; fig_4L()"
-
-4CD.eps:
-	cd scripts && python -c "from figures import fig_4CD; fig_4CD()"
-
-4HI.eps:
-	cd scripts && python -c "from figures import fig_4HI; fig_4HI()"
-
-4MN.eps:
-	cd scripts && python -c "from figures import fig_4MN; fig_4MN()"
+4K.eps:
+	cd scripts && python -c "from figures import fig_4K; fig_4K()"
 
 
 
