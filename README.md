@@ -115,7 +115,7 @@ def sample(pep_var_type, num_peps = NUM_PEPTIDES, num_ctrl=NUM_CHANNELS/2, num_e
                  is_changed: numpy.ndarray with 0 for no fold change and 1 for fold change
     """
 ```
-There are also several functions in ```simulation.py``` that allow you to run multiple rounds of simulations for different fold changes, channel numbers or variances. The default simulation parameters and specified in ```constants.py```. These simulations generate the data, run the tests, and analyze the p-values using power-analysis or by calculating the AUROC, AUPRC, and pAUROC scores for each option provided.
+There are also several functions in ```simulation.py``` that allow you to run multiple rounds of simulations for different fold changes, channel numbers or variances. The default simulation parameters and specified in ```constants.py```. These functions generate the data, run the tests, and analyze the p-values using power-analysis or by calculating the AUROC, AUPRC, and pAUROC scores for each option provided.
 
 ## Calculating p-values
 A number of statistical tests can be used to calculate the p-values for differential expression of the peptides for either simulated of empirical data. ```stat_tests.py``` contains functions for **ranking by fold change**, standard **t-tests** as well as the **regularized t-test** and **moderated t-test**. All tests take a pandas DataFrame with the control data and one with the experiment data respectively and return a numpy array of p-values. Some tests have a one-sample and two-sample option and the moderated t-test can be run with or without a mean-variance trend. Using ```do_all_tests(ctrl, exp)``` all provided tests can be run.
