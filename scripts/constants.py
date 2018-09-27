@@ -17,25 +17,25 @@ ALPHA = 3
 BETA = 0.1
 
 COLORS = OrderedDict([
-    ("Abs. fold change",             "#C14242"),
-    ("t-test (1-sample)",            "#FDA51F"),
-    ("t-test (2-sample)",            "#0882FB"),
-    ("ModT (1-sample)",              "#0BFD33"),
-    ("ModT (2-sample)",              "#10B571"),
-    ("ModT (1-s., trend)",           "#F826FB"),
-    ("ModT (2-s., trend)",           "#4E03EC"),
+    ("Abs. FC",                        "#C14242"),
+    ("t-test \n(1-sample)",            "#FDA51F"),
+    ("t-test \n(2-sample)",            "#0882FB"),
+    ("ModT \n(1-sample)",              "#0BFD33"),
+    ("ModT \n(2-sample)",              "#10B571"),
+    ("ModT \n(1-s., trend)",           "#F826FB"),
+    ("ModT \n(2-s., trend)",           "#4E03EC"),
     ("RegT",                         "#20E6FC"),
 ])
 
 # Map header columns to well-formatted legend labels
 LABEL_MAPPING = OrderedDict([
-    ("fold change",  "Abs. fold change"),
-    ("t-test-1",     "t-test (1-sample)"),
-    ("t-test-2",     "t-test (2-sample)"),
-    ("modT-1",       "ModT (1-sample)"),
-    ("modT-2",       "ModT (2-sample)"),
-    ("modT-1 trend", "ModT (1-s., trend)"),
-    ("modT-2 trend", "ModT (2-s., trend)"),
+    ("fold change",  "Abs. FC"),
+    ("t-test-1",     "t-test \n(1-sample)"),
+    ("t-test-2",     "t-test \n(2-sample)"),
+    ("modT-1",       "ModT \n(1-sample)"),
+    ("modT-2",       "ModT \n(2-sample)"),
+    ("modT-1 trend", "ModT \n(1-s., trend)"),
+    ("modT-2 trend", "ModT \n(2-s., trend)"),
     ("RegT",         "RegT")
 ])
 

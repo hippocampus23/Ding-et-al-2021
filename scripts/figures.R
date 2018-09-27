@@ -67,7 +67,9 @@ read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, 
         p,
         width=12.80,
         height=7.20,
-        dpi=100)
+        dpi=100,
+        bg = "transparent"
+    )
   }
   return(p)
 }
@@ -188,31 +190,13 @@ fig_5D <- function() {
 }
 
 
-fig_5B_trend <- function() {
-  # Set font size and theme
-  theme_set(theme_bw(base_size=23))
-  read_data_and_plot("../data_simulated/5B_trend.csv",
-      "", "Number of channels", plot="pAUC", save=TRUE, filename="../figures/5B_trend.eps")
-  print("saved 5B_trend.eps")
-}
-
-
-fig_5D_trend <- function() {
-  # Set font size and theme
-  theme_set(theme_bw(base_size=23))
-  read_data_and_plot("../data_simulated/5D_trend.csv",
-      "", "Number of channels", plot="pAUC", save=TRUE, filename="../figures/5D_trend.eps")
-  print("saved 5D_trend.eps")
-}
-
-
 fig_6C <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=23))
   # Plot variance results
   # This needs subsetting + faceting to be maximally useful
   var <- transform_var(read.csv("../data_simulated/6C.csv"), plot="pAUC")
-  ggsave("../figures/6C.eps", var, width=12.80, height=12.80, dpi=100)
+  ggsave("../figures/6C.eps", var, width=12.80, height=12.80, dpi=100, bg = "transparent")
   print("saved 6C.eps")
 }
 
@@ -233,7 +217,7 @@ fig_S2E <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=23))
   read_data_and_plot(
-      "../data_simulated/3F.csv", "Mean dependent inverse gamma variance", "log2(FC)", plot="AUROC",
+      "../data_simulated/3F.csv", "Intensity dependent inverse gamma variance", "log2(FC)", plot="AUROC",
       filename="../figures/S2E.eps", save=TRUE)
   print("saved S2E.eps")
 }
@@ -253,7 +237,7 @@ fig_S2F <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=23))
   read_data_and_plot(
-      "../data_simulated/3F.csv", "Mean dependent inverse gamma variance", "log2(FC)", plot="AUPRC",
+      "../data_simulated/3F.csv", "Intensity dependent inverse gamma variance", "log2(FC)", plot="AUPRC",
       filename="../figures/S2F.eps", save=TRUE)
   print("saved S2F.eps")
 }
@@ -283,19 +267,9 @@ fig_S3A <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=23))
   read_data_and_plot(
-      "../data_simulated/5B.csv", "Inverse gamma variance", "Number of channels", plot="AUROC",
+      "../data_simulated/5B.csv", "Intensity dependent inverse gamma variance", "Number of channels", plot="AUROC",
       filename="../figures/S3A.eps", save=TRUE)
   print("saved S3A.eps")
-}
-
-
-fig_S3A_trend <- function() {
-  # Set font size and theme
-  theme_set(theme_bw(base_size=23))
-  read_data_and_plot(
-      "../data_simulated/5B_trend.csv", "Mean dependent inverse gamma variance", "Number of channels", plot="AUROC",
-      filename="../figures/S3A_trend.eps", save=TRUE)
-  print("saved S3A_trend.eps")
 }
 
 
@@ -303,19 +277,9 @@ fig_S3B <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=23))
   read_data_and_plot(
-      "../data_simulated/5B.csv", "Inverse gamma variance", "Number of channels", plot="AUPRC",
+      "../data_simulated/5B.csv", "Intensity dependent inverse gamma variance", "Number of channels", plot="AUPRC",
       filename="../figures/S3B.eps", save=TRUE)
   print("saved S3B.eps")
-}
-
-
-fig_S3B_trend <- function() {
-  # Set font size and theme
-  theme_set(theme_bw(base_size=23))
-  read_data_and_plot(
-      "../data_simulated/5B_trend.csv", "Mean dependent inverse gamma variance", "Number of channels", plot="AUPRC",
-      filename="../figures/S3B_trend.eps", save=TRUE)
-  print("saved S3B_trend.eps")
 }
 
 
@@ -323,19 +287,9 @@ fig_S3C <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=23))
   read_data_and_plot(
-      "../data_simulated/5D.csv", "Inverse gamma variance", "Number of channels", plot="AUROC",
+      "../data_simulated/5D.csv", "Intensity dependent inverse gamma variance", "Number of channels", plot="AUROC",
       filename="../figures/S3C.eps", save=TRUE)
   print("saved S3C.eps")
-}
-
-
-fig_S3C_trend <- function() {
-  # Set font size and theme
-  theme_set(theme_bw(base_size=23))
-  read_data_and_plot(
-      "../data_simulated/5D_trend.csv", "Mean dependent inverse gamma variance", "Number of channels", plot="AUROC",
-      filename="../figures/S3C_trend.eps", save=TRUE)
-  print("saved S3C_trend.eps")
 }
 
 
@@ -343,19 +297,9 @@ fig_S3D <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=23))
   read_data_and_plot(
-      "../data_simulated/5D.csv", "Inverse gamma variance", "Number of channels", plot="AUPRC",
+      "../data_simulated/5D.csv", "Intensity dependent inverse gamma variance", "Number of channels", plot="AUPRC",
       filename="../figures/S3D.eps", save=TRUE)
   print("saved S3D.eps")
-}
-
-
-fig_S3D_trend <- function() {
-  # Set font size and theme
-  theme_set(theme_bw(base_size=23))
-  read_data_and_plot(
-      "../data_simulated/5D_trend.csv", "Mean dependent inverse gamma variance", "Number of channels", plot="AUPRC",
-      filename="../figures/S3D_trend.eps", save=TRUE)
-  print("saved S3D_trend.eps")
 }
 
 
@@ -365,7 +309,7 @@ fig_S4A <- function() {
   # Plot variance results
   # This needs subsetting + faceting to be maximally useful
   var <- transform_var(read.csv("../data_simulated/6C.csv"), plot="AUROC")
-  ggsave("../figures/S4A.eps", var, width=12.80, height=12.80, dpi=100)
+  ggsave("../figures/S4A.eps", var, width=12.80, height=12.80, dpi=100, bg = "transparent")
   print("saved S4A.eps")
 }
 
@@ -376,7 +320,7 @@ fig_S4B <- function() {
   # Plot variance results
   # This needs subsetting + faceting to be maximally useful
   var <- transform_var(read.csv("../data_simulated/6C.csv"), plot="AUPRC")
-  ggsave("../figures/S4B.eps", var, width=12.80, height=12.80, dpi=100)
+  ggsave("../figures/S4B.eps", var, width=12.80, height=12.80, dpi=100, bg = "transparent")
   print("saved S4B.eps")
 }
 
@@ -387,6 +331,6 @@ fig_S1B <- function() {
   theme_set(theme_bw(base_size=23))
   ds_size<- transform_ds_size(
       read.csv("../data_simulated/S1B.csv", stringsAsFactors=FALSE), plot='pAUC')
-  ggsave("../figures/S1B.eps", ds_size, width=12.80, height=7.20, dpi=100)
+  ggsave("../figures/S1B.eps", ds_size, width=12.80, height=7.20, dpi=100, bg = "transparent")
   print("saved S1B.eps")
 }

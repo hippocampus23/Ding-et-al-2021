@@ -15,104 +15,86 @@ data: 3B.csv 3D.csv 3F.csv 4D.csv 4H.csv 4L.csv 5B.csv 5D.csv \
 # make figures that require many rounds of simulations
 # Note: data must already be made when calling summary_figures
 summary_figures: 3B.eps 3D.eps 3F.eps 4D.eps 4H.eps 4L.eps \
-	5B.eps 5D.eps 5B_trend.eps 5D_trend.eps 6C.eps 6C_dists.eps
+	5B.eps 5D.eps 6C.eps 6D.eps
 
 # make supplementary figures which require many rounds of simulations
 # Note: data must already be made when calling summary_figures
 supplemental_figures: S1B.eps S2A.eps S2B.eps S2E.eps S2F.eps \
-	S2C.eps S2D.eps S3A.eps S3B.eps S3A_trend.eps S3B_trend.eps S3C.eps \
-	S3D.eps S3C_trend.eps S3D_trend.eps S4A.eps S4B.eps
+	S2C.eps S2D.eps S3A.eps S3B.eps S3C.eps \
+	S3D.eps S4A.eps S4B.eps
 
 
 
 3B.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_3B()"
+	cd scripts && Rscript -e "source('figures.R'); fig_3B(); quit()"
 
 3D.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_3D()"
+	cd scripts && Rscript -e "source('figures.R'); fig_3D(); quit()"
 
 3F.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_3F()"
+	cd scripts && Rscript -e "source('figures.R'); fig_3F(); quit()"
 
 4D.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_4D()"
+	cd scripts && Rscript -e "source('figures.R'); fig_4D(); quit()"
 
 4H.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_4H()"
+	cd scripts && Rscript -e "source('figures.R'); fig_4H(); quit()"
 
 4L.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_4L()"
+	cd scripts && Rscript -e "source('figures.R'); fig_4L(); quit()"
 
 5B.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_5B()"
+	cd scripts && Rscript -e "source('figures.R'); fig_5B(); quit()"
 
 5D.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_5D()"
-
-5B_trend.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_5B_trend()"
-
-5D_trend.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_5D_trend()"
+	cd scripts && Rscript -e "source('figures.R'); fig_5D(); quit()"
 
 6C.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_6C()"
+	cd scripts && Rscript -e "source('figures.R'); fig_6C(); quit()"
 
-6C_dists.eps:
-	cd scripts && python -c "from figures import fig_6C_dists; fig_6C_dists()"
+6D.eps:
+	cd scripts && python -c "from figures import fig_6D; fig_6D(); quit()"
 
 
 
 S1B.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S1B()"
+	cd scripts && Rscript -e "source('figures.R'); fig_S1B(); quit()"
 
 S2A.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S2A()"
+	cd scripts && Rscript -e "source('figures.R'); fig_S2A(); quit()"
 
 S2E.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S2E()"
+	cd scripts && Rscript -e "source('figures.R'); fig_S2E(); quit()"
 
 S2B.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S2B()"
+	cd scripts && Rscript -e "source('figures.R'); fig_S2B(); quit()"
 
 S2F.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S2F()"
+	cd scripts && Rscript -e "source('figures.R'); fig_S2F(); quit()"
 
 S2C.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S2C()"
+	cd scripts && Rscript -e "source('figures.R'); fig_S2C(); quit()"
 
 S2D.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S2D()"
+	cd scripts && Rscript -e "source('figures.R'); fig_S2D(); quit()"
 
 S3A.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S3A()"
-
-S3A_trend.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S3A_trend()"
+	cd scripts && Rscript -e "source('figures.R'); fig_S3A(); quit()"
 
 S3B.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S3B()"
-
-S3B_trend.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S3B_trend()"
+	cd scripts && Rscript -e "source('figures.R'); fig_S3B(); quit()"
 
 S3C.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S3C()"
-
-S3C_trend.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S3C_trend()"
+	cd scripts && Rscript -e "source('figures.R'); fig_S3C(); quit()"
 
 S3D.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S3D()"
-
-S3D_trend.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S3D_trend()"
+	cd scripts && Rscript -e "source('figures.R'); fig_S3D(); quit()"
 
 S4A.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S4A()"
+	cd scripts && Rscript -e "source('figures.R'); fig_S4A(); quit()"
 
 S4B.eps:
-	cd scripts && Rscript -e "source('figures.R'); fig_S4B()"
+	cd scripts && Rscript -e "source('figures.R'); fig_S4B(); quit()"
 
 
 
@@ -140,12 +122,6 @@ S4B.eps:
 5D.csv:
 	cd scripts && python -c "from make_data import data_5D; data_5D()"
 
-5B_trend.csv:
-	cd scripts && python -c "from make_data import data_5B_trend; data_5B_trend()"
-
-5D_trend.csv:
-	cd scripts && python -c "from make_data import data_5D_trend; data_5D_trend()"
-
 6C.csv:
 	cd scripts && python -c "from make_data import data_6C; data_6C()"
 
@@ -155,37 +131,37 @@ S1B.csv:
 
 
 1ABCD.eps:
-	cd scripts && python -c "from figures import fig_1ABCD; fig_1ABCD()"
+	cd scripts && python -c "from figures import fig_1ABCD; fig_1ABCD(); quit()"
 
 1FGH_gamma.eps:
-	cd scripts && python -c "from figures import fig_1FGH; fig_1FGH('gamma')"
+	cd scripts && python -c "from figures import fig_1FGH; fig_1FGH('gamma'); quit()"
 
 1FGH_uniform.eps:
-	cd scripts && python -c "from figures import fig_1FGH; fig_1FGH('uniform')"
+	cd scripts && python -c "from figures import fig_1FGH; fig_1FGH('uniform'); quit()"
 
 1FGH_trend.eps:
-	cd scripts && python -c "from figures import fig_1FGH; fig_1FGH('trend')"
+	cd scripts && python -c "from figures import fig_1FGH; fig_1FGH('trend'); quit()"
 
 2BDF.eps:
-	cd scripts && python -c "from figures import fig_2BDF; fig_2BDF()"
+	cd scripts && python -c "from figures import fig_2BDF; fig_2BDF(); quit()"
 
 4B.eps:
-	cd scripts && python -c "from figures import fig_4B; fig_4B()"
+	cd scripts && python -c "from figures import fig_4B; fig_4B(); quit()"
 
 4F.eps:
-	cd scripts && python -c "from figures import fig_4F; fig_4F()"
+	cd scripts && python -c "from figures import fig_4F; fig_4F(); quit()"
 
 4J.eps:
-	cd scripts && python -c "from figures import fig_4J; fig_4J()"
+	cd scripts && python -c "from figures import fig_4J; fig_4J(); quit()"
 
 4C.eps:
-	cd scripts && python -c "from figures import fig_4C; fig_4C()"
+	cd scripts && python -c "from figures import fig_4C; fig_4C(); quit()"
 
 4G.eps:
-	cd scripts && python -c "from figures import fig_4G; fig_4G()"
+	cd scripts && python -c "from figures import fig_4G; fig_4G(); quit()"
 
 4K.eps:
-	cd scripts && python -c "from figures import fig_4K; fig_4K()"
+	cd scripts && python -c "from figures import fig_4K; fig_4K(); quit()"
 
 
 

@@ -47,27 +47,15 @@ def data_4L():
 
 
 def data_5B():
-    res_5B = simulate_number_experiments(range(2,11), var_type="gamma")
+    res_5B = simulate_number_experiments(range(2,11), var_type="trend")
     write_result_dict_to_df(res_5B, TESTS.keys(), filename="../data_simulated/5B.csv", ana_type="roc")
     print "saved 5B.csv"
 
 
 def data_5D():
-    res_5D = simulate_number_channels_imbalanced(trials=[(5,5), (4,6), (3,7), (2,8),(1,9)], var_type="gamma")
+    res_5D = simulate_number_channels_imbalanced(trials=[(5,5), (4,6), (3,7), (2,8),(1,9)], var_type="trend")
     write_result_dict_to_df(res_5D, TESTS.keys(), filename="../data_simulated/5D.csv", ana_type="roc")
     print "saved 5D.csv"
-
-
-def data_5B_trend():
-    res_5B = simulate_number_experiments(range(2, 11), var_type="trend")
-    write_result_dict_to_df(res_5B, TESTS.keys(), filename="../data_simulated/5B_trend.csv", ana_type="roc")
-    print "saved 5B_trend.csv"
-
-
-def data_5D_trend():
-    res_5D = simulate_number_channels_imbalanced(trials=[(5, 5), (4, 6), (3, 7), (2, 8), (1, 9)], var_type="trend")
-    write_result_dict_to_df(res_5D, TESTS.keys(), filename="../data_simulated/5D_trend.csv", ana_type="roc")
-    print "saved 5D_trend.csv"
 
 
 def data_6C():

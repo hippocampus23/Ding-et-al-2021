@@ -28,7 +28,7 @@ def density_scatter(ctrl_data):
     :return:          plot
     """
 
-    matplotlib.rc("font", size=12)
+    matplotlib.rc("font", size=15)
     f, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(15, 5))
 
     def do_plot(data, ax):
@@ -52,10 +52,10 @@ def density_scatter(ctrl_data):
     do_plot(slct_data, ax4)
 
     ax1.set_ylabel("Peptide variance")
-    ax1.set_title("Uniform variance")
-    ax2.set_title("Inverse gamma variance")
-    ax3.set_title("Mean dependent \ninverse gamma variance")
-    ax4.set_title("Empirical Data")
+    ax1.set_title("Uniform variance", fontsize=15)
+    ax2.set_title("Inverse gamma variance", fontsize=15)
+    ax3.set_title("Intensity dependent \ninverse gamma variance", fontsize=15)
+    ax4.set_title("Empirical Data", fontsize=15)
     ax1.set_xlabel("Mean $log2$ peptide intensity")
     ax2.set_xlabel("Mean $log2$ peptide intensity")
     ax3.set_xlabel("Mean $log2$ peptide intensity")
@@ -91,7 +91,7 @@ def pvalue_multipanel():
 
     :return:  plot
     """
-    matplotlib.rc("font", size=12)
+    matplotlib.rc("font", size=15)
     f, axarr = plt.subplots(3, len(TESTS) + 1, sharex="col", sharey="row", figsize=(20, 15))
 
     for i, var_type in enumerate(["uniform", "gamma", "trend"]):
@@ -102,8 +102,8 @@ def pvalue_multipanel():
         # Edit column titles for pretty printing
         pvals.columns = [LABEL_MAPPING[l] if l in LABEL_MAPPING else l
                 for l in list(pvals.columns)]
-        pvals["ModT (2-s., robust)"] = modT(ctrl, exp, robust=True, run_2sample=True)
-        pvals["ModT (1-s., robust)"] = modT(ctrl, exp, robust=True)
+        pvals["ModT \n(2-s., robust)"] = modT(ctrl, exp, robust=True, run_2sample=True)
+        pvals["ModT \n(1-s., robust)"] = modT(ctrl, exp, robust=True)
         plot_pvalue_dist(pvals, axarr[i])
         for ax in axarr[i]:
             ax.set_xlabel("" if i < 2 else "p-value")
@@ -123,7 +123,7 @@ def volcano_multipanel_example(var_type):
     :param var_type:  type of distribution to use to sample peptide variance, either "uniform", "gamma" or "trend"
     :return:          plot
     """
-    matplotlib.rc("font", size=15)
+    matplotlib.rc("font", size=20)
     ctrl, exp, is_changed = sample(var_type)
     pvals = do_all_tests(ctrl, exp)
 
@@ -138,7 +138,7 @@ def barplot_multipanel(var_type):
     :param var_type:  type of distribution to use to sample peptide variance, either "uniform", "gamma" or "trend"
     :return:          plot
     """
-    matplotlib.rc("font", size=12)
+    matplotlib.rc("font", size=15)
     f, axarr = plt.subplots(2, 2, sharey="row", sharex=True, figsize=(5, 7))
 
     ctrl, exp, is_changed = sample(var_type)
@@ -233,7 +233,7 @@ def fig_4K():
 
 # to be added to 6C (plotted in R)
 # shapes of the noise distributions
-def fig_6C_dists():
+def fig_6D():
     matplotlib.rc("font", size=12)
     fig, (a1, a2, a3) = plt.subplots(3, 1, sharex="col", figsize=(6, 13))
     x = np.linspace(-2, 2, 200)
@@ -251,5 +251,5 @@ def fig_6C_dists():
     a3.set_title("Scaled t distribution,\n$df = 3$, scaled using $\sigma^2 = %0.2f$" % PEPTIDE_VAR)
     fig.tight_layout()
     fig.subplots_adjust(hspace=0.6)
-    fig.savefig("../figures/6C_dists.eps", transparent=True)
-    print "saved 6C_dists.eps"
+    fig.savefig("../figures/6D.eps", transparent=True)
+    print "saved 6D.eps"

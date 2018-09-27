@@ -82,7 +82,7 @@ boxplot_results_auroc <- function(df, title="", xlab="Setting"){
            legend.key.size = unit(1.5, "lines"),
            legend.position = "top",
     ) + 
-    labs(title=title, x=xlab, y="AUROC", fill="")
+    labs(title=title, x=xlab, y="AUROC", fill="") + transparency()
   return(p1)
 }
 
@@ -103,7 +103,7 @@ boxplot_results_auprc <- function(df, title="", xlab="Setting"){
            legend.key.size = unit(1.5, "lines"),
            legend.position = "top",
     ) + 
-    labs(title=title, x=xlab, y="AUPRC", fill="")
+    labs(title=title, x=xlab, y="AUPRC", fill="") + transparency()
   return(p1)
 }
 
@@ -127,7 +127,7 @@ boxplot_results_pauc <- function(df, title="", xlab="Setting", skip_labels=c()){
            legend.key.size = unit(1.5, "lines"),
            legend.position = "top",
     ) +
-    labs(title=title, x=xlab, y="pAUROC", fill="")
+    labs(title=title, x=xlab, y="pAUROC", fill="") + transparency()
   return(p1)
 }
 
@@ -136,7 +136,7 @@ lineplot_results_pauc <- function(df) {
   p1 <- ggplot(data, aes(x = setting, group=labels, colour=labels, y= 10^pAUROC)) +
         geom_errorbar(aes(ymin=pAUROC-se, ymax=pAUROC+se), width=.1) +
         geom_line() +
-        geom_point()
+        geom_point() + transparency()
   return(p1)
 }
 
@@ -184,7 +184,19 @@ plot_fdr <- function(df, title="", xlab="Setting", skip_labels=c("t-test (1-samp
         scale_shape_manual(name="", values=c(22, 22, 21, 21)) +
         # scale_stroke_manual(values=c(2, 2, 1, 1)) +
         guides(size=guide_legend(keywidth=4), fill=FALSE) + 
-        labs(title=title, x=xlab, y="Rate", color="Test", linetype="", shape="")
+        labs(title=title, x=xlab, y="Rate", color="Test", linetype="", shape="") +
+        transparency()
 
   return(p1)
+}
+
+transparency <- function() {
+    # set transparency
+    return (theme(
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill = "transparent",colour = NA),
+        plot.background = element_rect(fill = "transparent",colour = NA),
+        legend.background = element_rect(fill = "transparent",colour = NA)
+        ))
 }

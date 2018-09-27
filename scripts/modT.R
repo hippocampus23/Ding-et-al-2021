@@ -1,8 +1,3 @@
-
-# $Id: modT.R 31 2013-01-16 16:49:47Z manidr $
-print ("$Id: modT.r 31 2013-01-16 16:49:47Z manidr $", quote=FALSE)
-
-
 library (limma)
 # scatterhist.r or pairs-plot.r needed when plots are required
 
