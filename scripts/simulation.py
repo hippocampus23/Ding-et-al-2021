@@ -77,10 +77,9 @@ def _find_FC(var_type, sd, pauroc_goal, start_fc, test, max_iter=100, precision=
         t_fpr[-1] = FDR
 
         pauroc = auc(t_fpr, t_tpr) / FDR
-        print "pauroc:", pauroc, "fc:", fc
 
         if (abs(pauroc_goal - pauroc) < precision):
-            print "\n\n\n"
+            print "pauroc:", pauroc, "fc:", fc
             return fc
 
         # update fold change
