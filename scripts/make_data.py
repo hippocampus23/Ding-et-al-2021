@@ -65,7 +65,7 @@ def data_6C():
 
 
 def data_6B():
-    res_6B = simulate_FC_SD("gamma", ["ModT-2 trend", "RegT"], np.arange(0.1, 1.6, 0.1), 0.75)
+    res_6B = simulate_FC_SD("gamma", ["modT-2 trend", "RegT"], np.arange(0.1, 1.6, 0.1), 0.75)
     res_6B.to_csv("../data_simulated/6B.csv")
 
 

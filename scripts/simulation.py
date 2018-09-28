@@ -32,6 +32,8 @@ def simulate_FC_SD(var_type, test_labels, stdevs, pauroc):
                 res.at[i, "label"] = label
                 res.at[i, "setting"] = sd
                 i += 1
+                if i % 10 == 0:
+                    print "At iteration %d" % i
 
     return res
 
@@ -79,7 +81,6 @@ def _find_FC(var_type, sd, pauroc_goal, start_fc, test, max_iter=100, precision=
         pauroc = auc(t_fpr, t_tpr) / FDR
 
         if (abs(pauroc_goal - pauroc) < precision):
-            print "pauroc:", pauroc, "fc:", fc
             return fc
 
         # update fold change
