@@ -1,9 +1,94 @@
 import time
 import numpy as np
+import pandas as pd
 from stat_tests import do_all_tests, TESTS
 from sampler import sample
-from constants import N_RUNS
+from constants import N_RUNS, FDR, ALPHA
 from eval_results import roc_prc_scores, power_analysis
+from sklearn.metrics import roc_curve, auc
+
+
+def simulate_FC_SD(var_type, test_labels, stdevs, pauroc):
+    """
+    finds the smallest fold change, given the standard deviation of
+    the sample noise, that produces the desired partial AUROC score
+    N_RUNS times for each sd provided
+
+    :param var_type:       either "uniform", "gamma" or "trend". describes how variance is sampled
+    :param tests:          statistical tests to use
+    :param stdevs:         standard deviations to calculate fold changes for, should be in ascending order
+    :param pauroc:         desired partial AUROC value
+    :return:               pandas.DataFrame containing the fold changes, tests and settings as sd
+    """
+
+    res = pd.DataFrame(columns=["FC", "labels", "setting"], index=xrange(N_RUNS * len(test_labels) * len(stdevs)))
+    i = 0
+    for label in test_labels:
+        guess = 0.1
+        for sd in stdevs:
+            for j in xrange(N_RUNS):
+                guess = _find_FC(var_type, sd, pauroc, guess, TESTS[label])
+                res.at[i, "FC"] = guess
+                res.at[i, "label"] = label
+                res.at[i, "setting"] = sd
+                i += 1
+
+    return res
+
+
+def _find_FC(var_type, sd, pauroc_goal, start_fc, test, max_iter=100, precision=0.003, scale=0.05):
+    """
+    gradient descent based method for finding the smallest fold change, given the standard deviation of
+    the sample noise, that produces the desired partial AUROC score
+
+    :param var_type:       either "uniform", "gamma" or "trend". describes how variance is sampled
+    :param sd:             mean standard deviation of sample noise
+    :param pauroc_goal:    desired partial AUROC value
+    :param start_fc:       where to start looking
+    :param test:           statistical tests that has the shape test(ctrl, exp) and returns an array of p-values
+    :param max_iter:       maximum number of iterations
+    :param precision:      how close the pAUROC with the estimated fold change should be to the desired
+                           pAUROC
+    :param scale:          multiply the step size by
+    :return:               approximate fold change that produces the the desired pAUROC score given the SD
+    """
+
+    fc = start_fc
+    if var_type == "uniform":
+        simulator = lambda fold_change: sample(var_type, pep_var=sd**2, fold_change=fold_change)
+    else:
+        simulator = lambda fold_change: sample(var_type, beta=(ALPHA-1) * sd**2, fold_change=fold_change)
+
+
+    for x in range(max_iter):
+        # simulate data
+        ctrl, exp, is_changed = simulator(fc)
+        p_vals = test(ctrl, exp)
+
+        # calculate pauroc
+        predicted = - np.log(p_vals)
+        fpr, tpr, _ = roc_curve(is_changed, predicted)
+        try:
+            idx = next(i for i, v in enumerate(fpr) if v > FDR)
+        except StopIteration:
+            idx = len(fpr) - 1
+
+        t_fpr, t_tpr = fpr[:idx + 1], tpr[:idx + 1]
+        t_fpr[-1] = FDR
+
+        pauroc = auc(t_fpr, t_tpr) / FDR
+        print "pauroc:", pauroc, "fc:", fc
+
+        if (abs(pauroc_goal - pauroc) < precision):
+            print "\n\n\n"
+            return fc
+
+        # update fold change
+        fc += scale * (0.75 - pauroc)
+
+
+
+
 
 def simulate_fold_change_range(fold_changes, var_type):
     """

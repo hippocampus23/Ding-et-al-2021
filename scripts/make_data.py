@@ -1,9 +1,9 @@
 import numpy as np
 from simulation import simulate_fold_change_range, simulate_number_experiments, \
                        simulate_fdr_fc_range, simulate_variance_range, simulate_size_dataset, \
-                       simulate_number_channels_imbalanced
+                       simulate_number_channels_imbalanced, simulate_FC_SD
 from format_utils import write_result_dict_to_df
-from stat_tests import TESTS
+from stat_tests import TESTS, regT, modT
 
 # regenerate data for the figures that require multiple simulations
 
@@ -62,6 +62,11 @@ def data_6C():
     res_6C = simulate_variance_range(vars=[0.02, 0.06, 0.18], betas=[0.05, 0.1, 0.2])
     write_result_dict_to_df(res_6C, TESTS.keys(), filename="../data_simulated/6C.csv", ana_type="roc")
     print "saved 6C.csv"
+
+
+def data_6B():
+    res_6B = simulate_FC_SD("gamma", ["ModT-2 trend", "RegT"], np.arange(0.1, 1.6, 0.1), 0.75)
+    res_6B.to_csv("../data_simulated/6B.csv")
 
 
 def data_S1B():

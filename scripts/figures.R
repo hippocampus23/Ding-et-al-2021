@@ -49,6 +49,8 @@ read_data_and_plot <- function(df_name, title, xlab, plot="pAUC", order_x=NULL, 
     p <- lineplot_results_pauc(df, title, xlab)
   } else if (plot == "fdr") {
     p <- plot_fdr(df, title, xlab)
+  } else if (plot == "FC_SD") {
+    p <- boxplot_FC_SD(df, title, xlab)
   } else {
     stop("Invalid plot specification. Must be one of 'AUROC', 'AUPRC', 'pAUC')")
   }
@@ -115,7 +117,7 @@ transform_ds_size <- function(ds_size_df, plot="pAUC") {
 fig_3B <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=23))
-  read_data_and_plot("../data_simulated/3B.csv", "", "log2(FC)", plot="pAUC",
+  read_data_and_plot("../data_simulated/3B.csv", "", "standard deviation", plot="pAUC",
 		     save=TRUE, filename="../figures/3B.eps")
   print("saved 3B.eps")
 }
@@ -187,6 +189,15 @@ fig_5D <- function() {
   read_data_and_plot("../data_simulated/5D.csv",
       "", "Number of channels", plot="pAUC", save=TRUE, filename="../figures/5D.eps")
   print("saved 5D.eps")
+}
+
+
+fig_6B <- function() {
+  # Set font size and theme
+  theme_set(theme_bw(base_size=23))
+  read_data_and_plot("../data_simulated/6B.csv", "Intensity dependent inverse gamma variance", "log2(FC)", plot="FC_SD",
+		     save=TRUE, filename="../figures/6B.eps")
+  print("saved 6B.eps")
 }
 
 
