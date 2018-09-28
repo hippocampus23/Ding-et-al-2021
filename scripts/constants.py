@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
 # for multiple simulations
-N_RUNS = 50
+N_RUNS = 500
 
 # constants for simulation
 MEAN_PEPTIDE_INTENSITY = 16.0
