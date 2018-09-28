@@ -195,7 +195,7 @@ fig_5D <- function() {
 fig_6B <- function() {
   # Set font size and theme
   theme_set(theme_bw(base_size=23))
-  read_data_and_plot("../data_simulated/6B.csv", "Intensity dependent inverse gamma variance, pAUROC = 0.75", "standard deviation"", plot="FC_SD",
+  read_data_and_plot("../data_simulated/6B.csv", "Intensity dependent inverse gamma variance, pAUROC = 0.75", "standard deviation", plot="FC_SD",
 		     save=TRUE, filename="../figures/6B.eps")
   print("saved 6B.eps")
 }
