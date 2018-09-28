@@ -64,7 +64,10 @@ def _find_FC(var_type, sd, pauroc_goal, start_fc, test, max_iter=100, precision=
 
     for x in range(max_iter):
         # simulate data
-        ctrl, exp, is_changed = simulator(fc)
+        try:                   # because of mysterious error with += in sample 
+            ctrl, exp, is_changed = simulator(fc)
+        except:
+           continue
         p_vals = test(ctrl, exp)
 
         # calculate pauroc
@@ -83,7 +86,7 @@ def _find_FC(var_type, sd, pauroc_goal, start_fc, test, max_iter=100, precision=
         if (abs(pauroc_goal - pauroc) < precision):
             return fc
 
-        # update fold change
+        # update fold change    
         fc += scale * (0.75 - pauroc)
 
 
