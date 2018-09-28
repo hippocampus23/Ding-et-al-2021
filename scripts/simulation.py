@@ -28,10 +28,12 @@ def simulate_FC_SD(var_type, test_labels, stdevs, pauroc):
         for sd in stdevs:
             print "\nsd", sd
             for j in xrange(N_RUNS):
-                guess = _find_FC(var_type, sd, pauroc, guess, TESTS[label])
-                res.at[i, "FC"] = guess
+                fc = _find_FC(var_type, sd, pauroc, guess, TESTS[label])
+                res.at[i, "FC"] = fc
                 res.at[i, "labels"] = label
                 res.at[i, "setting"] = sd
+                if fc is not None:
+                    guess = fc
                 i += 1
                 if i % 10 == 0:
                     print "At iteration %d" % i
