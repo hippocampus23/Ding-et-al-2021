@@ -131,6 +131,30 @@ boxplot_results_pauc <- function(df, title="", xlab="Setting", skip_labels=c()){
   return(p1)
 }
 
+boxplot_FC_SD <- function(df, title="", xlab="Setting", skip_labels=c()){
+  # Requires setting and labels column
+  # Drop skipped tests
+  df <- df[!(as.character(df$labels) %in% skip_labels),]
+  df <- droplevels(df)
+  p1 <- ggplot(df, aes(x = as.factor(setting), fill=labels, y = FC)) +
+    # Boxplot
+    geom_boxplot(outlier.shape=1, outlier.size=0.5) +
+    # Add lines between each group
+    geom_vline(xintercept=seq(1.5, length(unique(df$setting))-0.5, 1),
+               lwd=0.5, color="grey") +
+    scale_y_continuous(limits = quantile(df$pAUROC, c(0.01, 1.0))) +
+    theme( # remove the vertical grid lines
+           panel.grid.major.x = element_blank() ,
+           # explicitly set the horizontal lines (or they will disappear too)
+           panel.grid.major.y = element_line( size=.1, color="grey" ),
+           # Set legend size
+           legend.key.size = unit(1.5, "lines"),
+           legend.position = "top",
+    ) +
+    labs(title=title, x=xlab, y="fold change", fill="") + transparency()
+  return(p1)
+}
+
 lineplot_results_pauc <- function(df) {
   data <- summarySE(df, measurevar="pAUROC", groupvars=c("setting", "labels"))
   p1 <- ggplot(data, aes(x = setting, group=labels, colour=labels, y= 10^pAUROC)) +

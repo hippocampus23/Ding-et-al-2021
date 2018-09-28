@@ -63,7 +63,7 @@ def sample(pep_var_type, num_peps = NUM_PEPTIDES, num_ctrl=NUM_CHANNELS/2, num_e
     # generate experiment data
     # For convenience, always perturb the first num_to_change peptides
     # This should not affect the analysis: can always randomize order
-    pep_means[:num_changed] += fold_change
+    pep_means[:num_changed] += fold_change          
     # variance is generated again as peptide variances in ctrl and exp are
     # not related for each individual peptide
     # but the overall character of the distribution is the same
