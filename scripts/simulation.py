@@ -26,10 +26,11 @@ def simulate_FC_SD(var_type, test_labels, stdevs, pauroc):
     for label in test_labels:
         guess = 0.1
         for sd in stdevs:
+            print "\nsd", sd
             for j in xrange(N_RUNS):
                 guess = _find_FC(var_type, sd, pauroc, guess, TESTS[label])
                 res.at[i, "FC"] = guess
-                res.at[i, "label"] = label
+                res.at[i, "labels"] = label
                 res.at[i, "setting"] = sd
                 i += 1
                 if i % 10 == 0:
@@ -53,6 +54,7 @@ def _find_FC(var_type, sd, pauroc_goal, start_fc, test, max_iter=100, precision=
                            pAUROC
     :param scale:          multiply the step size by
     :return:               approximate fold change that produces the the desired pAUROC score given the SD
+                           None if max_iter is exceeded
     """
 
     fc = start_fc
@@ -64,10 +66,7 @@ def _find_FC(var_type, sd, pauroc_goal, start_fc, test, max_iter=100, precision=
 
     for x in range(max_iter):
         # simulate data
-        try:                   # because of mysterious error with += in sample 
-            ctrl, exp, is_changed = simulator(fc)
-        except:
-           continue
+        ctrl, exp, is_changed = simulator(fc)
         p_vals = test(ctrl, exp)
 
         # calculate pauroc
