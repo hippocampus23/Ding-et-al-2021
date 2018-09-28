@@ -39,7 +39,7 @@ def simulate_FC_SD(var_type, test_labels, stdevs, pauroc):
     return res
 
 
-def _find_FC(var_type, sd, pauroc_goal, start_fc, test, max_iter=100, precision=0.003, scale=0.05):
+def _find_FC(var_type, sd, pauroc_goal, start_fc, test, max_iter=500, precision=0.003, scale=0.05):
     """
     gradient descent based method for finding the smallest fold change, given the standard deviation of
     the sample noise, that produces the desired partial AUROC score
