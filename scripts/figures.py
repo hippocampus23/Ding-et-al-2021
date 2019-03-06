@@ -146,8 +146,7 @@ def barplot_multipanel(var_type):
     pvals.drop("fold change", axis=1, inplace=True)
 
     # Edit column titles for pretty printing
-    pvals.columns = [LABEL_MAPPING[l] if l in LABEL_MAPPING else l
-            for l in list(pvals.columns)]
+    pvals.columns = [(LABEL_MAPPING[l] if l in LABEL_MAPPING else l).replace('\n', ' ') for l in list(pvals.columns)]
 
     # Adjust pvals
     pvals_a = pd.DataFrame.from_dict(OrderedDict([
@@ -231,9 +230,9 @@ def fig_4K():
     print "saved 4K.eps"
 
 
-# to be added to 6C (plotted in R)
+# to be added to 7C (plotted in R)
 # shapes of the noise distributions
-def fig_6D():
+def fig_7D():
     matplotlib.rc("font", size=12)
     fig, (a1, a2, a3) = plt.subplots(3, 1, sharex="col", figsize=(6, 13))
     x = np.linspace(-2, 2, 200)
@@ -251,5 +250,5 @@ def fig_6D():
     a3.set_title("Scaled t distribution,\n$df = 3$, scaled using $\sigma^2 = %0.2f$" % PEPTIDE_VAR)
     fig.tight_layout()
     fig.subplots_adjust(hspace=0.6)
-    fig.savefig("../figures/6D.eps", transparent=True)
-    print "saved 6D.eps"
+    fig.savefig("../figures/7D.eps", transparent=True)
+    print "saved 7D.eps"

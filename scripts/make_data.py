@@ -58,10 +58,10 @@ def data_5D():
     print "saved 5D.csv"
 
 
-def data_6C():
-    res_6C = simulate_variance_range(vars=[0.02, 0.06, 0.18], betas=[0.05, 0.1, 0.2])
-    write_result_dict_to_df(res_6C, TESTS.keys(), filename="../data_simulated/6C.csv", ana_type="roc")
-    print "saved 6C.csv"
+def data_7C():
+    res_7C = simulate_variance_range(vars=[0.02, 0.06, 0.18], betas=[0.05, 0.1, 0.2])
+    write_result_dict_to_df(res_7C, TESTS.keys(), filename="../data_simulated/7C.csv", ana_type="roc")
+    print "saved 7C.csv"
 
 
 def data_6B():
